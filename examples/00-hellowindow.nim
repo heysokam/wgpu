@@ -15,6 +15,7 @@ type Window * = object
   w,h    *:int32
   title  *:string
 
+
 #________________________________________________
 # window.nim
 #__________________
@@ -30,7 +31,7 @@ proc term   (win :Window) :void=  glfw.destroyWindow(win.ct); glfw.terminate()
 proc update (win :Window) :void=  glfw.pollEvents()
   ## Updates the window. Needs to be called each frame.
 #__________________
-proc init(win :var Window) :void=
+proc init (win :var Window) :void=
   ## Initializes the window with GLFW.
   doAssert glfw.init().bool, "Failed to Initialize GLFW"
   glfw.windowHint(glfw.CLIENT_API, glfw.NO_API)
@@ -43,11 +44,9 @@ proc init(win :var Window) :void=
 # state.nim
 #__________________
 var window = Window(
-  ct: nil, title: "wgpu-nim Tut",
+  ct: nil, title: "wgpu-nim HelloWindow",
   w:960, h:540,
   )
-# WGPU state
-var instance :wgpu.Instance= nil
 
 
 #________________________________________________
@@ -56,7 +55,6 @@ var instance :wgpu.Instance= nil
 proc run=
   echo "Hello wgpu-nim"
   window.init()
-  instance = wgpu.createInstance(wgpu.InstanceDescriptor(nextInChain: nil).vaddr)
   while not window.close():
     window.update()
   window.term()

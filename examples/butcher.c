@@ -1,0 +1,301 @@
+//:____________________________________________________________
+//  learn-wgpu-C  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
+//:____________________________________________________________
+// #include "webgpu-headers/webgpu.h"
+// #include "wgpu.h"
+
+#include "framework.h"
+// #include "unused.h"
+// #include <stdio.h>
+// #include <stdlib.h>
+
+// #define WGPU_TARGET_MACOS 1
+// #define WGPU_TARGET_LINUX_X11 2
+// #define WGPU_TARGET_WINDOWS 3
+// #define WGPU_TARGET_LINUX_WAYLAND 4
+
+// #if WGPU_TARGET == WGPU_TARGET_MACOS
+// #include <Foundation/Foundation.h>
+// #include <QuartzCore/CAMetalLayer.h>
+// #endif
+
+// #include <GLFW/glfw3.h>
+// #if WGPU_TARGET == WGPU_TARGET_MACOS
+// #define GLFW_EXPOSE_NATIVE_COCOA
+// #elif WGPU_TARGET == WGPU_TARGET_LINUX_X11
+// #define GLFW_EXPOSE_NATIVE_X11
+// #elif WGPU_TARGET == WGPU_TARGET_LINUX_WAYLAND
+// #define GLFW_EXPOSE_NATIVE_WAYLAND
+// #elif WGPU_TARGET == WGPU_TARGET_WINDOWS
+// #define GLFW_EXPOSE_NATIVE_WIN32
+// #endif
+// #include <GLFW/glfw3native.h>
+
+// WGPUInstance instance = NULL;
+
+static void handle_device_lost(WGPUDeviceLostReason reason, char const *message, void *userdata) {
+  UNUSED(userdata);
+  printf("DEVICE LOST (%d): %s\n", reason, message);
+}
+
+static void handle_uncaptured_error(WGPUErrorType type, char const *message, void *userdata) {
+  UNUSED(userdata);
+  printf("UNCAPTURED ERROR (%d): %s\n", type, message);
+}
+
+static void handleGlfwKey(GLFWwindow *window, int key, int scancode, int action, int mods) {
+  UNUSED(window); UNUSED(scancode); UNUSED(mods);
+  if (key == GLFW_KEY_ESCAPE && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+    glfwSetWindowShouldClose(window, true);
+  }
+  if (key == GLFW_KEY_R && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+    WGPUGlobalReport report;
+    wgpuGenerateReport(instance, &report);
+    printGlobalReport(report);
+  }
+}
+
+int main(int argc, char *argv[]) {
+  // UNUSED(argc); UNUSED(argv);
+  initializeLog();
+
+  // if (!glfwInit()) {
+    // printf("Cannot initialize glfw");
+    // return 1;
+  // }
+
+  // glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+  // GLFWwindow *window = glfwCreateWindow(960, 540, "wgpu with glfw", NULL, NULL);
+
+  // if (!window) {
+    // printf("Cannot create window");
+    // return 1;
+  // }
+
+  instance = wgpuCreateInstance(&(WGPUInstanceDescriptor){.nextInChain = NULL});
+
+  WGPUSurface surface;
+
+// #if WGPU_TARGET == WGPU_TARGET_MACOS
+//   {
+//     id metal_layer = NULL;
+//     NSWindow *ns_window = glfwGetCocoaWindow(window);
+//     [ns_window.contentView setWantsLayer:YES];
+//     metal_layer = [CAMetalLayer layer];
+//     [ns_window.contentView setLayer:metal_layer];
+//     surface = wgpuInstanceCreateSurface(
+//         instance,
+//         &(WGPUSurfaceDescriptor){
+//             .label = NULL,
+//             .nextInChain =
+//                 (const WGPUChainedStruct *)&(
+//                     WGPUSurfaceDescriptorFromMetalLayer){
+//                     .chain =
+//                         (WGPUChainedStruct){
+//                             .next = NULL,
+//                             .sType = WGPUSType_SurfaceDescriptorFromMetalLayer,
+//                         },
+//                     .layer = metal_layer,
+//                 },
+//         });
+//   }
+// #elif WGPU_TARGET == WGPU_TARGET_LINUX_X11
+  {
+    Display *x11_display = glfwGetX11Display();
+    Window x11_window    = glfwGetX11Window(window);
+    surface = wgpuInstanceCreateSurface(instance, &(WGPUSurfaceDescriptor){
+      .label             = NULL,
+      .nextInChain       = (const WGPUChainedStruct *)&(WGPUSurfaceDescriptorFromXlibWindow){
+        .chain           = (WGPUChainedStruct){
+          .next          = NULL,
+          .sType         = WGPUSType_SurfaceDescriptorFromXlibWindow,
+          },
+        .display         = x11_display,
+        .window          = (uint32_t)x11_window,
+        },
+      });
+  }
+// #elif WGPU_TARGET == WGPU_TARGET_LINUX_WAYLAND
+//   {
+//     struct wl_display *wayland_display = glfwGetWaylandDisplay();
+//     struct wl_surface *wayland_surface = glfwGetWaylandWindow(window);
+//     surface = wgpuInstanceCreateSurface(
+//         instance,
+//         &(WGPUSurfaceDescriptor){
+//             .label = NULL,
+//             .nextInChain =
+//                 (const WGPUChainedStruct *)&(
+//                     WGPUSurfaceDescriptorFromWaylandSurface){
+//                     .chain =
+//                         (WGPUChainedStruct){
+//                             .next = NULL,
+//                             .sType =
+//                                 WGPUSType_SurfaceDescriptorFromWaylandSurface,
+//                         },
+//                     .display = wayland_display,
+//                     .surface = wayland_surface,
+//                 },
+//         });
+//   }
+// #elif WGPU_TARGET == WGPU_TARGET_WINDOWS
+//   {
+//     HWND hwnd = glfwGetWin32Window(window);
+//     HINSTANCE hinstance = GetModuleHandle(NULL);
+//     surface = wgpuInstanceCreateSurface(
+//         instance,
+//         &(WGPUSurfaceDescriptor){
+//             .label = NULL,
+//             .nextInChain =
+//                 (const WGPUChainedStruct *)&(
+//                     WGPUSurfaceDescriptorFromWindowsHWND){
+//                     .chain =
+//                         (WGPUChainedStruct){
+//                             .next = NULL,
+//                             .sType = WGPUSType_SurfaceDescriptorFromWindowsHWND,
+//                         },
+//                     .hinstance = hinstance,
+//                     .hwnd = hwnd,
+//                 },
+//         });
+//   }
+// #else
+// #error "Unsupported WGPU_TARGET"
+// #endif
+
+  WGPUAdapter adapter;
+  wgpuInstanceRequestAdapter(instance, NULL, request_adapter_callback, (void *)&adapter);
+
+  printAdapterFeatures(adapter);
+  printSurfaceCapabilities(surface, adapter);
+
+  WGPUDevice device;
+  wgpuAdapterRequestDevice(adapter, NULL, request_device_callback, (void*)&device);
+  wgpuDeviceSetUncapturedErrorCallback(device, handle_uncaptured_error, NULL);
+  wgpuDeviceSetDeviceLostCallback(device, handle_device_lost, NULL);
+
+  WGPUShaderModuleDescriptor shaderSource = load_wgsl("shader.wgsl");
+  WGPUShaderModule shader = wgpuDeviceCreateShaderModule(device, &shaderSource);
+
+  WGPUTextureFormat swapChainFormat = wgpuSurfaceGetPreferredFormat(surface, adapter);
+
+  WGPURenderPipeline pipeline = wgpuDeviceCreateRenderPipeline(device, &(WGPURenderPipelineDescriptor){
+    .label                    = "Render pipeline",
+    .vertex                   = (WGPUVertexState){
+      .module                 = shader,
+      .entryPoint             = "vs_main",
+      .bufferCount            = 0,
+      .buffers                = NULL,
+      },
+    .primitive                = (WGPUPrimitiveState){
+      .topology               = WGPUPrimitiveTopology_TriangleList,
+      .stripIndexFormat       = WGPUIndexFormat_Undefined,
+      .frontFace              = WGPUFrontFace_CCW,
+      .cullMode               = WGPUCullMode_None},
+    .multisample              = (WGPUMultisampleState){
+      .count                  = 1,
+      .mask                   = (uint32_t)~0,
+      .alphaToCoverageEnabled = false,
+      },
+    .fragment                 = &(WGPUFragmentState){
+      .module                 = shader,
+      .entryPoint             = "fs_main",
+      .targetCount            = 1,
+      .targets                = &(WGPUColorTargetState){
+        .format               = swapChainFormat,
+        .blend                = &(WGPUBlendState){
+          .color              = (WGPUBlendComponent){
+            .srcFactor        = WGPUBlendFactor_One,
+            .dstFactor        = WGPUBlendFactor_Zero,
+            .operation        = WGPUBlendOperation_Add,
+            },
+          .alpha              = (WGPUBlendComponent){
+            .srcFactor        = WGPUBlendFactor_One,
+            .dstFactor        = WGPUBlendFactor_Zero,
+            .operation        = WGPUBlendOperation_Add,
+            }},
+        .writeMask            = WGPUColorWriteMask_All,
+        },
+      },
+    .depthStencil             = NULL,
+    });
+
+  WGPUSwapChainDescriptor config = (WGPUSwapChainDescriptor){
+    .nextInChain       = (const WGPUChainedStruct *)&(WGPUSwapChainDescriptorExtras){
+      .chain           = (WGPUChainedStruct){
+        .next          = NULL,
+        .sType         = (WGPUSType)WGPUSType_SwapChainDescriptorExtras,
+        },
+      .alphaMode       = WGPUCompositeAlphaMode_Auto,
+      .viewFormatCount = 0,
+      .viewFormats     = NULL,
+      },
+    .usage             = WGPUTextureUsage_RenderAttachment,
+    .format            = swapChainFormat,
+    .width             = 0,
+    .height            = 0,
+    .presentMode       = WGPUPresentMode_Fifo,
+  };
+
+  glfwGetWindowSize(window, (int *)&config.width, (int *)&config.height);
+
+  WGPUSwapChain swapChain = wgpuDeviceCreateSwapChain(device, surface, &config);
+
+  glfwSetKeyCallback(window, handleGlfwKey);
+
+  while (!glfwWindowShouldClose(window)) {
+    WGPUTextureView nextTexture = NULL;
+    for (int attempt = 0; attempt < 2; attempt++) {
+      uint32_t prevWidth  = config.width;
+      uint32_t prevHeight = config.height;
+      glfwGetWindowSize(window, (int *)&config.width, (int *)&config.height);
+      if (prevWidth != config.width || prevHeight != config.height) {
+        swapChain = wgpuDeviceCreateSwapChain(device, surface, &config);
+      }
+
+      nextTexture = wgpuSwapChainGetCurrentTextureView(swapChain);
+      if (attempt == 0 && !nextTexture) {
+        printf("wgpuSwapChainGetCurrentTextureView() failed; trying to create a new swap chain...\n");
+        config.width = 0;
+        config.height = 0;
+        continue;
+      }
+      break;
+    }
+
+    if (!nextTexture) {
+      printf("Cannot acquire next swap chain texture\n");
+      return 1;
+    }
+
+    WGPUCommandEncoder encoder = wgpuDeviceCreateCommandEncoder(device, &(WGPUCommandEncoderDescriptor){.label = "Command Encoder"});
+
+    WGPURenderPassEncoder renderPass = wgpuCommandEncoderBeginRenderPass(encoder, &(WGPURenderPassDescriptor){
+     .colorAttachments       = &(WGPURenderPassColorAttachment){
+       .view                 = nextTexture,
+       .resolveTarget        = NULL,
+       .loadOp               = WGPULoadOp_Clear,
+       .storeOp              = WGPUStoreOp_Store,
+       .clearValue           = (WGPUColor){.r=0.1, .g=0.1, .b=0.1, .a=1.0},
+       },
+     .colorAttachmentCount   = 1,
+     .depthStencilAttachment = NULL,
+     });
+
+    wgpuRenderPassEncoderSetPipeline(renderPass, pipeline);
+    wgpuRenderPassEncoderDraw(renderPass, 3, 1, 0, 0);
+    wgpuRenderPassEncoderEnd(renderPass);
+    wgpuTextureViewDrop(nextTexture);
+
+    WGPUQueue queue = wgpuDeviceGetQueue(device);
+    WGPUCommandBuffer cmdBuffer = wgpuCommandEncoderFinish(encoder, &(WGPUCommandBufferDescriptor){.label = NULL});
+    wgpuQueueSubmit(queue, 1, &cmdBuffer);
+    wgpuSwapChainPresent(swapChain);
+
+    glfwPollEvents();
+  }
+
+  glfwDestroyWindow(window);
+  glfwTerminate();
+
+  return 0;
+}

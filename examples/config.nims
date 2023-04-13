@@ -6,6 +6,7 @@ switch("path", "$projectDir/../src")  # add our dependency without installing it
 --nimcache:"bin/nimcache"
 --passC:"-m64"
 --passC:"-march=native"
+switch("d", "wgpu")
 
 #_____________________
 # Default option to run when noOpt
