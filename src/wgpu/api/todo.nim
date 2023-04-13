@@ -1314,7 +1314,7 @@ proc deviceCreateRenderBundleEncoder*(device: Device; descriptor: ptr RenderBund
 proc deviceCreateRenderPipeline*(device: Device; descriptor: ptr RenderPipelineDescriptor): RenderPipeline {.cdecl, importc:"wgpuDeviceCreateRenderPipeline".}
 proc deviceCreateRenderPipelineAsync*(device: Device; descriptor: ptr RenderPipelineDescriptor; callback: CreateRenderPipelineAsyncCallback; userdata: pointer) {.cdecl, importc:"wgpuDeviceCreateRenderPipelineAsync".}
 proc deviceCreateSampler*(device: Device; descriptor: ptr SamplerDescriptor): Sampler {.cdecl, importc:"wgpuDeviceCreateSampler".}
-proc deviceCreateShaderModule*(device: Device; descriptor: ptr ShaderModuleDescriptor): ShaderModule {.cdecl, importc:"wgpuDeviceCreateShaderModule".}
+# proc deviceCreateShaderModule*(device: Device; descriptor: ptr ShaderModuleDescriptor): ShaderModule {.cdecl, importc:"wgpuDeviceCreateShaderModule".}
 proc deviceCreateSwapChain*(device: Device; surface: Surface; descriptor: ptr SwapChainDescriptor): SwapChain {.cdecl, importc:"wgpuDeviceCreateSwapChain".}
 proc deviceCreateTexture*(device: Device; descriptor: ptr TextureDescriptor): Texture {.cdecl, importc:"wgpuDeviceCreateTexture".}
 proc deviceDestroy*(device: Device) {.cdecl, importc: "wgpuDeviceDestroy".}
