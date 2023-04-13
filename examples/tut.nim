@@ -42,6 +42,8 @@ proc init(win :var Window) :void=
 # WGPU callbacks
 proc adapterRequestCB *(status :RequestAdapterStatus; adapter :Adapter; message :cstring; userdata :pointer) :void {.cdecl.}=
   cast[ptr Adapter](userdata)[] = adapter  # *(WGPUAdapter*)userdata = received;
+proc deviceRequestCB  *(status :RequestDeviceStatus; device :Device; message :cstring; userdata :pointer) :void {.cdecl.}=
+  cast[ptr Device](userdata)[] = device  # *(WGPUAdapter*)userdata = received;
 
 #________________________________________________
 # state.nim
@@ -68,6 +70,18 @@ proc run=
   instance    = wgpu.createInstance(wgpu.InstanceDescriptor(nextInChain: nil).vaddr)
   var surface = instance.getSurface(window.ct)
   var adapter :wgpu.Adapter;  instance.requestAdapter(nil, adapterRequestCB, adapter.addr)
+  echo ":: Adapter Features supported by this system: "
+  for it in adapter.features(): echo ":  ",$it
+  echo ":: Capabilities of the Surface supported by this system: "
+  let (textureFormats, presentModes, alphaModes) = surface.capabilities(adapter)
+  echo ":  Texture Formats:"
+  for formt in textureFormats: echo ":  - ",$formt
+  echo ":  Present Modes:"
+  for prsnt in presentModes:   echo ":  - ",$prsnt
+  echo ":  Alpha Modes:"
+  for alpha in presentModes:   echo ":  - ",$alpha
+  var device :wgpu.Device; adapter.requestDevice(nil, deviceRequestCB, device.addr)
+
 
   #__________________
   # Update loop

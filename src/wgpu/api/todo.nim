@@ -68,7 +68,7 @@ const
   DeviceLostReason*             = distinct uint32
   ErrorFilter*                  = distinct uint32
   ErrorType*                    = distinct uint32
-  FeatureName*                  = distinct uint32
+  # Feature*                  = distinct uint32
   FilterMode*                   = distinct uint32
   FrontFace*                    = distinct uint32
   IndexFormat*                  = distinct uint32
@@ -193,37 +193,37 @@ const
   # InstanceDescriptor* {.bycopy.} = object
   #   nextInChain*: ptr ChainedStruct
 
-  Limits* {.bycopy.} = object
-    maxTextureDimension1D*: uint
-    maxTextureDimension2D*: uint
-    maxTextureDimension3D*: uint
-    maxTextureArrayLayers*: uint
-    maxBindGroups*: uint
-    maxBindingsPerBindGroup*: uint
-    maxDynamicUniformBuffersPerPipelineLayout*: uint
-    maxDynamicStorageBuffersPerPipelineLayout*: uint
-    maxSampledTexturesPerShaderStage*: uint
-    maxSamplersPerShaderStage*: uint
-    maxStorageBuffersPerShaderStage*: uint
-    maxStorageTexturesPerShaderStage*: uint
-    maxUniformBuffersPerShaderStage*: uint
-    maxUniformBufferBindingSize*: uint64
-    maxStorageBufferBindingSize*: uint64
-    minUniformBufferOffsetAlignment*: uint
-    minStorageBufferOffsetAlignment*: uint
-    maxVertexBuffers*: uint
-    maxBufferSize*: uint64
-    maxVertexAttributes*: uint
-    maxVertexBufferArrayStride*: uint
-    maxInterStageShaderComponents*: uint
-    maxInterStageShaderVariables*: uint
-    maxColorAttachments*: uint
-    maxComputeWorkgroupStorageSize*: uint
-    maxComputeInvocationsPerWorkgroup*: uint
-    maxComputeWorkgroupSizeX*: uint
-    maxComputeWorkgroupSizeY*: uint
-    maxComputeWorkgroupSizeZ*: uint
-    maxComputeWorkgroupsPerDimension*: uint
+  # Limits* {.bycopy.} = object
+  #   maxTextureDimension1D*: uint
+  #   maxTextureDimension2D*: uint
+  #   maxTextureDimension3D*: uint
+  #   maxTextureArrayLayers*: uint
+  #   maxBindGroups*: uint
+  #   maxBindingsPerBindGroup*: uint
+  #   maxDynamicUniformBuffersPerPipelineLayout*: uint
+  #   maxDynamicStorageBuffersPerPipelineLayout*: uint
+  #   maxSampledTexturesPerShaderStage*: uint
+  #   maxSamplersPerShaderStage*: uint
+  #   maxStorageBuffersPerShaderStage*: uint
+  #   maxStorageTexturesPerShaderStage*: uint
+  #   maxUniformBuffersPerShaderStage*: uint
+  #   maxUniformBufferBindingSize*: uint64
+  #   maxStorageBufferBindingSize*: uint64
+  #   minUniformBufferOffsetAlignment*: uint
+  #   minStorageBufferOffsetAlignment*: uint
+  #   maxVertexBuffers*: uint
+  #   maxBufferSize*: uint64
+  #   maxVertexAttributes*: uint
+  #   maxVertexBufferArrayStride*: uint
+  #   maxInterStageShaderComponents*: uint
+  #   maxInterStageShaderVariables*: uint
+  #   maxColorAttachments*: uint
+  #   maxComputeWorkgroupStorageSize*: uint
+  #   maxComputeInvocationsPerWorkgroup*: uint
+  #   maxComputeWorkgroupSizeX*: uint
+  #   maxComputeWorkgroupSizeY*: uint
+  #   maxComputeWorkgroupSizeZ*: uint
+  #   maxComputeWorkgroupsPerDimension*: uint
 
   MultisampleState* {.bycopy.} = object
     nextInChain*: ptr ChainedStruct
@@ -261,9 +261,9 @@ const
     pipelineStatistics*: ptr PipelineStatisticName
     pipelineStatisticsCount*: uint
 
-  QueueDescriptor* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    label*: cstring
+  # QueueDescriptor* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   label*: cstring
 
   RenderBundleDescriptor* {.bycopy.} = object
     nextInChain*: ptr ChainedStruct
@@ -492,9 +492,9 @@ const
     storeOp*: StoreOp
     clearValue*: Color
 
-  RequiredLimits* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    limits*: Limits
+  # RequiredLimits* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   limits*: Limits
 
   ShaderModuleDescriptor* {.bycopy.} = object
     nextInChain*: ptr ChainedStruct
@@ -542,13 +542,13 @@ const
     layout*: PipelineLayout
     compute*: ProgrammableStageDescriptor
 
-  DeviceDescriptor* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    label*: cstring
-    requiredFeaturesCount*: uint
-    requiredFeatures*: ptr FeatureName
-    requiredLimits*: ptr RequiredLimits
-    defaultQueue*: QueueDescriptor
+  # DeviceDescriptor* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   label*: cstring
+  #   requiredFeaturesCount*: uint
+  #   requiredFeatures*: ptr Feature
+  #   requiredLimits*: ptr RequiredLimits
+  #   defaultQueue*: QueueDescriptor
 
   RenderPassDescriptor* {.bycopy.} = object
     nextInChain*: ptr ChainedStruct
@@ -607,11 +607,11 @@ const
   #                             message: cstring; userdata: pointer) {.cdecl.}
   ProcCreateInstance* = proc (descriptor: ptr InstanceDescriptor): Instance {.cdecl.}
   ProcGetProcAddress* = proc (device: Device; procName: cstring): Proc {.cdecl.}
-  ProcAdapterEnumerateFeatures* = proc (adapter: Adapter; features: ptr FeatureName): csize_t {.cdecl.}
+  ProcAdapterEnumerateFeatures* = proc (adapter: Adapter; features: ptr Feature): csize_t {.cdecl.}
   ProcAdapterGetLimits* = proc (adapter: Adapter; limits: ptr SupportedLimits): bool {.cdecl.}
   ProcAdapterGetProperties* = proc (adapter: Adapter;
                                  properties: ptr AdapterProperties) {.cdecl.}
-  ProcAdapterHasFeature* = proc (adapter: Adapter; feature: FeatureName): bool {.cdecl.}
+  ProcAdapterHasFeature* = proc (adapter: Adapter; feature: Feature): bool {.cdecl.}
   ProcAdapterRequestDevice* = proc (adapter: Adapter;
                                  descriptor: ptr DeviceDescriptor;
                                  callback: RequestDeviceCallback;
@@ -719,10 +719,10 @@ const
                                   descriptor: ptr SwapChainDescriptor): SwapChain {.cdecl.}
   ProcDeviceCreateTexture* = proc (device: Device; descriptor: ptr TextureDescriptor): Texture {.cdecl.}
   ProcDeviceDestroy* = proc (device: Device) {.cdecl.}
-  ProcDeviceEnumerateFeatures* = proc (device: Device; features: ptr FeatureName): csize_t {.cdecl.}
+  ProcDeviceEnumerateFeatures* = proc (device: Device; features: ptr Feature): csize_t {.cdecl.}
   ProcDeviceGetLimits* = proc (device: Device; limits: ptr SupportedLimits): bool {.cdecl.}
   ProcDeviceGetQueue* = proc (device: Device): Queue {.cdecl.}
-  ProcDeviceHasFeature* = proc (device: Device; feature: FeatureName): bool {.cdecl.}
+  ProcDeviceHasFeature* = proc (device: Device; feature: Feature): bool {.cdecl.}
   ProcDevicePopErrorScope* = proc (device: Device; callback: ErrorCallback;
                                 userdata: pointer): bool {.cdecl.}
   ProcDevicePushErrorScope* = proc (device: Device; filter: ErrorFilter) {.cdecl.}
@@ -963,17 +963,17 @@ const
   ErrorType_Unknown* = ErrorType(0x00000004)
   ErrorType_DeviceLost* = ErrorType(0x00000005)
 
-  FeatureName_Undefined* = FeatureName(0x00000000)
-  FeatureName_DepthClipControl* = FeatureName(0x00000001)
-  FeatureName_Depth32FloatStencil8* = FeatureName(0x00000002)
-  FeatureName_TimestampQuery* = FeatureName(0x00000003)
-  FeatureName_PipelineStatisticsQuery* = FeatureName(0x00000004)
-  FeatureName_TextureCompressionBC* = FeatureName(0x00000005)
-  FeatureName_TextureCompressionETC2* = FeatureName(0x00000006)
-  FeatureName_TextureCompressionASTC* = FeatureName(0x00000007)
-  FeatureName_IndirectFirstInstance* = FeatureName(0x00000008)
-  FeatureName_ShaderF16* = FeatureName(0x00000009)
-  FeatureName_RG11B10UfloatRenderable* = FeatureName(0x0000000A)
+  # Feature_Undefined* = Feature(0x00000000)
+  # Feature_DepthClipControl* = Feature(0x00000001)
+  # Feature_Depth32FloatStencil8* = Feature(0x00000002)
+  # Feature_TimestampQuery* = Feature(0x00000003)
+  # Feature_PipelineStatisticsQuery* = Feature(0x00000004)
+  # Feature_TextureCompressionBC* = Feature(0x00000005)
+  # Feature_TextureCompressionETC2* = Feature(0x00000006)
+  # Feature_TextureCompressionASTC* = Feature(0x00000007)
+  # Feature_IndirectFirstInstance* = Feature(0x00000008)
+  # Feature_ShaderF16* = Feature(0x00000009)
+  # Feature_RG11B10UfloatRenderable* = Feature(0x0000000A)
 
   FilterMode_Nearest* = FilterMode(0x00000000)
   FilterMode_Linear* = FilterMode(0x00000001)
@@ -1259,11 +1259,11 @@ const
   TextureUsage_RenderAttachment* = TextureUsage(0x00000010)
 
 proc getProcAddress*(device: Device; procName: cstring): Proc {.cdecl, importc: "wgpuGetProcAddress".}
-proc adapterEnumerateFeatures*(adapter: Adapter; features: ptr FeatureName): csize_t {.cdecl, importc:"wgpuAdapterEnumerateFeatures".}
+# proc adapterEnumerateFeatures*(adapter: Adapter; features: ptr Feature): csize_t {.cdecl, importc:"wgpuAdapterEnumerateFeatures".}
 proc adapterGetLimits*(adapter: Adapter; limits: ptr SupportedLimits): bool {.cdecl, importc: "wgpuAdapterGetLimits".}
 proc adapterGetProperties*(adapter: Adapter; properties: ptr AdapterProperties) {.cdecl, importc:"wgpuAdapterGetProperties".}
-proc adapterHasFeature*(adapter: Adapter; feature: FeatureName): bool {.cdecl, importc: "wgpuAdapterHasFeature".}
-proc adapterRequestDevice*(adapter: Adapter; descriptor: ptr DeviceDescriptor; callback: RequestDeviceCallback; userdata: pointer) {.cdecl, importc:"wgpuAdapterRequestDevice".}
+proc adapterHasFeature*(adapter: Adapter; feature: Feature): bool {.cdecl, importc: "wgpuAdapterHasFeature".}
+# proc adapterRequestDevice*(adapter: Adapter; descriptor: ptr DeviceDescriptor; callback: RequestDeviceCallback; userdata: pointer) {.cdecl, importc:"wgpuAdapterRequestDevice".}
 proc bindGroupSetLabel*(bindGroup: BindGroup; label: cstring) {.cdecl, importc: "wgpuBindGroupSetLabel".}
 proc bindGroupLayoutSetLabel*(bindGroupLayout: BindGroupLayout; label: cstring) {.cdecl, importc:"wgpuBindGroupLayoutSetLabel".}
 proc bufferDestroy*(buffer: Buffer) {.cdecl, importc: "wgpuBufferDestroy".}
@@ -1318,10 +1318,10 @@ proc deviceCreateShaderModule*(device: Device; descriptor: ptr ShaderModuleDescr
 proc deviceCreateSwapChain*(device: Device; surface: Surface; descriptor: ptr SwapChainDescriptor): SwapChain {.cdecl, importc:"wgpuDeviceCreateSwapChain".}
 proc deviceCreateTexture*(device: Device; descriptor: ptr TextureDescriptor): Texture {.cdecl, importc:"wgpuDeviceCreateTexture".}
 proc deviceDestroy*(device: Device) {.cdecl, importc: "wgpuDeviceDestroy".}
-proc deviceEnumerateFeatures*(device: Device; features: ptr FeatureName): csize_t {.cdecl, importc:"wgpuDeviceEnumerateFeatures".}
+proc deviceEnumerateFeatures*(device: Device; features: ptr Feature): csize_t {.cdecl, importc:"wgpuDeviceEnumerateFeatures".}
 proc deviceGetLimits*(device: Device; limits: ptr SupportedLimits): bool {.cdecl, importc: "wgpuDeviceGetLimits".}
 proc deviceGetQueue*(device: Device): Queue {.cdecl, importc: "wgpuDeviceGetQueue".}
-proc deviceHasFeature*(device: Device; feature: FeatureName): bool {.cdecl, importc: "wgpuDeviceHasFeature".}
+proc deviceHasFeature*(device: Device; feature: Feature): bool {.cdecl, importc: "wgpuDeviceHasFeature".}
 proc devicePopErrorScope*(device: Device; callback: ErrorCallback; userdata: pointer): bool {.cdecl, importc:"wgpuDevicePopErrorScope".}
 proc devicePushErrorScope*(device: Device; filter: ErrorFilter) {.cdecl, importc: "wgpuDevicePushErrorScope".}
 proc deviceSetDeviceLostCallback*(device: Device; callback: DeviceLostCallback; userdata: pointer) {.cdecl, importc:"wgpuDeviceSetDeviceLostCallback".}

@@ -165,11 +165,11 @@ int main(int argc, char *argv[]) {
   // WGPUAdapter adapter;
   // wgpuInstanceRequestAdapter(instance, NULL, request_adapter_callback, (void *)&adapter);
 
-  printAdapterFeatures(adapter);
-  printSurfaceCapabilities(surface, adapter);
+  // printAdapterFeatures(adapter);
+  // printSurfaceCapabilities(surface, adapter);
 
-  WGPUDevice device;
-  wgpuAdapterRequestDevice(adapter, NULL, request_device_callback, (void*)&device);
+  // WGPUDevice device;
+  // wgpuAdapterRequestDevice(adapter, NULL, request_device_callback, (void*)&device);
   wgpuDeviceSetUncapturedErrorCallback(device, handle_uncaptured_error, NULL);
   wgpuDeviceSetDeviceLostCallback(device, handle_device_lost, NULL);
 

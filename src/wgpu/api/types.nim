@@ -32,13 +32,13 @@ type SType *{.pure.}= enum
 template supportedLimitsExtras *(_ :typedesc[SType]) :auto=  SType 0x60000003  # repeat of SType.requiredLimitsExtras
 
 
-type Feature *{.pure.}= enum
-  ## WGPUNativeFeature
-  pushConstants  = 0x60000001
-  textureAdapter_SpecificFormatFeatures
-  multiDrawIndirect
-  multiDrawIndirect_Count
-  vertexWritableStorage
+# type Feature *{.pure.}= enum
+#   ## WGPUNativeFeature
+#   pushConstants  = 0x60000001
+#   textureAdapter_SpecificFormatFeatures
+#   multiDrawIndirect
+#   multiDrawIndirect_count
+#   vertexWritableStorage
 
 type LogLEvel *{.pure.}= enum  off, error, warn, info, debug, trace, force32 = 0x7FFFFFFF
   ## WGPULogLevel
@@ -305,9 +305,86 @@ type PowerPreference *{.pure.}= enum
   highPerformance
   force32 = 0x7FFFFFFF
 
-type RequestAdapterOptions* {.bycopy.} = object
+type RequestAdapterOptions *{.bycopy.}= object
   nextInChain           *:ptr ChainedStruct
   compatibleSurface     *:Surface
   powerPreference       *:PowerPreference
   forceFallbackAdapter  *:bool
+
+type Feature *{.pure.}= enum
+  undefined = 0x00000000
+  depthClipControl
+  depth32FloatStencil8
+  timestampQuery
+  pipelineStatisticsQuery
+  textureCompressionBC
+  textureCompressionETC2
+  textureCompressionASTC
+  indirectFirstInstance
+  shaderF16
+  RG11B10UfloatRenderable  ## not available in wgpu-core
+  BGRA8UnormStorage        ## not available in wgpu-core
+  ## wgpu-rs only features
+  pushConstants = 0x6000_0001
+  textureAdapter_SpecificFormatFeatures
+  multiDrawIndirect
+  multiDrawIndirect_count
+  vertexWritableStorage
+  force32 = 0x7FFFFFFF
+
+#___________________
+# Device
+type RequestDeviceStatus *{.pure.}= enum
+  success = 0x00000000
+  error
+  unknown
+  force32 = 0x7FFFFFFF
+
+type Limits *{.bycopy.}= object
+  maxTextureDimension1D                      *:uint
+  maxTextureDimension2D                      *:uint
+  maxTextureDimension3D                      *:uint
+  maxTextureArrayLayers                      *:uint
+  maxBindGroups                              *:uint
+  maxBindingsPerBindGroup                    *:uint
+  maxDynamicUniformBuffersPerPipelineLayout  *:uint
+  maxDynamicStorageBuffersPerPipelineLayout  *:uint
+  maxSampledTexturesPerShaderStage           *:uint
+  maxSamplersPerShaderStage                  *:uint
+  maxStorageBuffersPerShaderStage            *:uint
+  maxStorageTexturesPerShaderStage           *:uint
+  maxUniformBuffersPerShaderStage            *:uint
+  maxUniformBufferBindingSize                *:uint64
+  maxStorageBufferBindingSize                *:uint64
+  minUniformBufferOffsetAlignment            *:uint
+  minStorageBufferOffsetAlignment            *:uint
+  maxVertexBuffers                           *:uint
+  maxBufferSize                              *:uint64
+  maxVertexAttributes                        *:uint
+  maxVertexBufferArrayStride                 *:uint
+  maxInterStageShaderComponents              *:uint
+  maxInterStageShaderVariables               *:uint
+  maxColorAttachments                        *:uint
+  maxComputeWorkgroupStorageSize             *:uint
+  maxComputeInvocationsPerWorkgroup          *:uint
+  maxComputeWorkgroupSizeX                   *:uint
+  maxComputeWorkgroupSizeY                   *:uint
+  maxComputeWorkgroupSizeZ                   *:uint
+  maxComputeWorkgroupsPerDimension           *:uint
+
+type RequiredLimits *{.bycopy.}= object
+  nextInChain  *:ptr ChainedStruct
+  limits       *:Limits
+
+type QueueDescriptor *{.bycopy.}= object
+  nextInChain  *:ptr ChainedStruct
+  label        *:cstring
+
+type DeviceDescriptor *{.bycopy.}= object
+  nextInChain            *:ptr ChainedStruct
+  label                  *:cstring
+  requiredFeaturesCount  *:uint
+  requiredFeatures       *:ptr Feature
+  requiredLimits         *:ptr RequiredLimits
+  defaultQueue           *:QueueDescriptor
 
