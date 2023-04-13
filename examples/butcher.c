@@ -33,15 +33,15 @@
 
 // WGPUInstance instance = NULL;
 
-static void handle_device_lost(WGPUDeviceLostReason reason, char const *message, void *userdata) {
-  UNUSED(userdata);
-  printf("DEVICE LOST (%d): %s\n", reason, message);
-}
+// static void handle_device_lost(WGPUDeviceLostReason reason, char const *message, void *userdata) {
+//   UNUSED(userdata);
+//   printf("DEVICE LOST (%d): %s\n", reason, message);
+// }
 
-static void handle_uncaptured_error(WGPUErrorType type, char const *message, void *userdata) {
-  UNUSED(userdata);
-  printf("UNCAPTURED ERROR (%d): %s\n", type, message);
-}
+// static void handle_uncaptured_error(WGPUErrorType type, char const *message, void *userdata) {
+//   UNUSED(userdata);
+//   printf("UNCAPTURED ERROR (%d): %s\n", type, message);
+// }
 
 static void handleGlfwKey(GLFWwindow *window, int key, int scancode, int action, int mods) {
   UNUSED(window); UNUSED(scancode); UNUSED(mods);
@@ -170,8 +170,8 @@ int main(int argc, char *argv[]) {
 
   // WGPUDevice device;
   // wgpuAdapterRequestDevice(adapter, NULL, request_device_callback, (void*)&device);
-  wgpuDeviceSetUncapturedErrorCallback(device, handle_uncaptured_error, NULL);
-  wgpuDeviceSetDeviceLostCallback(device, handle_device_lost, NULL);
+  // wgpuDeviceSetUncapturedErrorCallback(device, handle_uncaptured_error, NULL);
+  // wgpuDeviceSetDeviceLostCallback(device, handle_device_lost, NULL);
 
   WGPUShaderModuleDescriptor shaderSource = load_wgsl("shader.wgsl");
   WGPUShaderModule shader = wgpuDeviceCreateShaderModule(device, &shaderSource);

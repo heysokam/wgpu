@@ -14,13 +14,16 @@ proc requestAdapter *(instance :Instance; options :ptr RequestAdapterOptions; ca
 proc enumerateFeatures *(adapter :Adapter; features :ptr Feature) :csize_t {.cdecl, importc:"wgpuAdapterEnumerateFeatures", header: "webgpu.h".}
 type RequestDeviceCallback * = proc (status :RequestDeviceStatus; device :Device; message :cstring; userdata :pointer) :void {.cdecl.}
 proc requestDevice     *(adapter :Adapter; descriptor :ptr DeviceDescriptor; callback :RequestDeviceCallback; userdata :pointer) :void {.cdecl, importc:"wgpuAdapterRequestDevice", header: "webgpu.h".}
+# Device
+type ErrorCallback * = proc (typ :ErrorType; message :cstring; userdata :pointer) :void {.cdecl.}
+proc setUncapturedErrorCallback  *(device :Device; callback :ErrorCallback; userdata :pointer) :void {.cdecl, importc:"wgpuDeviceSetUncapturedErrorCallback", header: "webgpu.h".}
+type DeviceLostCallback * = proc (reason :DeviceLostReason; message :cstring; userdata :pointer) :void {.cdecl.}
+proc setDeviceLostCallback *(device :Device; callback :DeviceLostCallback; userdata :pointer) :void {.cdecl, importc:"wgpuDeviceSetDeviceLostCallback", header: "webgpu.h".}
 
 # type BufferMapCallback* = proc (status: BufferMapAsyncStatus; userdata: pointer) {.cdecl.}
 # type CompilationInfoCallback* = proc (status: CompilationInfoRequestStatus; compilationInfo: ptr CompilationInfo; userdata: pointer) {.cdecl.}
 # type CreateComputePipelineAsyncCallback* = proc (status: CreatePipelineAsyncStatus; pipeline: ComputePipeline; message: cstring; userdata: pointer) {.cdecl.}
 # type CreateRenderPipelineAsyncCallback* = proc (status: CreatePipelineAsyncStatus; pipeline: RenderPipeline; message: cstring; userdata: pointer) {.cdecl.}
-# type DeviceLostCallback* = proc (reason: DeviceLostReason; message: cstring; userdata: pointer) {.cdecl.}
-# type ErrorCallback* = proc (`type`: ErrorType; message: cstring; userdata: pointer) {.cdecl.}
 # type Proc* = proc () {.cdecl.}
 # type QueueWorkDoneCallback* = proc (status: QueueWorkDoneStatus; userdata: pointer) {.cdecl.}
 

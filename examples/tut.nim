@@ -1,6 +1,8 @@
 #:________________________________________________________
 #  wgpu-nim  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
 #:________________________________________________________
+# std dependencies
+import std/strformat
 # External dependencies
 from pkg/nglfw as glfw import nil
 # Module dependencies
@@ -44,6 +46,11 @@ proc adapterRequestCB *(status :RequestAdapterStatus; adapter :Adapter; message 
   cast[ptr Adapter](userdata)[] = adapter  # *(WGPUAdapter*)userdata = received;
 proc deviceRequestCB  *(status :RequestDeviceStatus; device :Device; message :cstring; userdata :pointer) :void {.cdecl.}=
   cast[ptr Device](userdata)[] = device  # *(WGPUAdapter*)userdata = received;
+proc errorCB *(typ :ErrorType; message :cstring; userdata :pointer) :void {.cdecl.}=
+  echo &"UNCAPTURED ERROR: ({$typ}): {$message}"
+proc deviceLostCB *(reason :DeviceLostReason; message :cstring; userdata :pointer) :void {.cdecl.}=
+  echo &"DEVICE LOST: ({$reason}): {$message}"
+
 
 #________________________________________________
 # state.nim
@@ -81,6 +88,8 @@ proc run=
   echo ":  Alpha Modes:"
   for alpha in presentModes:   echo ":  - ",$alpha
   var device :wgpu.Device; adapter.requestDevice(nil, deviceRequestCB, device.addr)
+  device.setUncapturedErrorCallback(errorCB, nil)
+  device.setDeviceLostCallback(deviceLostCB, nil)
 
 
   #__________________

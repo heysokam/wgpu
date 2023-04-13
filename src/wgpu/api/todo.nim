@@ -1324,9 +1324,9 @@ proc deviceGetQueue*(device: Device): Queue {.cdecl, importc: "wgpuDeviceGetQueu
 proc deviceHasFeature*(device: Device; feature: Feature): bool {.cdecl, importc: "wgpuDeviceHasFeature".}
 proc devicePopErrorScope*(device: Device; callback: ErrorCallback; userdata: pointer): bool {.cdecl, importc:"wgpuDevicePopErrorScope".}
 proc devicePushErrorScope*(device: Device; filter: ErrorFilter) {.cdecl, importc: "wgpuDevicePushErrorScope".}
-proc deviceSetDeviceLostCallback*(device: Device; callback: DeviceLostCallback; userdata: pointer) {.cdecl, importc:"wgpuDeviceSetDeviceLostCallback".}
+# proc deviceSetDeviceLostCallback*(device: Device; callback: DeviceLostCallback; userdata: pointer) {.cdecl, importc:"wgpuDeviceSetDeviceLostCallback".}
 proc deviceSetLabel*(device: Device; label: cstring) {.cdecl, importc: "wgpuDeviceSetLabel".}
-proc deviceSetUncapturedErrorCallback*(device: Device; callback: ErrorCallback; userdata: pointer) {.cdecl, importc:"wgpuDeviceSetUncapturedErrorCallback".}
+# proc deviceSetUncapturedErrorCallback*(device: Device; callback: ErrorCallback; userdata: pointer) {.cdecl, importc:"wgpuDeviceSetUncapturedErrorCallback".}
 # proc instanceCreateSurface*(instance: Instance; descriptor: ptr SurfaceDescriptor): Surface {.cdecl, importc:"wgpuInstanceCreateSurface".}
 proc instanceProcessEvents*(instance: Instance) {.cdecl, importc: "wgpuInstanceProcessEvents".}
 # proc instanceRequestAdapter*(instance: Instance; options: ptr RequestAdapterOptions; callback: RequestAdapterCallback; userdata: pointer) {.cdecl, importc:"wgpuInstanceRequestAdapter".}

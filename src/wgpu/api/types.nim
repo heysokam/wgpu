@@ -388,3 +388,17 @@ type DeviceDescriptor *{.bycopy.}= object
   requiredLimits         *:ptr RequiredLimits
   defaultQueue           *:QueueDescriptor
 
+type ErrorType *{.pure.}= enum
+  noError = 0x00000000
+  validation
+  outOfMemory
+  internal
+  unknown
+  deviceLost
+  force32 = 0x7FFFFFFF
+
+type DeviceLostReason *{.pure.}= enum
+  undefined = 0x00000000
+  destroyed
+  force32   = 0x7FFFFFFF
+
