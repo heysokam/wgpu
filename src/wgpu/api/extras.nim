@@ -76,3 +76,17 @@ proc capabilities *(surface :Surface; adapter :Adapter
   surface.getCapabilities(adapter, caps.addr)
   result = (formats, presents, alphas)
 
+#_______________________________________
+# Shader loading
+#___________________
+proc readWgsl *(file :string) :ShaderModuleDescriptor=
+  ## Reads the given `.wgsl` shader file, and returns a ShaderModuleDescriptor for it.
+  var descriptor         = new ShaderModuleWGSLDescriptor
+  descriptor.chain.next  = nil
+  descriptor.chain.sType = SType.shaderModuleWGSLDescriptor
+  descriptor.code        = file.readFile.cstring
+  result = ShaderModuleDescriptor(
+    nextInChain: cast[ptr ChainedStruct](descriptor.addr),
+    label:       nil,
+    )
+

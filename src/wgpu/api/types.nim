@@ -402,3 +402,20 @@ type DeviceLostReason *{.pure.}= enum
   destroyed
   force32   = 0x7FFFFFFF
 
+#___________________
+# Shader Module
+type ShaderModuleWGSLDescriptor *{.bycopy.}= object
+  chain  *:ChainedStruct
+  code   *:cstring
+
+type ShaderModuleCompilationHint *{.bycopy.}= object
+  nextInChain  *:ptr ChainedStruct
+  entryPoint   *:cstring
+  layout       *:PipelineLayout
+
+type ShaderModuleDescriptor *{.bycopy.}= object
+  nextInChain  *:ptr ChainedStruct
+  label        *:cstring
+  hintCount    *:uint
+  hints        *:ptr ShaderModuleCompilationHint
+

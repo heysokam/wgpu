@@ -323,19 +323,19 @@ const
     compare*: CompareFunction
     maxAnisotropy*: uint16
 
-  ShaderModuleCompilationHint* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    entryPoint*: cstring
-    layout*: PipelineLayout
+  # ShaderModuleCompilationHint* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   entryPoint*: cstring
+  #   layout*: PipelineLayout
 
   ShaderModuleSPIRVDescriptor* {.bycopy.} = object
     chain*: ChainedStruct
     codeSize*: uint
     code*: ptr uint
 
-  ShaderModuleWGSLDescriptor* {.bycopy.} = object
-    chain*: ChainedStruct
-    code*: cstring
+  # ShaderModuleWGSLDescriptor* {.bycopy.} = object
+  #   chain*: ChainedStruct
+  #   code*: cstring
 
   StencilFaceState* {.bycopy.} = object
     compare*: CompareFunction
@@ -496,11 +496,11 @@ const
   #   nextInChain*: ptr ChainedStruct
   #   limits*: Limits
 
-  ShaderModuleDescriptor* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    label*: cstring
-    hintCount*: uint
-    hints*: ptr ShaderModuleCompilationHint
+  # ShaderModuleDescriptor* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   label*: cstring
+  #   hintCount*: uint
+  #   hints*: ptr ShaderModuleCompilationHint
 
   SupportedLimits* {.bycopy.} = object
     nextInChain*: ptr ChainedStructOut

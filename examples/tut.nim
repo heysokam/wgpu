@@ -3,6 +3,7 @@
 #:________________________________________________________
 # std dependencies
 import std/strformat
+import std/os
 # External dependencies
 from pkg/nglfw as glfw import nil
 # Module dependencies
@@ -90,6 +91,7 @@ proc run=
   var device :wgpu.Device; adapter.requestDevice(nil, deviceRequestCB, device.addr)
   device.setUncapturedErrorCallback(errorCB, nil)
   device.setDeviceLostCallback(deviceLostCB, nil)
+  var shaderSource = readWgsl getAppDir()/"triangle.wgsl"
 
 
   #__________________

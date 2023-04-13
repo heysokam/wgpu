@@ -31,6 +31,32 @@
 // #endif
 // #include <GLFW/glfw3native.h>
 
+
+// WGPUShaderModuleDescriptor load_wgsl(const char *name) {
+//   FILE *file = fopen(name, "rb");
+//   if (!file) {
+//     printf("Unable to open %s\n", name);
+//     exit(1);
+//   }
+//   fseek(file, 0, SEEK_END);
+//   long length = ftell(file);
+//   unsigned char *bytes = malloc(length + 1);
+//   fseek(file, 0, SEEK_SET);
+//   fread(bytes, 1, length, file);
+//   fclose(file);
+//   bytes[length] = 0;
+
+//   WGPUShaderModuleWGSLDescriptor* wgslDescriptor = malloc(sizeof(WGPUShaderModuleWGSLDescriptor));
+//   wgslDescriptor->chain.next  = NULL;
+//   wgslDescriptor->chain.sType = WGPUSType_ShaderModuleWGSLDescriptor;
+//   wgslDescriptor->code        = (const char *)bytes;
+//   return (WGPUShaderModuleDescriptor){
+//       .nextInChain = (const WGPUChainedStruct *)wgslDescriptor,
+//       .label       = name,
+//   };
+// }
+
+
 // WGPUInstance instance = NULL;
 
 // static void handle_device_lost(WGPUDeviceLostReason reason, char const *message, void *userdata) {
@@ -173,7 +199,7 @@ int main(int argc, char *argv[]) {
   // wgpuDeviceSetUncapturedErrorCallback(device, handle_uncaptured_error, NULL);
   // wgpuDeviceSetDeviceLostCallback(device, handle_device_lost, NULL);
 
-  WGPUShaderModuleDescriptor shaderSource = load_wgsl("shader.wgsl");
+  // WGPUShaderModuleDescriptor shaderSource = load_wgsl("shader.wgsl");
   WGPUShaderModule shader = wgpuDeviceCreateShaderModule(device, &shaderSource);
 
   WGPUTextureFormat swapChainFormat = wgpuSurfaceGetPreferredFormat(surface, adapter);
