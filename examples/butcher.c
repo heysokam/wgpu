@@ -72,9 +72,9 @@ int main(int argc, char *argv[]) {
     // return 1;
   // }
 
-  instance = wgpuCreateInstance(&(WGPUInstanceDescriptor){.nextInChain = NULL});
+  // instance = wgpuCreateInstance(&(WGPUInstanceDescriptor){.nextInChain = NULL});
 
-  WGPUSurface surface;
+  // WGPUSurface surface;
 
 // #if WGPU_TARGET == WGPU_TARGET_MACOS
 //   {

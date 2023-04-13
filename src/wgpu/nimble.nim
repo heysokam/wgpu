@@ -46,7 +46,10 @@ requires "chroma"                            ## Color manipulation
 #________________________________________
 # Helpers
 #___________________
-let nimcr = &"nim c -r --verbosity:2 --outdir:{binDir}"
+when defined(debug):
+  let nimcr = &"nim c -r --verbosity:2 --outdir:{binDir}"
+else:
+  let nimcr = &"nim c -r --verbosity:1 --outdir:{binDir}"
   ## Compile and run, outputting to binDir
 proc runFile (file, dir :string) :void=  exec &"{nimcr} {dir/file}"
   ## Runs file from the given dir, using the nimcr command

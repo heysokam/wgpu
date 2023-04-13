@@ -349,9 +349,9 @@ type
     format*: TextureFormat
     viewDimension*: TextureViewDimension
 
-  SurfaceDescriptor* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    label*: cstring
+  # SurfaceDescriptor* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   label*: cstring
 
   SurfaceDescriptorFromAndroidNativeWindow* {.bycopy.} = object
     chain*: ChainedStruct
@@ -380,10 +380,10 @@ type
     connection*: pointer
     window*: uint
 
-  SurfaceDescriptorFromXlibWindow* {.bycopy.} = object
-    chain*: ChainedStruct
-    display*: pointer
-    window*: uint
+  # SurfaceDescriptorFromXlibWindow* {.bycopy.} = object
+  #   chain*: ChainedStruct
+  #   display*: pointer
+  #   window*: uint
 
   SwapChainDescriptor* {.bycopy.} = object
     nextInChain*: ptr ChainedStruct
@@ -1029,18 +1029,18 @@ const
   RequestDeviceStatus_Error* = RequestDeviceStatus(0x00000001)
   RequestDeviceStatus_Unknown* = RequestDeviceStatus(0x00000002)
 
-  SType_Invalid* = SType(0x00000000)
-  SType_SurfaceDescriptorFromMetalLayer* = SType(0x00000001)
-  SType_SurfaceDescriptorFromWindowsHWND* = SType(0x00000002)
-  SType_SurfaceDescriptorFromXlibWindow* = SType(0x00000003)
-  SType_SurfaceDescriptorFromCanvasHTMLSelector* = SType(0x00000004)
-  SType_ShaderModuleSPIRVDescriptor* = SType(0x00000005)
-  SType_ShaderModuleWGSLDescriptor* = SType(0x00000006)
-  SType_PrimitiveDepthClipControl* = SType(0x00000007)
-  SType_SurfaceDescriptorFromWaylandSurface* = SType(0x00000008)
-  SType_SurfaceDescriptorFromAndroidNativeWindow* = SType(0x00000009)
-  SType_SurfaceDescriptorFromXcbWindow* = SType(0x0000000A)
-  SType_RenderPassDescriptorMaxDrawCount* = SType(0x0000000F)
+  # SType_Invalid* = SType(0x00000000)
+  # SType_SurfaceDescriptorFromMetalLayer* = SType(0x00000001)
+  # SType_SurfaceDescriptorFromWindowsHWND* = SType(0x00000002)
+  # SType_SurfaceDescriptorFromXlibWindow* = SType(0x00000003)
+  # SType_SurfaceDescriptorFromCanvasHTMLSelector* = SType(0x00000004)
+  # SType_ShaderModuleSPIRVDescriptor* = SType(0x00000005)
+  # SType_ShaderModuleWGSLDescriptor* = SType(0x00000006)
+  # SType_PrimitiveDepthClipControl* = SType(0x00000007)
+  # SType_SurfaceDescriptorFromWaylandSurface* = SType(0x00000008)
+  # SType_SurfaceDescriptorFromAndroidNativeWindow* = SType(0x00000009)
+  # SType_SurfaceDescriptorFromXcbWindow* = SType(0x0000000A)
+  # SType_RenderPassDescriptorMaxDrawCount* = SType(0x0000000F)
   
   SamplerBindingType_Undefined* = SamplerBindingType(0x00000000)
   SamplerBindingType_Filtering* = SamplerBindingType(0x00000001)
@@ -1327,7 +1327,7 @@ proc devicePushErrorScope*(device: Device; filter: ErrorFilter) {.cdecl, importc
 proc deviceSetDeviceLostCallback*(device: Device; callback: DeviceLostCallback; userdata: pointer) {.cdecl, importc:"wgpuDeviceSetDeviceLostCallback".}
 proc deviceSetLabel*(device: Device; label: cstring) {.cdecl, importc: "wgpuDeviceSetLabel".}
 proc deviceSetUncapturedErrorCallback*(device: Device; callback: ErrorCallback; userdata: pointer) {.cdecl, importc:"wgpuDeviceSetUncapturedErrorCallback".}
-proc instanceCreateSurface*(instance: Instance; descriptor: ptr SurfaceDescriptor): Surface {.cdecl, importc:"wgpuInstanceCreateSurface".}
+# proc instanceCreateSurface*(instance: Instance; descriptor: ptr SurfaceDescriptor): Surface {.cdecl, importc:"wgpuInstanceCreateSurface".}
 proc instanceProcessEvents*(instance: Instance) {.cdecl, importc: "wgpuInstanceProcessEvents".}
 proc instanceRequestAdapter*(instance: Instance; options: ptr RequestAdapterOptions; callback: RequestAdapterCallback; userdata: pointer) {.cdecl, importc:"wgpuInstanceRequestAdapter".}
 proc pipelineLayoutSetLabel*(pipelineLayout: PipelineLayout; label: cstring) {.cdecl, importc:"wgpuPipelineLayoutSetLabel".}

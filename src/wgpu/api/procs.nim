@@ -6,6 +6,7 @@ import ./types
 # webgpu.h
 #___________________
 proc createInstance *(descriptor :ptr InstanceDescriptor) :Instance {.cdecl, importc: "wgpuCreateInstance", header: "webgpu.h".}
+proc createSurface  *(instance :Instance; descriptor :ptr SurfaceDescriptor) :Surface {.cdecl, importc:"wgpuInstanceCreateSurface", header: "webgpu.h".}
 
 #_______________________________________
 # wgpu.h

@@ -8,16 +8,29 @@
 #___________________
 type SType *{.pure.}= enum
   ## WGPUNativeSType
-  ## Starts at 6 to prevent collisions with webgpu STypes
+  invalid  = 0x00000000
+  surfaceDescriptorFromMetalLayer
+  surfaceDescriptorFromWindowsHWND
+  surfaceDescriptorFromXlibWindow
+  surfaceDescriptorFromCanvasHTMLSelector
+  shaderModuleSPIRVDescriptor
+  shaderModuleWGSLDescriptor
+  primitiveDepthClipControl
+  surfaceDescriptorFromWaylandSurface
+  surfaceDescriptorFromAndroidNativeWindow
+  surfaceDescriptorFromXcbWindow
+  renderPassDescriptorMaxDrawCount  = 0x0000000F
+  ## wgpu.h Starts at 6 to prevent collisions with webgpu.h STypes
   deviceExtras  = 0x60000001
   adapterExtras
   requiredLimitsExtras
   pipelineLayoutExtras
   shaderModuleGLSLDescriptor
   instanceExtras
-  SwapChainDescriptorExtras
+  swapchainDescriptorExtras
   force32  = 0x7FFFFFFF
 template supportedLimitsExtras *(_ :typedesc[SType]) :auto=  SType 0x60000003  # repeat of SType.requiredLimitsExtras
+
 
 type Feature *{.pure.}= enum
   ## WGPUNativeFeature
@@ -262,7 +275,15 @@ type LogCallback * = proc (level :LogLevel; message :cstring; userdata :pointer)
 #_______________________________________
 # webgpu.h
 #___________________
-type InstanceDescriptor* {.bycopy.} = object
+type InstanceDescriptor *{.bycopy.}= object
   nextInChain  *:ptr ChainedStruct
 
+type SurfaceDescriptor *{.bycopy.}= object
+  nextInChain  *:ptr ChainedStruct
+  label        *:cstring
+
+type SurfaceDescriptorFromXlibWindow *{.bycopy.}= object
+  chain    *:ChainedStruct
+  display  *:pointer
+  window   *:uint
 

@@ -34,7 +34,7 @@ proc init(win :var Window) :void=
   ## Initializes the window with GLFW.
   doAssert glfw.init().bool, "Failed to Initialize GLFW"
   glfw.windowHint(glfw.CLIENT_API, glfw.NO_API)
-  win.ct = glfw.createWindow(win.w, win.h, win.title, nil, nil)
+  win.ct = glfw.createWindow(win.w, win.h, win.title.cstring, nil, nil)
   doAssert win.ct != nil, "Failed to create GLFW window"
   discard glfw.setKeyCallback(win.ct, key)
 
@@ -46,19 +46,31 @@ var window = Window(
   ct: nil, title: "wgpu-nim Tut",
   w:960, h:540,
   )
+
 # WGPU state
 var instance :wgpu.Instance= nil
-
 
 #________________________________________________
 # Entry Point
 #__________________
 proc run=
+  #__________________
+  # Init Window
   echo "Hello wgpu-nim"
   window.init()
-  instance = wgpu.createInstance(wgpu.InstanceDescriptor(nextInChain: nil).vaddr)
+
+  #__________________
+  # Init wgpu
+  instance    = wgpu.createInstance(wgpu.InstanceDescriptor(nextInChain: nil).vaddr)
+  var surface = instance.getSurface(window.ct)
+
+  #__________________
+  # Update loop
   while not window.close():
     window.update()
+
+  #__________________
+  # Terminate
   window.term()
 #__________________
 when isMainModule: run()
