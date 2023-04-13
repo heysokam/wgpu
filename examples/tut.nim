@@ -91,8 +91,9 @@ proc run=
   var device :wgpu.Device; adapter.requestDevice(nil, deviceRequestCB, device.addr)
   device.setUncapturedErrorCallback(errorCB, nil)
   device.setDeviceLostCallback(deviceLostCB, nil)
-  let shaderSource = readWgsl getAppDir()/"triangle.wgsl"
-  let shader       = device.createShaderModule(shaderSource.addr)
+  var shaderSource    = readWgsl getAppDir()/"triangle.wgsl"
+  let shader          = device.createShaderModule(shaderSource.addr)
+  let swapchainFormat = surface.getPreferredFormat(adapter)
 
 
   #__________________

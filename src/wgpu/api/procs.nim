@@ -20,6 +20,9 @@ proc setUncapturedErrorCallback  *(device :Device; callback :ErrorCallback; user
 type DeviceLostCallback * = proc (reason :DeviceLostReason; message :cstring; userdata :pointer) :void {.cdecl.}
 proc setDeviceLostCallback *(device :Device; callback :DeviceLostCallback; userdata :pointer) :void {.cdecl, importc:"wgpuDeviceSetDeviceLostCallback", header: "webgpu.h".}
 proc createShaderModule    *(device :Device; descriptor :ptr ShaderModuleDescriptor) :ShaderModule {.cdecl, importc:"wgpuDeviceCreateShaderModule", header: "webgpu.h".}
+# Surface
+proc getPreferredFormat *(surface :Surface; adapter :Adapter) :TextureFormat {.cdecl, importc:"wgpuSurfaceGetPreferredFormat", header: "webgpu.h".}
+
 
 # type BufferMapCallback* = proc (status: BufferMapAsyncStatus; userdata: pointer) {.cdecl.}
 # type CompilationInfoCallback* = proc (status: CompilationInfoRequestStatus; compilationInfo: ptr CompilationInfo; userdata: pointer) {.cdecl.}

@@ -1380,7 +1380,7 @@ proc renderPipelineSetLabel*(renderPipeline: RenderPipeline; label: cstring) {.c
 proc samplerSetLabel*(sampler: Sampler; label: cstring) {.cdecl, importc: "wgpuSamplerSetLabel".}
 proc shaderModuleGetCompilationInfo*(shaderModule: ShaderModule; callback: CompilationInfoCallback; userdata: pointer) {.cdecl, importc:"wgpuShaderModuleGetCompilationInfo".}
 proc shaderModuleSetLabel*(shaderModule: ShaderModule; label: cstring) {.cdecl, importc: "wgpuShaderModuleSetLabel".}
-proc surfaceGetPreferredFormat*(surface: Surface; adapter: Adapter): TextureFormat {.cdecl, importc:"wgpuSurfaceGetPreferredFormat".}
+# proc surfaceGetPreferredFormat*(surface: Surface; adapter: Adapter): TextureFormat {.cdecl, importc:"wgpuSurfaceGetPreferredFormat".}
 proc swapChainGetCurrentTextureView*(swapChain: SwapChain): TextureView {.cdecl, importc: "wgpuSwapChainGetCurrentTextureView".}
 proc swapChainPresent*(swapChain: SwapChain) {.cdecl, importc: "wgpuSwapChainPresent".}
 proc textureCreateView*(texture: Texture; descriptor: ptr TextureViewDescriptor): TextureView {.cdecl, importc:"wgpuTextureCreateView".}
