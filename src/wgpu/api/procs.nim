@@ -5,8 +5,21 @@ import ./types
 #_______________________________________
 # webgpu.h
 #___________________
+# Instance
 proc createInstance *(descriptor :ptr InstanceDescriptor) :Instance {.cdecl, importc: "wgpuCreateInstance", header: "webgpu.h".}
 proc createSurface  *(instance :Instance; descriptor :ptr SurfaceDescriptor) :Surface {.cdecl, importc:"wgpuInstanceCreateSurface", header: "webgpu.h".}
+type RequestAdapterCallback* = proc (status: RequestAdapterStatus; adapter: Adapter; message: cstring; userdata: pointer) {.cdecl.}
+proc requestAdapter *(instance :Instance; options :ptr RequestAdapterOptions; callback :RequestAdapterCallback; userdata :pointer) {.cdecl, importc:"wgpuInstanceRequestAdapter", header: "webgpu.h".}
+
+# type BufferMapCallback* = proc (status: BufferMapAsyncStatus; userdata: pointer) {.cdecl.}
+# type CompilationInfoCallback* = proc (status: CompilationInfoRequestStatus; compilationInfo: ptr CompilationInfo; userdata: pointer) {.cdecl.}
+# type CreateComputePipelineAsyncCallback* = proc (status: CreatePipelineAsyncStatus; pipeline: ComputePipeline; message: cstring; userdata: pointer) {.cdecl.}
+# type CreateRenderPipelineAsyncCallback* = proc (status: CreatePipelineAsyncStatus; pipeline: RenderPipeline; message: cstring; userdata: pointer) {.cdecl.}
+# type DeviceLostCallback* = proc (reason: DeviceLostReason; message: cstring; userdata: pointer) {.cdecl.}
+# type ErrorCallback* = proc (`type`: ErrorType; message: cstring; userdata: pointer) {.cdecl.}
+# type Proc* = proc () {.cdecl.}
+# type QueueWorkDoneCallback* = proc (status: QueueWorkDoneStatus; userdata: pointer) {.cdecl.}
+# type RequestDeviceCallback* = proc (status: RequestDeviceStatus; device: Device; message: cstring; userdata: pointer) {.cdecl.}
 
 #_______________________________________
 # wgpu.h

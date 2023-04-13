@@ -275,9 +275,12 @@ type LogCallback * = proc (level :LogLevel; message :cstring; userdata :pointer)
 #_______________________________________
 # webgpu.h
 #___________________
+# Instance
 type InstanceDescriptor *{.bycopy.}= object
   nextInChain  *:ptr ChainedStruct
 
+#___________________
+# Surface
 type SurfaceDescriptor *{.bycopy.}= object
   nextInChain  *:ptr ChainedStruct
   label        *:cstring
@@ -286,4 +289,25 @@ type SurfaceDescriptorFromXlibWindow *{.bycopy.}= object
   chain    *:ChainedStruct
   display  *:pointer
   window   *:uint
+
+#___________________
+# Adapter
+type RequestAdapterStatus *{.pure.}= enum
+  success = 0x00000000
+  unavailable
+  error
+  unknown
+  force32 = 0x7FFFFFFF
+
+type PowerPreference *{.pure.}= enum
+  undefined = 0x00000000
+  lowPower
+  highPerformance
+  force32 = 0x7FFFFFFF
+
+type RequestAdapterOptions* {.bycopy.} = object
+  nextInChain           *:ptr ChainedStruct
+  compatibleSurface     *:Surface
+  powerPreference       *:PowerPreference
+  forceFallbackAdapter  *:bool
 

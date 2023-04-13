@@ -3,109 +3,109 @@ include ./compile
 const
   MaxVertexAttributes* = 16
 
-type
-  AdapterImpl = pointer
-  BindGroupImpl = pointer
-  BindGroupLayoutImpl = pointer
-  BufferImpl = pointer
-  CommandBufferImpl = pointer
-  CommandEncoderImpl = pointer
-  ComputePassEncoderImpl = pointer
-  ComputePipelineImpl = pointer
-  DeviceImpl = pointer
-  InstanceImpl = pointer
-  PipelineLayoutImpl = pointer
-  QuerySetImpl = pointer
-  QueueImpl = pointer
-  RenderBundleImpl = pointer
-  RenderBundleEncoderImpl = pointer
-  RenderPassEncoderImpl = pointer
-  RenderPipelineImpl = pointer
-  SamplerImpl = pointer
-  ShaderModuleImpl = pointer
-  SurfaceImpl = pointer
-  SwapChainImpl = pointer
-  TextureImpl = pointer
-  TextureViewImpl = pointer
+# type
+#   AdapterImpl             = pointer
+#   BindGroupImpl           = pointer
+#   BindGroupLayoutImpl     = pointer
+#   BufferImpl              = pointer
+#   CommandBufferImpl       = pointer
+#   CommandEncoderImpl      = pointer
+#   ComputePassEncoderImpl  = pointer
+#   ComputePipelineImpl     = pointer
+#   DeviceImpl              = pointer
+#   InstanceImpl            = pointer
+#   PipelineLayoutImpl      = pointer
+#   QuerySetImpl            = pointer
+#   QueueImpl               = pointer
+#   RenderBundleImpl        = pointer
+#   RenderBundleEncoderImpl = pointer
+#   RenderPassEncoderImpl   = pointer
+#   RenderPipelineImpl      = pointer
+#   SamplerImpl             = pointer
+#   ShaderModuleImpl        = pointer
+#   SurfaceImpl             = pointer
+#   SwapChainImpl           = pointer
+#   TextureImpl             = pointer
+#   TextureViewImpl         = pointer
 
-  Flags* = uint
-  Adapter* = ptr AdapterImpl
-  BindGroup* = ptr BindGroupImpl
-  BindGroupLayout* = ptr BindGroupLayoutImpl
-  Buffer* = ptr BufferImpl
-  CommandBuffer* = ptr CommandBufferImpl
-  CommandEncoder* = ptr CommandEncoderImpl
-  ComputePassEncoder* = ptr ComputePassEncoderImpl
-  ComputePipeline* = ptr ComputePipelineImpl
-  Device* = ptr DeviceImpl
-  Instance* = ptr InstanceImpl
-  PipelineLayout* = ptr PipelineLayoutImpl
-  QuerySet* = ptr QuerySetImpl
-  Queue* = ptr QueueImpl
-  RenderBundle* = ptr RenderBundleImpl
-  RenderBundleEncoder* = ptr RenderBundleEncoderImpl
-  RenderPassEncoder* = ptr RenderPassEncoderImpl
-  RenderPipeline* = ptr RenderPipelineImpl
-  Sampler* = ptr SamplerImpl
-  ShaderModule* = ptr ShaderModuleImpl
-  Surface* = ptr SurfaceImpl
-  SwapChain* = ptr SwapChainImpl
-  Texture* = ptr TextureImpl
-  TextureView* = ptr TextureViewImpl
-  AdapterType* = distinct uint32
-  AddressMode* = distinct uint32
-  BackendType* = distinct uint32
-  BlendFactor* = distinct uint32
-  BlendOperation* = distinct uint32
-  BufferBindingType* = distinct uint32
-  BufferMapAsyncStatus* = distinct uint32
-  CompareFunction* = distinct uint32
+  # Flags* = uint
+  # Adapter* = ptr AdapterImpl
+  # BindGroup*                    = ptr BindGroupImpl
+  # BindGroupLayout*              = ptr BindGroupLayoutImpl
+  # Buffer*                       = ptr BufferImpl
+  # CommandBuffer*                = ptr CommandBufferImpl
+  # CommandEncoder*               = ptr CommandEncoderImpl
+  # ComputePassEncoder*           = ptr ComputePassEncoderImpl
+  # ComputePipeline*              = ptr ComputePipelineImpl
+  # Device*                       = ptr DeviceImpl
+  # Instance*                     = ptr InstanceImpl
+  # PipelineLayout*               = ptr PipelineLayoutImpl
+  # QuerySet*                     = ptr QuerySetImpl
+  # Queue*                        = ptr QueueImpl
+  # RenderBundle*                 = ptr RenderBundleImpl
+  # RenderBundleEncoder*          = ptr RenderBundleEncoderImpl
+  # RenderPassEncoder*            = ptr RenderPassEncoderImpl
+  # RenderPipeline*               = ptr RenderPipelineImpl
+  # Sampler*                      = ptr SamplerImpl
+  # ShaderModule*                 = ptr ShaderModuleImpl
+  # Surface*                      = ptr SurfaceImpl
+  # SwapChain*                    = ptr SwapChainImpl
+  # Texture*                      = ptr TextureImpl
+  # TextureView*                  = ptr TextureViewImpl
+  AdapterType*                  = distinct uint32
+  AddressMode*                  = distinct uint32
+  BackendType*                  = distinct uint32
+  BlendFactor*                  = distinct uint32
+  BlendOperation*               = distinct uint32
+  BufferBindingType*            = distinct uint32
+  BufferMapAsyncStatus*         = distinct uint32
+  CompareFunction*              = distinct uint32
   CompilationInfoRequestStatus* = distinct uint32
-  CompilationMessageType* = distinct uint32
+  CompilationMessageType*       = distinct uint32
   ComputePassTimestampLocation* = distinct uint32
-  CreatePipelineAsyncStatus* = distinct uint32
-  CullMode* = distinct uint32
-  DeviceLostReason* = distinct uint32
-  ErrorFilter* = distinct uint32
-  ErrorType* = distinct uint32
-  FeatureName* = distinct uint32
-  FilterMode* = distinct uint32
-  FrontFace* = distinct uint32
-  IndexFormat* = distinct uint32
-  LoadOp* = distinct uint32
-  MipmapFilterMode* = distinct uint32
-  PipelineStatisticName* = distinct uint32
-  PowerPreference* = distinct uint32
-  PresentMode* = distinct uint32
-  PrimitiveTopology* = distinct uint32
-  QueryType* = distinct uint32
-  QueueWorkDoneStatus* = distinct uint32
-  RenderPassTimestampLocation* = distinct uint32
-  RequestAdapterStatus* = distinct uint32
-  RequestDeviceStatus* = distinct uint32
-  SType* = distinct uint32
-  SamplerBindingType* = distinct uint32
-  StencilOperation* = distinct uint32
-  StorageTextureAccess* = distinct uint32
-  StoreOp* = distinct uint32
-  TextureAspect* = distinct uint32
-  TextureComponentType* = distinct uint32
-  TextureDimension* = distinct uint32
-  TextureFormat* = distinct uint32
-  TextureSampleType* = distinct uint32
-  TextureViewDimension* = distinct uint32
-  VertexFormat* = distinct uint32
-  VertexStepMode* = distinct uint32
-  BufferUsage* = distinct uint32
-  BufferUsageFlags* = Flags
-  ColorWriteMask* = distinct uint32
-  ColorWriteMaskFlags* = Flags
-  MapMode* = distinct uint32
-  MapModeFlags* = Flags
-  ShaderStage* = distinct uint32
-  ShaderStageFlags* = Flags
-  TextureUsage* = distinct uint32
-  TextureUsageFlags* = Flags
+  CreatePipelineAsyncStatus*    = distinct uint32
+  CullMode*                     = distinct uint32
+  DeviceLostReason*             = distinct uint32
+  ErrorFilter*                  = distinct uint32
+  ErrorType*                    = distinct uint32
+  FeatureName*                  = distinct uint32
+  FilterMode*                   = distinct uint32
+  FrontFace*                    = distinct uint32
+  IndexFormat*                  = distinct uint32
+  LoadOp*                       = distinct uint32
+  MipmapFilterMode*             = distinct uint32
+  PipelineStatisticName*        = distinct uint32
+  # PowerPreference*              = distinct uint32
+  PresentMode*                  = distinct uint32
+  PrimitiveTopology*            = distinct uint32
+  QueryType*                    = distinct uint32
+  QueueWorkDoneStatus*          = distinct uint32
+  RenderPassTimestampLocation*  = distinct uint32
+  # RequestAdapterStatus*         = distinct uint32
+  RequestDeviceStatus*          = distinct uint32
+  SType*                        = distinct uint32
+  SamplerBindingType*           = distinct uint32
+  StencilOperation*             = distinct uint32
+  StorageTextureAccess*         = distinct uint32
+  StoreOp*                      = distinct uint32
+  TextureAspect*                = distinct uint32
+  TextureComponentType*         = distinct uint32
+  TextureDimension*             = distinct uint32
+  TextureFormat*                = distinct uint32
+  TextureSampleType*            = distinct uint32
+  TextureViewDimension*         = distinct uint32
+  VertexFormat*                 = distinct uint32
+  VertexStepMode*               = distinct uint32
+  BufferUsage*                  = distinct uint32
+  BufferUsageFlags*             = Flags
+  ColorWriteMask*               = distinct uint32
+  ColorWriteMaskFlags*          = Flags
+  MapMode*                      = distinct uint32
+  MapModeFlags*                 = Flags
+  ShaderStage*                  = distinct uint32
+  ShaderStageFlags*             = Flags
+  TextureUsage*                 = distinct uint32
+  TextureUsageFlags*            = Flags
   # ChainedStruct* {.bycopy.} = object
   #   next*: ptr ChainedStruct
   #   sType*: SType
@@ -299,11 +299,11 @@ type
     queryIndex*: uint
     location*: RenderPassTimestampLocation
 
-  RequestAdapterOptions* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    compatibleSurface*: Surface
-    powerPreference*: PowerPreference
-    forceFallbackAdapter*: bool
+  # RequestAdapterOptions* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   compatibleSurface*: Surface
+  #   powerPreference*: PowerPreference
+  #   forceFallbackAdapter*: bool
 
   SamplerBindingLayout* {.bycopy.} = object
     nextInChain*: ptr ChainedStruct
@@ -588,23 +588,23 @@ type
     multisample*: MultisampleState
     fragment*: ptr FragmentState
 
-  BufferMapCallback* = proc (status: BufferMapAsyncStatus; userdata: pointer) {.cdecl.}
-  CompilationInfoCallback* = proc (status: CompilationInfoRequestStatus;
-                                compilationInfo: ptr CompilationInfo;
-                                userdata: pointer) {.cdecl.}
-  CreateComputePipelineAsyncCallback* = proc (status: CreatePipelineAsyncStatus;
-      pipeline: ComputePipeline; message: cstring; userdata: pointer) {.cdecl.}
-  CreateRenderPipelineAsyncCallback* = proc (status: CreatePipelineAsyncStatus;
-      pipeline: RenderPipeline; message: cstring; userdata: pointer) {.cdecl.}
-  DeviceLostCallback* = proc (reason: DeviceLostReason; message: cstring;
-                           userdata: pointer) {.cdecl.}
-  ErrorCallback* = proc (`type`: ErrorType; message: cstring; userdata: pointer) {.cdecl.}
-  Proc* = proc () {.cdecl.}
-  QueueWorkDoneCallback* = proc (status: QueueWorkDoneStatus; userdata: pointer) {.cdecl.}
-  RequestAdapterCallback* = proc (status: RequestAdapterStatus; adapter: Adapter;
-                               message: cstring; userdata: pointer) {.cdecl.}
-  RequestDeviceCallback* = proc (status: RequestDeviceStatus; device: Device;
-                              message: cstring; userdata: pointer) {.cdecl.}
+  # BufferMapCallback* = proc (status: BufferMapAsyncStatus; userdata: pointer) {.cdecl.}
+  # CompilationInfoCallback* = proc (status: CompilationInfoRequestStatus;
+  #                               compilationInfo: ptr CompilationInfo;
+  #                               userdata: pointer) {.cdecl.}
+  # CreateComputePipelineAsyncCallback* = proc (status: CreatePipelineAsyncStatus;
+  #     pipeline: ComputePipeline; message: cstring; userdata: pointer) {.cdecl.}
+  # CreateRenderPipelineAsyncCallback* = proc (status: CreatePipelineAsyncStatus;
+  #     pipeline: RenderPipeline; message: cstring; userdata: pointer) {.cdecl.}
+  # DeviceLostCallback* = proc (reason: DeviceLostReason; message: cstring;
+  #                          userdata: pointer) {.cdecl.}
+  # ErrorCallback* = proc (`type`: ErrorType; message: cstring; userdata: pointer) {.cdecl.}
+  # Proc* = proc () {.cdecl.}
+  # QueueWorkDoneCallback* = proc (status: QueueWorkDoneStatus; userdata: pointer) {.cdecl.}
+  # RequestAdapterCallback* = proc (status: RequestAdapterStatus; adapter: Adapter;
+  #                              message: cstring; userdata: pointer) {.cdecl.}
+  # RequestDeviceCallback* = proc (status: RequestDeviceStatus; device: Device;
+  #                             message: cstring; userdata: pointer) {.cdecl.}
   ProcCreateInstance* = proc (descriptor: ptr InstanceDescriptor): Instance {.cdecl.}
   ProcGetProcAddress* = proc (device: Device; procName: cstring): Proc {.cdecl.}
   ProcAdapterEnumerateFeatures* = proc (adapter: Adapter; features: ptr FeatureName): csize_t {.cdecl.}
@@ -1020,10 +1020,10 @@ const
   RenderPassTimestampLocation_Beginning* = RenderPassTimestampLocation(0x00000000)
   RenderPassTimestampLocation_End* = RenderPassTimestampLocation(0x00000001)
 
-  RequestAdapterStatus_Success* = RequestAdapterStatus(0x00000000)
-  RequestAdapterStatus_Unavailable* = RequestAdapterStatus(0x00000001)
-  RequestAdapterStatus_Error* = RequestAdapterStatus(0x00000002)
-  RequestAdapterStatus_Unknown* = RequestAdapterStatus(0x00000003)
+  # RequestAdapterStatus_Success* = RequestAdapterStatus(0x00000000)
+  # RequestAdapterStatus_Unavailable* = RequestAdapterStatus(0x00000001)
+  # RequestAdapterStatus_Error* = RequestAdapterStatus(0x00000002)
+  # RequestAdapterStatus_Unknown* = RequestAdapterStatus(0x00000003)
 
   RequestDeviceStatus_Success* = RequestDeviceStatus(0x00000000)
   RequestDeviceStatus_Error* = RequestDeviceStatus(0x00000001)
@@ -1329,7 +1329,7 @@ proc deviceSetLabel*(device: Device; label: cstring) {.cdecl, importc: "wgpuDevi
 proc deviceSetUncapturedErrorCallback*(device: Device; callback: ErrorCallback; userdata: pointer) {.cdecl, importc:"wgpuDeviceSetUncapturedErrorCallback".}
 # proc instanceCreateSurface*(instance: Instance; descriptor: ptr SurfaceDescriptor): Surface {.cdecl, importc:"wgpuInstanceCreateSurface".}
 proc instanceProcessEvents*(instance: Instance) {.cdecl, importc: "wgpuInstanceProcessEvents".}
-proc instanceRequestAdapter*(instance: Instance; options: ptr RequestAdapterOptions; callback: RequestAdapterCallback; userdata: pointer) {.cdecl, importc:"wgpuInstanceRequestAdapter".}
+# proc instanceRequestAdapter*(instance: Instance; options: ptr RequestAdapterOptions; callback: RequestAdapterCallback; userdata: pointer) {.cdecl, importc:"wgpuInstanceRequestAdapter".}
 proc pipelineLayoutSetLabel*(pipelineLayout: PipelineLayout; label: cstring) {.cdecl, importc:"wgpuPipelineLayoutSetLabel".}
 proc querySetDestroy*(querySet: QuerySet) {.cdecl, importc: "wgpuQuerySetDestroy".}
 proc querySetGetCount*(querySet: QuerySet): uint {.cdecl, importc: "wgpuQuerySetGetCount".}

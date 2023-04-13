@@ -100,21 +100,21 @@ int main(int argc, char *argv[]) {
 //         });
 //   }
 // #elif WGPU_TARGET == WGPU_TARGET_LINUX_X11
-  {
-    Display *x11_display = glfwGetX11Display();
-    Window x11_window    = glfwGetX11Window(window);
-    surface = wgpuInstanceCreateSurface(instance, &(WGPUSurfaceDescriptor){
-      .label             = NULL,
-      .nextInChain       = (const WGPUChainedStruct *)&(WGPUSurfaceDescriptorFromXlibWindow){
-        .chain           = (WGPUChainedStruct){
-          .next          = NULL,
-          .sType         = WGPUSType_SurfaceDescriptorFromXlibWindow,
-          },
-        .display         = x11_display,
-        .window          = (uint32_t)x11_window,
-        },
-      });
-  }
+  // {
+  //   Display *x11_display = glfwGetX11Display();
+  //   Window x11_window    = glfwGetX11Window(window);
+  //   surface = wgpuInstanceCreateSurface(instance, &(WGPUSurfaceDescriptor){
+  //     .label             = NULL,
+  //     .nextInChain       = (const WGPUChainedStruct *)&(WGPUSurfaceDescriptorFromXlibWindow){
+  //       .chain           = (WGPUChainedStruct){
+  //         .next          = NULL,
+  //         .sType         = WGPUSType_SurfaceDescriptorFromXlibWindow,
+  //         },
+  //       .display         = x11_display,
+  //       .window          = (uint32_t)x11_window,
+  //       },
+  //     });
+  // }
 // #elif WGPU_TARGET == WGPU_TARGET_LINUX_WAYLAND
 //   {
 //     struct wl_display *wayland_display = glfwGetWaylandDisplay();
@@ -162,8 +162,8 @@ int main(int argc, char *argv[]) {
 // #error "Unsupported WGPU_TARGET"
 // #endif
 
-  WGPUAdapter adapter;
-  wgpuInstanceRequestAdapter(instance, NULL, request_adapter_callback, (void *)&adapter);
+  // WGPUAdapter adapter;
+  // wgpuInstanceRequestAdapter(instance, NULL, request_adapter_callback, (void *)&adapter);
 
   printAdapterFeatures(adapter);
   printSurfaceCapabilities(surface, adapter);

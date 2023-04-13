@@ -38,6 +38,10 @@ proc init(win :var Window) :void=
   doAssert win.ct != nil, "Failed to create GLFW window"
   discard glfw.setKeyCallback(win.ct, key)
 
+#__________________
+# WGPU callbacks
+proc adapterRequestCB *(status :RequestAdapterStatus; adapter :Adapter; message :cstring; userdata :pointer) :void {.cdecl.}=
+  cast[ptr Adapter](userdata)[] = adapter  # *(WGPUAdapter*)userdata = received;
 
 #________________________________________________
 # state.nim
@@ -63,6 +67,7 @@ proc run=
   # Init wgpu
   instance    = wgpu.createInstance(wgpu.InstanceDescriptor(nextInChain: nil).vaddr)
   var surface = instance.getSurface(window.ct)
+  var adapter :wgpu.Adapter;  instance.requestAdapter(nil, adapterRequestCB, adapter.addr)
 
   #__________________
   # Update loop
