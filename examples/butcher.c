@@ -202,48 +202,48 @@ int main(int argc, char *argv[]) {
   // WGPUShaderModuleDescriptor shaderSource = load_wgsl("shader.wgsl");
   // WGPUShaderModule shader = wgpuDeviceCreateShaderModule(device, &shaderSource);
 
-  WGPUTextureFormat swapChainFormat = wgpuSurfaceGetPreferredFormat(surface, adapter);
+  // WGPUTextureFormat swapChainFormat = wgpuSurfaceGetPreferredFormat(surface, adapter);
 
-  WGPURenderPipeline pipeline = wgpuDeviceCreateRenderPipeline(device, &(WGPURenderPipelineDescriptor){
-    .label                    = "Render pipeline",
-    .vertex                   = (WGPUVertexState){
-      .module                 = shader,
-      .entryPoint             = "vs_main",
-      .bufferCount            = 0,
-      .buffers                = NULL,
-      },
-    .primitive                = (WGPUPrimitiveState){
-      .topology               = WGPUPrimitiveTopology_TriangleList,
-      .stripIndexFormat       = WGPUIndexFormat_Undefined,
-      .frontFace              = WGPUFrontFace_CCW,
-      .cullMode               = WGPUCullMode_None},
-    .multisample              = (WGPUMultisampleState){
-      .count                  = 1,
-      .mask                   = (uint32_t)~0,
-      .alphaToCoverageEnabled = false,
-      },
-    .fragment                 = &(WGPUFragmentState){
-      .module                 = shader,
-      .entryPoint             = "fs_main",
-      .targetCount            = 1,
-      .targets                = &(WGPUColorTargetState){
-        .format               = swapChainFormat,
-        .blend                = &(WGPUBlendState){
-          .color              = (WGPUBlendComponent){
-            .srcFactor        = WGPUBlendFactor_One,
-            .dstFactor        = WGPUBlendFactor_Zero,
-            .operation        = WGPUBlendOperation_Add,
-            },
-          .alpha              = (WGPUBlendComponent){
-            .srcFactor        = WGPUBlendFactor_One,
-            .dstFactor        = WGPUBlendFactor_Zero,
-            .operation        = WGPUBlendOperation_Add,
-            }},
-        .writeMask            = WGPUColorWriteMask_All,
-        },
-      },
-    .depthStencil             = NULL,
-    });
+  // WGPURenderPipeline pipeline = wgpuDeviceCreateRenderPipeline(device, &(WGPURenderPipelineDescriptor){
+    // .label                    = "Render pipeline",
+    // .vertex                   = (WGPUVertexState){
+      // .module                 = shader,
+      // .entryPoint             = "vs_main",
+      // .bufferCount            = 0,
+      // .buffers                = NULL,
+      // },
+    // .primitive                = (WGPUPrimitiveState){
+      // .topology               = WGPUPrimitiveTopology_TriangleList,
+      // .stripIndexFormat       = WGPUIndexFormat_Undefined,
+      // .frontFace              = WGPUFrontFace_CCW,
+      // .cullMode               = WGPUCullMode_None},
+    // .multisample              = (WGPUMultisampleState){
+      // .count                  = 1,
+      // .mask                   = (uint32_t)~0,
+      // .alphaToCoverageEnabled = false,
+      // },
+    // .fragment                 = &(WGPUFragmentState){
+    //   .module                 = shader,
+    //   .entryPoint             = "fs_main",
+    //   .targetCount            = 1,
+    //   .targets                = &(WGPUColorTargetState){
+    //     .format               = swapChainFormat,
+    //     .blend                = &(WGPUBlendState){
+    //       .color              = (WGPUBlendComponent){
+    //         .srcFactor        = WGPUBlendFactor_One,
+    //         .dstFactor        = WGPUBlendFactor_Zero,
+    //         .operation        = WGPUBlendOperation_Add,
+    //         },
+    //       .alpha              = (WGPUBlendComponent){
+    //         .srcFactor        = WGPUBlendFactor_One,
+    //         .dstFactor        = WGPUBlendFactor_Zero,
+    //         .operation        = WGPUBlendOperation_Add,
+    //         }},
+    //     .writeMask            = WGPUColorWriteMask_All,
+    //     },
+    //   },
+    // .depthStencil             = NULL,
+    // });
 
   WGPUSwapChainDescriptor config = (WGPUSwapChainDescriptor){
     .nextInChain       = (const WGPUChainedStruct *)&(WGPUSwapChainDescriptorExtras){

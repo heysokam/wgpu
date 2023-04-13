@@ -39,7 +39,7 @@ when defined(linux) and not defined(wayland):
           sType   : SType.surfaceDescriptorFromXlibWindow,
           ), # << chain
         display   : cast[pointer](xdisplay),
-        window    : xwindow.uint,
+        window    : xwindow.uint32,
         )), # << nextInChain
       )) # << createSurface
 #_______________________________________

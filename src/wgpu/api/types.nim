@@ -288,7 +288,7 @@ type SurfaceDescriptor *{.bycopy.}= object
 type SurfaceDescriptorFromXlibWindow *{.bycopy.}= object
   chain    *:ChainedStruct
   display  *:pointer
-  window   *:uint
+  window   *:uint32
 
 #___________________
 # Adapter
@@ -341,36 +341,36 @@ type RequestDeviceStatus *{.pure.}= enum
   force32 = 0x7FFFFFFF
 
 type Limits *{.bycopy.}= object
-  maxTextureDimension1D                      *:uint
-  maxTextureDimension2D                      *:uint
-  maxTextureDimension3D                      *:uint
-  maxTextureArrayLayers                      *:uint
-  maxBindGroups                              *:uint
-  maxBindingsPerBindGroup                    *:uint
-  maxDynamicUniformBuffersPerPipelineLayout  *:uint
-  maxDynamicStorageBuffersPerPipelineLayout  *:uint
-  maxSampledTexturesPerShaderStage           *:uint
-  maxSamplersPerShaderStage                  *:uint
-  maxStorageBuffersPerShaderStage            *:uint
-  maxStorageTexturesPerShaderStage           *:uint
-  maxUniformBuffersPerShaderStage            *:uint
+  maxTextureDimension1D                      *:uint32
+  maxTextureDimension2D                      *:uint32
+  maxTextureDimension3D                      *:uint32
+  maxTextureArrayLayers                      *:uint32
+  maxBindGroups                              *:uint32
+  maxBindingsPerBindGroup                    *:uint32
+  maxDynamicUniformBuffersPerPipelineLayout  *:uint32
+  maxDynamicStorageBuffersPerPipelineLayout  *:uint32
+  maxSampledTexturesPerShaderStage           *:uint32
+  maxSamplersPerShaderStage                  *:uint32
+  maxStorageBuffersPerShaderStage            *:uint32
+  maxStorageTexturesPerShaderStage           *:uint32
+  maxUniformBuffersPerShaderStage            *:uint32
   maxUniformBufferBindingSize                *:uint64
   maxStorageBufferBindingSize                *:uint64
-  minUniformBufferOffsetAlignment            *:uint
-  minStorageBufferOffsetAlignment            *:uint
-  maxVertexBuffers                           *:uint
+  minUniformBufferOffsetAlignment            *:uint32
+  minStorageBufferOffsetAlignment            *:uint32
+  maxVertexBuffers                           *:uint32
   maxBufferSize                              *:uint64
-  maxVertexAttributes                        *:uint
-  maxVertexBufferArrayStride                 *:uint
-  maxInterStageShaderComponents              *:uint
-  maxInterStageShaderVariables               *:uint
-  maxColorAttachments                        *:uint
-  maxComputeWorkgroupStorageSize             *:uint
-  maxComputeInvocationsPerWorkgroup          *:uint
-  maxComputeWorkgroupSizeX                   *:uint
-  maxComputeWorkgroupSizeY                   *:uint
-  maxComputeWorkgroupSizeZ                   *:uint
-  maxComputeWorkgroupsPerDimension           *:uint
+  maxVertexAttributes                        *:uint32
+  maxVertexBufferArrayStride                 *:uint32
+  maxInterStageShaderComponents              *:uint32
+  maxInterStageShaderVariables               *:uint32
+  maxColorAttachments                        *:uint32
+  maxComputeWorkgroupStorageSize             *:uint32
+  maxComputeInvocationsPerWorkgroup          *:uint32
+  maxComputeWorkgroupSizeX                   *:uint32
+  maxComputeWorkgroupSizeY                   *:uint32
+  maxComputeWorkgroupSizeZ                   *:uint32
+  maxComputeWorkgroupsPerDimension           *:uint32
 
 type RequiredLimits *{.bycopy.}= object
   nextInChain  *:ptr ChainedStruct
@@ -383,7 +383,7 @@ type QueueDescriptor *{.bycopy.}= object
 type DeviceDescriptor *{.bycopy.}= object
   nextInChain            *:ptr ChainedStruct
   label                  *:cstring
-  requiredFeaturesCount  *:uint
+  requiredFeaturesCount  *:uint32
   requiredFeatures       *:ptr Feature
   requiredLimits         *:ptr RequiredLimits
   defaultQueue           *:QueueDescriptor
@@ -416,6 +416,206 @@ type ShaderModuleCompilationHint *{.bycopy.}= object
 type ShaderModuleDescriptor *{.bycopy.}= object
   nextInChain  *:ptr ChainedStruct
   label        *:cstring
-  hintCount    *:uint
+  hintCount    *:uint32
   hints        *:ptr ShaderModuleCompilationHint
+
+#___________________
+# Pipeline
+type ConstantEntry* {.bycopy.} = object
+  nextInChain  *:ptr ChainedStruct
+  key          *:cstring
+  value        *:cdouble
+
+type VertexStepMode *{.pure.}= enum
+  vertex = 0x00000000,
+  instance
+  vertexBufferNotUsed
+  force32 = 0x7FFFFFFF
+
+type VertexFormat *{.pure}= enum
+  undefined = 0x00000000
+  uint8x2,   uint8x4
+  sint8x2,   sint8x4
+  unorm8x2,  unorm8x4
+  snorm8x2,  snorm8x4
+  uint16x2,  uint16x4
+  sint16x2,  sint16x4
+  unorm16x2, unorm16x4
+  snorm16x2, snorm16x4
+  float16x2, float16x4
+  Float32,   float32x2, float32x3, float32x4
+  Uint32,    uint32x2,  uint32x3,  uint32x4
+  sint32,    sint32x2,  sint32x3,  sint32x4
+  force32 = 0x7FFFFFFF
+
+type VertexAttribute *{.bycopy.} = object
+  format          *:VertexFormat
+  offset          *:uint64
+  shaderLocation  *:uint32
+
+type VertexBufferLayout* {.bycopy.} = object
+  arrayStride     *:uint64
+  stepMode        *:VertexStepMode
+  attributeCount  *:uint32
+  attributes      *:ptr VertexAttribute
+
+type VertexState *{.bycopy.}= object
+  nextInChain    *:ptr ChainedStruct
+  module         *:ShaderModule
+  entryPoint     *:cstring
+  constantCount  *:uint32
+  constants      *:ptr ConstantEntry
+  bufferCount    *:uint32
+  buffers        *:ptr VertexBufferLayout
+
+type PrimitiveTopology *{.pure.}= enum
+  pointList = 0x00000000
+  lineList
+  lineStrip
+  triangleList
+  triangleStrip
+  force32 = 0x7FFFFFFF
+type FrontFace *{.pure.}= enum
+  ccw = 0x00000000
+  cw
+  force32 = 0x7FFFFFFF
+
+type CullMode *{.pure.}= enum
+  none = 0x00000000
+  front
+  back
+  force32 = 0x7FFFFFFF
+
+type IndexFormat *{.pure.}= enum
+  undefined = 0x00000000
+  Uint16
+  Uint32
+  force32 = 0x7FFFFFFF
+
+type PrimitiveState *{.bycopy.}= object
+  nextInChain       *:ptr ChainedStruct
+  topology          *:PrimitiveTopology
+  stripIndexFormat  *:IndexFormat
+  frontFace         *:FrontFace
+  cullMode          *:CullMode
+
+type CompareFunction *{.pure.}= enum
+  undefined = 0x00000000,
+  never
+  less
+  lessEqual
+  greater
+  greaterEqual
+  equal
+  notEqual
+  always
+  force32 = 0x7FFFFFFF
+
+type StencilOperation *{.pure.}= enum
+  keep = 0x00000000
+  zero
+  replace
+  invert
+  incrementClamp
+  decrementClamp
+  incrementWrap
+  decrementWrap
+  force32 = 0x7FFFFFFF
+
+type StencilFaceState *{.bycopy.}= object
+  compare      *:CompareFunction
+  failOp       *:StencilOperation
+  depthFailOp  *:StencilOperation
+  passOp       *:StencilOperation
+
+type DepthStencilState *{.bycopy.}= object
+  nextInChain          *:ptr ChainedStruct
+  format               *:TextureFormat
+  depthWriteEnabled    *:bool
+  depthCompare         *:CompareFunction
+  stencilFront         *:StencilFaceState
+  stencilBack          *:StencilFaceState
+  stencilReadMask      *:uint32
+  stencilWriteMask     *:uint32
+  depthBias            *:int32
+  depthBiasSlopeScale  *:cfloat
+  depthBiasClamp       *:cfloat
+
+type MultisampleState *{.bycopy.}= object
+  nextInChain             *: ptr ChainedStruct
+  count                   *: uint32
+  mask                    *: uint32
+  alphaToCoverageEnabled  *: bool
+
+type BlendOperation *{.pure.}= enum
+  Add = 0x00000000
+  subtract
+  reverseSubtract
+  Min
+  Max
+  force32 = 0x7FFFFFFF
+
+type BlendFactor *{.pure.}= enum
+  zero = 0x00000000
+  one
+  src
+  oneMinusSrc
+  srcAlpha
+  oneMinusSrcAlpha
+  dst
+  oneMinusDst
+  dstAlpha
+  oneMinusDstAlpha
+  srcAlphaSaturated
+  constant
+  oneMinusConstant
+  force32 = 0x7FFFFFFF
+
+type BlendComponent *{.bycopy.}= object
+  operation  *:BlendOperation
+  srcFactor  *:BlendFactor
+  dstFactor  *:BlendFactor
+
+type BlendState *{.bycopy.}= object
+  color  *:BlendComponent
+  alpha  *:BlendComponent
+
+type ColorWriteMask *{.pure.}= enum red, green, blue, alpha 
+type ColorWriteMaskFlags * = set[ColorWriteMask]
+template all  *(_ :typedesc[ColorWriteMask]) :auto=  {ColorWriteMask.red, ColorWriteMask.green, ColorWriteMask.blue, ColorWriteMask.alpha}
+template none *(_ :typedesc[ColorWriteMask]) :auto=  {}
+
+type ColorTargetState *{.bycopy.}= object
+  nextInChain  *:ptr ChainedStruct
+  format       *:TextureFormat
+  blend        *:ptr BlendState
+  writeMask    *:ColorWriteMaskFlags
+
+type FragmentState *{.bycopy.}= object
+  nextInChain   *:ptr ChainedStruct
+  module        *:ShaderModule
+  entryPoint    *:cstring
+  constantCount *:uint32
+  constants     *:ptr ConstantEntry
+  targetCount   *:uint32
+  targets       *:ptr ColorTargetState
+
+type RenderPipelineDescriptor *{.bycopy.}= object
+  nextInChain   *:ptr ChainedStruct
+  label         *:cstring
+  layout        *:PipelineLayout
+  vertex        *:VertexState
+  primitive     *:PrimitiveState
+  depthStencil  *:ptr DepthStencilState
+  multisample   *:MultisampleState
+  fragment      *:ptr FragmentState
+
+type CreatePipelineAsyncStatus *{.pure.}= enum
+  success = 0x00000000
+  validationError
+  internalError
+  deviceLost
+  deviceDestroyed
+  unknown
+  force32 = 0x7FFFFFFF
 

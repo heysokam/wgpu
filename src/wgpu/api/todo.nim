@@ -55,29 +55,29 @@ const
   AdapterType*                  = distinct uint32
   AddressMode*                  = distinct uint32
   BackendType*                  = distinct uint32
-  BlendFactor*                  = distinct uint32
-  BlendOperation*               = distinct uint32
+  # BlendFactor*                  = distinct uint32
+  # BlendOperation*               = distinct uint32
   BufferBindingType*            = distinct uint32
   BufferMapAsyncStatus*         = distinct uint32
-  CompareFunction*              = distinct uint32
+  # CompareFunction*              = distinct uint32
   CompilationInfoRequestStatus* = distinct uint32
   CompilationMessageType*       = distinct uint32
   ComputePassTimestampLocation* = distinct uint32
-  CreatePipelineAsyncStatus*    = distinct uint32
-  CullMode*                     = distinct uint32
+  # CreatePipelineAsyncStatus*    = distinct uint32
+  # CullMode*                     = distinct uint32
   DeviceLostReason*             = distinct uint32
   ErrorFilter*                  = distinct uint32
   ErrorType*                    = distinct uint32
   # Feature*                  = distinct uint32
   FilterMode*                   = distinct uint32
-  FrontFace*                    = distinct uint32
-  IndexFormat*                  = distinct uint32
+  # FrontFace*                    = distinct uint32
+  # IndexFormat*                  = distinct uint32
   LoadOp*                       = distinct uint32
   MipmapFilterMode*             = distinct uint32
   PipelineStatisticName*        = distinct uint32
   # PowerPreference*              = distinct uint32
   PresentMode*                  = distinct uint32
-  PrimitiveTopology*            = distinct uint32
+  # PrimitiveTopology*            = distinct uint32
   QueryType*                    = distinct uint32
   QueueWorkDoneStatus*          = distinct uint32
   RenderPassTimestampLocation*  = distinct uint32
@@ -85,7 +85,7 @@ const
   RequestDeviceStatus*          = distinct uint32
   SType*                        = distinct uint32
   SamplerBindingType*           = distinct uint32
-  StencilOperation*             = distinct uint32
+  # StencilOperation*             = distinct uint32
   StorageTextureAccess*         = distinct uint32
   StoreOp*                      = distinct uint32
   TextureAspect*                = distinct uint32
@@ -94,12 +94,12 @@ const
   TextureFormat*                = distinct uint32
   TextureSampleType*            = distinct uint32
   TextureViewDimension*         = distinct uint32
-  VertexFormat*                 = distinct uint32
-  VertexStepMode*               = distinct uint32
+  # VertexFormat*                 = distinct uint32
+  # VertexStepMode*               = distinct uint32
   BufferUsage*                  = distinct uint32
   BufferUsageFlags*             = Flags
-  ColorWriteMask*               = distinct uint32
-  ColorWriteMaskFlags*          = Flags
+  # ColorWriteMask*               = distinct uint32
+  # ColorWriteMaskFlags*          = Flags
   MapMode*                      = distinct uint32
   MapModeFlags*                 = Flags
   ShaderStage*                  = distinct uint32
@@ -134,10 +134,10 @@ const
     sampler*: Sampler
     textureView*: TextureView
 
-  BlendComponent* {.bycopy.} = object
-    operation*: BlendOperation
-    srcFactor*: BlendFactor
-    dstFactor*: BlendFactor
+  # BlendComponent* {.bycopy.} = object
+  #   operation*: BlendOperation
+  #   srcFactor*: BlendFactor
+  #   dstFactor*: BlendFactor
 
   BufferBindingLayout* {.bycopy.} = object
     nextInChain*: ptr ChainedStruct
@@ -180,10 +180,10 @@ const
     queryIndex*: uint
     location*: ComputePassTimestampLocation
 
-  ConstantEntry* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    key*: cstring
-    value*: cdouble
+  # ConstantEntry* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   key*: cstring
+  #   value*: cdouble
 
   Extent3D* {.bycopy.} = object
     width*: uint
@@ -225,11 +225,11 @@ const
   #   maxComputeWorkgroupSizeZ*: uint
   #   maxComputeWorkgroupsPerDimension*: uint
 
-  MultisampleState* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    count*: uint
-    mask*: uint
-    alphaToCoverageEnabled*: bool
+  # MultisampleState* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   count*: uint
+  #   mask*: uint
+  #   alphaToCoverageEnabled*: bool
 
   Origin3D* {.bycopy.} = object
     x*: uint
@@ -246,12 +246,12 @@ const
     chain*: ChainedStruct
     unclippedDepth*: bool
 
-  PrimitiveState* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    topology*: PrimitiveTopology
-    stripIndexFormat*: IndexFormat
-    frontFace*: FrontFace
-    cullMode*: CullMode
+  # PrimitiveState* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   topology*: PrimitiveTopology
+  #   stripIndexFormat*: IndexFormat
+  #   frontFace*: FrontFace
+  #   cullMode*: CullMode
 
   QuerySetDescriptor* {.bycopy.} = object
     nextInChain*: ptr ChainedStruct
@@ -337,11 +337,11 @@ const
   #   chain*: ChainedStruct
   #   code*: cstring
 
-  StencilFaceState* {.bycopy.} = object
-    compare*: CompareFunction
-    failOp*: StencilOperation
-    depthFailOp*: StencilOperation
-    passOp*: StencilOperation
+  # StencilFaceState* {.bycopy.} = object
+  #   compare*: CompareFunction
+  #   failOp*: StencilOperation
+  #   depthFailOp*: StencilOperation
+  #   passOp*: StencilOperation
 
   StorageTextureBindingLayout* {.bycopy.} = object
     nextInChain*: ptr ChainedStruct
@@ -417,10 +417,10 @@ const
     arrayLayerCount*: uint
     aspect*: TextureAspect
 
-  VertexAttribute* {.bycopy.} = object
-    format*: VertexFormat
-    offset*: uint64
-    shaderLocation*: uint
+  # VertexAttribute* {.bycopy.} = object
+  #   format*: VertexFormat
+  #   offset*: uint64
+  #   shaderLocation*: uint
 
   BindGroupDescriptor* {.bycopy.} = object
     nextInChain*: ptr ChainedStruct
@@ -438,9 +438,9 @@ const
     texture*: TextureBindingLayout
     storageTexture*: StorageTextureBindingLayout
 
-  BlendState* {.bycopy.} = object
-    color*: BlendComponent
-    alpha*: BlendComponent
+  # BlendState* {.bycopy.} = object
+  #   color*: BlendComponent
+  #   alpha*: BlendComponent
 
   CompilationInfo* {.bycopy.} = object
     nextInChain*: ptr ChainedStruct
@@ -453,18 +453,18 @@ const
     timestampWriteCount*: uint
     timestampWrites*: ptr ComputePassTimestampWrite
 
-  DepthStencilState* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    format*: TextureFormat
-    depthWriteEnabled*: bool
-    depthCompare*: CompareFunction
-    stencilFront*: StencilFaceState
-    stencilBack*: StencilFaceState
-    stencilReadMask*: uint
-    stencilWriteMask*: uint
-    depthBias*: int32
-    depthBiasSlopeScale*: cfloat
-    depthBiasClamp*: cfloat
+  # DepthStencilState* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   format*: TextureFormat
+  #   depthWriteEnabled*: bool
+  #   depthCompare*: CompareFunction
+  #   stencilFront*: StencilFaceState
+  #   stencilBack*: StencilFaceState
+  #   stencilReadMask*: uint
+  #   stencilWriteMask*: uint
+  #   depthBias*: int32
+  #   depthBiasSlopeScale*: cfloat
+  #   depthBiasClamp*: cfloat
 
   ImageCopyBuffer* {.bycopy.} = object
     nextInChain*: ptr ChainedStruct
@@ -518,11 +518,11 @@ const
     viewFormatCount*: uint
     viewFormats*: ptr TextureFormat
 
-  VertexBufferLayout* {.bycopy.} = object
-    arrayStride*: uint64
-    stepMode*: VertexStepMode
-    attributeCount*: uint
-    attributes*: ptr VertexAttribute
+  # VertexBufferLayout* {.bycopy.} = object
+  #   arrayStride*: uint64
+  #   stepMode*: VertexStepMode
+  #   attributeCount*: uint
+  #   attributes*: ptr VertexAttribute
 
   BindGroupLayoutDescriptor* {.bycopy.} = object
     nextInChain*: ptr ChainedStruct
@@ -530,11 +530,11 @@ const
     entryCount*: uint
     entries*: ptr BindGroupLayoutEntry
 
-  ColorTargetState* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    format*: TextureFormat
-    blend*: ptr BlendState
-    writeMask*: ColorWriteMaskFlags
+  # ColorTargetState* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   format*: TextureFormat
+  #   blend*: ptr BlendState
+  #   writeMask*: ColorWriteMaskFlags
 
   ComputePipelineDescriptor* {.bycopy.} = object
     nextInChain*: ptr ChainedStruct
@@ -560,33 +560,33 @@ const
     timestampWriteCount*: uint
     timestampWrites*: ptr RenderPassTimestampWrite
 
-  VertexState* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    module*: ShaderModule
-    entryPoint*: cstring
-    constantCount*: uint
-    constants*: ptr ConstantEntry
-    bufferCount*: uint
-    buffers*: ptr VertexBufferLayout
+  # VertexState* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   module*: ShaderModule
+  #   entryPoint*: cstring
+  #   constantCount*: uint
+  #   constants*: ptr ConstantEntry
+  #   bufferCount*: uint
+  #   buffers*: ptr VertexBufferLayout
 
-  FragmentState* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    module*: ShaderModule
-    entryPoint*: cstring
-    constantCount*: uint
-    constants*: ptr ConstantEntry
-    targetCount*: uint
-    targets*: ptr ColorTargetState
+  # FragmentState* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   module*: ShaderModule
+  #   entryPoint*: cstring
+  #   constantCount*: uint
+  #   constants*: ptr ConstantEntry
+  #   targetCount*: uint
+  #   targets*: ptr ColorTargetState
 
-  RenderPipelineDescriptor* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    label*: cstring
-    layout*: PipelineLayout
-    vertex*: VertexState
-    primitive*: PrimitiveState
-    depthStencil*: ptr DepthStencilState
-    multisample*: MultisampleState
-    fragment*: ptr FragmentState
+  # RenderPipelineDescriptor* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   label*: cstring
+  #   layout*: PipelineLayout
+  #   vertex*: VertexState
+  #   primitive*: PrimitiveState
+  #   depthStencil*: ptr DepthStencilState
+  #   multisample*: MultisampleState
+  #   fragment*: ptr FragmentState
 
   # BufferMapCallback* = proc (status: BufferMapAsyncStatus; userdata: pointer) {.cdecl.}
   # CompilationInfoCallback* = proc (status: CompilationInfoRequestStatus;
@@ -885,25 +885,25 @@ const
   BackendType_OpenGL* = BackendType(0x00000006)
   BackendType_OpenGLES* = BackendType(0x00000007)
 
-  BlendFactor_Zero* = BlendFactor(0x00000000) 
-  BlendFactor_One* = BlendFactor(0x00000001)
-  BlendFactor_Src* = BlendFactor(0x00000002) 
-  BlendFactor_OneMinusSrc* = BlendFactor(0x00000003)
-  BlendFactor_SrcAlpha* = BlendFactor(0x00000004)
-  BlendFactor_OneMinusSrcAlpha* = BlendFactor(0x00000005)
-  BlendFactor_Dst* = BlendFactor(0x00000006)
-  BlendFactor_OneMinusDst* = BlendFactor(0x00000007)
-  BlendFactor_DstAlpha* = BlendFactor(0x00000008)
-  BlendFactor_OneMinusDstAlpha* = BlendFactor(0x00000009)
-  BlendFactor_SrcAlphaSaturated* = BlendFactor(0x0000000A) 
-  BlendFactor_Constant* = BlendFactor(0x0000000B)
-  BlendFactor_OneMinusConstant* = BlendFactor(0x0000000C)
+  # BlendFactor_Zero* = BlendFactor(0x00000000) 
+  # BlendFactor_One* = BlendFactor(0x00000001)
+  # BlendFactor_Src* = BlendFactor(0x00000002) 
+  # BlendFactor_OneMinusSrc* = BlendFactor(0x00000003)
+  # BlendFactor_SrcAlpha* = BlendFactor(0x00000004)
+  # BlendFactor_OneMinusSrcAlpha* = BlendFactor(0x00000005)
+  # BlendFactor_Dst* = BlendFactor(0x00000006)
+  # BlendFactor_OneMinusDst* = BlendFactor(0x00000007)
+  # BlendFactor_DstAlpha* = BlendFactor(0x00000008)
+  # BlendFactor_OneMinusDstAlpha* = BlendFactor(0x00000009)
+  # BlendFactor_SrcAlphaSaturated* = BlendFactor(0x0000000A) 
+  # BlendFactor_Constant* = BlendFactor(0x0000000B)
+  # BlendFactor_OneMinusConstant* = BlendFactor(0x0000000C)
 
-  BlendOperation_Add* = BlendOperation(0x00000000)
-  BlendOperation_Subtract* = BlendOperation(0x00000001)
-  BlendOperation_ReverseSubtract* = BlendOperation(0x00000002)
-  BlendOperation_Min* = BlendOperation(0x00000003)
-  BlendOperation_Max* = BlendOperation(0x00000004)
+  # BlendOperation_Add* = BlendOperation(0x00000000)
+  # BlendOperation_Subtract* = BlendOperation(0x00000001)
+  # BlendOperation_ReverseSubtract* = BlendOperation(0x00000002)
+  # BlendOperation_Min* = BlendOperation(0x00000003)
+  # BlendOperation_Max* = BlendOperation(0x00000004)
 
   BufferBindingType_Undefined* = BufferBindingType(0x00000000)
   BufferBindingType_Uniform* = BufferBindingType(0x00000001)
@@ -917,15 +917,15 @@ const
   BufferMapAsyncStatus_DestroyedBeforeCallback* = BufferMapAsyncStatus(0x00000004)
   BufferMapAsyncStatus_UnmappedBeforeCallback* = BufferMapAsyncStatus(0x00000005)
 
-  CompareFunction_Undefined* = CompareFunction(0x00000000)
-  CompareFunction_Never* = CompareFunction(0x00000001)
-  CompareFunction_Less* = CompareFunction(0x00000002)
-  CompareFunction_LessEqual* = CompareFunction(0x00000003)
-  CompareFunction_Greater* = CompareFunction(0x00000004)
-  CompareFunction_GreaterEqual* = CompareFunction(0x00000005)
-  CompareFunction_Equal* = CompareFunction(0x00000006)
-  CompareFunction_NotEqual* = CompareFunction(0x00000007)
-  CompareFunction_Always* = CompareFunction(0x00000008)
+  # CompareFunction_Undefined* = CompareFunction(0x00000000)
+  # CompareFunction_Never* = CompareFunction(0x00000001)
+  # CompareFunction_Less* = CompareFunction(0x00000002)
+  # CompareFunction_LessEqual* = CompareFunction(0x00000003)
+  # CompareFunction_Greater* = CompareFunction(0x00000004)
+  # CompareFunction_GreaterEqual* = CompareFunction(0x00000005)
+  # CompareFunction_Equal* = CompareFunction(0x00000006)
+  # CompareFunction_NotEqual* = CompareFunction(0x00000007)
+  # CompareFunction_Always* = CompareFunction(0x00000008)
 
   CompilationInfoRequestStatus_Success* = CompilationInfoRequestStatus(0x00000000)
   CompilationInfoRequestStatus_Error* = CompilationInfoRequestStatus(0x00000001)
@@ -939,15 +939,15 @@ const
   ComputePassTimestampLocation_Beginning* = ComputePassTimestampLocation(0x00000000)
   ComputePassTimestampLocation_End* = ComputePassTimestampLocation(0x00000001)
 
-  CreatePipelineAsyncStatus_Success* = CreatePipelineAsyncStatus(0x00000000)
-  CreatePipelineAsyncStatus_Error* = CreatePipelineAsyncStatus(0x00000001)
-  CreatePipelineAsyncStatus_DeviceLost* = CreatePipelineAsyncStatus(0x00000002)
-  CreatePipelineAsyncStatus_DeviceDestroyed* = CreatePipelineAsyncStatus(0x00000003)
-  CreatePipelineAsyncStatus_Unknown* = CreatePipelineAsyncStatus(0x00000004)
+  # CreatePipelineAsyncStatus_Success* = CreatePipelineAsyncStatus(0x00000000)
+  # CreatePipelineAsyncStatus_Error* = CreatePipelineAsyncStatus(0x00000001)
+  # CreatePipelineAsyncStatus_DeviceLost* = CreatePipelineAsyncStatus(0x00000002)
+  # CreatePipelineAsyncStatus_DeviceDestroyed* = CreatePipelineAsyncStatus(0x00000003)
+  # CreatePipelineAsyncStatus_Unknown* = CreatePipelineAsyncStatus(0x00000004)
 
-  CullMode_None* = CullMode(0x00000000)
-  CullMode_Front* = CullMode(0x00000001)
-  CullMode_Back* = CullMode(0x00000002)
+  # CullMode_None* = CullMode(0x00000000)
+  # CullMode_Front* = CullMode(0x00000001)
+  # CullMode_Back* = CullMode(0x00000002)
 
   DeviceLostReason_Undefined* = DeviceLostReason(0x00000000)
   DeviceLostReason_Destroyed* = DeviceLostReason(0x00000001)
@@ -978,12 +978,12 @@ const
   FilterMode_Nearest* = FilterMode(0x00000000)
   FilterMode_Linear* = FilterMode(0x00000001)
 
-  FrontFace_CCW* = FrontFace(0x00000000)
-  FrontFace_CW* = FrontFace(0x00000001)
+  # FrontFace_CCW* = FrontFace(0x00000000)
+  # FrontFace_CW* = FrontFace(0x00000001)
 
-  IndexFormat_Undefined* = IndexFormat(0x00000000)
-  IndexFormat_Uint16* = IndexFormat(0x00000001)
-  IndexFormat_Uint32* = IndexFormat(0x00000002)
+  # IndexFormat_Undefined* = IndexFormat(0x00000000)
+  # IndexFormat_Uint16* = IndexFormat(0x00000001)
+  # IndexFormat_Uint32* = IndexFormat(0x00000002)
 
   LoadOp_Undefined* = LoadOp(0x00000000)
   LoadOp_Clear* = LoadOp(0x00000001)
@@ -1002,11 +1002,11 @@ const
   PresentMode_Mailbox* = PresentMode(0x00000001)
   PresentMode_Fifo* = PresentMode(0x00000002)
 
-  PrimitiveTopology_PointList* = PrimitiveTopology(0x00000000)
-  PrimitiveTopology_LineList* = PrimitiveTopology(0x00000001)
-  PrimitiveTopology_LineStrip* = PrimitiveTopology(0x00000002)
-  PrimitiveTopology_TriangleList* = PrimitiveTopology(0x00000003)
-  PrimitiveTopology_TriangleStrip* = PrimitiveTopology(0x00000004)
+  # PrimitiveTopology_PointList* = PrimitiveTopology(0x00000000)
+  # PrimitiveTopology_LineList* = PrimitiveTopology(0x00000001)
+  # PrimitiveTopology_LineStrip* = PrimitiveTopology(0x00000002)
+  # PrimitiveTopology_TriangleList* = PrimitiveTopology(0x00000003)
+  # PrimitiveTopology_TriangleStrip* = PrimitiveTopology(0x00000004)
 
   QueryType_Occlusion* = QueryType(0x00000000)
   QueryType_PipelineStatistics* = QueryType(0x00000001)
@@ -1047,14 +1047,14 @@ const
   SamplerBindingType_NonFiltering* = SamplerBindingType(0x00000002)
   SamplerBindingType_Comparison* = SamplerBindingType(0x00000003)
 
-  StencilOperation_Keep* = StencilOperation(0x00000000)
-  StencilOperation_Zero* = StencilOperation(0x00000001)
-  StencilOperation_Replace* = StencilOperation(0x00000002)
-  StencilOperation_Invert* = StencilOperation(0x00000003)
-  StencilOperation_IncrementClamp* = StencilOperation(0x00000004)
-  StencilOperation_DecrementClamp* = StencilOperation(0x00000005)
-  StencilOperation_IncrementWrap* = StencilOperation(0x00000006)
-  StencilOperation_DecrementWrap* = StencilOperation(0x00000007)
+  # StencilOperation_Keep* = StencilOperation(0x00000000)
+  # StencilOperation_Zero* = StencilOperation(0x00000001)
+  # StencilOperation_Replace* = StencilOperation(0x00000002)
+  # StencilOperation_Invert* = StencilOperation(0x00000003)
+  # StencilOperation_IncrementClamp* = StencilOperation(0x00000004)
+  # StencilOperation_DecrementClamp* = StencilOperation(0x00000005)
+  # StencilOperation_IncrementWrap* = StencilOperation(0x00000006)
+  # StencilOperation_DecrementWrap* = StencilOperation(0x00000007)
 
   StorageTextureAccess_Undefined* = StorageTextureAccess(0x00000000)
   StorageTextureAccess_WriteOnly* = StorageTextureAccess(0x00000001)
@@ -1187,41 +1187,41 @@ const
   TextureViewDimension_CubeArray* = TextureViewDimension(0x00000005)
   TextureViewDimension_3D* = TextureViewDimension(0x00000006)
 
-  VertexFormat_Undefined* = VertexFormat(0x00000000) 
-  VertexFormat_Uint8x2* = VertexFormat(0x00000001)
-  VertexFormat_Uint8x4* = VertexFormat(0x00000002) 
-  VertexFormat_Sint8x2* = VertexFormat(0x00000003)
-  VertexFormat_Sint8x4* = VertexFormat(0x00000004) 
-  VertexFormat_Unorm8x2* = VertexFormat(0x00000005)
-  VertexFormat_Unorm8x4* = VertexFormat(0x00000006) 
-  VertexFormat_Snorm8x2* = VertexFormat(0x00000007)
-  VertexFormat_Snorm8x4* = VertexFormat(0x00000008) 
-  VertexFormat_Uint16x2* = VertexFormat(0x00000009)
-  VertexFormat_Uint16x4* = VertexFormat(0x0000000A) 
-  VertexFormat_Sint16x2* = VertexFormat(0x0000000B)
-  VertexFormat_Sint16x4* = VertexFormat(0x0000000C) 
-  VertexFormat_Unorm16x2* = VertexFormat(0x0000000D)
-  VertexFormat_Unorm16x4* = VertexFormat(0x0000000E) 
-  VertexFormat_Snorm16x2* = VertexFormat(0x0000000F)
-  VertexFormat_Snorm16x4* = VertexFormat(0x00000010) 
-  VertexFormat_Float16x2* = VertexFormat(0x00000011)
-  VertexFormat_Float16x4* = VertexFormat(0x00000012) 
-  VertexFormat_Float32* = VertexFormat(0x00000013)
-  VertexFormat_Float32x2* = VertexFormat(0x00000014) 
-  VertexFormat_Float32x3* = VertexFormat(0x00000015)
-  VertexFormat_Float32x4* = VertexFormat(0x00000016) 
-  VertexFormat_Uint32* = VertexFormat(0x00000017)
-  VertexFormat_Uint32x2* = VertexFormat(0x00000018) 
-  VertexFormat_Uint32x3* = VertexFormat(0x00000019)
-  VertexFormat_Uint32x4* = VertexFormat(0x0000001A) 
-  VertexFormat_Sint32* = VertexFormat(0x0000001B)
-  VertexFormat_Sint32x2* = VertexFormat(0x0000001C) 
-  VertexFormat_Sint32x3* = VertexFormat(0x0000001D)
-  VertexFormat_Sint32x4* = VertexFormat(0x0000001E)
+  # VertexFormat_Undefined* = VertexFormat(0x00000000) 
+  # VertexFormat_Uint8x2* = VertexFormat(0x00000001)
+  # VertexFormat_Uint8x4* = VertexFormat(0x00000002) 
+  # VertexFormat_Sint8x2* = VertexFormat(0x00000003)
+  # VertexFormat_Sint8x4* = VertexFormat(0x00000004) 
+  # VertexFormat_Unorm8x2* = VertexFormat(0x00000005)
+  # VertexFormat_Unorm8x4* = VertexFormat(0x00000006) 
+  # VertexFormat_Snorm8x2* = VertexFormat(0x00000007)
+  # VertexFormat_Snorm8x4* = VertexFormat(0x00000008) 
+  # VertexFormat_Uint16x2* = VertexFormat(0x00000009)
+  # VertexFormat_Uint16x4* = VertexFormat(0x0000000A) 
+  # VertexFormat_Sint16x2* = VertexFormat(0x0000000B)
+  # VertexFormat_Sint16x4* = VertexFormat(0x0000000C) 
+  # VertexFormat_Unorm16x2* = VertexFormat(0x0000000D)
+  # VertexFormat_Unorm16x4* = VertexFormat(0x0000000E) 
+  # VertexFormat_Snorm16x2* = VertexFormat(0x0000000F)
+  # VertexFormat_Snorm16x4* = VertexFormat(0x00000010) 
+  # VertexFormat_Float16x2* = VertexFormat(0x00000011)
+  # VertexFormat_Float16x4* = VertexFormat(0x00000012) 
+  # VertexFormat_Float32* = VertexFormat(0x00000013)
+  # VertexFormat_Float32x2* = VertexFormat(0x00000014) 
+  # VertexFormat_Float32x3* = VertexFormat(0x00000015)
+  # VertexFormat_Float32x4* = VertexFormat(0x00000016) 
+  # VertexFormat_Uint32* = VertexFormat(0x00000017)
+  # VertexFormat_Uint32x2* = VertexFormat(0x00000018) 
+  # VertexFormat_Uint32x3* = VertexFormat(0x00000019)
+  # VertexFormat_Uint32x4* = VertexFormat(0x0000001A) 
+  # VertexFormat_Sint32* = VertexFormat(0x0000001B)
+  # VertexFormat_Sint32x2* = VertexFormat(0x0000001C) 
+  # VertexFormat_Sint32x3* = VertexFormat(0x0000001D)
+  # VertexFormat_Sint32x4* = VertexFormat(0x0000001E)
 
-  VertexStepMode_Vertex* = VertexStepMode(0x00000000) 
-  VertexStepMode_Instance* = VertexStepMode(0x00000001)
-  VertexStepMode_VertexBufferNotUsed* = VertexStepMode(0x00000002)
+  # VertexStepMode_Vertex* = VertexStepMode(0x00000000) 
+  # VertexStepMode_Instance* = VertexStepMode(0x00000001)
+  # VertexStepMode_VertexBufferNotUsed* = VertexStepMode(0x00000002)
 
   BufferUsage_None* = BufferUsage(0x00000000) 
   BufferUsage_MapRead* = BufferUsage(0x00000001)
@@ -1235,12 +1235,12 @@ const
   BufferUsage_Indirect* = BufferUsage(0x00000100)
   BufferUsage_QueryResolve* = BufferUsage(0x00000200)
 
-  ColorWriteMask_None* = ColorWriteMask(0x00000000) 
-  ColorWriteMask_Red* = ColorWriteMask(0x00000001)
-  ColorWriteMask_Green* = ColorWriteMask(0x00000002) 
-  ColorWriteMask_Blue* = ColorWriteMask(0x00000004)
-  ColorWriteMask_Alpha* = ColorWriteMask(0x00000008) 
-  ColorWriteMask_All* = ColorWriteMask(0x0000000F)
+  # ColorWriteMask_None* = ColorWriteMask(0x00000000) 
+  # ColorWriteMask_Red* = ColorWriteMask(0x00000001)
+  # ColorWriteMask_Green* = ColorWriteMask(0x00000002) 
+  # ColorWriteMask_Blue* = ColorWriteMask(0x00000004)
+  # ColorWriteMask_Alpha* = ColorWriteMask(0x00000008) 
+  # ColorWriteMask_All* = ColorWriteMask(0x0000000F)
 
   MapMode_None* = MapMode(0x00000000) 
   MapMode_Read* = MapMode(0x00000001) 
@@ -1311,8 +1311,8 @@ proc deviceCreateComputePipelineAsync*(device: Device; descriptor: ptr ComputePi
 proc deviceCreatePipelineLayout*(device: Device; descriptor: ptr PipelineLayoutDescriptor): PipelineLayout {.cdecl, importc:"wgpuDeviceCreatePipelineLayout".}
 proc deviceCreateQuerySet*(device: Device; descriptor: ptr QuerySetDescriptor): QuerySet {.cdecl, importc:"wgpuDeviceCreateQuerySet".}
 proc deviceCreateRenderBundleEncoder*(device: Device; descriptor: ptr RenderBundleEncoderDescriptor): RenderBundleEncoder {.cdecl, importc:"wgpuDeviceCreateRenderBundleEncoder".}
-proc deviceCreateRenderPipeline*(device: Device; descriptor: ptr RenderPipelineDescriptor): RenderPipeline {.cdecl, importc:"wgpuDeviceCreateRenderPipeline".}
-proc deviceCreateRenderPipelineAsync*(device: Device; descriptor: ptr RenderPipelineDescriptor; callback: CreateRenderPipelineAsyncCallback; userdata: pointer) {.cdecl, importc:"wgpuDeviceCreateRenderPipelineAsync".}
+# proc deviceCreateRenderPipeline*(device: Device; descriptor: ptr RenderPipelineDescriptor): RenderPipeline {.cdecl, importc:"wgpuDeviceCreateRenderPipeline".}
+# proc deviceCreateRenderPipelineAsync*(device: Device; descriptor: ptr RenderPipelineDescriptor; callback: CreateRenderPipelineAsyncCallback; userdata: pointer) {.cdecl, importc:"wgpuDeviceCreateRenderPipelineAsync".}
 proc deviceCreateSampler*(device: Device; descriptor: ptr SamplerDescriptor): Sampler {.cdecl, importc:"wgpuDeviceCreateSampler".}
 # proc deviceCreateShaderModule*(device: Device; descriptor: ptr ShaderModuleDescriptor): ShaderModule {.cdecl, importc:"wgpuDeviceCreateShaderModule".}
 proc deviceCreateSwapChain*(device: Device; surface: Surface; descriptor: ptr SwapChainDescriptor): SwapChain {.cdecl, importc:"wgpuDeviceCreateSwapChain".}

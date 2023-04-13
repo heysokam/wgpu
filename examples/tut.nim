@@ -94,7 +94,58 @@ proc run=
   var shaderSource    = readWgsl getAppDir()/"triangle.wgsl"
   let shader          = device.createShaderModule(shaderSource.addr)
   let swapchainFormat = surface.getPreferredFormat(adapter)
-
+  let pipeline        = device.createRenderPipeline(vaddr RenderPipelineDescriptor(
+    nextInChain               : nil,
+    label                     : "Render pipeline".cstring,
+    layout                    : nil,
+    vertex                    : VertexState(
+      module                  : shader,
+      entryPoint              : "vs_main".cstring,
+      constantCount           : 0,
+      constants               : nil,
+      bufferCount             : 0,
+      buffers                 : nil,
+      ), # << vertex
+    primitive                 : PrimitiveState(
+      nextInChain             : nil,
+      topology                : PrimitiveTopology.triangleList,
+      stripIndexFormat        : IndexFormat.undefined,
+      frontFace               : FrontFace.ccw,
+      cullMode                : CullMode.none,
+      ), # << primitive
+    depthStencil              : nil,
+    multisample               : MultisampleState(
+      nextInChain             : nil,
+      count                   : 1,
+      mask                    : uint32.high,
+      alphaToCoverageEnabled  : false,
+      ), # << multisample
+    fragment                  : vaddr FragmentState(
+      nextInChain             : nil,
+      module                  : shader,
+      entryPoint              : "fs_main".cstring,
+      constantCount           : 0,
+      constants               : nil,
+      targetCount             : 1,
+      targets                 : vaddr ColorTargetState(
+        nextInChain           : nil,
+        format                : swapchainFormat,
+        blend                 : vaddr BlendState(
+          alpha               : BlendComponent(
+            operation         : BlendOperation.Add,
+            srcFactor         : BlendFactor.one,
+            dstFactor         : BlendFactor.zero,
+            ), # << alpha
+          color               : BlendComponent(
+            operation         : BlendOperation.Add,
+            srcFactor         : BlendFactor.one,
+            dstFactor         : BlendFactor.zero,
+            ), # << color
+          ), # << blend
+        writeMask             : ColorWriteMask.all,
+        ), # << targets
+      ), # << fragment
+    )) # << pipeline
 
   #__________________
   # Update loop
