@@ -51,6 +51,8 @@ proc errorCB *(typ :ErrorType; message :cstring; userdata :pointer) :void {.cdec
   echo &"UNCAPTURED ERROR: ({$typ}): {$message}"
 proc deviceLostCB *(reason :DeviceLostReason; message :cstring; userdata :pointer) :void {.cdecl.}=
   echo &"DEVICE LOST: ({$reason}): {$message}"
+proc logCB *(level :LogLevel; message :cstring; userdata :pointer) :void {.cdecl.}=
+  echo &"[{$level}] {$message}"
 
 
 #________________________________________________
@@ -73,6 +75,10 @@ proc run=
   echo "Hello wgpu-nim"
   window.init()
 
+  #__________________
+  # Set wgpu.Logging
+  wgpu.setLogCallback(logCB, nil)
+  wgpu.set LogLevel.warn
   #__________________
   # Init wgpu
   instance    = wgpu.createInstance(wgpu.InstanceDescriptor(nextInChain: nil).vaddr)

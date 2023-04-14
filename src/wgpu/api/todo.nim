@@ -1522,7 +1522,7 @@ type
     dx11*: HubReport
     gl*: HubReport
 
-  LogCallback* = proc (level: LogLevel; message: cstring; userdata: pointer) {.cdecl.}
+  # LogCallback* = proc (level: LogLevel; message: cstring; userdata: pointer) {.cdecl.}
 
 proc generateReport*(instance: Instance; report: ptr GlobalReport) {.cdecl, importc: "wgpuGenerateReport".}
 proc queueSubmitForIndex*(queue: Queue; commandCount: uint; commands: ptr CommandBuffer): SubmissionIndex {.cdecl, importc: "wgpuQueueSubmitForIndex".}

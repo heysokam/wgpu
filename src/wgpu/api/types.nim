@@ -40,7 +40,7 @@ template supportedLimitsExtras *(_ :typedesc[SType]) :auto=  SType 0x60000003  #
 #   multiDrawIndirect_count
 #   vertexWritableStorage
 
-type LogLEvel *{.pure.}= enum  off, error, warn, info, debug, trace, force32 = 0x7FFFFFFF
+type LogLevel *{.pure.}= enum  off, error, warn, info, debug, trace, force32 = 0x7FFFFFFF
   ## WGPULogLevel
 
 type InstanceBackend *{.pure.}= enum  None, Vulkan, Metal, DX12, DX1, GL, BrowserWebGPU, force32 = 0x7FFFFFFF
@@ -269,7 +269,7 @@ type SwapChainDescriptorExtras * = object
   viewFormatCount  *:csize_t
   viewFormats      *:ptr TextureFormat
 
-type LogCallback * = proc (level :LogLevel; message :cstring; userdata :pointer)
+type LogCallback * = proc (level :LogLevel; message :cstring; userdata :pointer) {.cdecl.}
 
 
 #_______________________________________
