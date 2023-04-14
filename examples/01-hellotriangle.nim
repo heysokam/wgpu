@@ -52,6 +52,7 @@ proc errorCB *(typ :ErrorType; message :cstring; userdata :pointer) :void {.cdec
 proc deviceLostCB *(reason :DeviceLostReason; message :cstring; userdata :pointer) :void {.cdecl.}=
   echo &"DEVICE LOST: ({$reason}): {$message}"
 
+
 #________________________________________________
 # state.nim
 #__________________

@@ -634,3 +634,61 @@ type SwapChainDescriptor *{.bycopy.}= object
   height       *:uint32
   presentMode  *:PresentMode
 
+#___________________
+# Command Encoder
+type CommandEncoderDescriptor *{.bycopy.}= object
+  nextInChain  *:ptr ChainedStruct
+  label        *:cstring
+
+#___________________
+# Command Buffer
+type CommandBufferDescriptor *{.bycopy.}= object
+  nextInChain  *:ptr ChainedStruct
+  label        *:cstring
+
+#___________________
+# RenderPass
+type LoadOp  *{.pure.}= enum  undefined = 0x00000000, clear, load,    force32 = 0x7FFFFFFF
+type StoreOp *{.pure.}= enum  undefined = 0x00000000, store, Discard, force32 = 0x7FFFFFFF
+
+type Color *{.bycopy.}= object  # Equivalent to treeform/chroma/ColorRGBA?
+  r  *:float64
+  g  *:float64
+  b  *:float64
+  a  *:float64
+
+type RenderPassColorAttachment *{.bycopy.}= object
+  view           *:TextureView  ## The view to use as an attachment.
+  resolveTarget  *:TextureView  ## The view that will receive the resolved output if multisampling is used.
+  loadOp         *:LoadOp       ## Load operations performed on this color attachment
+  storeOp        *:StoreOp      ## Store operations performed on this color attachment
+  clearValue     *:Color        ## Color used for load/store operations.
+
+type RenderPassDepthStencilAttachment *{.bycopy.}= object
+  view               *:TextureView
+  depthLoadOp        *:LoadOp
+  depthStoreOp       *:StoreOp
+  depthClearValue    *:float32
+  depthReadOnly      *:bool
+  stencilLoadOp      *:LoadOp
+  stencilStoreOp     *:StoreOp
+  stencilClearValue  *:uint32
+  stencilReadOnly    *:bool
+
+type RenderPassTimestampLocation *{.pure.}= enum beginning, End, force32 = 0x7FFFFFFF
+
+type RenderPassTimestampWrite* {.bycopy.} = object
+  querySet    *:QuerySet
+  queryIndex  *:uint32
+  location    *:RenderPassTimestampLocation
+
+type RenderPassDescriptor *{.bycopy.}= object
+  nextInChain             *:ptr ChainedStruct
+  label                   *:cstring
+  colorAttachmentCount    *:uint32
+  colorAttachments        *:ptr RenderPassColorAttachment
+  depthStencilAttachment  *:ptr RenderPassDepthStencilAttachment
+  occlusionQuerySet       *:QuerySet
+  timestampWriteCount     *:uint32
+  timestampWrites         *:ptr RenderPassTimestampWrite
+

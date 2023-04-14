@@ -72,7 +72,7 @@ const
   FilterMode*                   = distinct uint32
   # FrontFace*                    = distinct uint32
   # IndexFormat*                  = distinct uint32
-  LoadOp*                       = distinct uint32
+  # LoadOp*                       = distinct uint32
   MipmapFilterMode*             = distinct uint32
   PipelineStatisticName*        = distinct uint32
   # PowerPreference*              = distinct uint32
@@ -80,14 +80,14 @@ const
   # PrimitiveTopology*            = distinct uint32
   QueryType*                    = distinct uint32
   QueueWorkDoneStatus*          = distinct uint32
-  RenderPassTimestampLocation*  = distinct uint32
+  # RenderPassTimestampLocation*  = distinct uint32
   # RequestAdapterStatus*         = distinct uint32
   RequestDeviceStatus*          = distinct uint32
   SType*                        = distinct uint32
   SamplerBindingType*           = distinct uint32
   # StencilOperation*             = distinct uint32
   StorageTextureAccess*         = distinct uint32
-  StoreOp*                      = distinct uint32
+  # StoreOp*                      = distinct uint32
   TextureAspect*                = distinct uint32
   TextureComponentType*         = distinct uint32
   TextureDimension*             = distinct uint32
@@ -152,19 +152,19 @@ const
     size*: uint64
     mappedAtCreation*: bool
 
-  Color* {.bycopy.} = object
-    r*: cdouble
-    g*: cdouble
-    b*: cdouble
-    a*: cdouble
+  # Color* {.bycopy.} = object
+  #   r*: cdouble
+  #   g*: cdouble
+  #   b*: cdouble
+  #   a*: cdouble
 
-  CommandBufferDescriptor* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    label*: cstring
+  # CommandBufferDescriptor* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   label*: cstring
 
-  CommandEncoderDescriptor* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    label*: cstring
+  # CommandEncoderDescriptor* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   label*: cstring
 
   CompilationMessage* {.bycopy.} = object
     nextInChain*: ptr ChainedStruct
@@ -279,25 +279,25 @@ const
     depthReadOnly*: bool
     stencilReadOnly*: bool
 
-  RenderPassDepthStencilAttachment* {.bycopy.} = object
-    view*: TextureView
-    depthLoadOp*: LoadOp
-    depthStoreOp*: StoreOp
-    depthClearValue*: cfloat
-    depthReadOnly*: bool
-    stencilLoadOp*: LoadOp
-    stencilStoreOp*: StoreOp
-    stencilClearValue*: uint
-    stencilReadOnly*: bool
+  # RenderPassDepthStencilAttachment* {.bycopy.} = object
+  #   view*: TextureView
+  #   depthLoadOp*: LoadOp
+  #   depthStoreOp*: StoreOp
+  #   depthClearValue*: cfloat
+  #   depthReadOnly*: bool
+  #   stencilLoadOp*: LoadOp
+  #   stencilStoreOp*: StoreOp
+  #   stencilClearValue*: uint
+  #   stencilReadOnly*: bool
 
   RenderPassDescriptorMaxDrawCount* {.bycopy.} = object
     chain*: ChainedStruct
     maxDrawCount*: uint64
 
-  RenderPassTimestampWrite* {.bycopy.} = object
-    querySet*: QuerySet
-    queryIndex*: uint
-    location*: RenderPassTimestampLocation
+  # RenderPassTimestampWrite* {.bycopy.} = object
+  #   querySet*: QuerySet
+  #   queryIndex*: uint
+  #   location*: RenderPassTimestampLocation
 
   # RequestAdapterOptions* {.bycopy.} = object
   #   nextInChain*: ptr ChainedStruct
@@ -485,12 +485,12 @@ const
     constantCount*: uint
     constants*: ptr ConstantEntry
 
-  RenderPassColorAttachment* {.bycopy.} = object
-    view*: TextureView
-    resolveTarget*: TextureView
-    loadOp*: LoadOp
-    storeOp*: StoreOp
-    clearValue*: Color
+  # RenderPassColorAttachment* {.bycopy.} = object
+  #   view*: TextureView
+  #   resolveTarget*: TextureView
+  #   loadOp*: LoadOp
+  #   storeOp*: StoreOp
+  #   clearValue*: Color
 
   # RequiredLimits* {.bycopy.} = object
   #   nextInChain*: ptr ChainedStruct
@@ -550,15 +550,15 @@ const
   #   requiredLimits*: ptr RequiredLimits
   #   defaultQueue*: QueueDescriptor
 
-  RenderPassDescriptor* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    label*: cstring
-    colorAttachmentCount*: uint
-    colorAttachments*: ptr RenderPassColorAttachment
-    depthStencilAttachment*: ptr RenderPassDepthStencilAttachment
-    occlusionQuerySet*: QuerySet
-    timestampWriteCount*: uint
-    timestampWrites*: ptr RenderPassTimestampWrite
+  # RenderPassDescriptor* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   label*: cstring
+  #   colorAttachmentCount*: uint
+  #   colorAttachments*: ptr RenderPassColorAttachment
+  #   depthStencilAttachment*: ptr RenderPassDepthStencilAttachment
+  #   occlusionQuerySet*: QuerySet
+  #   timestampWriteCount*: uint
+  #   timestampWrites*: ptr RenderPassTimestampWrite
 
   # VertexState* {.bycopy.} = object
   #   nextInChain*: ptr ChainedStruct
@@ -985,9 +985,9 @@ const
   # IndexFormat_Uint16* = IndexFormat(0x00000001)
   # IndexFormat_Uint32* = IndexFormat(0x00000002)
 
-  LoadOp_Undefined* = LoadOp(0x00000000)
-  LoadOp_Clear* = LoadOp(0x00000001)
-  LoadOp_Load* = LoadOp(0x00000002)
+  # LoadOp_Undefined* = LoadOp(0x00000000)
+  # LoadOp_Clear* = LoadOp(0x00000001)
+  # LoadOp_Load* = LoadOp(0x00000002)
 
   MipmapFilterMode_Nearest* = MipmapFilterMode(0x00000000)
   MipmapFilterMode_Linear* = MipmapFilterMode(0x00000001)
@@ -1017,8 +1017,8 @@ const
   QueueWorkDoneStatus_Unknown* = QueueWorkDoneStatus(0x00000002)
   QueueWorkDoneStatus_DeviceLost* = QueueWorkDoneStatus(0x00000003)
 
-  RenderPassTimestampLocation_Beginning* = RenderPassTimestampLocation(0x00000000)
-  RenderPassTimestampLocation_End* = RenderPassTimestampLocation(0x00000001)
+  # RenderPassTimestampLocation_Beginning* = RenderPassTimestampLocation(0x00000000)
+  # RenderPassTimestampLocation_End* = RenderPassTimestampLocation(0x00000001)
 
   # RequestAdapterStatus_Success* = RequestAdapterStatus(0x00000000)
   # RequestAdapterStatus_Unavailable* = RequestAdapterStatus(0x00000001)
@@ -1059,9 +1059,9 @@ const
   StorageTextureAccess_Undefined* = StorageTextureAccess(0x00000000)
   StorageTextureAccess_WriteOnly* = StorageTextureAccess(0x00000001)
 
-  StoreOp_Undefined* = StoreOp(0x00000000)
-  StoreOp_Store* = StoreOp(0x00000001)
-  StoreOp_Discard* = StoreOp(0x00000002)
+  # StoreOp_Undefined* = StoreOp(0x00000000)
+  # StoreOp_Store* = StoreOp(0x00000001)
+  # StoreOp_Discard* = StoreOp(0x00000002)
 
   TextureAspect_All* = TextureAspect(0x00000000) 
   TextureAspect_StencilOnly* = TextureAspect(0x00000001)
@@ -1276,13 +1276,13 @@ proc bufferSetLabel*(buffer: Buffer; label: cstring) {.cdecl, importc: "wgpuBuff
 proc bufferUnmap*(buffer: Buffer) {.cdecl, importc: "wgpuBufferUnmap".}
 proc commandBufferSetLabel*(commandBuffer: CommandBuffer; label: cstring) {.cdecl, importc: "wgpuCommandBufferSetLabel".}
 proc commandEncoderBeginComputePass*(commandEncoder: CommandEncoder; descriptor: ptr ComputePassDescriptor): ComputePassEncoder {.cdecl, importc:"wgpuCommandEncoderBeginComputePass".}
-proc commandEncoderBeginRenderPass*(commandEncoder: CommandEncoder; descriptor: ptr RenderPassDescriptor): RenderPassEncoder {.cdecl, importc:"wgpuCommandEncoderBeginRenderPass".}
+# proc commandEncoderBeginRenderPass*(commandEncoder: CommandEncoder; descriptor: ptr RenderPassDescriptor): RenderPassEncoder {.cdecl, importc:"wgpuCommandEncoderBeginRenderPass".}
 proc commandEncoderClearBuffer*(commandEncoder: CommandEncoder; buffer: Buffer; offset: uint64; size: uint64) {.cdecl, importc:"wgpuCommandEncoderClearBuffer".}
 proc commandEncoderCopyBufferToBuffer*(commandEncoder: CommandEncoder; source: Buffer; sourceOffset: uint64; destination: Buffer; destinationOffset: uint64; size: uint64) {.cdecl, importc:"wgpuCommandEncoderCopyBufferToBuffer".}
 proc commandEncoderCopyBufferToTexture*(commandEncoder: CommandEncoder; source: ptr ImageCopyBuffer; destination: ptr ImageCopyTexture; copySize: ptr Extent3D) {.cdecl, importc:"wgpuCommandEncoderCopyBufferToTexture".}
 proc commandEncoderCopyTextureToBuffer*(commandEncoder: CommandEncoder; source: ptr ImageCopyTexture; destination: ptr ImageCopyBuffer; copySize: ptr Extent3D) {.cdecl, importc:"wgpuCommandEncoderCopyTextureToBuffer".}
 proc commandEncoderCopyTextureToTexture*(commandEncoder: CommandEncoder; source: ptr ImageCopyTexture; destination: ptr ImageCopyTexture; copySize: ptr Extent3D) {.cdecl, importc:"wgpuCommandEncoderCopyTextureToTexture".}
-proc commandEncoderFinish*(commandEncoder: CommandEncoder; descriptor: ptr CommandBufferDescriptor): CommandBuffer {.cdecl, importc:"wgpuCommandEncoderFinish".}
+# proc commandEncoderFinish*(commandEncoder: CommandEncoder; descriptor: ptr CommandBufferDescriptor): CommandBuffer {.cdecl, importc:"wgpuCommandEncoderFinish".}
 proc commandEncoderInsertDebugMarker*(commandEncoder: CommandEncoder; markerLabel: cstring) {.cdecl, importc:"wgpuCommandEncoderInsertDebugMarker".}
 proc commandEncoderPopDebugGroup*(commandEncoder: CommandEncoder) {.cdecl, importc: "wgpuCommandEncoderPopDebugGroup".}
 proc commandEncoderPushDebugGroup*(commandEncoder: CommandEncoder; groupLabel: cstring) {.cdecl, importc:"wgpuCommandEncoderPushDebugGroup".}
@@ -1305,7 +1305,7 @@ proc computePipelineSetLabel*(computePipeline: ComputePipeline; label: cstring) 
 proc deviceCreateBindGroup*(device: Device; descriptor: ptr BindGroupDescriptor): BindGroup {.cdecl, importc:"wgpuDeviceCreateBindGroup".}
 proc deviceCreateBindGroupLayout*(device: Device; descriptor: ptr BindGroupLayoutDescriptor): BindGroupLayout {.cdecl, importc:"wgpuDeviceCreateBindGroupLayout".}
 proc deviceCreateBuffer*(device: Device; descriptor: ptr BufferDescriptor): Buffer {.cdecl, importc:"wgpuDeviceCreateBuffer".}
-proc deviceCreateCommandEncoder*(device: Device; descriptor: ptr CommandEncoderDescriptor): CommandEncoder {.cdecl, importc:"wgpuDeviceCreateCommandEncoder".}
+# proc deviceCreateCommandEncoder*(device: Device; descriptor: ptr CommandEncoderDescriptor): CommandEncoder {.cdecl, importc:"wgpuDeviceCreateCommandEncoder".}
 proc deviceCreateComputePipeline*(device: Device; descriptor: ptr ComputePipelineDescriptor): ComputePipeline {.cdecl, importc:"wgpuDeviceCreateComputePipeline".}
 proc deviceCreateComputePipelineAsync*(device: Device; descriptor: ptr ComputePipelineDescriptor; callback: CreateComputePipelineAsyncCallback; userdata: pointer) {.cdecl, importc:"wgpuDeviceCreateComputePipelineAsync".}
 proc deviceCreatePipelineLayout*(device: Device; descriptor: ptr PipelineLayoutDescriptor): PipelineLayout {.cdecl, importc:"wgpuDeviceCreatePipelineLayout".}
@@ -1320,7 +1320,7 @@ proc deviceCreateTexture*(device: Device; descriptor: ptr TextureDescriptor): Te
 proc deviceDestroy*(device: Device) {.cdecl, importc: "wgpuDeviceDestroy".}
 proc deviceEnumerateFeatures*(device: Device; features: ptr Feature): csize_t {.cdecl, importc:"wgpuDeviceEnumerateFeatures".}
 proc deviceGetLimits*(device: Device; limits: ptr SupportedLimits): bool {.cdecl, importc: "wgpuDeviceGetLimits".}
-proc deviceGetQueue*(device: Device): Queue {.cdecl, importc: "wgpuDeviceGetQueue".}
+# proc deviceGetQueue*(device: Device): Queue {.cdecl, importc: "wgpuDeviceGetQueue".}
 proc deviceHasFeature*(device: Device; feature: Feature): bool {.cdecl, importc: "wgpuDeviceHasFeature".}
 proc devicePopErrorScope*(device: Device; callback: ErrorCallback; userdata: pointer): bool {.cdecl, importc:"wgpuDevicePopErrorScope".}
 proc devicePushErrorScope*(device: Device; filter: ErrorFilter) {.cdecl, importc: "wgpuDevicePushErrorScope".}
@@ -1337,7 +1337,7 @@ proc querySetGetType*(querySet: QuerySet): QueryType {.cdecl, importc: "wgpuQuer
 proc querySetSetLabel*(querySet: QuerySet; label: cstring) {.cdecl, importc: "wgpuQuerySetSetLabel".}
 proc queueOnSubmittedWorkDone*(queue: Queue; callback: QueueWorkDoneCallback; userdata: pointer) {.cdecl, importc:"wgpuQueueOnSubmittedWorkDone".}
 proc queueSetLabel*(queue: Queue; label: cstring) {.cdecl, importc: "wgpuQueueSetLabel".}
-proc queueSubmit*(queue: Queue; commandCount: uint; commands: ptr CommandBuffer) {.cdecl, importc:"wgpuQueueSubmit".}
+# proc queueSubmit*(queue: Queue; commandCount: uint; commands: ptr CommandBuffer) {.cdecl, importc:"wgpuQueueSubmit".}
 proc queueWriteBuffer*(queue: Queue; buffer: Buffer; bufferOffset: uint64; data: pointer; size: csize_t) {.cdecl, importc:"wgpuQueueWriteBuffer".}
 proc queueWriteTexture*(queue: Queue; destination: ptr ImageCopyTexture; data: pointer; dataSize: csize_t; dataLayout: ptr TextureDataLayout; writeSize: ptr Extent3D) {.cdecl, importc:"wgpuQueueWriteTexture".}
 proc renderBundleEncoderDraw*(renderBundleEncoder: RenderBundleEncoder; vertexCount: uint; instanceCount: uint; firstVertex: uint; firstInstance: uint) {.cdecl, importc:"wgpuRenderBundleEncoderDraw".}
@@ -1355,11 +1355,11 @@ proc renderBundleEncoderSetPipeline*(renderBundleEncoder: RenderBundleEncoder; p
 proc renderBundleEncoderSetVertexBuffer*( renderBundleEncoder: RenderBundleEncoder; slot: uint; buffer: Buffer; offset: uint64; size: uint64) {.cdecl, importc:"wgpuRenderBundleEncoderSetVertexBuffer".}
 proc renderPassEncoderBeginOcclusionQuery*( renderPassEncoder: RenderPassEncoder; queryIndex: uint) {.cdecl, importc:"wgpuRenderPassEncoderBeginOcclusionQuery".}
 proc renderPassEncoderBeginPipelineStatisticsQuery*( renderPassEncoder: RenderPassEncoder; querySet: QuerySet; queryIndex: uint) {.cdecl, importc:"wgpuRenderPassEncoderBeginPipelineStatisticsQuery".}
-proc renderPassEncoderDraw*(renderPassEncoder: RenderPassEncoder; vertexCount: uint; instanceCount: uint; firstVertex: uint; firstInstance: uint) {.cdecl, importc:"wgpuRenderPassEncoderDraw".}
+# proc renderPassEncoderDraw*(renderPassEncoder: RenderPassEncoder; vertexCount: uint; instanceCount: uint; firstVertex: uint; firstInstance: uint) {.cdecl, importc:"wgpuRenderPassEncoderDraw".}
 proc renderPassEncoderDrawIndexed*(renderPassEncoder: RenderPassEncoder; indexCount: uint; instanceCount: uint; firstIndex: uint; baseVertex: int32; firstInstance: uint) {.cdecl, importc:"wgpuRenderPassEncoderDrawIndexed".}
 proc renderPassEncoderDrawIndexedIndirect*( renderPassEncoder: RenderPassEncoder; indirectBuffer: Buffer; indirectOffset: uint64) {.cdecl, importc:"wgpuRenderPassEncoderDrawIndexedIndirect".}
 proc renderPassEncoderDrawIndirect*(renderPassEncoder: RenderPassEncoder; indirectBuffer: Buffer; indirectOffset: uint64) {.cdecl, importc:"wgpuRenderPassEncoderDrawIndirect".}
-proc renderPassEncoderEnd*(renderPassEncoder: RenderPassEncoder) {.cdecl, importc: "wgpuRenderPassEncoderEnd".}
+# proc renderPassEncoderEnd*(renderPassEncoder: RenderPassEncoder) {.cdecl, importc: "wgpuRenderPassEncoderEnd".}
 proc renderPassEncoderEndOcclusionQuery*(renderPassEncoder: RenderPassEncoder) {.cdecl, importc:"wgpuRenderPassEncoderEndOcclusionQuery".}
 proc renderPassEncoderEndPipelineStatisticsQuery*( renderPassEncoder: RenderPassEncoder) {.cdecl, importc:"wgpuRenderPassEncoderEndPipelineStatisticsQuery".}
 proc renderPassEncoderExecuteBundles*(renderPassEncoder: RenderPassEncoder; bundlesCount: uint; bundles: ptr RenderBundle) {.cdecl, importc:"wgpuRenderPassEncoderExecuteBundles".}
@@ -1370,7 +1370,7 @@ proc renderPassEncoderSetBindGroup*(renderPassEncoder: RenderPassEncoder; groupI
 proc renderPassEncoderSetBlendConstant*(renderPassEncoder: RenderPassEncoder; color: ptr Color) {.cdecl, importc:"wgpuRenderPassEncoderSetBlendConstant".}
 proc renderPassEncoderSetIndexBuffer*(renderPassEncoder: RenderPassEncoder; buffer: Buffer; format: IndexFormat; offset: uint64; size: uint64) {.cdecl, importc:"wgpuRenderPassEncoderSetIndexBuffer".}
 proc renderPassEncoderSetLabel*(renderPassEncoder: RenderPassEncoder; label: cstring) {.cdecl, importc:"wgpuRenderPassEncoderSetLabel".}
-proc renderPassEncoderSetPipeline*(renderPassEncoder: RenderPassEncoder; pipeline: RenderPipeline) {.cdecl, importc:"wgpuRenderPassEncoderSetPipeline".}
+# proc renderPassEncoderSetPipeline*(renderPassEncoder: RenderPassEncoder; pipeline: RenderPipeline) {.cdecl, importc:"wgpuRenderPassEncoderSetPipeline".}
 proc renderPassEncoderSetScissorRect*(renderPassEncoder: RenderPassEncoder; x: uint; y: uint; width: uint; height: uint) {.cdecl, importc:"wgpuRenderPassEncoderSetScissorRect".}
 proc renderPassEncoderSetStencilReference*( renderPassEncoder: RenderPassEncoder; reference: uint) {.cdecl, importc:"wgpuRenderPassEncoderSetStencilReference".}
 proc renderPassEncoderSetVertexBuffer*(renderPassEncoder: RenderPassEncoder; slot: uint; buffer: Buffer; offset: uint64; size: uint64) {.cdecl, importc:"wgpuRenderPassEncoderSetVertexBuffer".}
@@ -1381,8 +1381,8 @@ proc samplerSetLabel*(sampler: Sampler; label: cstring) {.cdecl, importc: "wgpuS
 proc shaderModuleGetCompilationInfo*(shaderModule: ShaderModule; callback: CompilationInfoCallback; userdata: pointer) {.cdecl, importc:"wgpuShaderModuleGetCompilationInfo".}
 proc shaderModuleSetLabel*(shaderModule: ShaderModule; label: cstring) {.cdecl, importc: "wgpuShaderModuleSetLabel".}
 # proc surfaceGetPreferredFormat*(surface: Surface; adapter: Adapter): TextureFormat {.cdecl, importc:"wgpuSurfaceGetPreferredFormat".}
-proc swapChainGetCurrentTextureView*(swapChain: SwapChain): TextureView {.cdecl, importc: "wgpuSwapChainGetCurrentTextureView".}
-proc swapChainPresent*(swapChain: SwapChain) {.cdecl, importc: "wgpuSwapChainPresent".}
+# proc swapChainGetCurrentTextureView*(swapChain: SwapChain): TextureView {.cdecl, importc: "wgpuSwapChainGetCurrentTextureView".}
+# proc swapChainPresent*(swapChain: SwapChain) {.cdecl, importc: "wgpuSwapChainPresent".}
 proc textureCreateView*(texture: Texture; descriptor: ptr TextureViewDescriptor): TextureView {.cdecl, importc:"wgpuTextureCreateView".}
 proc textureDestroy*(texture: Texture) {.cdecl, importc: "wgpuTextureDestroy".}
 proc textureGetDepthOrArrayLayers*(texture: Texture): uint {.cdecl, importc: "wgpuTextureGetDepthOrArrayLayers".}
@@ -1558,5 +1558,5 @@ proc shaderModuleDrop*(shaderModule: ShaderModule) {.cdecl, importc: "wgpuShader
 proc surfaceDrop*(surface: Surface) {.cdecl, importc: "wgpuSurfaceDrop".}
 proc swapChainDrop*(swapChain: SwapChain) {.cdecl, importc: "wgpuSwapChainDrop".}
 proc textureDrop*(texture: Texture) {.cdecl, importc: "wgpuTextureDrop".}
-proc textureViewDrop*(textureView: TextureView) {.cdecl, importc: "wgpuTextureViewDrop".}
+# proc textureViewDrop*(textureView: TextureView) {.cdecl, importc: "wgpuTextureViewDrop".}
 proc free*(`ptr`: pointer; size: csize_t; align: csize_t) {.cdecl, importc: "wgpuFree".}

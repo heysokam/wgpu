@@ -24,9 +24,21 @@ proc createRenderPipeline      *(device :Device; descriptor :ptr RenderPipelineD
 type CreateRenderPipelineAsyncCallback * = proc (status :CreatePipelineAsyncStatus; pipeline :RenderPipeline; message :cstring; userdata :pointer) :void {.cdecl.}
 proc createRenderPipelineAsync *(device :Device; descriptor :ptr RenderPipelineDescriptor; callback :CreateRenderPipelineAsyncCallback; userdata :pointer) {.cdecl, importc:"wgpuDeviceCreateRenderPipelineAsync", header: "webgpu.h".}
 proc createSwapChain           *(device :Device; surface :Surface; descriptor :ptr SwapChainDescriptor) :SwapChain {.cdecl, importc:"wgpuDeviceCreateSwapChain", header: "webgpu.h".}
+proc createCommandEncoder      *(device :Device; descriptor :ptr CommandEncoderDescriptor) :CommandEncoder {.cdecl, importc:"wgpuDeviceCreateCommandEncoder", header: "webgpu.h".}
+proc getQueue                  *(device :Device) :Queue {.cdecl, importc: "wgpuDeviceGetQueue", header: "webgpu.h".}
 # Surface
 proc getPreferredFormat *(surface :Surface; adapter :Adapter) :TextureFormat {.cdecl, importc:"wgpuSurfaceGetPreferredFormat", header: "webgpu.h".}
-
+# SwapChain
+proc getCurrentTextureView *(swapChain :SwapChain) :TextureView {.cdecl, importc: "wgpuSwapChainGetCurrentTextureView", header: "webgpu.h".}
+proc present               *(swapChain :SwapChain) :void {.cdecl, importc: "wgpuSwapChainPresent", header: "webgpu.h".}
+# RenderPass Encoder
+proc setPipeline *(renderPassEncoder :RenderPassEncoder; pipeline :RenderPipeline) :void {.cdecl, importc:"wgpuRenderPassEncoderSetPipeline", header: "webgpu.h".}
+proc draw        *(renderPassEncoder :RenderPassEncoder; vertexCount :uint32; instanceCount :uint32; firstVertex :uint32; firstInstance :uint32) :void {.cdecl, importc:"wgpuRenderPassEncoderDraw", header: "webgpu.h".}
+proc End         *(renderPassEncoder :RenderPassEncoder) :void {.cdecl, importc: "wgpuRenderPassEncoderEnd", header: "webgpu.h".}
+# Command Encoder
+proc begin  *(commandEncoder :CommandEncoder; descriptor :ptr RenderPassDescriptor) :RenderPassEncoder {.cdecl, importc:"wgpuCommandEncoderBeginRenderPass", header: "webgpu.h".}
+proc finish *(commandEncoder :CommandEncoder; descriptor :ptr CommandBufferDescriptor) :CommandBuffer {.cdecl, importc:"wgpuCommandEncoderFinish", header: "webgpu.h".}
+proc submit *(queue :Queue; commandCount :uint32; commands :ptr CommandBuffer) :void {.cdecl, importc:"wgpuQueueSubmit", header: "webgpu.h".}
 
 # type BufferMapCallback* = proc (status: BufferMapAsyncStatus; userdata: pointer) {.cdecl.}
 # type CompilationInfoCallback* = proc (status: CompilationInfoRequestStatus; compilationInfo: ptr CompilationInfo; userdata: pointer) {.cdecl.}
@@ -41,7 +53,7 @@ proc generateReport *(instance :Instance; report :ptr GlobalReport) :void {.impo
 proc submitForIndex *(queue :Queue; commandCount :uint32; commands :ptr CommandBuffer) :SubmissionIndex {.importc: "wgpuQueueSubmitForIndex", header: "wgpu.h".}
 proc poll *(device :Device; wait :bool; wrappedSubmissionIndex :ptr WrappedSubmissionIndex) :bool {.importc: "wgpuDevicePoll", header: "wgpu.h".}
   ## Returns true if the queue is empty, or false if there are more queue submissions still in flight.
-proc set *(callback :LogCallback; userdata :pointer) :void {.importc: "wgpuSetLogCallback", header: "wgpu.h".}
+proc setLogCallback *(callback :LogCallback; userdata :pointer) :void {.importc: "wgpuSetLogCallback", header: "wgpu.h".}
 proc set *(level :LogLevel) :void {.importc: "wgpuSetLogLevel", header: "wgpu.h".}
 proc getVersion *() :uint32 {.importc: "wgpuGetVersion", header: "wgpu.h".}
 proc getCapabilities *(surface :Surface; adapter :Adapter; capabilities :ptr SurfaceCapabilities) :void {.importc: "wgpuSurfaceGetCapabilities", header: "wgpu.h".}

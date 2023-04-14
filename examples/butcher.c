@@ -69,17 +69,17 @@
 //   printf("UNCAPTURED ERROR (%d): %s\n", type, message);
 // }
 
-static void handleGlfwKey(GLFWwindow *window, int key, int scancode, int action, int mods) {
-  UNUSED(window); UNUSED(scancode); UNUSED(mods);
-  if (key == GLFW_KEY_ESCAPE && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-    glfwSetWindowShouldClose(window, true);
-  }
-  if (key == GLFW_KEY_R && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
-    WGPUGlobalReport report;
-    wgpuGenerateReport(instance, &report);
-    printGlobalReport(report);
-  }
-}
+// static void handleGlfwKey(GLFWwindow *window, int key, int scancode, int action, int mods) {
+//   UNUSED(window); UNUSED(scancode); UNUSED(mods);
+//   if (key == GLFW_KEY_ESCAPE && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+//     glfwSetWindowShouldClose(window, true);
+//   }
+//   if (key == GLFW_KEY_R && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+//     WGPUGlobalReport report;
+//     wgpuGenerateReport(instance, &report);
+//     printGlobalReport(report);
+//   }
+// }
 
 int main(int argc, char *argv[]) {
   // UNUSED(argc); UNUSED(argv);
@@ -263,65 +263,64 @@ int main(int argc, char *argv[]) {
   // };
 
   // glfwGetWindowSize(window, (int *)&config.width, (int *)&config.height);
+  // WGPUSwapChain swapChain = wgpuDeviceCreateSwapChain(device, surface, &config);
 
-  WGPUSwapChain swapChain = wgpuDeviceCreateSwapChain(device, surface, &config);
+  // glfwSetKeyCallback(window, handleGlfwKey);
 
-  glfwSetKeyCallback(window, handleGlfwKey);
+  // while (!glfwWindowShouldClose(window)) {
+    // WGPUTextureView nextTexture = NULL;
+    // for (int attempt = 0; attempt < 2; attempt++) {
+      // uint32_t prevWidth  = config.width;
+      // uint32_t prevHeight = config.height;
+      // glfwGetWindowSize(window, (int *)&config.width, (int *)&config.height);
+      // if (prevWidth != config.width || prevHeight != config.height) {
+        // swapChain = wgpuDeviceCreateSwapChain(device, surface, &config);
+      // }
 
-  while (!glfwWindowShouldClose(window)) {
-    WGPUTextureView nextTexture = NULL;
-    for (int attempt = 0; attempt < 2; attempt++) {
-      uint32_t prevWidth  = config.width;
-      uint32_t prevHeight = config.height;
-      glfwGetWindowSize(window, (int *)&config.width, (int *)&config.height);
-      if (prevWidth != config.width || prevHeight != config.height) {
-        swapChain = wgpuDeviceCreateSwapChain(device, surface, &config);
-      }
+      // nextTexture = wgpuSwapChainGetCurrentTextureView(swapChain);
+      // if (attempt == 0 && !nextTexture) {
+        // printf("wgpuSwapChainGetCurrentTextureView() failed; trying to create a new swap chain...\n");
+        // config.width = 0;
+        // config.height = 0;
+        // continue;
+      // }
+      // break;
+    // }
 
-      nextTexture = wgpuSwapChainGetCurrentTextureView(swapChain);
-      if (attempt == 0 && !nextTexture) {
-        printf("wgpuSwapChainGetCurrentTextureView() failed; trying to create a new swap chain...\n");
-        config.width = 0;
-        config.height = 0;
-        continue;
-      }
-      break;
-    }
+    // if (!nextTexture) {
+      // printf("Cannot acquire next swap chain texture\n");
+      // return 1;
+    // }
 
-    if (!nextTexture) {
-      printf("Cannot acquire next swap chain texture\n");
-      return 1;
-    }
+    // WGPUCommandEncoder encoder = wgpuDeviceCreateCommandEncoder(device, &(WGPUCommandEncoderDescriptor){.label = "Command Encoder"});
 
-    WGPUCommandEncoder encoder = wgpuDeviceCreateCommandEncoder(device, &(WGPUCommandEncoderDescriptor){.label = "Command Encoder"});
+    // WGPURenderPassEncoder renderPass = wgpuCommandEncoderBeginRenderPass(encoder, &(WGPURenderPassDescriptor){
+    //  .colorAttachments       = &(WGPURenderPassColorAttachment){
+    //    .view                 = nextTexture,
+    //    .resolveTarget        = NULL,
+    //    .loadOp               = WGPULoadOp_Clear,
+    //    .storeOp              = WGPUStoreOp_Store,
+    //    .clearValue           = (WGPUColor){.r=0.1, .g=0.1, .b=0.1, .a=1.0},
+    //    },
+    //  .colorAttachmentCount   = 1,
+    //  .depthStencilAttachment = NULL,
+    //  });
 
-    WGPURenderPassEncoder renderPass = wgpuCommandEncoderBeginRenderPass(encoder, &(WGPURenderPassDescriptor){
-     .colorAttachments       = &(WGPURenderPassColorAttachment){
-       .view                 = nextTexture,
-       .resolveTarget        = NULL,
-       .loadOp               = WGPULoadOp_Clear,
-       .storeOp              = WGPUStoreOp_Store,
-       .clearValue           = (WGPUColor){.r=0.1, .g=0.1, .b=0.1, .a=1.0},
-       },
-     .colorAttachmentCount   = 1,
-     .depthStencilAttachment = NULL,
-     });
+    // wgpuRenderPassEncoderSetPipeline(renderPass, pipeline);
+    // wgpuRenderPassEncoderDraw(renderPass, 3, 1, 0, 0);
+    // wgpuRenderPassEncoderEnd(renderPass);
+    // wgpuTextureViewDrop(nextTexture);
 
-    wgpuRenderPassEncoderSetPipeline(renderPass, pipeline);
-    wgpuRenderPassEncoderDraw(renderPass, 3, 1, 0, 0);
-    wgpuRenderPassEncoderEnd(renderPass);
-    wgpuTextureViewDrop(nextTexture);
+    // WGPUQueue queue = wgpuDeviceGetQueue(device);
+    // WGPUCommandBuffer cmdBuffer = wgpuCommandEncoderFinish(encoder, &(WGPUCommandBufferDescriptor){.label = NULL});
+    // wgpuQueueSubmit(queue, 1, &cmdBuffer);
+    // wgpuSwapChainPresent(swapChain);
 
-    WGPUQueue queue = wgpuDeviceGetQueue(device);
-    WGPUCommandBuffer cmdBuffer = wgpuCommandEncoderFinish(encoder, &(WGPUCommandBufferDescriptor){.label = NULL});
-    wgpuQueueSubmit(queue, 1, &cmdBuffer);
-    wgpuSwapChainPresent(swapChain);
-
-    glfwPollEvents();
+    // glfwPollEvents();
   }
 
-  glfwDestroyWindow(window);
-  glfwTerminate();
+  // glfwDestroyWindow(window);
+  // glfwTerminate();
 
-  return 0;
+  // return 0;
 }
