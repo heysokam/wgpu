@@ -245,24 +245,24 @@ int main(int argc, char *argv[]) {
     // .depthStencil             = NULL,
     // });
 
-  WGPUSwapChainDescriptor config = (WGPUSwapChainDescriptor){
-    .nextInChain       = (const WGPUChainedStruct *)&(WGPUSwapChainDescriptorExtras){
-      .chain           = (WGPUChainedStruct){
-        .next          = NULL,
-        .sType         = (WGPUSType)WGPUSType_SwapChainDescriptorExtras,
-        },
-      .alphaMode       = WGPUCompositeAlphaMode_Auto,
-      .viewFormatCount = 0,
-      .viewFormats     = NULL,
-      },
-    .usage             = WGPUTextureUsage_RenderAttachment,
-    .format            = swapChainFormat,
-    .width             = 0,
-    .height            = 0,
-    .presentMode       = WGPUPresentMode_Fifo,
-  };
+  // WGPUSwapChainDescriptor config = (WGPUSwapChainDescriptor){
+  //   .nextInChain       = (const WGPUChainedStruct *)&(WGPUSwapChainDescriptorExtras){
+  //     .chain           = (WGPUChainedStruct){
+  //       .next          = NULL,
+  //       .sType         = (WGPUSType)WGPUSType_SwapChainDescriptorExtras,
+  //       },
+  //     .alphaMode       = WGPUCompositeAlphaMode_Auto,
+  //     .viewFormatCount = 0,
+  //     .viewFormats     = NULL,
+  //     },
+  //   .usage             = WGPUTextureUsage_RenderAttachment,
+  //   .format            = swapChainFormat,
+  //   .width             = 0,
+  //   .height            = 0,
+  //   .presentMode       = WGPUPresentMode_Fifo,
+  // };
 
-  glfwGetWindowSize(window, (int *)&config.width, (int *)&config.height);
+  // glfwGetWindowSize(window, (int *)&config.width, (int *)&config.height);
 
   WGPUSwapChain swapChain = wgpuDeviceCreateSwapChain(device, surface, &config);
 

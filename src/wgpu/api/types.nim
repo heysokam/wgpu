@@ -619,3 +619,18 @@ type CreatePipelineAsyncStatus *{.pure.}= enum
   unknown
   force32 = 0x7FFFFFFF
 
+#___________________
+# SwapChain
+type TextureUsage *{.pure.}= enum CopySrc, CopyDst, TextureBinding, StorageBinding, RenderAttachment
+type TextureUsageFlags * = set[TextureUsage]
+template none *(_ :typedesc[TextureUsage]) :auto=  {}
+
+type SwapChainDescriptor *{.bycopy.}= object
+  nextInChain  *:ptr ChainedStruct
+  label        *:cstring
+  usage        *:TextureUsageFlags
+  format       *:TextureFormat
+  width        *:uint32
+  height       *:uint32
+  presentMode  *:PresentMode
+

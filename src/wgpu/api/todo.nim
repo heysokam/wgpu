@@ -104,8 +104,8 @@ const
   MapModeFlags*                 = Flags
   ShaderStage*                  = distinct uint32
   ShaderStageFlags*             = Flags
-  TextureUsage*                 = distinct uint32
-  TextureUsageFlags*            = Flags
+  # TextureUsage*                 = distinct uint32
+  # TextureUsageFlags*            = Flags
   # ChainedStruct* {.bycopy.} = object
   #   next*: ptr ChainedStruct
   #   sType*: SType
@@ -385,14 +385,14 @@ const
   #   display*: pointer
   #   window*: uint
 
-  SwapChainDescriptor* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    label*: cstring
-    usage*: TextureUsageFlags
-    format*: TextureFormat
-    width*: uint
-    height*: uint
-    presentMode*: PresentMode
+  # SwapChainDescriptor* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   label*: cstring
+  #   usage*: TextureUsageFlags
+  #   format*: TextureFormat
+  #   width*: uint
+  #   height*: uint
+  #   presentMode*: PresentMode
 
   TextureBindingLayout* {.bycopy.} = object
     nextInChain*: ptr ChainedStruct
@@ -1251,12 +1251,12 @@ const
   ShaderStage_Fragment* = ShaderStage(0x00000002)
   ShaderStage_Compute* = ShaderStage(0x00000004)
 
-  TextureUsage_None* = TextureUsage(0x00000000)
-  TextureUsage_CopySrc* = TextureUsage(0x00000001)
-  TextureUsage_CopyDst* = TextureUsage(0x00000002)
-  TextureUsage_TextureBinding* = TextureUsage(0x00000004)
-  TextureUsage_StorageBinding* = TextureUsage(0x00000008)
-  TextureUsage_RenderAttachment* = TextureUsage(0x00000010)
+  # TextureUsage_None* = TextureUsage(0x00000000)
+  # TextureUsage_CopySrc* = TextureUsage(0x00000001)
+  # TextureUsage_CopyDst* = TextureUsage(0x00000002)
+  # TextureUsage_TextureBinding* = TextureUsage(0x00000004)
+  # TextureUsage_StorageBinding* = TextureUsage(0x00000008)
+  # TextureUsage_RenderAttachment* = TextureUsage(0x00000010)
 
 proc getProcAddress*(device: Device; procName: cstring): Proc {.cdecl, importc: "wgpuGetProcAddress".}
 # proc adapterEnumerateFeatures*(adapter: Adapter; features: ptr Feature): csize_t {.cdecl, importc:"wgpuAdapterEnumerateFeatures".}
@@ -1315,7 +1315,7 @@ proc deviceCreateRenderBundleEncoder*(device: Device; descriptor: ptr RenderBund
 # proc deviceCreateRenderPipelineAsync*(device: Device; descriptor: ptr RenderPipelineDescriptor; callback: CreateRenderPipelineAsyncCallback; userdata: pointer) {.cdecl, importc:"wgpuDeviceCreateRenderPipelineAsync".}
 proc deviceCreateSampler*(device: Device; descriptor: ptr SamplerDescriptor): Sampler {.cdecl, importc:"wgpuDeviceCreateSampler".}
 # proc deviceCreateShaderModule*(device: Device; descriptor: ptr ShaderModuleDescriptor): ShaderModule {.cdecl, importc:"wgpuDeviceCreateShaderModule".}
-proc deviceCreateSwapChain*(device: Device; surface: Surface; descriptor: ptr SwapChainDescriptor): SwapChain {.cdecl, importc:"wgpuDeviceCreateSwapChain".}
+# proc deviceCreateSwapChain*(device: Device; surface: Surface; descriptor: ptr SwapChainDescriptor): SwapChain {.cdecl, importc:"wgpuDeviceCreateSwapChain".}
 proc deviceCreateTexture*(device: Device; descriptor: ptr TextureDescriptor): Texture {.cdecl, importc:"wgpuDeviceCreateTexture".}
 proc deviceDestroy*(device: Device) {.cdecl, importc: "wgpuDeviceDestroy".}
 proc deviceEnumerateFeatures*(device: Device; features: ptr Feature): csize_t {.cdecl, importc:"wgpuDeviceEnumerateFeatures".}

@@ -147,6 +147,27 @@ proc run=
       ), # << fragment
     )) # << pipeline
 
+  var config = SwapChainDescriptor(
+    nextInChain        : cast[ptr ChainedStruct](vaddr SwapChainDescriptorExtras(
+      chain            : ChainedStruct(
+        next           : nil,
+        sType          : SType.swapChainDescriptorExtras,
+        ), # << chain
+      alphaMode        : CompositeAlphaMode.auto,
+      viewFormatCount  : 0,
+      viewFormats      : nil,
+      )), # << nextInChain
+    label              : nil,
+    usage              : {TextureUsage.RenderAttachment},
+    format             : swapchainFormat,
+    width              : 0,
+    height             : 0,
+    presentMode        : PresentMode.fifo,
+    ) # << config (aka SwapChain Descriptor)
+  glfw.getWindowSize(window.ct, config.width.iaddr, config.height.iaddr)
+  echo &":: Initial window size: {config.width} x {config.height}"
+  var swapChain = device.createSwapChain(surface, config.addr)
+
   #__________________
   # Update loop
   while not window.close():
