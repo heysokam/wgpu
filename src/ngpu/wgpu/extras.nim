@@ -1,7 +1,7 @@
-#:________________________________________________________
-#  wgpu-nim  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
-#:________________________________________________________
-# Extra utilities specific to wgpu-nim  |
+#:____________________________________________________
+#  ngpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
+#:____________________________________________________
+# Extra utilities specific to ngpu  |
 #_______________________________________|
 # std dependencies
 import std/strformat

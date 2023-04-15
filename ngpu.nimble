@@ -1,17 +1,17 @@
-#:________________________________________________________
-#  wgpu-nim  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
-#:________________________________________________________
-include ./src/wgpu/nimble
+#:____________________________________________________
+#  ngpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
+#:____________________________________________________
+include ./src/ngpu/nimble
 
 #___________________
 # Package
-packageName   = "wgpu"
+packageName   = "ngpu"
 version       = "0.0.0"
 author        = "sOkam"
-description   = "wgpu-native bindings for Nim"
+description   = "Native WebGPU for Nim"
 license       = "MIT"
 #___________________
-# wgpu-nim specific nimble config
+# ngpu specific nimble config
 skipdirs      = @[binDir, examplesDir, testsDir, docDir, wgpuDir] # Tell nimble what folders to skip in the package
 
 #___________________

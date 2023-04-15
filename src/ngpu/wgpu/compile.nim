@@ -1,4 +1,4 @@
-{.passC: "-I./src/wgpu/api/C" .}  # Pass cflag -I to the compiler to include folder ./C
+{.passC: "-I./src/ngpu/wgpu/C" .}  # Pass cflag -I to the compiler to include folder ./C
 
 when defined(debug):  {.passL: "-L./wgpu-native/target/debug".}
 else:                 {.passL: "-L./wgpu-native/target/release".}

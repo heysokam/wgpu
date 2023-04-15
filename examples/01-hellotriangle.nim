@@ -1,13 +1,13 @@
-#:________________________________________________________
-#  wgpu-nim  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
-#:________________________________________________________
+#:____________________________________________________
+#  ngpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
+#:____________________________________________________
 # std dependencies
 import std/strformat
 import std/os
 # External dependencies
 from pkg/nglfw as glfw import nil
 # Module dependencies
-import wgpu
+import ngpu as wgpu
 
 
 #________________________________________________
@@ -59,7 +59,7 @@ proc logCB *(level :LogLevel; message :cstring; userdata :pointer) :void {.cdecl
 # state.nim
 #__________________
 var window = Window(
-  ct: nil, title: "wgpu-nim Tut",
+  ct: nil, title: "ngpu Tut",
   w:960, h:540,
   )
 
@@ -72,7 +72,7 @@ var instance :wgpu.Instance= nil
 proc run=
   #__________________
   # Init Window
-  echo "Hello wgpu-nim"
+  echo "Hello ngpu"
   window.init()
 
   #__________________

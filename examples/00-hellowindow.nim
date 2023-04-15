@@ -1,10 +1,8 @@
-#:________________________________________________________
-#  wgpu-nim  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
-#:________________________________________________________
+#:____________________________________________________
+#  ngpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
+#:____________________________________________________
 # External dependencies
 from pkg/nglfw as glfw import nil
-# Module dependencies
-import wgpu
 
 
 #________________________________________________
@@ -44,7 +42,7 @@ proc init (win :var Window) :void=
 # state.nim
 #__________________
 var window = Window(
-  ct: nil, title: "wgpu-nim HelloWindow",
+  ct: nil, title: "ngpu HelloWindow",
   w:960, h:540,
   )
 
@@ -53,7 +51,7 @@ var window = Window(
 # Entry Point
 #__________________
 proc run=
-  echo "Hello wgpu-nim"
+  echo "Hello ngpu"
   window.init()
   while not window.close():
     window.update()

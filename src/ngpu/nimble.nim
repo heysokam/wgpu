@@ -1,6 +1,6 @@
-#:________________________________________________________
-#  wgpu-nim  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
-#:________________________________________________________
+#:____________________________________________________
+#  ngpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
+#:____________________________________________________
 import std/os
 import std/strformat
 import std/strutils
@@ -8,7 +8,7 @@ import std/strutils
 ##[  NOTE:
 ## Include this file into your `PROJECT/name.nimble` file:
 include wgpu/nimble
-## This will give access to the build tasks of wgpu-nim,
+## This will give access to the build tasks of ngpu,
 nimble git   ## Updates the wgpu-native submodule
 nimble lib   ## Builds the wgpu-native library in the correct mode (release or debug)
 ## it also adds the wgpu-native dependencies to your project
@@ -29,7 +29,7 @@ var wgpuDir      = "wgpu-native"                              # Folder where the
 # Headers setup
 #___________________
 let headerDir    = wgpuDir/"ffi"                              # Folder in the wgpu submodule where the header files are stored
-let Cdir         = srcDir/"wgpu"/"api"/"C"                    # Internal folder where the header files will be stored
+let Cdir         = srcDir/"ngpu"/"wgpu"/"C"                   # Internal folder where the header files will be stored
 let headerFiles  = ["wgpu.h", "webgpu.h"]                     # Basename of the wgpu headers
 let headerFile   = Cdir/"wgpu.h"                              # Target file that will be renamed
 let headerRename = ("webgpu-headers/webgpu.h", "./webgpu.h")  # webgpu header file restructure

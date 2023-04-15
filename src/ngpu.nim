@@ -1,11 +1,7 @@
 #:____________________________________________________
 #  ngpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
 #:____________________________________________________
-# std dependencies
-import unittest
-# Module dependencies
-import ngpu
 
+import ./ngpu/types as ngpuTypes ; export ngpuTypes
+import ./ngpu/wgpu  as wgpuNim   ; export wgpuNim
 
-test "can add":
-  check 5+5 == 10
