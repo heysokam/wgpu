@@ -1,4 +1,4 @@
-# ngpu : Native GPU library in Nim
+# ngpu : Native WebGPU library in Nim
 Rendering library, targeting the design concepts of the WebGPU API.
 Don't be fooled by the `web` in the name.  
 This project's target is native gpu usage.
@@ -14,5 +14,5 @@ Dawn support might (or might not) be implemented in the future, depending on how
 ## Mandatory Disclaimers
 This library goes beyond a raw wrapper, and takes assumptions on how rendering will be done.  
 If you only want to access the wgpu wrapper, you can do `import ngpu/wgpu` instead.
-If you don't like the naming convention used, then do `import ngpu/wgpu/raw`.
+If you don't like the naming convention used in the wrapper, then do `import ngpu/wgpu/raw`.
 

@@ -20,3 +20,8 @@ task tut, "Builds the tutorial app.":
   exec "nimble lib"
   "tut".runExample
 
+#___________________
+task wgpu,     "Build+Run the hellowindow app.":   exec "nimble lib"; runExample "e00_hellowgpu"
+task clear,    "Build+Run the helloclear app.":    exec "nimble lib"; runExample "e01_helloclear"
+task triangle, "Build+Run the hellotriangle app.": exec "nimble lib"; runExample "e02_hellotriangle"
+

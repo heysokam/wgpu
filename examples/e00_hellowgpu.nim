@@ -3,6 +3,8 @@
 #:____________________________________________________
 # External dependencies
 from pkg/nglfw as glfw import nil
+# ngpu dependencies
+import ngpu/wgpu
 
 
 #________________________________________________
@@ -37,12 +39,16 @@ proc init (win :var Window) :void=
   doAssert win.ct != nil, "Failed to create GLFW window"
   discard glfw.setKeyCallback(win.ct, key)
 
+#__________________
+template getAddr [T](val :T) :string=  cast[ByteAddress](val.addr).repr
+  ## Returns the string representation of an address.
+  ## Only for readability. Not required by the app.
 
 #________________________________________________
 # state.nim
 #__________________
 var window = Window(
-  ct: nil, title: "ngpu HelloWindow",
+  ct: nil, title: "ngpu | Hello wgpu",
   w:960, h:540,
   )
 
@@ -53,6 +59,12 @@ var window = Window(
 proc run=
   echo "Hello ngpu"
   window.init()
+  var descriptor = wgpu.InstanceDescriptor(nextInChain: nil)
+  var instance   = wgpu.createInstance(descriptor.addr)
+  doAssert instance != nil, "Couldn't create the wgpu-native instance."
+  echo "wgpu works | Press Escape to close the window."
+  echo "           | descriptor address is: ", descriptor.getAddr()
+  echo "           | instance   address is: ", instance.getAddr()
   while not window.close():
     window.update()
   window.term()

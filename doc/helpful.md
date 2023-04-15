@@ -10,6 +10,10 @@ derivations        : https://www.gdcvault.com/play/1024063/PBR-Diffuse-Lighting-
 simpler            : https://learnopengl.com/PBR/Theory
 Compute rasterizer : https://github.com/OmarShehata/webgpu-compute-rasterizer/blob/main/how-to-build-a-compute-rasterizer.md
 
+# Bindless
+nvidia explanation : https://www.nvidia.com/en-us/drivers/bindless-graphics/
+blog overview      : http://web.archive.org/web/20220127012030/https://ourmachinery.com/post/moving-the-machinery-to-bindless/
+
 # Rust
 examples           : https://github.com/gfx-rs/wgpu/tree/trunk/wgpu/examples
 bindless renderer  : https://github.com/BVE-Reborn/rend3/tree/trunk
