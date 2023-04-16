@@ -23,7 +23,7 @@ type Window * = object
 #__________________
 proc key (win :glfw.Window; key, code, action, mods :cint) :void {.cdecl.}=
   ## GLFW Keyboard Input Callback
-  if (key == glfw.KEY_ESCAPE and action == glfw.PRESS):
+  if (key == glfw.KeyEscape and action == glfw.Press):
     glfw.setWindowShouldClose(win, true.cint)
 #__________________
 proc close  (win :Window) :bool=  glfw.windowShouldClose(win.ct).bool
@@ -81,9 +81,18 @@ proc run=
   wgpu.set LogLevel.warn
   #__________________
   # Init wgpu
+  # 1. Create the Instance
   instance    = wgpu.createInstance(wgpu.InstanceDescriptor(nextInChain: nil).vaddr)
+  doAssert instance != nil, "Could not initialize wgpu"
+  # 2. Create the Surface and Adapter
   var surface = instance.getSurface(window.ct)
-  var adapter :wgpu.Adapter;  instance.requestAdapter(nil, adapterRequestCB, adapter.addr)
+  var adapterOpts = RequestAdapterOptions(
+    nextInChain           : nil,
+    compatibleSurface     : surface,
+    powerPreference       : PowerPreference.highPerformance,
+    forceFallbackAdapter  : false,
+    )
+  var adapter :wgpu.Adapter;  instance.requestAdapter(adapterOpts.addr, adapterRequestCB, adapter.addr)
   echo ":: Adapter Features supported by this system: "
   for it in adapter.features(): echo ":  ",$it
   echo ":: Capabilities of the Surface supported by this system: "
@@ -94,65 +103,21 @@ proc run=
   for prsnt in presentModes:   echo ":  - ",$prsnt
   echo ":  Alpha Modes:"
   for alpha in presentModes:   echo ":  - ",$alpha
-  var device :wgpu.Device; adapter.requestDevice(nil, deviceRequestCB, device.addr)
+  var deviceDesc = DeviceDescriptor(
+    nextInChain            : nil,
+    label                  : "Hello Device",
+    requiredFeaturesCount  : 0,
+    requiredFeatures       : nil,
+    requiredLimits         : nil,
+    defaultQueue           : QueueDescriptor(
+      nextInChain          : nil,
+      label                : "Hello Default Queue"
+      ), # << defaultQueue
+    ) # << deviceDesc
+  var device :wgpu.Device; adapter.requestDevice(deviceDesc.addr, deviceRequestCB, device.addr)
   device.setUncapturedErrorCallback(errorCB, nil)
   device.setDeviceLostCallback(deviceLostCB, nil)
-  var shaderSource    = readWgsl getAppDir()/"triangle.wgsl"
-  let shader          = device.createShaderModule(shaderSource.addr)
-  let swapchainFormat = surface.getPreferredFormat(adapter)
-  let pipeline        = device.createRenderPipeline(vaddr RenderPipelineDescriptor(
-    nextInChain               : nil,
-    label                     : "Render pipeline".cstring,
-    layout                    : nil,
-    vertex                    : VertexState(
-      module                  : shader,
-      entryPoint              : "vs_main".cstring,
-      constantCount           : 0,
-      constants               : nil,
-      bufferCount             : 0,
-      buffers                 : nil,
-      ), # << vertex
-    primitive                 : PrimitiveState(
-      nextInChain             : nil,
-      topology                : PrimitiveTopology.triangleList,
-      stripIndexFormat        : IndexFormat.undefined,
-      frontFace               : FrontFace.ccw,
-      cullMode                : CullMode.none,
-      ), # << primitive
-    depthStencil              : nil,
-    multisample               : MultisampleState(
-      nextInChain             : nil,
-      count                   : 1,
-      mask                    : uint32.high,
-      alphaToCoverageEnabled  : false,
-      ), # << multisample
-    fragment                  : vaddr FragmentState(
-      nextInChain             : nil,
-      module                  : shader,
-      entryPoint              : "fs_main".cstring,
-      constantCount           : 0,
-      constants               : nil,
-      targetCount             : 1,
-      targets                 : vaddr ColorTargetState(
-        nextInChain           : nil,
-        format                : swapchainFormat,
-        blend                 : vaddr BlendState(
-          alpha               : BlendComponent(
-            operation         : BlendOperation.Add,
-            srcFactor         : BlendFactor.one,
-            dstFactor         : BlendFactor.zero,
-            ), # << alpha
-          color               : BlendComponent(
-            operation         : BlendOperation.Add,
-            srcFactor         : BlendFactor.one,
-            dstFactor         : BlendFactor.zero,
-            ), # << color
-          ), # << blend
-        writeMask             : ColorWriteMask.all,
-        ), # << targets
-      ), # << fragment
-    )) # << pipeline
-
+  # 3. Create the SwapChain
   var config = SwapChainDescriptor(
     nextInChain        : cast[ptr ChainedStruct](vaddr SwapChainDescriptorExtras(
       chain            : ChainedStruct(
@@ -165,7 +130,7 @@ proc run=
       )), # << nextInChain
     label              : nil,
     usage              : {TextureUsage.RenderAttachment},
-    format             : swapchainFormat,
+    format             : surface.getPreferredFormat(adapter),
     width              : 0,
     height             : 0,
     presentMode        : PresentMode.fifo,
@@ -173,16 +138,22 @@ proc run=
   glfw.getWindowSize(window.ct, config.width.iaddr, config.height.iaddr)
   echo &":: Initial window size: {config.width} x {config.height}"
   var swapChain = device.createSwapChain(surface, config.addr)
+  # 4. Get the device queue
+  var queue  = device.getQueue()
 
   #__________________
   # Update loop
   while not window.close():
+    # Input update from glfw
+    window.update()
+    # 5. Get the swapChain TextureView.
     var nextTexture :TextureView= nil
-    for attempt in 0..<2:  # Attempt to create the swapchain twice
+    for attempt in 0..<2:  # Attempt to get the texture view twice. It is a fallible operation by the spec, so we make 2x checks.
       var prevWidth  = config.width
       var prevHeight = config.height
       glfw.getWindowSize(window.ct, config.width.iaddr, config.height.iaddr)
-      if prevWidth != config.width or prevHeight != config.height:  # Window size changed, recreate the swapchain
+      # 5.2 Create a new swapchain if the window was resized
+      if prevWidth != config.width or prevHeight != config.height:
         swapChain = device.createSwapChain(surface, config.addr)
       nextTexture = swapChain.getCurrentTextureView()
       if attempt == 0 and nextTexture == nil:
@@ -192,38 +163,43 @@ proc run=
         continue  # Skip to the next step
       break       # Exit attempts. We are either at the second attempt, or the texture already works
     doAssert nextTexture != nil, "ERR:: Cannot acquire next swap chain texture"
-    var encoder = device.createCommandEncoder(vaddr CommandEncoderDescriptor(
+    # 6. Create the Command Encoder
+    var encoderDesc = CommandEncoderDescriptor(
       nextInChain  : nil,
       label        : "Command Encoder",
-      ))
-    var renderPass = encoder.begin(vaddr RenderPassDescriptor(
+      )
+    var encoder = device.createCommandEncoder(encoderDesc.addr)
+    # 7. Create the RenderPass
+    var renderPassAttch = RenderPassColorAttachment(
+      view                  : nextTexture,
+      resolveTarget         : nil,
+      loadOp                : LoadOp.clear,
+      storeOp               : StoreOp.store,
+      clearValue            : Color(r:1.0, g:0.0, b:0.0, a:1.0),  # WGPU Color, but similar to chroma/color
+      ) # << renderPassAttch
+    var renderPassDesc = RenderPassDescriptor(
       nextInChain             : nil,
       label                   : nil,
       colorAttachmentCount    : 1,
-      colorAttachments        : vaddr RenderPassColorAttachment(
-        view                  : nextTexture,
-        resolveTarget         : nil,
-        loadOp                : LoadOp.clear,
-        storeOp               : StoreOp.store,
-        clearValue            : Color(r:0.1, g:0.1, b:0.1, a:1.0),  # WGPU Color, but similar to chroma/color
-        ), # << colorAttachments
+      colorAttachments        : renderPassAttch.addr,
       depthStencilAttachment  : nil,
       occlusionQuerySet       : nil,
       timestampWriteCount     : 0,
       timestampWrites         : nil,
-      )) # << renderPass
-    # Draw into the texture with the given settings
-    renderPass.setPipeline(pipeline)
-    renderPass.draw(3,1,0,0)  # vertexCount, instanceCount, firstVertex, firstInstance
+      ) # << renderPassDesc
+    var renderPass = encoder.begin(renderPassDesc.addr)
+    # 8. Draw into the texture with the given settings, and finalize the pass.
     renderPass.End()
-    nextTexture.drop()
-    # Submit the Rendering Queue, and present it to the surface
-    var queue     = device.getQueue()
-    var cmdBuffer = encoder.finish(vaddr CommandBufferDescriptor(nextInChain: nil, label: nil))
+    nextTexture.drop()  # Required by wgpu-native. Not standard WebGPU
+    # 9. Submit the Rendering Queue
+    var cmdBufferDesc = CommandBufferDescriptor(
+      nextInChain : nil,
+      label       : "Hello Command Buffer",
+      )
+    var cmdBuffer = encoder.finish(cmdBufferDesc.addr)
     queue.submit(1, cmdBuffer.addr)
+    # 10. Present the next swapchain texture on the screen.
     swapChain.present()  # like gl.swapBuffers()
-    # Input update from glfw
-    window.update()
 
   #__________________
   # Terminate

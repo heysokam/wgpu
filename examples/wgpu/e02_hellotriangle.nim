@@ -23,7 +23,7 @@ type Window * = object
 #__________________
 proc key (win :glfw.Window; key, code, action, mods :cint) :void {.cdecl.}=
   ## GLFW Keyboard Input Callback
-  if (key == glfw.KEY_ESCAPE and action == glfw.PRESS):
+  if (key == glfw.KeyEscape and action == glfw.Press):
     glfw.setWindowShouldClose(win, true.cint)
 #__________________
 proc close  (win :Window) :bool=  glfw.windowShouldClose(win.ct).bool
@@ -54,6 +54,22 @@ proc deviceLostCB *(reason :DeviceLostReason; message :cstring; userdata :pointe
 proc logCB *(level :LogLevel; message :cstring; userdata :pointer) :void {.cdecl.}=
   echo &"[{$level}] {$message}"
 
+# Triangle shader
+const shaderCode = """
+@vertex
+fn vs_main(
+    @builtin(vertex_index) aID :u32
+  ) ->@builtin(position) vec4<f32> {
+  let x = f32(i32(aID) - 1);
+  let y = f32(i32(aID & 1u) * 2 - 1);
+  return vec4<f32>(x, y, 0.0, 1.0);
+}
+
+@fragment
+fn fs_main() ->@location(0) vec4<f32> {
+  return vec4<f32>(1.0, 0.0, 0.0, 1.0);
+}
+"""
 
 #________________________________________________
 # state.nim
@@ -97,8 +113,8 @@ proc run=
   var device :wgpu.Device; adapter.requestDevice(nil, deviceRequestCB, device.addr)
   device.setUncapturedErrorCallback(errorCB, nil)
   device.setDeviceLostCallback(deviceLostCB, nil)
-  var shaderSource    = readWgsl getAppDir()/"triangle.wgsl"
-  let shader          = device.createShaderModule(shaderSource.addr)
+  var shaderDesc      = shaderCode.wgslToDescriptor
+  let shader          = device.createShaderModule(shaderDesc.addr)
   let swapchainFormat = surface.getPreferredFormat(adapter)
   let pipeline        = device.createRenderPipeline(vaddr RenderPipelineDescriptor(
     nextInChain               : nil,
