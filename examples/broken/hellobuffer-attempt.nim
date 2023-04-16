@@ -1,6 +1,9 @@
 #:____________________________________________________
 #  ngpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
 #:____________________________________________________
+# BROKEN : Attempt from chapter                  |
+#   `First Buffer` in LearnWebGPU-C++ tutorial.  |
+#________________________________________________|
 # std dependencies
 import std/strformat
 import std/os

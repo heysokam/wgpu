@@ -99,7 +99,13 @@ proc run=
   # Init wgpu
   instance    = wgpu.createInstance(wgpu.InstanceDescriptor(nextInChain: nil).vaddr)
   var surface = instance.getSurface(window.ct)
-  var adapter :wgpu.Adapter;  instance.requestAdapter(nil, adapterRequestCB, adapter.addr)
+  var adapterOpts = RequestAdapterOptions(
+    nextInChain           : nil,
+    compatibleSurface     : surface,
+    powerPreference       : PowerPreference.highPerformance,
+    forceFallbackAdapter  : false,
+    )
+  var adapter :wgpu.Adapter;  instance.requestAdapter(adapterOpts.addr, adapterRequestCB, adapter.addr)
   echo ":: Adapter Features supported by this system: "
   for it in adapter.features(): echo ":  ",$it
   echo ":: Capabilities of the Surface supported by this system: "
@@ -110,7 +116,18 @@ proc run=
   for prsnt in presentModes:   echo ":  - ",$prsnt
   echo ":  Alpha Modes:"
   for alpha in presentModes:   echo ":  - ",$alpha
-  var device :wgpu.Device; adapter.requestDevice(nil, deviceRequestCB, device.addr)
+  var deviceDesc = DeviceDescriptor(
+    nextInChain            : nil,
+    label                  : "Hello Device",
+    requiredFeaturesCount  : 0,
+    requiredFeatures       : nil,
+    requiredLimits         : nil,
+    defaultQueue           : QueueDescriptor(
+      nextInChain          : nil,
+      label                : "Hello Default Queue"
+      ), # << defaultQueue
+    ) # << deviceDesc
+  var device :wgpu.Device; adapter.requestDevice(deviceDesc.addr, deviceRequestCB, device.addr)
   device.setUncapturedErrorCallback(errorCB, nil)
   device.setDeviceLostCallback(deviceLostCB, nil)
   var shaderDesc      = shaderCode.wgslToDescriptor

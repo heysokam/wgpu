@@ -21,11 +21,10 @@ type DeviceLostCallback * = proc (reason :DeviceLostReason; message :cstring; us
 proc setDeviceLostCallback     *(device :Device; callback :DeviceLostCallback; userdata :pointer) :void {.cdecl, importc:"wgpuDeviceSetDeviceLostCallback", header: "webgpu.h".}
 proc createShaderModule        *(device :Device; descriptor :ptr ShaderModuleDescriptor) :ShaderModule {.cdecl, importc:"wgpuDeviceCreateShaderModule", header: "webgpu.h".}
 proc createRenderPipeline      *(device :Device; descriptor :ptr RenderPipelineDescriptor): RenderPipeline {.cdecl, importc:"wgpuDeviceCreateRenderPipeline", header: "webgpu.h".}
-type CreateRenderPipelineAsyncCallback * = proc (status :CreatePipelineAsyncStatus; pipeline :RenderPipeline; message :cstring; userdata :pointer) :void {.cdecl.}
-proc createRenderPipelineAsync *(device :Device; descriptor :ptr RenderPipelineDescriptor; callback :CreateRenderPipelineAsyncCallback; userdata :pointer) {.cdecl, importc:"wgpuDeviceCreateRenderPipelineAsync", header: "webgpu.h".}
 proc createSwapChain           *(device :Device; surface :Surface; descriptor :ptr SwapChainDescriptor) :SwapChain {.cdecl, importc:"wgpuDeviceCreateSwapChain", header: "webgpu.h".}
 proc createCommandEncoder      *(device :Device; descriptor :ptr CommandEncoderDescriptor) :CommandEncoder {.cdecl, importc:"wgpuDeviceCreateCommandEncoder", header: "webgpu.h".}
 proc getQueue                  *(device :Device) :Queue {.cdecl, importc: "wgpuDeviceGetQueue", header: "webgpu.h".}
+proc createBuffer              *(device :Device; descriptor :ptr BufferDescriptor) :Buffer {.cdecl, importc:"wgpuDeviceCreateBuffer", header: "webgpu.h".}
 # Surface
 proc getPreferredFormat *(surface :Surface; adapter :Adapter) :TextureFormat {.cdecl, importc:"wgpuSurfaceGetPreferredFormat", header: "webgpu.h".}
 # SwapChain
@@ -38,13 +37,19 @@ proc End         *(renderPassEncoder :RenderPassEncoder) :void {.cdecl, importc:
 # Command Encoder
 proc begin  *(commandEncoder :CommandEncoder; descriptor :ptr RenderPassDescriptor) :RenderPassEncoder {.cdecl, importc:"wgpuCommandEncoderBeginRenderPass", header: "webgpu.h".}
 proc finish *(commandEncoder :CommandEncoder; descriptor :ptr CommandBufferDescriptor) :CommandBuffer {.cdecl, importc:"wgpuCommandEncoderFinish", header: "webgpu.h".}
-proc submit *(queue :Queue; commandCount :uint32; commands :ptr CommandBuffer) :void {.cdecl, importc:"wgpuQueueSubmit", header: "webgpu.h".}
+proc copy   *(commandEncoder :CommandEncoder; source :Buffer; sourceOffset :uint64; destination :Buffer; destinationOffset :uint64; size :uint64) :void {.cdecl, importc:"wgpuCommandEncoderCopyBufferToBuffer", header: "webgpu.h".}
+  ## Copy Buffer to Buffer
+# Queue
+proc submit      *(queue :Queue; commandCount :uint32; commands :ptr CommandBuffer) :void {.cdecl, importc:"wgpuQueueSubmit", header: "webgpu.h".}
+proc writeBuffer *(queue :Queue; buffer :Buffer; bufferOffset :uint64; data :pointer; size :csize_t) :void {.cdecl, importc:"wgpuQueueWriteBuffer", header: "webgpu.h".}
+type BufferMapCallback * = proc (status :BufferMapAsyncStatus; userdata :pointer) :void {.cdecl.}
+proc mapAsync    *(buffer :Buffer; mode :MapModeFlags; offset :csize_t; size :csize_t; callback :BufferMapCallback; userdata :pointer) :void {.cdecl, importc:"wgpuBufferMapAsync", header: "webgpu.h".}
+# type ProcBufferMapAsync * = proc (buffer :Buffer; mode :MapModeFlags; offset :csize_t; size :csize_t; callback :BufferMapCallback; userdata :pointer) :void {.cdecl.}
+proc getMappedRange *(buffer :Buffer; offset :csize_t; size :csize_t) :pointer {.cdecl, importc:"wgpuBufferGetMappedRange", header: "webgpu.h".}
+proc unmap          *(buffer :Buffer) :void {.cdecl, importc: "wgpuBufferUnmap", header: "webgpu.h".}
+proc destroy        *(buffer :Buffer) :void {.cdecl, importc: "wgpuBufferDestroy", header: "webgpu.h".}
 
-# type BufferMapCallback* = proc (status: BufferMapAsyncStatus; userdata: pointer) {.cdecl.}
-# type CompilationInfoCallback* = proc (status: CompilationInfoRequestStatus; compilationInfo: ptr CompilationInfo; userdata: pointer) {.cdecl.}
-# type CreateComputePipelineAsyncCallback* = proc (status: CreatePipelineAsyncStatus; pipeline: ComputePipeline; message: cstring; userdata: pointer) {.cdecl.}
 # type Proc* = proc () {.cdecl.}
-# type QueueWorkDoneCallback* = proc (status: QueueWorkDoneStatus; userdata: pointer) {.cdecl.}
 
 #_______________________________________
 # wgpu.h
@@ -84,4 +89,70 @@ proc drop *(surface :Surface) :void {.importc: "wgpuSurfaceDrop", header: "wgpu.
 proc drop *(swapChain :SwapChain) :void {.importc: "wgpuSwapChainDrop", header: "wgpu.h".}
 proc drop *(texture :Texture) :void {.importc: "wgpuTextureDrop", header: "wgpu.h".}
 proc drop *(textureView :TextureView) :void {.importc: "wgpuTextureViewDrop", header: "wgpu.h".}
+
+
+#_______________________________________
+# wgpu-native/src/unimplemented.rs
+#___________________
+type Proc* = proc () {.cdecl.}
+# BindGroup
+proc setLabel*(bindGroup: BindGroup; label: cstring) {.cdecl, importc: "wgpuBindGroupSetLabel", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+proc layoutSetLabel*(bindGroupLayout: BindGroupLayout; label: cstring) {.cdecl, importc:"wgpuBindGroupLayoutSetLabel", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+# Buffer
+proc getSize*(buffer: Buffer): uint64 {.cdecl, importc: "wgpuBufferGetSize", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+proc getUsage*(buffer: Buffer): BufferUsage {.cdecl, importc: "wgpuBufferGetUsage", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+proc setLabel*(buffer: Buffer; label: cstring) {.cdecl, importc: "wgpuBufferSetLabel", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+# CommandBuffer
+proc setLabel*(commandBuffer: CommandBuffer; label: cstring) {.cdecl, importc: "wgpuCommandBufferSetLabel", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+proc setLabel*(commandEncoder: CommandEncoder; label: cstring) {.cdecl, importc:"wgpuCommandEncoderSetLabel", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+# Compute
+proc setLabel*(computePassEncoder: ComputePassEncoder; label: cstring) {.cdecl, importc:"wgpuComputePassEncoderSetLabel", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+proc setLabel*(computePipeline: ComputePipeline; label: cstring) {.cdecl, importc:"wgpuComputePipelineSetLabel", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+# Device
+proc getProcAddress*(device: Device; procName: cstring): Proc {.cdecl, importc: "wgpuGetProcAddress", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+proc popErrorScope*(device: Device; callback: ErrorCallback; userdata: pointer): bool {.cdecl, importc:"wgpuDevicePopErrorScope", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+proc pushErrorScope*(device: Device; filter: ErrorFilter) {.cdecl, importc: "wgpuDevicePushErrorScope", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+proc setLabel*(device: Device; label: cstring) {.cdecl, importc: "wgpuDeviceSetLabel", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+type CreateComputePipelineAsyncCallback* = proc (status: CreatePipelineAsyncStatus; pipeline: ComputePipeline; message: cstring; userdata: pointer) {.cdecl.}
+proc createComputePipelineAsync*(device: Device; descriptor: ptr ComputePipelineDescriptor; callback: CreateComputePipelineAsyncCallback; userdata: pointer) {.cdecl, importc:"wgpuDeviceCreateComputePipelineAsync", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+type CreateRenderPipelineAsyncCallback * = proc (status :CreatePipelineAsyncStatus; pipeline :RenderPipeline; message :cstring; userdata :pointer) :void {.cdecl.}
+proc createRenderPipelineAsync *(device :Device; descriptor :ptr RenderPipelineDescriptor; callback :CreateRenderPipelineAsyncCallback; userdata :pointer) {.cdecl, importc:"wgpuDeviceCreateRenderPipelineAsync", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+# Instance
+proc processEvents*(instance: Instance) {.cdecl, importc: "wgpuInstanceProcessEvents", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+# Pipeline
+proc setLabel*(pipelineLayout: PipelineLayout; label: cstring) {.cdecl, importc:"wgpuPipelineLayoutSetLabel", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+# QuerySet
+proc destroy*(querySet: QuerySet) {.cdecl, importc: "wgpuQuerySetDestroy", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+proc getCount*(querySet: QuerySet): uint {.cdecl, importc: "wgpuQuerySetGetCount", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+proc getType*(querySet: QuerySet): QueryType {.cdecl, importc: "wgpuQuerySetGetType", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+proc setLabel*(querySet: QuerySet; label: cstring) {.cdecl, importc: "wgpuQuerySetSetLabel", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+# Queue
+type QueueWorkDoneCallback * = proc (status :QueueWorkDoneStatus; userdata :pointer) :void {.cdecl.}
+proc onSubmittedWorkDone *(queue :Queue; callback :QueueWorkDoneCallback; userdata :pointer) {.cdecl, importc:"wgpuQueueOnSubmittedWorkDone", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+proc setLabel*(queue: Queue; label: cstring) {.cdecl, importc: "wgpuQueueSetLabel", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+# RenderBundle
+proc setLabel*(renderBundleEncoder: RenderBundleEncoder; label: cstring) {.cdecl, importc:"wgpuRenderBundleEncoderSetLabel", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+# RenderPass
+proc beginOcclusionQuery*(renderPassEncoder: RenderPassEncoder; queryIndex: uint) {.cdecl, importc:"wgpuRenderPassEncoderBeginOcclusionQuery", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+proc endOcclusionQuery*(renderPassEncoder: RenderPassEncoder) {.cdecl, importc:"wgpuRenderPassEncoderEndOcclusionQuery", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+proc setLabel*(renderPassEncoder: RenderPassEncoder; label: cstring) {.cdecl, importc:"wgpuRenderPassEncoderSetLabel", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+# RenderPipeline
+proc setLabel*(renderPipeline: RenderPipeline; label: cstring) {.cdecl, importc:"wgpuRenderPipelineSetLabel", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+# Sampler
+proc setLabel*(sampler: Sampler; label: cstring) {.cdecl, importc: "wgpuSamplerSetLabel", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+# ShaderModule
+type CompilationInfoCallback* = proc (status: CompilationInfoRequestStatus; compilationInfo: ptr CompilationInfo; userdata: pointer) {.cdecl.}
+proc getCompilationInfo*(shaderModule: ShaderModule; callback: CompilationInfoCallback; userdata: pointer) {.cdecl, importc:"wgpuShaderModuleGetCompilationInfo", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+proc setLabel*(shaderModule: ShaderModule; label: cstring) {.cdecl, importc: "wgpuShaderModuleSetLabel", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+# Texture
+proc getDepthOrArrayLayers*(texture :Texture) :uint32 {.cdecl, importc: "wgpuTextureGetDepthOrArrayLayers", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+proc getDimension*(texture :Texture) :TextureDimension {.cdecl, importc: "wgpuTextureGetDimension", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+proc getFormat*(texture :Texture) :TextureFormat {.cdecl, importc: "wgpuTextureGetFormat", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+proc getHeight*(texture :Texture) :uint32 {.cdecl, importc: "wgpuTextureGetHeight", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+proc getMipLevelCount*(texture :Texture) :uint32 {.cdecl, importc: "wgpuTextureGetMipLevelCount", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+proc getSampleCount*(texture :Texture) :uint32 {.cdecl, importc: "wgpuTextureGetSampleCount", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+proc getUsage*(texture :Texture) :TextureUsage {.cdecl, importc: "wgpuTextureGetUsage", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+proc getWidth*(texture :Texture) :uint32 {.cdecl, importc: "wgpuTextureGetWidth", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+proc setLabel*(texture :Texture; label :cstring) :void {.cdecl, importc: "wgpuTextureSetLabel", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+proc setLabel*(textureView :TextureView; label :cstring) :void {.cdecl, importc: "wgpuTextureViewSetLabel", header: "webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
 
