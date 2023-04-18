@@ -1,4 +1,4 @@
-# WGPU
+# API
 solve with nim     : https://devlog.hexops.com/2022/perfecting-webgpu-native/#dawn-native-extensions
 chained structs    : https://dawn.googlesource.com/dawn/+/a45561bb8ce067effc09758fc6ad6f10e004283c%5E%21/#F0
 dawn static lib    : https://github.com/hexops/mach-gpu-dawn

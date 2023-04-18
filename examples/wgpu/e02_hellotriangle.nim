@@ -79,9 +79,6 @@ var window = Window(
   w:960, h:540,
   )
 
-# WGPU state
-var instance :wgpu.Instance= nil
-
 #________________________________________________
 # Entry Point
 #__________________
@@ -97,9 +94,10 @@ proc run=
   wgpu.set LogLevel.warn
   #__________________
   # Init wgpu
-  instance    = wgpu.createInstance(wgpu.InstanceDescriptor(nextInChain: nil).vaddr)
-  var surface = instance.getSurface(window.ct)
-  var adapterOpts = RequestAdapterOptions(
+  var instanceDesc = InstanceDescriptor(nextInChain: nil)
+  var instance     = createInstance(instanceDesc.addr)
+  var surface      = instance.getSurface(window.ct)
+  var adapterOpts  = RequestAdapterOptions(
     nextInChain           : nil,
     compatibleSurface     : surface,
     powerPreference       : PowerPreference.highPerformance,

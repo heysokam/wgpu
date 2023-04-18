@@ -1,9 +1,9 @@
 #:____________________________________________________
 #  ngpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
 #:____________________________________________________
-# BROKEN : Attempt from chapter                  |
-#   `First Buffer` in LearnWebGPU-C++ tutorial.  |
-#________________________________________________|
+# Write a Buffer to GPU, and read its data back     |
+# No window, no compute. Only does a read/write op  |
+#___________________________________________________|
 # std dependencies
 import std/strformat
 import std/os
@@ -11,38 +11,6 @@ import std/os
 from pkg/nglfw as glfw import nil
 # Module dependencies
 import ngpu as wgpu
-
-
-#________________________________________________
-# types.nim
-#__________________
-type Window * = object
-  ct     *:glfw.Window
-  w,h    *:int32
-  title  *:string
-
-#________________________________________________
-# window.nim
-#__________________
-proc key (win :glfw.Window; key, code, action, mods :cint) :void {.cdecl.}=
-  ## GLFW Keyboard Input Callback
-  if (key == glfw.KeyEscape and action == glfw.Press):
-    glfw.setWindowShouldClose(win, true.cint)
-#__________________
-proc close  (win :Window) :bool=  glfw.windowShouldClose(win.ct).bool
-  ## Returns true when the GLFW window has been marked to be closed.
-proc term   (win :Window) :void=  glfw.destroyWindow(win.ct); glfw.terminate()
-  ## Terminates the GLFW window.
-proc update (win :Window) :void=  glfw.pollEvents()
-  ## Updates the window. Needs to be called each frame.
-#__________________
-proc init(win :var Window) :void=
-  ## Initializes the window with GLFW.
-  doAssert glfw.init().bool, "Failed to Initialize GLFW"
-  glfw.windowHint(glfw.CLIENT_API, glfw.NO_API)
-  win.ct = glfw.createWindow(win.w, win.h, win.title.cstring, nil, nil)
-  doAssert win.ct != nil, "Failed to create GLFW window"
-  discard glfw.setKeyCallback(win.ct, key)
 
 #__________________
 # WGPU callbacks
@@ -62,43 +30,24 @@ when false:  # Disable compilation. Here for future reference. wgpuQueueOnSubmit
   proc queueDoneCB (status :QueueWorkDoneStatus; userdata :pointer) :void {.cdecl.}=
     echo &"wgpu -> Queue Work: Finished with status: {$status}"
 #_____________________________
-# NEW : Buffer Related Callbacks
-var bufferStorage :Buffer ## We store the return of the GPU callback in a global state variable, so the callback can access it
-#_____________________________
 proc buffer2MappedCB (status :BufferMapAsyncStatus; userdata :pointer) :void {.cdecl.}=
   ## Function called back when our Async Buffer Map happens
-  bufferStorage = cast[wgpu.Buffer](userdata)
   echo &"wgpu -> buffer2 mapped with status: {$status}"
   if status != BufferMapAsyncStatus.success: return
-  # Get a pointer to wherever the driver mapped the GPU memory to the RAM
-  let data = cast[ptr UncheckedArray[uint8]](bufferStorage.getMappedRange(0,16))
+  let buf  = cast[ptr wgpu.Buffer](userdata)[] # Get the Buffer (aka data[]) contained inside the userdata pointer, which we know its a ptr Buffer
+  let data = cast[ptr UncheckedArray[uint8]](buf.getMappedRange(0,16))
   # Do something with the given data.            NOTE: stdout.write is just for formatting. This could be just `echo` instead
-  stdout.write "wgpu -> Buffer2 Data = ["            # write to console, but don't add `\n` so everything is in the same line
+  stdout.write "wgpu -> Buffer2 Data = [ "           # write to console, but don't add `\n` so everything is in the same line
   for num in 0..<16: stdout.write(&"{$data[num]}, ") # write each of the numbers stored in buffer data[] to console
   stdout.write " ]\n"                                # add a newline at the end
-  # Unmap the buffer when we are done
-  bufferStorage.unmap()
 #________________________________________________
 
-#________________________________________________
-# state.nim
-#__________________
-var window = Window(
-  ct: nil, title: "ngpu Tut",
-  w:960, h:540,
-  )
-
-# WGPU state
-var instance :wgpu.Instance= nil
 
 #________________________________________________
 # Entry Point
 #__________________
 proc run=
-  #__________________
-  # Init Window
   echo "Hello ngpu"
-  window.init()
 
   #__________________
   # Set wgpu.Logging
@@ -106,26 +55,15 @@ proc run=
   wgpu.set LogLevel.warn
   #__________________
   # Init wgpu
-  instance    = wgpu.createInstance(wgpu.InstanceDescriptor(nextInChain: nil).vaddr)
-  var surface = instance.getSurface(window.ct)
+  var instance = wgpu.createInstance(wgpu.InstanceDescriptor(nextInChain: nil).vaddr)
   var adapter :wgpu.Adapter;  instance.requestAdapter(vaddr RequestAdapterOptions(
       nextInChain           : nil,
-      compatibleSurface     : surface,
+      compatibleSurface     : nil,
       powerPreference       : PowerPreference.highPerformance,
       forceFallbackAdapter  : false,
       ), # << RequestAdapterOptions
     adapterRequestCB, adapter.addr,
     ) # << instance.requestAdapter()
-  echo ":: Adapter Features supported by this system: "
-  for it in adapter.features(): echo ":  ",$it
-  echo ":: Capabilities of the Surface supported by this system: "
-  let (textureFormats, presentModes, alphaModes) = surface.capabilities(adapter)
-  echo ":  Texture Formats:"
-  for formt in textureFormats: echo ":  - ",$formt
-  echo ":  Present Modes:"
-  for prsnt in presentModes:   echo ":  - ",$prsnt
-  echo ":  Alpha Modes:"
-  for alpha in presentModes:   echo ":  - ",$alpha
   var device :wgpu.Device; adapter.requestDevice(vaddr DeviceDescriptor(
       nextInChain            : nil,
       label                  : "Hello Device",
@@ -173,7 +111,7 @@ proc run=
   for num in 0..<16: numbers.add num.uint8
 
   # 5. Copy the buffer from RAM to VRAM
-  queue.writeBuffer(buffer1, 0, buffer1.addr, 16)
+  queue.writeBuffer(buffer1, 0, numbers[0].addr, 16)
 
   # 6. Create the CommandEncoder, which is needed to do anything other than uploading data.
   var encoder = device.createCommandEncoder(vaddr CommandEncoderDescriptor(
@@ -194,32 +132,24 @@ proc run=
   queue.submit(1, cmdBuffer.addr)
 
   # 10. Map our second buffer
-  bufferStorage = buffer2
-  buffer2.mapAsync({MapMode.read}, 0, 16, buffer2MappedCB, bufferStorage.addr)
+  buffer2.mapAsync({MapMode.read}, 0, 16, buffer2MappedCB, buffer2.addr)
 
-  #__________________
-  # Update loop
-  while not window.close():
-    # Input update from glfw
-    window.update()
-    ## Update the Queue with wgpu-native specific wgpuDevicePoll(...) proc
-    discard device.poll(true, nil)
-    #vaddr WrappedSubmissionIndex(
-      # queue            : queue,
-      # submissionIndex  : 0,   # TODO : What id goes here?
-      # )) # << device.poll()
-    ##
-    # non wgpu-native specific alternative to device.poll(...) 
-    # This submits an empty request to the Queue,
-    #   which checks for asynch operations and calls their callbacks if needed
-    # queue.submit(0,nil)
+  # 11. Wait for the device to be done mapping, and read back the data
+  discard device.poll(true, nil)
+
+  # 12. Check that the data is correct
+  echo "numbers = ",numbers
+  let data = cast[ptr UncheckedArray[uint8]](buffer2.getMappedRange(0,16))
+  for num in 0..<16: doAssert data[num] == numbers[num], "Data contained in buffer2 is invalid"
+
+  # 13. Unmap the buffer when we are done
+  buffer2.unmap()
 
   #__________________
   # Terminate the GPU memory
   buffer1.destroy()
   buffer2.destroy()
-  # Terminate the window
-  window.term()
+
 #__________________
 when isMainModule: run()
 
