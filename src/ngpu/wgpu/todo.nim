@@ -62,7 +62,7 @@ const
   # CompareFunction*              = distinct uint32
   # CompilationInfoRequestStatus* = distinct uint32
   # CompilationMessageType*       = distinct uint32
-  ComputePassTimestampLocation* = distinct uint32
+  # ComputePassTimestampLocation* = distinct uint32
   # CreatePipelineAsyncStatus*    = distinct uint32
   # CullMode*                     = distinct uint32
   DeviceLostReason*             = distinct uint32
@@ -125,14 +125,14 @@ const
     adapterType*: AdapterType
     backendType*: BackendType
 
-  BindGroupEntry* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    binding*: uint
-    buffer*: Buffer
-    offset*: uint64
-    size*: uint64
-    sampler*: Sampler
-    textureView*: TextureView
+  # BindGroupEntry* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   binding*: uint
+  #   buffer*: Buffer
+  #   offset*: uint64
+  #   size*: uint64
+  #   sampler*: Sampler
+  #   textureView*: TextureView
 
   # BlendComponent* {.bycopy.} = object
   #   operation*: BlendOperation
@@ -175,10 +175,10 @@ const
   #   offset*: uint64
   #   length*: uint64
 
-  ComputePassTimestampWrite* {.bycopy.} = object
-    querySet*: QuerySet
-    queryIndex*: uint
-    location*: ComputePassTimestampLocation
+  # ComputePassTimestampWrite* {.bycopy.} = object
+  #   querySet*: QuerySet
+  #   queryIndex*: uint
+  #   location*: ComputePassTimestampLocation
 
   # ConstantEntry* {.bycopy.} = object
   #   nextInChain*: ptr ChainedStruct
@@ -422,12 +422,12 @@ const
   #   offset*: uint64
   #   shaderLocation*: uint
 
-  BindGroupDescriptor* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    label*: cstring
-    layout*: BindGroupLayout
-    entryCount*: uint
-    entries*: ptr BindGroupEntry
+  # BindGroupDescriptor* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   label*: cstring
+  #   layout*: BindGroupLayout
+  #   entryCount*: uint
+  #   entries*: ptr BindGroupEntry
 
   BindGroupLayoutEntry* {.bycopy.} = object
     nextInChain*: ptr ChainedStruct
@@ -447,11 +447,11 @@ const
   #   messageCount*: uint
   #   messages*: ptr CompilationMessage
 
-  ComputePassDescriptor* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    label*: cstring
-    timestampWriteCount*: uint
-    timestampWrites*: ptr ComputePassTimestampWrite
+  # ComputePassDescriptor* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   label*: cstring
+  #   timestampWriteCount*: uint
+  #   timestampWrites*: ptr ComputePassTimestampWrite
 
   # DepthStencilState* {.bycopy.} = object
   #   nextInChain*: ptr ChainedStruct
@@ -618,7 +618,7 @@ const
   ProcBufferSetLabel* = proc (buffer: Buffer; label: cstring) {.cdecl.}
   ProcBufferUnmap* = proc (buffer: Buffer) {.cdecl.}
   ProcCommandBufferSetLabel* = proc (commandBuffer: CommandBuffer; label: cstring) {.cdecl.}
-  ProcCommandEncoderBeginComputePass* = proc (commandEncoder: CommandEncoder; descriptor: ptr ComputePassDescriptor): ComputePassEncoder {.cdecl.}
+  # ProcCommandEncoderBeginComputePass* = proc (commandEncoder: CommandEncoder; descriptor: ptr ComputePassDescriptor): ComputePassEncoder {.cdecl.}
   ProcCommandEncoderBeginRenderPass* = proc (commandEncoder: CommandEncoder; descriptor: ptr RenderPassDescriptor): RenderPassEncoder {.cdecl.}
   ProcCommandEncoderClearBuffer* = proc (commandEncoder: CommandEncoder; buffer: Buffer; offset: uint64; size: uint64) {.cdecl.}
   ProcCommandEncoderCopyBufferToBuffer* = proc (commandEncoder: CommandEncoder; source: Buffer; sourceOffset: uint64; destination: Buffer; destinationOffset: uint64; size: uint64) {.cdecl.}
@@ -632,19 +632,19 @@ const
   ProcCommandEncoderSetLabel* = proc (commandEncoder: CommandEncoder; label: cstring) {.cdecl.}
   ProcCommandEncoderWriteTimestamp* = proc (commandEncoder: CommandEncoder; querySet: QuerySet; queryIndex: uint) {.cdecl.}
   ProcComputePassEncoderBeginPipelineStatisticsQuery* = proc ( computePassEncoder: ComputePassEncoder; querySet: QuerySet; queryIndex: uint) {.cdecl.}
-  ProcComputePassEncoderDispatchWorkgroups* = proc ( computePassEncoder: ComputePassEncoder; workgroupCountX: uint; workgroupCountY: uint; workgroupCountZ: uint) {.cdecl.}
+  # ProcComputePassEncoderDispatchWorkgroups* = proc ( computePassEncoder: ComputePassEncoder; workgroupCountX: uint; workgroupCountY: uint; workgroupCountZ: uint) {.cdecl.}
   ProcComputePassEncoderDispatchWorkgroupsIndirect* = proc ( computePassEncoder: ComputePassEncoder; indirectBuffer: Buffer; indirectOffset: uint64) {.cdecl.}
-  ProcComputePassEncoderEnd* = proc (computePassEncoder: ComputePassEncoder) {.cdecl.}
+  # ProcComputePassEncoderEnd* = proc (computePassEncoder: ComputePassEncoder) {.cdecl.}
   ProcComputePassEncoderEndPipelineStatisticsQuery* = proc ( computePassEncoder: ComputePassEncoder) {.cdecl.}
   ProcComputePassEncoderInsertDebugMarker* = proc ( computePassEncoder: ComputePassEncoder; markerLabel: cstring) {.cdecl.}
   ProcComputePassEncoderPopDebugGroup* = proc ( computePassEncoder: ComputePassEncoder) {.cdecl.}
   ProcComputePassEncoderPushDebugGroup* = proc ( computePassEncoder: ComputePassEncoder; groupLabel: cstring) {.cdecl.}
-  ProcComputePassEncoderSetBindGroup* = proc ( computePassEncoder: ComputePassEncoder; groupIndex: uint; group: BindGroup; dynamicOffsetCount: uint; dynamicOffsets: ptr uint) {.cdecl.}
+  # ProcComputePassEncoderSetBindGroup* = proc ( computePassEncoder: ComputePassEncoder; groupIndex: uint; group: BindGroup; dynamicOffsetCount: uint; dynamicOffsets: ptr uint) {.cdecl.}
   ProcComputePassEncoderSetLabel* = proc (computePassEncoder: ComputePassEncoder; label: cstring) {.cdecl.}
   ProcComputePassEncoderSetPipeline* = proc ( computePassEncoder: ComputePassEncoder; pipeline: ComputePipeline) {.cdecl.}
   ProcComputePipelineGetBindGroupLayout* = proc (computePipeline: ComputePipeline; groupIndex: uint): BindGroupLayout {.cdecl.}
   ProcComputePipelineSetLabel* = proc (computePipeline: ComputePipeline; label: cstring) {.cdecl.}
-  ProcDeviceCreateBindGroup* = proc (device: Device; descriptor: ptr BindGroupDescriptor): BindGroup {.cdecl.}
+  # ProcDeviceCreateBindGroup* = proc (device: Device; descriptor: ptr BindGroupDescriptor): BindGroup {.cdecl.}
   ProcDeviceCreateBindGroupLayout* = proc (device: Device; descriptor: ptr BindGroupLayoutDescriptor): BindGroupLayout {.cdecl.}
   ProcDeviceCreateBuffer* = proc (device: Device; descriptor: ptr BufferDescriptor): Buffer {.cdecl.}
   ProcDeviceCreateCommandEncoder* = proc (device: Device; descriptor: ptr CommandEncoderDescriptor): CommandEncoder {.cdecl.}
@@ -808,8 +808,8 @@ const
   # CompilationMessageType_Warning* = CompilationMessageType(0x00000001)
   # CompilationMessageType_Info* = CompilationMessageType(0x00000002)
 
-  ComputePassTimestampLocation_Beginning* = ComputePassTimestampLocation(0x00000000)
-  ComputePassTimestampLocation_End* = ComputePassTimestampLocation(0x00000001)
+  # ComputePassTimestampLocation_Beginning* = ComputePassTimestampLocation(0x00000000)
+  # ComputePassTimestampLocation_End* = ComputePassTimestampLocation(0x00000001)
 
   # CreatePipelineAsyncStatus_Success* = CreatePipelineAsyncStatus(0x00000000)
   # CreatePipelineAsyncStatus_Error* = CreatePipelineAsyncStatus(0x00000001)
@@ -1147,7 +1147,7 @@ proc bufferGetConstMappedRange*(buffer: Buffer; offset: csize_t; size: csize_t):
 # proc bufferSetLabel*(buffer: Buffer; label: cstring) {.cdecl, importc: "wgpuBufferSetLabel", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
 # proc bufferUnmap*(buffer: Buffer) {.cdecl, importc: "wgpuBufferUnmap".}
 # proc commandBufferSetLabel*(commandBuffer: CommandBuffer; label: cstring) {.cdecl, importc: "wgpuCommandBufferSetLabel", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
-proc commandEncoderBeginComputePass*(commandEncoder: CommandEncoder; descriptor: ptr ComputePassDescriptor): ComputePassEncoder {.cdecl, importc:"wgpuCommandEncoderBeginComputePass".}
+# proc commandEncoderBeginComputePass*(commandEncoder: CommandEncoder; descriptor: ptr ComputePassDescriptor): ComputePassEncoder {.cdecl, importc:"wgpuCommandEncoderBeginComputePass".}
 # proc commandEncoderBeginRenderPass*(commandEncoder: CommandEncoder; descriptor: ptr RenderPassDescriptor): RenderPassEncoder {.cdecl, importc:"wgpuCommandEncoderBeginRenderPass".}
 proc commandEncoderClearBuffer*(commandEncoder: CommandEncoder; buffer: Buffer; offset: uint64; size: uint64) {.cdecl, importc:"wgpuCommandEncoderClearBuffer".}
 # proc commandEncoderCopyBufferToBuffer*(commandEncoder: CommandEncoder; source: Buffer; sourceOffset: uint64; destination: Buffer; destinationOffset: uint64; size: uint64) {.cdecl, importc:"wgpuCommandEncoderCopyBufferToBuffer".}
@@ -1162,23 +1162,23 @@ proc commandEncoderResolveQuerySet*(commandEncoder: CommandEncoder; querySet: Qu
 # proc commandEncoderSetLabel*(commandEncoder: CommandEncoder; label: cstring) {.cdecl, importc:"wgpuCommandEncoderSetLabel", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
 proc commandEncoderWriteTimestamp*(commandEncoder: CommandEncoder; querySet: QuerySet; queryIndex: uint) {.cdecl, importc:"wgpuCommandEncoderWriteTimestamp".}
 proc computePassEncoderBeginPipelineStatisticsQuery*( computePassEncoder: ComputePassEncoder; querySet: QuerySet; queryIndex: uint) {.cdecl, importc:"wgpuComputePassEncoderBeginPipelineStatisticsQuery".}
-proc computePassEncoderDispatchWorkgroups*( computePassEncoder: ComputePassEncoder; workgroupCountX: uint; workgroupCountY: uint; workgroupCountZ: uint) {.cdecl, importc:"wgpuComputePassEncoderDispatchWorkgroups".}
+# proc computePassEncoderDispatchWorkgroups*( computePassEncoder: ComputePassEncoder; workgroupCountX: uint; workgroupCountY: uint; workgroupCountZ: uint) {.cdecl, importc:"wgpuComputePassEncoderDispatchWorkgroups".}
 proc computePassEncoderDispatchWorkgroupsIndirect*( computePassEncoder: ComputePassEncoder; indirectBuffer: Buffer; indirectOffset: uint64) {.cdecl, importc:"wgpuComputePassEncoderDispatchWorkgroupsIndirect".}
-proc computePassEncoderEnd*(computePassEncoder: ComputePassEncoder) {.cdecl, importc: "wgpuComputePassEncoderEnd".}
+# proc computePassEncoderEnd*(computePassEncoder: ComputePassEncoder) {.cdecl, importc: "wgpuComputePassEncoderEnd".}
 proc computePassEncoderEndPipelineStatisticsQuery*( computePassEncoder: ComputePassEncoder) {.cdecl, importc:"wgpuComputePassEncoderEndPipelineStatisticsQuery".}
 proc computePassEncoderInsertDebugMarker*( computePassEncoder: ComputePassEncoder; markerLabel: cstring) {.cdecl, importc:"wgpuComputePassEncoderInsertDebugMarker".}
 proc computePassEncoderPopDebugGroup*(computePassEncoder: ComputePassEncoder) {.cdecl, importc:"wgpuComputePassEncoderPopDebugGroup".}
 proc computePassEncoderPushDebugGroup*( computePassEncoder: ComputePassEncoder; groupLabel: cstring) {.cdecl, importc:"wgpuComputePassEncoderPushDebugGroup".}
-proc computePassEncoderSetBindGroup*(computePassEncoder: ComputePassEncoder; groupIndex: uint; group: BindGroup; dynamicOffsetCount: uint; dynamicOffsets: ptr uint) {.cdecl, importc:"wgpuComputePassEncoderSetBindGroup".}
+# proc computePassEncoderSetBindGroup*(computePassEncoder: ComputePassEncoder; groupIndex: uint; group: BindGroup; dynamicOffsetCount: uint; dynamicOffsets: ptr uint) {.cdecl, importc:"wgpuComputePassEncoderSetBindGroup".}
 # proc computePassEncoderSetLabel*(computePassEncoder: ComputePassEncoder; label: cstring) {.cdecl, importc:"wgpuComputePassEncoderSetLabel", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
-proc computePassEncoderSetPipeline*(computePassEncoder: ComputePassEncoder; pipeline: ComputePipeline) {.cdecl, importc:"wgpuComputePassEncoderSetPipeline".}
-proc computePipelineGetBindGroupLayout*(computePipeline: ComputePipeline; groupIndex: uint): BindGroupLayout {.cdecl, importc:"wgpuComputePipelineGetBindGroupLayout".}
+# proc computePassEncoderSetPipeline*(computePassEncoder: ComputePassEncoder; pipeline: ComputePipeline) {.cdecl, importc:"wgpuComputePassEncoderSetPipeline".}
+# proc computePipelineGetBindGroupLayout*(computePipeline: ComputePipeline; groupIndex: uint): BindGroupLayout {.cdecl, importc:"wgpuComputePipelineGetBindGroupLayout".}
 # proc computePipelineSetLabel*(computePipeline: ComputePipeline; label: cstring) {.cdecl, importc:"wgpuComputePipelineSetLabel", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
-proc deviceCreateBindGroup*(device: Device; descriptor: ptr BindGroupDescriptor): BindGroup {.cdecl, importc:"wgpuDeviceCreateBindGroup".}
+# proc deviceCreateBindGroup*(device: Device; descriptor: ptr BindGroupDescriptor): BindGroup {.cdecl, importc:"wgpuDeviceCreateBindGroup".}
 proc deviceCreateBindGroupLayout*(device: Device; descriptor: ptr BindGroupLayoutDescriptor): BindGroupLayout {.cdecl, importc:"wgpuDeviceCreateBindGroupLayout".}
 # proc deviceCreateBuffer*(device: Device; descriptor: ptr BufferDescriptor): Buffer {.cdecl, importc:"wgpuDeviceCreateBuffer".}
 # proc deviceCreateCommandEncoder*(device: Device; descriptor: ptr CommandEncoderDescriptor): CommandEncoder {.cdecl, importc:"wgpuDeviceCreateCommandEncoder".}
-proc deviceCreateComputePipeline*(device: Device; descriptor: ptr ComputePipelineDescriptor): ComputePipeline {.cdecl, importc:"wgpuDeviceCreateComputePipeline".}
+# proc deviceCreateComputePipeline*(device: Device; descriptor: ptr ComputePipelineDescriptor): ComputePipeline {.cdecl, importc:"wgpuDeviceCreateComputePipeline".}
 # proc deviceCreateComputePipelineAsync*(device: Device; descriptor: ptr ComputePipelineDescriptor; callback: CreateComputePipelineAsyncCallback; userdata: pointer) {.cdecl, importc:"wgpuDeviceCreateComputePipelineAsync", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
 proc deviceCreatePipelineLayout*(device: Device; descriptor: ptr PipelineLayoutDescriptor): PipelineLayout {.cdecl, importc:"wgpuDeviceCreatePipelineLayout".}
 proc deviceCreateQuerySet*(device: Device; descriptor: ptr QuerySetDescriptor): QuerySet {.cdecl, importc:"wgpuDeviceCreateQuerySet".}

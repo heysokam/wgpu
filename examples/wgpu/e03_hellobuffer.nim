@@ -91,8 +91,8 @@ proc run=
     size              : 16,
     mappedAtCreation  : false,
     )) # << device.createBuffer()
+
   # 2. Second buffer, with a `mapRead` flag so that we can map it later.
-  #    This is the one stored globally for accessing it in the callback function
   var buffer2 = device.createBuffer(vaddr BufferDescriptor(
     nextInChain       : nil,
     label             : "Output buffer: Read back from the GPU by the CPU".cstring,

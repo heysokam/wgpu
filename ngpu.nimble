@@ -25,5 +25,5 @@ task wgpu_hello,    "Build+Run the hellowindow app.":   exec "nimble lib"; runEx
 task wgpu_clear,    "Build+Run the helloclear app.":    exec "nimble lib"; runExample "wgpu/e01_helloclear"
 task wgpu_triangle, "Build+Run the hellotriangle app.": exec "nimble lib"; runExample "wgpu/e02_hellotriangle"
 task wgpu_buffer,   "Build+Run the hellobuffer app.":   exec "nimble lib"; runExample "wgpu/e03_hellobuffer"
-
+task wgpu_compute,  "Build+Run the hellocompute app.":  exec "nimble lib"; runExample "wgpu/e04_hellocompute"
 

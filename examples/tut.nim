@@ -20,8 +20,45 @@ proc deviceLostCB *(reason :DeviceLostReason; message :cstring; userdata :pointe
   echo &"DEVICE LOST: ({$reason}): {$message}"
 proc logCB *(level :LogLevel; message :cstring; userdata :pointer) :void {.cdecl.}=
   echo &"[{$level}] {$message}"
+proc bufferMappedCB (status :BufferMapAsyncStatus; userdata :pointer) :void {.cdecl.}=
+  echo &"wgpu -> buffer mapped with status: {$status}"
 #________________________________________________
 
+# Compute shader code
+const computeCode = """
+@group(0) @binding(0)
+var<storage, read_write> v_indices :array<u32>;  // this is used as both input and output for convenience
+
+// The Collatz Conjecture states that for any integer n:
+//   If n is even, n = n/2
+//   If n is odd,  n = 3n+1
+//   And repeat this process for each new n, you will always eventually reach 1.
+// Though the conjecture has not been proven, no counterexample has ever been found.
+// This function returns how many times this recurrence needs to be applied to reach 1.
+fn collatz_iterations(n_base: u32) -> u32{
+  var n :u32=  n_base;
+  var i :u32=  0u;
+  loop {
+    if (n <= 1u) { break; }
+    if (n % 2u == 0u) {
+      n = n / 2u;
+    } else {
+      // Overflow? (i.e. 3*n + 1 > 0xffffffffu?)
+      if (n >= 1431655765u) {  // 0x55555555u
+        return 4294967295u;    // 0xffffffffu
+      }
+      n = 3u * n + 1u;
+    }
+    i = i + 1u;
+  }
+  return i;
+}
+
+@compute @workgroup_size(1)
+fn main(@builtin(global_invocation_id) global_id :vec3<u32>) {
+  v_indices[global_id.x] = collatz_iterations(v_indices[global_id.x]);
+}
+"""
 
 #________________________________________________
 # Entry Point
@@ -29,10 +66,9 @@ proc logCB *(level :LogLevel; message :cstring; userdata :pointer) :void {.cdecl
 proc run=
   echo "Hello ngpu : Compute"
   #__________________
-  # Intialize the data we will compute
-  let numbers     = [1'u32, 2, 3, 4]  # array[4,int32]
-  let numbersLen  = numbers.len
-  let numbersSize = numbersLen*sizeof(numbers[0])
+  # Intialize the CPU-side data buffer we will use in the compute shader
+  let numbers     = @[1'u32, 2, 3, 4]
+  let numbersSize = uint64( numbers.len * sizeof(numbers[0]) )
 
   #__________________
   # Set wgpu.Logging
@@ -48,17 +84,23 @@ proc run=
   device.setDeviceLostCallback(deviceLostCB, nil)
 
   #__________________________________
-  # 1. First buffer, used to upload to the GPU
-  var buffer1 = device.createBuffer(vaddr BufferDescriptor(
+  # 1. Create the compute shader
+  let shader = device.create(vaddr wgslToDescriptor(
+    code  = computeCode,
+    label = "Hello Compute Shader",
+    ))
+
+  # 2. Create First buffer, used to upload to the GPU
+  var bufferStaging = device.create(vaddr BufferDescriptor(
     nextInChain       : nil,
     label             : "StagingBuffer".cstring,
     usage             : {BufferUsage.mapRead, BufferUsage.copyDst},
     size              : numbersSize,
     mappedAtCreation  : false,
     )) # << device.createBuffer()
-  # 2. Second buffer, with a `mapRead` flag so that we can map it later.
-  #    This is the one stored globally for accessing it in the callback function
-  var buffer2 = device.createBuffer(vaddr BufferDescriptor(
+
+  # 3. Create Second buffer, with a `mapRead` flag so that we can map it later.
+  var bufferStorage = device.create(vaddr BufferDescriptor(
     nextInChain       : nil,
     label             : "StorageBuffer".cstring,
     usage             : {BufferUsage.storage, BufferUsage.copyDst, BufferUsage.copySrc},
@@ -66,63 +108,99 @@ proc run=
     mappedAtCreation  : false,
     )) # << device.createBuffer()
 
-  # 3. Get the queue, and set its WorkDone Callback
-  var queue = device.getQueue()
-  when false:  # Disable compilation. Here for future reference. wgpuQueueOnSubmittedWorkDone is unimplemented by wgpu-native
-    queue.onSubmittedWorkDone(queueDoneCB, nil)
+  # 4. Create the compute pipeline
+  var computePipeline = device.create(vaddr ComputePipelineDescriptor(
+    nextInChain     : nil,
+    label           : "Hello Compute Pipeline".cstring,
+    layout          : nil,
+    compute         : ProgrammableStageDescriptor(
+      nextInChain   : nil,
+      module        : shader,
+      entryPoint    : "main".cstring,
+      constantCount : 0,
+      constants     : vaddr ConstantEntry(
+        nextInChain : nil,
+        key         : nil,
+        value       : 0.0,
+        ) # << constants
+      ) # << compute
+    )) # << device.createComputePipeline()
 
-  # 4. Create a CPU-side data buffer, of size 16 bytes, filled with numbers 0..15
-  var numbers :seq[uint8]
-  for num in 0..<16: numbers.add num.uint8
-
-  # 5. Copy the buffer from RAM to VRAM
-  queue.writeBuffer(buffer1, 0, buffer1.addr, 16)
+  # 5. Create the bindGroup
+  let bindGroup = device.create(vaddr BindGroupDescriptor(
+    nextInChain   : nil,
+    label         : "Hello Bind Group".cstring,
+    layout        : computePipeline.getBindGroupLayout(0),
+    entryCount    : 1,
+    entries       : vaddr BindGroupEntry(
+      nextInChain : nil,
+      binding     : 0,
+      buffer      : bufferStorage,
+      offset      : 0,
+      size        : numbersSize,
+      sampler     : nil,
+      textureView : nil,
+      ) # << entries
+    )) # device.createBindGroup()
 
   # 6. Create the CommandEncoder, which is needed to do anything other than uploading data.
-  var encoder = device.createCommandEncoder(vaddr CommandEncoderDescriptor(
+  var encoder = device.create(vaddr CommandEncoderDescriptor(
     nextInChain  : nil,
     label        : "Hello Command Encoder",
     )) # << device.createCommandEncoder()
 
-  # 7. Add a copy command to the encoder: Copy current state of buffer1 to buffer2
-  encoder.copy(buffer1, 0, buffer2, 0, 16)
+  # 7. Create the ComputePass
+  let computePass = encoder.begin(vaddr ComputePassDescriptor(
+    nextInChain         : nil,
+    label               : "Hello Compute Pass",
+    timestampWriteCount : 0,
+    timestampWrites     : nil,
+    )) # << encoder.beginComputePass()
 
-  # 8. Finalize the encoding operation.
+  # 8. Run the compute pass
+  computePass.set(computePipeline)
+  computePass.set(0, bindGroup, 0, nil)
+  computePass.dispatchWorkgroups(numbers.len.uint32, 1, 1)
+  computePass.End()
+  encoder.copy(bufferStorage, 0, bufferStaging, 0, numbersSize)
+
+  # 9. Get the queue, and set its WorkDone Callback
+  var queue = device.getQueue()
+
+  # 10. Finalize the encoding operation.
   var cmdBuffer = encoder.finish(vaddr CommandBufferDescriptor(
     nextInChain : nil,
     label       : "Hello Command Buffer",
     )) # << encoder.finish()
 
-  # 9. Submit the encoded CommandBuffer
+  # 11. Copy the buffer from RAM to VRAM
+  queue.writeBuffer(bufferStorage, 0, numbers[0].unsafeAddr, numbersSize.csize_t)
+
+  # 12. Submit the encoded CommandBuffer
   queue.submit(1, cmdBuffer.addr)
 
-  # 10. Map our second buffer
-  bufferStorage = buffer2
-  buffer2.mapAsync({MapMode.read}, 0, 16, buffer2MappedCB, bufferStorage.addr)
+  # 13. Map our staging Buffer
+  bufferStaging.mapAsync({MapMode.read}, 0, numbersSize.csize_t, bufferMappedCB, nil)
 
-  #__________________
-  # Update loop
-  while not window.close():
-    # Input update from glfw
-    window.update()
-    ## Update the Queue with wgpu-native specific wgpuDevicePoll(...) proc
-    discard device.poll(true, nil)
-    #vaddr WrappedSubmissionIndex(
-      # queue            : queue,
-      # submissionIndex  : 0,   # TODO : What id goes here?
-      # )) # << device.poll()
-    ##
-    # non wgpu-native specific alternative to device.poll(...) 
-    # This submits an empty request to the Queue,
-    #   which checks for asynch operations and calls their callbacks if needed
-    # queue.submit(0,nil)
+  # 14. Wait for the device to finish the async operations
+  discard device.poll(true, nil)
+
+  # 15. ComputePass is done, so read back the computed data
+  let times = cast[ptr UncheckedArray[uint32]](bufferStaging.getMappedRange(0, numbersSize.csize_t))
+
+  # 16. Do something with the given data.                  NOTE: stdout.write is just for formatting. This could be just `echo` instead
+  stdout.write "wgpu -> Resulting times = [ "                  # write to console, but don't add `\n` so everything is in the same line
+  for num in 0..<numbers.len: stdout.write(&"{$times[num]}, ") # write each of the numbers stored in buffer data[] to console
+  stdout.write " ]\n"                                          # add a newline at the end
+
+  # 17. Unmap the buffer when done using it
+  bufferStaging.unmap()
 
   #__________________
   # Terminate the GPU memory
-  buffer1.destroy()
-  buffer2.destroy()
-  # Terminate the window
-  window.term()
+  bufferStorage.destroy()
+  bufferStaging.destroy()
+
 #__________________
 when isMainModule: run()
 

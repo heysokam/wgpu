@@ -662,7 +662,7 @@ type ProgrammableStageDescriptor *{.bycopy.}= object
   nextInChain   *:ptr ChainedStruct
   module        *:ShaderModule
   entryPoint    *:cstring
-  constantCount *:uint
+  constantCount *:uint32
   constants     *:ptr ConstantEntry
 
 type ComputePipelineDescriptor *{.bycopy.}= object
@@ -696,4 +696,36 @@ type CompilationInfo *{.bycopy.}= object
 
 type TextureDimension *{.pure, size: sizeof(int32).}= enum
   dim1D, dim2D, dim3D  # Cannot start with number :_(
+
+# BindGroups
+type BindGroupEntry *{.bycopy.}= object
+  nextInChain *:ptr ChainedStruct
+  binding     *:uint32
+  buffer      *:Buffer
+  offset      *:uint64
+  size        *:uint64
+  sampler     *:Sampler
+  textureView *:TextureView
+
+type BindGroupDescriptor *{.bycopy.}= object
+  nextInChain *:ptr ChainedStruct
+  label       *:cstring
+  layout      *:BindGroupLayout
+  entryCount  *:uint32
+  entries     *:ptr BindGroupEntry
+
+# Compute Pass
+type ComputePassTimestampLocation *{.pure, size: sizeof(int32).}= enum
+  beginning, End
+
+type ComputePassTimestampWrite *{.bycopy.}= object
+  querySet   *:QuerySet
+  queryIndex *:uint32
+  location   *:ComputePassTimestampLocation
+
+type ComputePassDescriptor *{.bycopy.}= object
+  nextInChain         *:ptr ChainedStruct
+  label               *:cstring
+  timestampWriteCount *:uint32
+  timestampWrites     *:ptr ComputePassTimestampWrite
 

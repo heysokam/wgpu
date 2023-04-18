@@ -89,7 +89,8 @@ proc capabilities *(surface :Surface; adapter :Adapter
 #_______________________________________
 # Shader loading
 #___________________
-proc wgslToDescriptor *(code :string) :ShaderModuleDescriptor=
+# ShaderModuleDescriptor wgslCodeToDescriptor(const char* code, const char* label);
+proc wgslToDescriptor *(code, label :string) :ShaderModuleDescriptor=
   ## Reads the given wgsl shader code, and returns a ShaderModuleDescriptor for it.
   var descriptor         = new ShaderModuleWGSLDescriptor
   descriptor.chain.next  = nil
@@ -97,12 +98,15 @@ proc wgslToDescriptor *(code :string) :ShaderModuleDescriptor=
   descriptor.code        = code.cstring
   result = ShaderModuleDescriptor(
     nextInChain : cast[ptr ChainedStruct](descriptor.addr),
-    label       : nil,
+    label       : label.cstring,
     hintCount   : 0,
     hints       : nil,
     )
 
 #___________________
-proc readWgsl *(file :string) :ShaderModuleDescriptor=  file.readFile.wgslToDescriptor()
+# ShaderModuleDescriptor wgslFileToDescriptor(const char* src);
+proc readWgsl *(file :string) :ShaderModuleDescriptor=  file.readFile.wgslToDescriptor(label = file)
   ## Reads the given `.wgsl` shader file, and returns a ShaderModuleDescriptor for it.
 
+# ShaderModule wgslFileToShader(WGPUDevice* device, const char* src);
+# ShaderModule wgslCodeToShader(WGPUDevice* device, const char* code, const char* label);
