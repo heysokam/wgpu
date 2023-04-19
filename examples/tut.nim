@@ -4,9 +4,42 @@
 # std dependencies
 import std/strformat
 import std/os
+# External dependencies
+from pkg/nglfw as glfw import nil
 # Module dependencies
 import ngpu as wgpu
 
+
+#________________________________________________
+# types.nim
+#__________________
+type Window * = object
+  ct     *:glfw.Window
+  w,h    *:int32
+  title  *:string
+
+#________________________________________________
+# window.nim
+#__________________
+proc key (win :glfw.Window; key, code, action, mods :cint) :void {.cdecl.}=
+  ## GLFW Keyboard Input Callback
+  if (key == glfw.KeyEscape and action == glfw.Press):
+    glfw.setWindowShouldClose(win, true.cint)
+#__________________
+proc close  (win :Window) :bool=  glfw.windowShouldClose(win.ct).bool
+  ## Returns true when the GLFW window has been marked to be closed.
+proc term   (win :Window) :void=  glfw.destroyWindow(win.ct); glfw.terminate()
+  ## Terminates the GLFW window.
+proc update (win :Window) :void=  glfw.pollEvents()
+  ## Updates the window. Needs to be called each frame.
+#__________________
+proc init(win :var Window) :void=
+  ## Initializes the window with GLFW.
+  doAssert glfw.init().bool, "Failed to Initialize GLFW"
+  glfw.windowHint(glfw.CLIENT_API, glfw.NO_API)
+  win.ct = glfw.createWindow(win.w, win.h, win.title.cstring, nil, nil)
+  doAssert win.ct != nil, "Failed to create GLFW window"
+  discard glfw.setKeyCallback(win.ct, key)
 
 #__________________
 # WGPU callbacks
@@ -20,187 +53,202 @@ proc deviceLostCB *(reason :DeviceLostReason; message :cstring; userdata :pointe
   echo &"DEVICE LOST: ({$reason}): {$message}"
 proc logCB *(level :LogLevel; message :cstring; userdata :pointer) :void {.cdecl.}=
   echo &"[{$level}] {$message}"
-proc bufferMappedCB (status :BufferMapAsyncStatus; userdata :pointer) :void {.cdecl.}=
-  echo &"wgpu -> buffer mapped with status: {$status}"
-#________________________________________________
 
-# Compute shader code
-const computeCode = """
-@group(0) @binding(0)
-var<storage, read_write> v_indices :array<u32>;  // this is used as both input and output for convenience
-
-// The Collatz Conjecture states that for any integer n:
-//   If n is even, n = n/2
-//   If n is odd,  n = 3n+1
-//   And repeat this process for each new n, you will always eventually reach 1.
-// Though the conjecture has not been proven, no counterexample has ever been found.
-// This function returns how many times this recurrence needs to be applied to reach 1.
-fn collatz_iterations(n_base: u32) -> u32{
-  var n :u32=  n_base;
-  var i :u32=  0u;
-  loop {
-    if (n <= 1u) { break; }
-    if (n % 2u == 0u) {
-      n = n / 2u;
-    } else {
-      // Overflow? (i.e. 3*n + 1 > 0xffffffffu?)
-      if (n >= 1431655765u) {  // 0x55555555u
-        return 4294967295u;    // 0xffffffffu
-      }
-      n = 3u * n + 1u;
-    }
-    i = i + 1u;
-  }
-  return i;
+# Triangle shader
+const shaderCode = """
+@vertex
+fn vs_main(
+    @builtin(vertex_index) aID :u32
+  ) ->@builtin(position) vec4<f32> {
+  let x = f32(i32(aID) - 1);
+  let y = f32(i32(aID & 1u) * 2 - 1);
+  return vec4<f32>(x, y, 0.0, 1.0);
 }
 
-@compute @workgroup_size(1)
-fn main(@builtin(global_invocation_id) global_id :vec3<u32>) {
-  v_indices[global_id.x] = collatz_iterations(v_indices[global_id.x]);
+@fragment
+fn fs_main() ->@location(0) vec4<f32> {
+  return vec4<f32>(1.0, 0.0, 0.0, 1.0);
 }
 """
+
+#________________________________________________
+# state.nim
+#__________________
+var window = Window(
+  ct: nil, title: "ngpu Tut",
+  w:960, h:540,
+  )
 
 #________________________________________________
 # Entry Point
 #__________________
 proc run=
-  echo "Hello ngpu : Compute"
   #__________________
-  # Intialize the CPU-side data buffer we will use in the compute shader
-  let numbers     = @[1'u32, 2, 3, 4]
-  let numbersSize = uint64( numbers.len * sizeof(numbers[0]) )
+  # Init Window
+  echo "Hello Buffered Triangle"
+  window.init()
 
   #__________________
   # Set wgpu.Logging
   wgpu.setLogCallback(logCB, nil)
   wgpu.set LogLevel.warn
-
   #__________________
   # Init wgpu
-  var instance = wgpu.createInstance(vaddr InstanceDescriptor(nextInChain: nil))
-  var adapter :wgpu.Adapter; instance.requestAdapter(nil, adapterRequestCB, adapter.addr)
-  var device :wgpu.Device; adapter.requestDevice(nil, deviceRequestCB, device.addr)
+  var instanceDesc = InstanceDescriptor(nextInChain: nil)
+  var instance     = createInstance(instanceDesc.addr)
+  var surface      = instance.getSurface(window.ct)
+  var adapterOpts  = RequestAdapterOptions(
+    nextInChain           : nil,
+    compatibleSurface     : surface,
+    powerPreference       : PowerPreference.highPerformance,
+    forceFallbackAdapter  : false,
+    )
+  var adapter :wgpu.Adapter;  instance.requestAdapter(adapterOpts.addr, adapterRequestCB, adapter.addr)
+  var deviceDesc = DeviceDescriptor(
+    nextInChain            : nil,
+    label                  : "Hello Device",
+    requiredFeaturesCount  : 0,
+    requiredFeatures       : nil,
+    requiredLimits         : nil,
+    defaultQueue           : QueueDescriptor(
+      nextInChain          : nil,
+      label                : "Hello Default Queue"
+      ), # << defaultQueue
+    ) # << deviceDesc
+  var device :wgpu.Device; adapter.requestDevice(deviceDesc.addr, deviceRequestCB, device.addr)
   device.setUncapturedErrorCallback(errorCB, nil)
   device.setDeviceLostCallback(deviceLostCB, nil)
+  var shaderDesc      = shaderCode.wgslToDescriptor
+  let shader          = device.createShaderModule(shaderDesc.addr)
+  let swapchainFormat = surface.getPreferredFormat(adapter)
+  let pipeline        = device.createRenderPipeline(vaddr RenderPipelineDescriptor(
+    nextInChain               : nil,
+    label                     : "Render pipeline".cstring,
+    layout                    : nil,
+    vertex                    : VertexState(
+      module                  : shader,
+      entryPoint              : "vs_main".cstring,
+      constantCount           : 0,
+      constants               : nil,
+      bufferCount             : 0,
+      buffers                 : nil,
+      ), # << vertex
+    primitive                 : PrimitiveState(
+      nextInChain             : nil,
+      topology                : PrimitiveTopology.triangleList,
+      stripIndexFormat        : IndexFormat.undefined,
+      frontFace               : FrontFace.ccw,
+      cullMode                : CullMode.none,
+      ), # << primitive
+    depthStencil              : nil,
+    multisample               : MultisampleState(
+      nextInChain             : nil,
+      count                   : 1,
+      mask                    : uint32.high,
+      alphaToCoverageEnabled  : false,
+      ), # << multisample
+    fragment                  : vaddr FragmentState(
+      nextInChain             : nil,
+      module                  : shader,
+      entryPoint              : "fs_main".cstring,
+      constantCount           : 0,
+      constants               : nil,
+      targetCount             : 1,
+      targets                 : vaddr ColorTargetState(
+        nextInChain           : nil,
+        format                : swapchainFormat,
+        blend                 : vaddr BlendState(
+          alpha               : BlendComponent(
+            operation         : BlendOperation.Add,
+            srcFactor         : BlendFactor.one,
+            dstFactor         : BlendFactor.zero,
+            ), # << alpha
+          color               : BlendComponent(
+            operation         : BlendOperation.Add,
+            srcFactor         : BlendFactor.one,
+            dstFactor         : BlendFactor.zero,
+            ), # << color
+          ), # << blend
+        writeMask             : ColorWriteMask.all,
+        ), # << targets
+      ), # << fragment
+    )) # << pipeline
 
-  #__________________________________
-  # 1. Create the compute shader
-  let shader = device.create(vaddr wgslToDescriptor(
-    code  = computeCode,
-    label = "Hello Compute Shader",
-    ))
-
-  # 2. Create First buffer, used to upload to the GPU
-  var bufferStaging = device.create(vaddr BufferDescriptor(
-    nextInChain       : nil,
-    label             : "StagingBuffer".cstring,
-    usage             : {BufferUsage.mapRead, BufferUsage.copyDst},
-    size              : numbersSize,
-    mappedAtCreation  : false,
-    )) # << device.createBuffer()
-
-  # 3. Create Second buffer, with a `mapRead` flag so that we can map it later.
-  var bufferStorage = device.create(vaddr BufferDescriptor(
-    nextInChain       : nil,
-    label             : "StorageBuffer".cstring,
-    usage             : {BufferUsage.storage, BufferUsage.copyDst, BufferUsage.copySrc},
-    size              : numbersSize,
-    mappedAtCreation  : false,
-    )) # << device.createBuffer()
-
-  # 4. Create the compute pipeline
-  var computePipeline = device.create(vaddr ComputePipelineDescriptor(
-    nextInChain     : nil,
-    label           : "Hello Compute Pipeline".cstring,
-    layout          : nil,
-    compute         : ProgrammableStageDescriptor(
-      nextInChain   : nil,
-      module        : shader,
-      entryPoint    : "main".cstring,
-      constantCount : 0,
-      constants     : vaddr ConstantEntry(
-        nextInChain : nil,
-        key         : nil,
-        value       : 0.0,
-        ) # << constants
-      ) # << compute
-    )) # << device.createComputePipeline()
-
-  # 5. Create the bindGroup
-  let bindGroup = device.create(vaddr BindGroupDescriptor(
-    nextInChain   : nil,
-    label         : "Hello Bind Group".cstring,
-    layout        : computePipeline.getBindGroupLayout(0),
-    entryCount    : 1,
-    entries       : vaddr BindGroupEntry(
-      nextInChain : nil,
-      binding     : 0,
-      buffer      : bufferStorage,
-      offset      : 0,
-      size        : numbersSize,
-      sampler     : nil,
-      textureView : nil,
-      ) # << entries
-    )) # device.createBindGroup()
-
-  # 6. Create the CommandEncoder, which is needed to do anything other than uploading data.
-  var encoder = device.create(vaddr CommandEncoderDescriptor(
-    nextInChain  : nil,
-    label        : "Hello Command Encoder",
-    )) # << device.createCommandEncoder()
-
-  # 7. Create the ComputePass
-  let computePass = encoder.begin(vaddr ComputePassDescriptor(
-    nextInChain         : nil,
-    label               : "Hello Compute Pass",
-    timestampWriteCount : 0,
-    timestampWrites     : nil,
-    )) # << encoder.beginComputePass()
-
-  # 8. Run the compute pass
-  computePass.set(computePipeline)
-  computePass.set(0, bindGroup, 0, nil)
-  computePass.dispatchWorkgroups(numbers.len.uint32, 1, 1)
-  computePass.End()
-  encoder.copy(bufferStorage, 0, bufferStaging, 0, numbersSize)
-
-  # 9. Get the queue, and set its WorkDone Callback
-  var queue = device.getQueue()
-
-  # 10. Finalize the encoding operation.
-  var cmdBuffer = encoder.finish(vaddr CommandBufferDescriptor(
-    nextInChain : nil,
-    label       : "Hello Command Buffer",
-    )) # << encoder.finish()
-
-  # 11. Copy the buffer from RAM to VRAM
-  queue.writeBuffer(bufferStorage, 0, numbers[0].unsafeAddr, numbersSize.csize_t)
-
-  # 12. Submit the encoded CommandBuffer
-  queue.submit(1, cmdBuffer.addr)
-
-  # 13. Map our staging Buffer
-  bufferStaging.mapAsync({MapMode.read}, 0, numbersSize.csize_t, bufferMappedCB, nil)
-
-  # 14. Wait for the device to finish the async operations
-  discard device.poll(true, nil)
-
-  # 15. ComputePass is done, so read back the computed data
-  let times = cast[ptr UncheckedArray[uint32]](bufferStaging.getMappedRange(0, numbersSize.csize_t))
-
-  # 16. Do something with the given data.                  NOTE: stdout.write is just for formatting. This could be just `echo` instead
-  stdout.write "wgpu -> Resulting times = [ "                  # write to console, but don't add `\n` so everything is in the same line
-  for num in 0..<numbers.len: stdout.write(&"{$times[num]}, ") # write each of the numbers stored in buffer data[] to console
-  stdout.write " ]\n"                                          # add a newline at the end
-
-  # 17. Unmap the buffer when done using it
-  bufferStaging.unmap()
+  var config = SwapChainDescriptor(
+    nextInChain        : cast[ptr ChainedStruct](vaddr SwapChainDescriptorExtras(
+      chain            : ChainedStruct(
+        next           : nil,
+        sType          : SType.swapChainDescriptorExtras,
+        ), # << chain
+      alphaMode        : CompositeAlphaMode.auto,
+      viewFormatCount  : 0,
+      viewFormats      : nil,
+      )), # << nextInChain
+    label              : nil,
+    usage              : {TextureUsage.RenderAttachment},
+    format             : swapchainFormat,
+    width              : 0,
+    height             : 0,
+    presentMode        : PresentMode.fifo,
+    ) # << config (aka SwapChain Descriptor)
+  glfw.getWindowSize(window.ct, config.width.iaddr, config.height.iaddr)
+  echo &":: Initial window size: {config.width} x {config.height}"
+  var swapChain = device.createSwapChain(surface, config.addr)
 
   #__________________
-  # Terminate the GPU memory
-  bufferStorage.destroy()
-  bufferStaging.destroy()
+  # Update loop
+  while not window.close():
+    var nextTexture :TextureView= nil
+    for attempt in 0..<2:  # Attempt to create the swapchain twice
+      var prevWidth  = config.width
+      var prevHeight = config.height
+      glfw.getWindowSize(window.ct, config.width.iaddr, config.height.iaddr)
+      if prevWidth != config.width or prevHeight != config.height:  # Window size changed, recreate the swapchain
+        swapChain = device.createSwapChain(surface, config.addr)
+      nextTexture = swapChain.getCurrentTextureView()
+      if attempt == 0 and nextTexture == nil:
+        echo "WRN: swapChain.getCurrentTextureView() failed; attempting to create a new swap chain..."
+        config.width  = 0
+        config.height = 0
+        continue  # Skip to the next step
+      break       # Exit attempts. We are either at the second attempt, or the texture already works
+    doAssert nextTexture != nil, "ERR:: Cannot acquire next swap chain texture"
+    var encoder = device.createCommandEncoder(vaddr CommandEncoderDescriptor(
+      nextInChain  : nil,
+      label        : "Command Encoder",
+      ))
+    var renderPass = encoder.begin(vaddr RenderPassDescriptor(
+      nextInChain             : nil,
+      label                   : nil,
+      colorAttachmentCount    : 1,
+      colorAttachments        : vaddr RenderPassColorAttachment(
+        view                  : nextTexture,
+        resolveTarget         : nil,
+        loadOp                : LoadOp.clear,
+        storeOp               : StoreOp.store,
+        clearValue            : Color(r:0.1, g:0.1, b:0.1, a:1.0),  # WGPU Color, but similar to chroma/color
+        ), # << colorAttachments
+      depthStencilAttachment  : nil,
+      occlusionQuerySet       : nil,
+      timestampWriteCount     : 0,
+      timestampWrites         : nil,
+      )) # << renderPass
+    # Draw into the texture with the given settings
+    renderPass.setPipeline(pipeline)
+    renderPass.draw(3,1,0,0)  # vertexCount, instanceCount, firstVertex, firstInstance
+    renderPass.End()
+    nextTexture.drop()
+    # Submit the Rendering Queue, and present it to the surface
+    var queue     = device.getQueue()
+    var cmdBuffer = encoder.finish(vaddr CommandBufferDescriptor(nextInChain: nil, label: nil))
+    queue.submit(1, cmdBuffer.addr)
+    swapChain.present()  # like gl.swapBuffers()
+    # Input update from glfw
+    window.update()
 
+  #__________________
+  # Terminate
+  window.term()
 #__________________
 when isMainModule: run()
 
