@@ -1,4 +1,4 @@
 
 [submodule "wgpu-native"]
-	path = wgpu-native
+	path = src/wgpu/C/wgpu-native
 	url = https://github.com/gfx-rs/wgpu-native.git

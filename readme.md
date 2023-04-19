@@ -51,3 +51,8 @@ Use `import wgpu` to access the normal wgpu wrapper.
 If you don't like the naming convention used:
 - `import wgpu/raw` to access the completely unmodified C names.  
 
+#### Exceptions
+Names that clash with nim keywords have been kept shortened, but starting with a capital letter:  
+- `end` is always `End`, even inside enums.
+- `discard` is always `Discard`, even inside enums.
+

@@ -1,8 +1,8 @@
 #:____________________________________________________
-#  ngpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
+#  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
 #:____________________________________________________
-# Extra utilities specific to ngpu  |
-#_______________________________________|
+# Extra utilities specific to wgpu  |
+#___________________________________|
 # std dependencies
 import std/strformat
 import std/strutils

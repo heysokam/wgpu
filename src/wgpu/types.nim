@@ -1,5 +1,5 @@
 #:____________________________________________________
-#  ngpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
+#  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
 #:____________________________________________________
 # Nim has modules and overloads.               |
 # This means there are no global nameclashes.  |
@@ -576,7 +576,7 @@ type CommandBufferDescriptor *{.bycopy.}= object
 type LoadOp  *{.pure, size: sizeof(int32).}= enum
   undefined, clear, load
 type StoreOp *{.pure, size: sizeof(int32).}= enum
-  undefined, Discard
+  undefined, store, Discard
 
 type Color *{.bycopy.}= object  # Equivalent to treeform/chroma/ColorRGBA?
   r  *:float64

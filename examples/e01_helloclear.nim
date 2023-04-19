@@ -1,5 +1,5 @@
 #:____________________________________________________
-#  ngpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
+#  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
 #:____________________________________________________
 # std dependencies
 import std/strformat
@@ -7,7 +7,7 @@ import std/os
 # External dependencies
 from pkg/nglfw as glfw import nil
 # Module dependencies
-import ngpu as wgpu
+import wgpu
 
 
 #________________________________________________
@@ -59,7 +59,7 @@ proc logCB *(level :LogLevel; message :cstring; userdata :pointer) :void {.cdecl
 # state.nim
 #__________________
 var window = Window(
-  ct: nil, title: "ngpu Tut",
+  ct: nil, title: "wgpu Tut",
   w:960, h:540,
   )
 
@@ -72,7 +72,7 @@ var instance :wgpu.Instance= nil
 proc run=
   #__________________
   # Init Window
-  echo "Hello ngpu"
+  echo "Hello wgpu"
   window.init()
 
   #__________________
@@ -129,7 +129,7 @@ proc run=
       viewFormats      : nil,
       )), # << nextInChain
     label              : nil,
-    usage              : {TextureUsage.RenderAttachment},
+    usage              : {TextureUsage.renderAttachment},
     format             : surface.getPreferredFormat(adapter),
     width              : 0,
     height             : 0,
@@ -137,7 +137,7 @@ proc run=
     ) # << config (aka SwapChain Descriptor)
   glfw.getWindowSize(window.ct, config.width.iaddr, config.height.iaddr)
   echo &":: Initial window size: {config.width} x {config.height}"
-  var swapChain = device.createSwapChain(surface, config.addr)
+  var swapChain = device.create(surface, config.addr)
   # 4. Get the device queue
   var queue  = device.getQueue()
 
@@ -154,7 +154,7 @@ proc run=
       glfw.getWindowSize(window.ct, config.width.iaddr, config.height.iaddr)
       # 5.2 Create a new swapchain if the window was resized
       if prevWidth != config.width or prevHeight != config.height:
-        swapChain = device.createSwapChain(surface, config.addr)
+        swapChain = device.create(surface, config.addr)
       nextTexture = swapChain.getCurrentTextureView()
       if attempt == 0 and nextTexture == nil:
         echo "WRN: swapChain.getCurrentTextureView() failed; attempting to create a new swap chain..."
@@ -168,7 +168,7 @@ proc run=
       nextInChain  : nil,
       label        : "Command Encoder",
       )
-    var encoder = device.createCommandEncoder(encoderDesc.addr)
+    var encoder = device.create(encoderDesc.addr)
     # 7. Create the RenderPass
     var renderPassAttch = RenderPassColorAttachment(
       view                  : nextTexture,

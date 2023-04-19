@@ -1,8 +1,18 @@
-{.passC: "-I./src/ngpu/wgpu/C" .}  # Pass cflag -I to the compiler to include folder ./C
+#:____________________________________________________
+#  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
+#:____________________________________________________
+# Compilation system for linking to wgpu headers  |
+#_________________________________________________|
 
-when defined(debug):  {.passL: "-L./wgpu-native/target/debug".}
-else:                 {.passL: "-L./wgpu-native/target/release".}
+# Pass cflag -I to the compiler to include the header folders
+{.passC: "-I./src/wgpu/C/wgpu-native/ffi".}
+{.passC: "-I./src/wgpu/C/wgpu-native/ffi/webgpu-header".}
 
+# Pass ldflag to link to the folder where the libs are output
+when defined(debug):  {.passL: "-L./src/wgpu/C/wgpu-native/target/debug".}
+else:                 {.passL: "-L./src/wgpu/C/wgpu-native/target/release".}
+
+# Link to the static library
 when defined(linux):
   {.passL: "-l:libwgpu_native.a".}
 elif defined(windows):

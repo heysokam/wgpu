@@ -1,5 +1,5 @@
 #:____________________________________________________
-#  ngpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
+#  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
 #:____________________________________________________
 # Compute example from wgpu-native/examples/compute  |
 #:___________________________________________________|
@@ -7,7 +7,7 @@
 import std/strformat
 import std/os
 # Module dependencies
-import ngpu as wgpu
+import wgpu
 
 
 #__________________
@@ -66,7 +66,7 @@ fn main(@builtin(global_invocation_id) global_id :vec3<u32>) {
 # Entry Point
 #__________________
 proc run=
-  echo "Hello ngpu : Compute"
+  echo "Hello wgpu : Compute"
   #__________________
   # Intialize the CPU-side data buffer we will use in the compute shader
   let numbers     = @[1'u32, 2, 3, 4]

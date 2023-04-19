@@ -1,5 +1,5 @@
 #:____________________________________________________
-#  ngpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
+#  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
 #:____________________________________________________
 # Write a Buffer to GPU, and read its data back     |
 # No window, no compute. Only does a read/write op  |
@@ -10,7 +10,7 @@ import std/os
 # External dependencies
 from pkg/nglfw as glfw import nil
 # Module dependencies
-import ngpu as wgpu
+import wgpu
 
 #__________________
 # WGPU callbacks
@@ -47,7 +47,7 @@ proc buffer2MappedCB (status :BufferMapAsyncStatus; userdata :pointer) :void {.c
 # Entry Point
 #__________________
 proc run=
-  echo "Hello ngpu"
+  echo "Hello wgpu"
 
   #__________________
   # Set wgpu.Logging
@@ -84,7 +84,7 @@ proc run=
   # NEW : Define the Buffer Objects
   #__________________________________
   # 1. First buffer, used to upload to the GPU
-  var buffer1 = device.createBuffer(vaddr BufferDescriptor(
+  var buffer1 = device.create(vaddr BufferDescriptor(
     nextInChain       : nil,
     label             : "Input buffer: Written from the CPU to the GPU".cstring,
     usage             : {BufferUsage.copyDst, BufferUsage.copySrc},
@@ -93,7 +93,7 @@ proc run=
     )) # << device.createBuffer()
 
   # 2. Second buffer, with a `mapRead` flag so that we can map it later.
-  var buffer2 = device.createBuffer(vaddr BufferDescriptor(
+  var buffer2 = device.create(vaddr BufferDescriptor(
     nextInChain       : nil,
     label             : "Output buffer: Read back from the GPU by the CPU".cstring,
     usage             : {BufferUsage.copyDst, BufferUsage.mapRead},
@@ -114,7 +114,7 @@ proc run=
   queue.writeBuffer(buffer1, 0, numbers[0].addr, 16)
 
   # 6. Create the CommandEncoder, which is needed to do anything other than uploading data.
-  var encoder = device.createCommandEncoder(vaddr CommandEncoderDescriptor(
+  var encoder = device.create(vaddr CommandEncoderDescriptor(
     nextInChain  : nil,
     label        : "Hello Command Encoder",
     )) # << device.createCommandEncoder()

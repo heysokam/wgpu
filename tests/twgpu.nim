@@ -1,10 +1,10 @@
 #:____________________________________________________
-#  ngpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
+#  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
 #:____________________________________________________
 # std dependencies
 import unittest
 # Module dependencies
-import ngpu
+import wgpu
 
 
 test "can add":

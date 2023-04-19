@@ -1,10 +1,10 @@
 #:____________________________________________________
-#  ngpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
+#  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
 #:____________________________________________________
 # External dependencies
 from pkg/nglfw as glfw import nil
-# ngpu dependencies
-import ngpu/wgpu
+# wgpu dependencies
+import wgpu
 
 
 #________________________________________________
@@ -48,7 +48,7 @@ template getAddr [T](val :T) :string=  cast[ByteAddress](val.addr).repr
 # state.nim
 #__________________
 var window = Window(
-  ct: nil, title: "ngpu | Hello wgpu",
+  ct: nil, title: "wgpu | Hello wgpu",
   w:960, h:540,
   )
 
@@ -57,7 +57,7 @@ var window = Window(
 # Entry Point
 #__________________
 proc run=
-  echo "Hello ngpu"
+  echo "Hello wgpu"
   window.init()
   var descriptor = wgpu.InstanceDescriptor(nextInChain: nil)
   var instance   = wgpu.createInstance(descriptor.addr)

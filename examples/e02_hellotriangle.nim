@@ -1,5 +1,5 @@
 #:____________________________________________________
-#  ngpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
+#  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
 #:____________________________________________________
 # std dependencies
 import std/strformat
@@ -7,7 +7,7 @@ import std/os
 # External dependencies
 from pkg/nglfw as glfw import nil
 # Module dependencies
-import ngpu as wgpu
+import wgpu
 
 
 #________________________________________________
@@ -75,7 +75,7 @@ fn fs_main() ->@location(0) vec4<f32> {
 # state.nim
 #__________________
 var window = Window(
-  ct: nil, title: "ngpu Tut",
+  ct: nil, title: "wgpu Tut",
   w:960, h:540,
   )
 
@@ -85,7 +85,7 @@ var window = Window(
 proc run=
   #__________________
   # Init Window
-  echo "Hello ngpu"
+  echo "Hello wgpu"
   window.init()
 
   #__________________
@@ -128,10 +128,10 @@ proc run=
   var device :wgpu.Device; adapter.requestDevice(deviceDesc.addr, deviceRequestCB, device.addr)
   device.setUncapturedErrorCallback(errorCB, nil)
   device.setDeviceLostCallback(deviceLostCB, nil)
-  var shaderDesc      = shaderCode.wgslToDescriptor
-  let shader          = device.createShaderModule(shaderDesc.addr)
+  var shaderDesc      = shaderCode.wgslToDescriptor(label = "TriangleShader")
+  let shader          = device.create(shaderDesc.addr)
   let swapchainFormat = surface.getPreferredFormat(adapter)
-  let pipeline        = device.createRenderPipeline(vaddr RenderPipelineDescriptor(
+  let pipeline        = device.create(vaddr RenderPipelineDescriptor(
     nextInChain               : nil,
     label                     : "Render pipeline".cstring,
     layout                    : nil,
@@ -195,7 +195,7 @@ proc run=
       viewFormats      : nil,
       )), # << nextInChain
     label              : nil,
-    usage              : {TextureUsage.RenderAttachment},
+    usage              : {TextureUsage.renderAttachment},
     format             : swapchainFormat,
     width              : 0,
     height             : 0,
@@ -203,7 +203,7 @@ proc run=
     ) # << config (aka SwapChain Descriptor)
   glfw.getWindowSize(window.ct, config.width.iaddr, config.height.iaddr)
   echo &":: Initial window size: {config.width} x {config.height}"
-  var swapChain = device.createSwapChain(surface, config.addr)
+  var swapChain = device.create(surface, config.addr)
 
   #__________________
   # Update loop
@@ -214,7 +214,7 @@ proc run=
       var prevHeight = config.height
       glfw.getWindowSize(window.ct, config.width.iaddr, config.height.iaddr)
       if prevWidth != config.width or prevHeight != config.height:  # Window size changed, recreate the swapchain
-        swapChain = device.createSwapChain(surface, config.addr)
+        swapChain = device.create(surface, config.addr)
       nextTexture = swapChain.getCurrentTextureView()
       if attempt == 0 and nextTexture == nil:
         echo "WRN: swapChain.getCurrentTextureView() failed; attempting to create a new swap chain..."
@@ -223,7 +223,7 @@ proc run=
         continue  # Skip to the next step
       break       # Exit attempts. We are either at the second attempt, or the texture already works
     doAssert nextTexture != nil, "ERR:: Cannot acquire next swap chain texture"
-    var encoder = device.createCommandEncoder(vaddr CommandEncoderDescriptor(
+    var encoder = device.create(vaddr CommandEncoderDescriptor(
       nextInChain  : nil,
       label        : "Command Encoder",
       ))
