@@ -1,6 +1,10 @@
 #:____________________________________________________
 #  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
 #:____________________________________________________
+# Tests that wgpu loaded correctly.                 |
+# Creates a wgpu.Instance and prints its address.   |
+# Creates a window that remains open until closed.  |
+#___________________________________________________|
 # External dependencies
 from pkg/nglfw as glfw import nil
 # wgpu dependencies

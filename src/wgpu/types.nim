@@ -257,9 +257,54 @@ type LogCallback * = proc (level :LogLevel; message :cstring; userdata :pointer)
 #_______________________________________
 # webgpu.h
 #___________________
+# Limits
+type Limits *{.bycopy.}= object
+  maxTextureDimension1D                      *:uint32
+  maxTextureDimension2D                      *:uint32
+  maxTextureDimension3D                      *:uint32
+  maxTextureArrayLayers                      *:uint32
+  maxBindGroups                              *:uint32
+  maxBindingsPerBindGroup                    *:uint32
+  maxDynamicUniformBuffersPerPipelineLayout  *:uint32
+  maxDynamicStorageBuffersPerPipelineLayout  *:uint32
+  maxSampledTexturesPerShaderStage           *:uint32
+  maxSamplersPerShaderStage                  *:uint32
+  maxStorageBuffersPerShaderStage            *:uint32
+  maxStorageTexturesPerShaderStage           *:uint32
+  maxUniformBuffersPerShaderStage            *:uint32
+  maxUniformBufferBindingSize                *:uint64
+  maxStorageBufferBindingSize                *:uint64
+  minUniformBufferOffsetAlignment            *:uint32
+  minStorageBufferOffsetAlignment            *:uint32
+  maxVertexBuffers                           *:uint32
+  maxBufferSize                              *:uint64
+  maxVertexAttributes                        *:uint32
+  maxVertexBufferArrayStride                 *:uint32
+  maxInterStageShaderComponents              *:uint32
+  maxInterStageShaderVariables               *:uint32
+  maxColorAttachments                        *:uint32
+  maxColorAttachmentBytesPerSample           *:uint32
+  maxComputeWorkgroupStorageSize             *:uint32
+  maxComputeInvocationsPerWorkgroup          *:uint32
+  maxComputeWorkgroupSizeX                   *:uint32
+  maxComputeWorkgroupSizeY                   *:uint32
+  maxComputeWorkgroupSizeZ                   *:uint32
+  maxComputeWorkgroupsPerDimension           *:uint32
+
+type RequiredLimits *{.bycopy.}= object
+  nextInChain  *:ptr ChainedStruct
+  limits       *:Limits
+
+type SupportedLimits *{.bycopy.}= object
+  nextInChain  *:ptr ChainedStructOut
+  limits       *:Limits
+
+
+#___________________
 # Instance
 type InstanceDescriptor *{.bycopy.}= object
   nextInChain  *:ptr ChainedStruct
+
 
 #___________________
 # Surface
@@ -307,49 +352,18 @@ type Feature *{.pure, size: sizeof(int32).}= enum
   vertexWritableStorage
 
 #___________________
-# Device
-type RequestDeviceStatus *{.pure, size: sizeof(int32).}= enum
-  success, error, unknown
-
-type Limits *{.bycopy.}= object
-  maxTextureDimension1D                      *:uint32
-  maxTextureDimension2D                      *:uint32
-  maxTextureDimension3D                      *:uint32
-  maxTextureArrayLayers                      *:uint32
-  maxBindGroups                              *:uint32
-  maxBindingsPerBindGroup                    *:uint32
-  maxDynamicUniformBuffersPerPipelineLayout  *:uint32
-  maxDynamicStorageBuffersPerPipelineLayout  *:uint32
-  maxSampledTexturesPerShaderStage           *:uint32
-  maxSamplersPerShaderStage                  *:uint32
-  maxStorageBuffersPerShaderStage            *:uint32
-  maxStorageTexturesPerShaderStage           *:uint32
-  maxUniformBuffersPerShaderStage            *:uint32
-  maxUniformBufferBindingSize                *:uint64
-  maxStorageBufferBindingSize                *:uint64
-  minUniformBufferOffsetAlignment            *:uint32
-  minStorageBufferOffsetAlignment            *:uint32
-  maxVertexBuffers                           *:uint32
-  maxBufferSize                              *:uint64
-  maxVertexAttributes                        *:uint32
-  maxVertexBufferArrayStride                 *:uint32
-  maxInterStageShaderComponents              *:uint32
-  maxInterStageShaderVariables               *:uint32
-  maxColorAttachments                        *:uint32
-  maxComputeWorkgroupStorageSize             *:uint32
-  maxComputeInvocationsPerWorkgroup          *:uint32
-  maxComputeWorkgroupSizeX                   *:uint32
-  maxComputeWorkgroupSizeY                   *:uint32
-  maxComputeWorkgroupSizeZ                   *:uint32
-  maxComputeWorkgroupsPerDimension           *:uint32
-
-type RequiredLimits *{.bycopy.}= object
-  nextInChain  *:ptr ChainedStruct
-  limits       *:Limits
+# Queue
+type QueueWorkDoneStatus *{.pure, size: sizeof(int32).}= enum
+  success, error, unknown, deviceLost
 
 type QueueDescriptor *{.bycopy.}= object
   nextInChain  *:ptr ChainedStruct
   label        *:cstring
+
+#___________________
+# Device
+type RequestDeviceStatus *{.pure, size: sizeof(int32).}= enum
+  success, error, unknown
 
 type DeviceDescriptor *{.bycopy.}= object
   nextInChain            *:ptr ChainedStruct
@@ -364,10 +378,6 @@ type ErrorType *{.pure, size: sizeof(int32).}= enum
 
 type DeviceLostReason *{.pure, size: sizeof(int32).}= enum
   undefined, destroyed
-
-# Queue
-type QueueWorkDoneStatus *{.pure, size: sizeof(int32).}= enum
-  success, error, unknown, deviceLost
 
 #___________________
 # Shader Module
@@ -388,12 +398,13 @@ type ShaderModuleDescriptor *{.bycopy.}= object
 
 #___________________
 # Pipeline
-type ConstantEntry* {.bycopy.} = object
+type ConstantEntry *{.bycopy.}= object
   nextInChain  *:ptr ChainedStruct
   key          *:cstring
   value        *:cdouble
 
 type VertexStepMode *{.pure, size: sizeof(int32).}= enum
+  ## Describes how vertex data in a buffer is stepped forwards to the next entry. eg: vertex = per Vertex
   vertex, instance, vertexBufferNotUsed
 
 type VertexFormat *{.pure}= enum
@@ -412,15 +423,16 @@ type VertexFormat *{.pure}= enum
   sint32,    sint32x2,  sint32x3,  sint32x4
 
 type VertexAttribute *{.bycopy.} = object
-  format          *:VertexFormat
-  offset          *:uint64
-  shaderLocation  *:uint32
+  format          *:VertexFormat  ## Format of the input
+  offset          *:uint64        ## Byte offset of the start of the input
+  shaderLocation  *:uint32        ## Location for this input. Must match the location in the shader.
 
-type VertexBufferLayout* {.bycopy.} = object
-  arrayStride     *:uint64
-  stepMode        *:VertexStepMode
-  attributeCount  *:uint32
-  attributes      *:ptr VertexAttribute
+
+type VertexBufferLayout *{.bycopy.}= object
+  arrayStride     *:uint64               ## The stride, in bytes, between elements of this buffer.
+  stepMode        *:VertexStepMode       ## How often this vertex buffer is “stepped” forward.
+  attributeCount  *:uint32               ## Number of attributes in the list
+  attributes      *:ptr VertexAttribute  ## List of attributes that comprise a single vertex
 
 type VertexState *{.bycopy.}= object
   nextInChain    *:ptr ChainedStruct
@@ -433,8 +445,10 @@ type VertexState *{.bycopy.}= object
 
 type PrimitiveTopology *{.pure, size: sizeof(int32).}= enum
   pointList, lineList, lineStrip, triangleList, triangleStrip
+
 type FrontFace *{.pure, size: sizeof(int32).}= enum
   ccw, cw
+
 type CullMode *{.pure, size: sizeof(int32).}= enum
   none, front, back
 
@@ -543,6 +557,12 @@ type CreatePipelineAsyncStatus *{.pure, size: sizeof(int32).}= enum
   deviceLost,      deviceDestroyed
   unknown
 
+type PipelineLayoutDescriptor *{.bycopy.}= object
+  nextInChain          *:ptr ChainedStruct
+  label                *:cstring
+  bindGroupLayoutCount *:uint32
+  bindGroupLayouts     *:ptr BindGroupLayout
+
 #___________________
 # SwapChain
 type TextureUsage *{.pure, size: sizeof(int32).}= enum
@@ -605,7 +625,7 @@ type RenderPassDepthStencilAttachment *{.bycopy.}= object
 type RenderPassTimestampLocation *{.pure, size: sizeof(int32).}= enum
   beginning, End
 
-type RenderPassTimestampWrite* {.bycopy.} = object
+type RenderPassTimestampWrite *{.bycopy.}= object
   querySet    *:QuerySet
   queryIndex  *:uint32
   location    *:RenderPassTimestampLocation
@@ -654,6 +674,9 @@ type MapModeFlags * = set[MapMode]
 template none *(_ :typedesc[MapMode]) :auto=  {}
 
 
+
+
+#____________________________________________________
 # unimplemented.rs Requirements
 type ErrorFilter *{.pure, size: sizeof(int32).}= enum
   validation, outOfMemory, internal
@@ -680,7 +703,7 @@ type CompilationInfoRequestStatus *{.pure, size: sizeof(int32).}= enum
 type CompilationMessageType *{.pure, size: sizeof(int32).}= enum
   error, warning, info
 
-type CompilationMessage* {.bycopy.} = object
+type CompilationMessage *{.bycopy.}= object
   nextInChain *:ptr ChainedStruct
   message     *:cstring
   `type`      *:CompilationMessageType
@@ -728,4 +751,5 @@ type ComputePassDescriptor *{.bycopy.}= object
   label               *:cstring
   timestampWriteCount *:uint32
   timestampWrites     *:ptr ComputePassTimestampWrite
+
 

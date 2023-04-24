@@ -5,6 +5,8 @@
 - [x] Hello Compute
 
 - [ ] Buffered Triangle
+  - [x] Single Buffer
+  - [ ] Multi-Buffer
 - [ ] ? Textured Triangle/Quad?
 - [ ] Hello Framebuffer
 

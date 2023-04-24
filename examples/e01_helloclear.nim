@@ -1,6 +1,9 @@
 #:____________________________________________________
 #  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
 #:____________________________________________________
+# Most minimal swapchain setup possible.          |
+# No shaders. Just clears the screen to a color.  |
+#_________________________________________________|
 # std dependencies
 import std/strformat
 import std/os

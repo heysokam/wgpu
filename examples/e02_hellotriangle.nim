@@ -1,6 +1,9 @@
 #:____________________________________________________
 #  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
 #:____________________________________________________
+# Hello Triangle from wgpu-native/examples          |
+# No buffers. Vertices are harcoded in the shader.  |
+#___________________________________________________|
 # std dependencies
 import std/strformat
 import std/os

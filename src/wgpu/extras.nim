@@ -110,3 +110,75 @@ proc readWgsl *(file :string) :ShaderModuleDescriptor=  file.readFile.wgslToDesc
 
 # ShaderModule wgslFileToShader(WGPUDevice* device, const char* src);
 # ShaderModule wgslCodeToShader(WGPUDevice* device, const char* code, const char* label);
+
+#___________________
+# Default Limits
+# TODO: Switch to default values when 2.0devel becomes stable
+proc new *(_ :typedesc[Limits];
+    maxTextureDimension1D                      =  uint32.high;
+    maxTextureDimension2D                      =  uint32.high;
+    maxTextureDimension3D                      =  uint32.high;
+    maxTextureArrayLayers                      =  uint32.high;
+    maxBindGroups                              =  uint32.high;
+    maxBindingsPerBindGroup                    =  uint32.high;
+    maxDynamicUniformBuffersPerPipelineLayout  =  uint32.high;
+    maxDynamicStorageBuffersPerPipelineLayout  =  uint32.high;
+    maxSampledTexturesPerShaderStage           =  uint32.high;
+    maxSamplersPerShaderStage                  =  uint32.high;
+    maxStorageBuffersPerShaderStage            =  uint32.high;
+    maxStorageTexturesPerShaderStage           =  uint32.high;
+    maxUniformBuffersPerShaderStage            =  uint32.high;
+    maxUniformBufferBindingSize                =  uint64.high;
+    maxStorageBufferBindingSize                =  uint64.high;
+    minUniformBufferOffsetAlignment            =  uint32.high;
+    minStorageBufferOffsetAlignment            =  uint32.high;
+    maxVertexBuffers                           =  uint32.high;
+    maxBufferSize                              =  uint64.high;
+    maxVertexAttributes                        =  uint32.high;
+    maxVertexBufferArrayStride                 =  uint32.high;
+    maxInterStageShaderComponents              =  uint32.high;
+    maxInterStageShaderVariables               =  uint32.high;
+    maxColorAttachments                        =  uint32.high;
+    maxColorAttachmentBytesPerSample           =  uint32.high;
+    maxComputeWorkgroupStorageSize             =  uint32.high;
+    maxComputeInvocationsPerWorkgroup          =  uint32.high;
+    maxComputeWorkgroupSizeX                   =  uint32.high;
+    maxComputeWorkgroupSizeY                   =  uint32.high;
+    maxComputeWorkgroupSizeZ                   =  uint32.high;
+    maxComputeWorkgroupsPerDimension           =  uint32.high;
+  ) :Limits=
+  # Init the default values
+  result = Limits.default()
+  # Update only those that have been specified
+  if maxTextureDimension1D                     != uint32.high:  result.maxTextureDimension1D                     = maxTextureDimension1D
+  if maxTextureDimension2D                     != uint32.high:  result.maxTextureDimension2D                     = maxTextureDimension2D
+  if maxTextureDimension3D                     != uint32.high:  result.maxTextureDimension3D                     = maxTextureDimension3D
+  if maxTextureArrayLayers                     != uint32.high:  result.maxTextureArrayLayers                     = maxTextureArrayLayers
+  if maxBindGroups                             != uint32.high:  result.maxBindGroups                             = maxBindGroups
+  if maxBindingsPerBindGroup                   != uint32.high:  result.maxBindingsPerBindGroup                   = maxBindingsPerBindGroup
+  if maxDynamicUniformBuffersPerPipelineLayout != uint32.high:  result.maxDynamicUniformBuffersPerPipelineLayout = maxDynamicUniformBuffersPerPipelineLayout
+  if maxDynamicStorageBuffersPerPipelineLayout != uint32.high:  result.maxDynamicStorageBuffersPerPipelineLayout = maxDynamicStorageBuffersPerPipelineLayout
+  if maxSampledTexturesPerShaderStage          != uint32.high:  result.maxSampledTexturesPerShaderStage          = maxSampledTexturesPerShaderStage
+  if maxSamplersPerShaderStage                 != uint32.high:  result.maxSamplersPerShaderStage                 = maxSamplersPerShaderStage
+  if maxStorageBuffersPerShaderStage           != uint32.high:  result.maxStorageBuffersPerShaderStage           = maxStorageBuffersPerShaderStage
+  if maxStorageTexturesPerShaderStage          != uint32.high:  result.maxStorageTexturesPerShaderStage          = maxStorageTexturesPerShaderStage
+  if maxUniformBuffersPerShaderStage           != uint32.high:  result.maxUniformBuffersPerShaderStage           = maxUniformBuffersPerShaderStage
+  if maxUniformBufferBindingSize               != uint64.high:  result.maxUniformBufferBindingSize               = maxUniformBufferBindingSize
+  if maxStorageBufferBindingSize               != uint64.high:  result.maxStorageBufferBindingSize               = maxStorageBufferBindingSize
+  if minUniformBufferOffsetAlignment           != uint32.high:  result.minUniformBufferOffsetAlignment           = minUniformBufferOffsetAlignment
+  if minStorageBufferOffsetAlignment           != uint32.high:  result.minStorageBufferOffsetAlignment           = minStorageBufferOffsetAlignment
+  if maxVertexBuffers                          != uint32.high:  result.maxVertexBuffers                          = maxVertexBuffers
+  if maxBufferSize                             != uint64.high:  result.maxBufferSize                             = maxBufferSize
+  if maxVertexAttributes                       != uint32.high:  result.maxVertexAttributes                       = maxVertexAttributes
+  if maxVertexBufferArrayStride                != uint32.high:  result.maxVertexBufferArrayStride                = maxVertexBufferArrayStride
+  if maxInterStageShaderComponents             != uint32.high:  result.maxInterStageShaderComponents             = maxInterStageShaderComponents
+  if maxInterStageShaderVariables              != uint32.high:  result.maxInterStageShaderVariables              = maxInterStageShaderVariables
+  if maxColorAttachments                       != uint32.high:  result.maxColorAttachments                       = maxColorAttachments
+  if maxColorAttachmentBytesPerSample          != uint32.high:  result.maxColorAttachmentBytesPerSample          = maxColorAttachmentBytesPerSample
+  if maxComputeWorkgroupStorageSize            != uint32.high:  result.maxComputeWorkgroupStorageSize            = maxComputeWorkgroupStorageSize
+  if maxComputeInvocationsPerWorkgroup         != uint32.high:  result.maxComputeInvocationsPerWorkgroup         = maxComputeInvocationsPerWorkgroup
+  if maxComputeWorkgroupSizeX                  != uint32.high:  result.maxComputeWorkgroupSizeX                  = maxComputeWorkgroupSizeX
+  if maxComputeWorkgroupSizeY                  != uint32.high:  result.maxComputeWorkgroupSizeY                  = maxComputeWorkgroupSizeY
+  if maxComputeWorkgroupSizeZ                  != uint32.high:  result.maxComputeWorkgroupSizeZ                  = maxComputeWorkgroupSizeZ
+  if maxComputeWorkgroupsPerDimension          != uint32.high:  result.maxComputeWorkgroupsPerDimension          = maxComputeWorkgroupsPerDimension
+

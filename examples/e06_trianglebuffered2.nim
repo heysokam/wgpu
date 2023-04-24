@@ -1,9 +1,9 @@
+# TODO
+
+
 #:____________________________________________________
 #  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
 #:____________________________________________________
-# Simplest Buffer-based Triangle possible  |
-# Uses only one buffer for the position.   |
-#__________________________________________|
 # std dependencies
 import std/strformat
 import std/os
@@ -21,12 +21,27 @@ type Window * = object
   ct     *:glfw.Window
   w,h    *:int32
   title  *:string
-
+type Mesh * = object
+  pos    *:seq[Vec3]
+  color  *:seq[Vec4]
+  # uv     *:seq[Vec2]
+  # norm   *:seq[Vec3]
 #________________________________________________
 # mesh.nim
 #__________________
-template size *[T](v :seq[T]) :uint64=  uint64( v.len * sizeof(v[0]) )
+type Attr *{.pure.}= enum pos, color
+  ## Attribute location ids for the shader
+converter toInt *(attr :Attr) :int=  attr.ord
+  ## Automatically convert to int when required, without needing to add `.ord` everywhere.
+template vertCount *(m :Mesh) :int=  m.pos.len
+  ## Returns the mesh vertex count, based on the number of vertex positions.
+template size *[T](v :seq[T]) :int=  v.len * sizeof(v[0])
   ## Returns the size in bytes of the given seq
+proc size *(m :Mesh) :int=
+  for attr in mesh.fields:
+    if attr.len < 1: continue  # Do not add empty seq
+    result += attr.size
+
 
 #________________________________________________
 # window.nim
@@ -71,23 +86,41 @@ proc logCB *(level :LogLevel; message :cstring; userdata :pointer) :void {.cdecl
 const shaderCode = """
 struct VertIn {
   @builtin(vertex_index) id :u32,
-  @location(0) pos :vec3<f32>,
+  @location(0) pos   :vec3<f32>,
+  @location(1) color :vec4<f32>,
 }
-@vertex fn vert(in :VertIn) ->@builtin(position) vec4<f32> {
-  return vec4<f32>(in.pos, 1.0);
+struct VertOut {
+  @builtin(position) pos   :vec4<f32>,
+  @location(0)       color :vec4<f32>,
+}
+@vertex fn vert(in :VertIn) ->VertOut {
+  var out   :VertOut;
+  out.pos   = vec4<f32>(in.pos, 1.0);
+  out.color = in.color;  // Forward color attribute to the fragment shader
 }
 
-@fragment fn frag() ->@location(0) vec4<f32> {
-  return vec4<f32>(1.0, 0.0, 0.0, 1.0);
+@fragment fn frag(in :VertOut) ->@location(0) vec4<f32> {
+  return vec4<f32>(in.color);
 }
 """
 
-var triangle :seq[Vec3]= @[
-  #       x    y    z
-  vec3( -0.5, -0.5, 0.0 ),  # v0
-  vec3(  0.5, -0.5, 0.0 ),  # v1
-  vec3(  0.0,  0.5, 0.0 ),  # v2
-  ]
+# This example will use a deinterleaved vertex attribute buffer.
+# A simpler to understand version could be achieved by using an ArrayOfStructs format, which would interleave the data for each vertex
+# eg:   const triangle =  @[  Vertex( pos:vec3(0,0,0), color:vec4(1,1,1,1) ),  Vertex(...),  etc ...  ]
+# This would create a simpler setup for the vertex buffers. But this example uses a deinterleaved buffer instead.
+const triangle = Mesh(
+  pos: @[#  x    y    z
+    vec3( -0.5, -0.5, 0.0 ),  # v0
+    vec3(  0.5, -0.5, 0.0 ),  # v1
+    vec3(  0.0,  0.5, 0.0 ),  # v2
+    ] # << pos
+  color: @[#r   g    b    a
+    vec4( 1.0, 0.0, 0.0, 1.0 ),  # v0
+    vec4( 0.0, 1.0, 0.0, 1.0 ),  # v1
+    vec4( 0.0, 0.0, 1.0, 1.0 ),  # v2
+    ] # << color
+  ) # << Mesh()
+doAssert triangle.pos.len == triangle.color.len, "All attributes must contain the same amount of vertex"
 
 #________________________________________________
 # state.nim
@@ -129,8 +162,8 @@ proc run=
   var requiredLimits = RequiredLimits(
     nextInChain           : nil,
     limits                : Limits.new(  # With custom `new` proc because some required defaults are not 0
-      maxVertexAttributes = 1,
-      maxVertexBuffers    = 1,
+      maxVertexAttributes = 2,
+      maxVertexBuffers    = 2,
       ), # << limits
     ) # << requiredLimits
 
@@ -192,6 +225,8 @@ proc run=
 
   # NEW:
   # 4. Create and upload the vertex attribute buffers
+  var triangleLayout :seq[VertexBufferLayout]
+  var triangleAttr   :seq[VertexAttribute]
   var triangleBuffer = device.create(vaddr BufferDescriptor(
     nextInChain       : nil,
     label             : "Triangle Vertex buffer".cstring,
@@ -200,33 +235,55 @@ proc run=
     mappedAtCreation  : false,
     )) # << device.createBuffer()
 
-  # 4.1. Positions buffer layout
-  var triangleLayout = VertexBufferLayout(
-    arrayStride       : sizeof(triangle[0]).uint32,
+  # 4.1. Positions
+  triangleLayout.add VertexBufferLayout(
+    arrayStride       : triangle.pos.size,
     stepMode          : VertexStepMode.vertex,
     attributeCount    : 1,
       attributes      : vaddr VertexAttribute(
       format          : VertexFormat.float32x3,
       offset          : 0,
-      shaderLocation  : 0,
+      shaderLocation  : Attr.pos,
       ) # << posAttr
     ) # << posLayout
   # Write triangle.position at triangleBuffer offset 0
-  queue.writeBuffer(triangleBuffer, 0, triangle[0].addr, triangle.size.csize_t)
+  queue.writeBuffer(triangleBuffer, 0, triangle.pos[0].addr, triangle.pos.size)
 
-  # 5. Configure the pipeline
-  #    Only the buffer inputs have changed.
+  # 4.2. Colors
+  triangleLayout.add VertexBufferLayout(
+    arrayStride       : triangle.color.size,
+    stepMode          : VertexStepMode.vertex,
+    attributeCount    : 1,
+    attributes        : vaddr VertexAttribute(
+      format          : VertexFormat.float32x4,
+      offset          : 0,
+      shaderLocation  : Attr.color,
+      ) # << colorAttr
+    ) # << colorLayout
+  # Write triangle.color at triangleBuffer offset = triangle.pos.size
+  queue.writeBuffer(triangleBuffer, triangle.pos.size, triangle.color[0].addr, triangle.color.size)
+
+  # 5. Create the PipelineLayout
+  var layout = device.create(vaddr PipelineLayoutDescriptor(
+    nextInChain          : nil,
+    label                : "Hello PipelineLayout".cstring,
+    bindGroupLayoutCount : 0,
+    bindGroupLayouts     : nil,
+    )) # << device.createPipelineLayout()
+
+  # 6. Configure the pipeline
+  #    Only the buffer inputs and the `layout` field have changed.
   let pipeline = device.create(vaddr RenderPipelineDescriptor(
     nextInChain               : nil,
     label                     : "Render pipeline".cstring,
-    layout                    : nil,
+    layout                    : layout,       # <--- This changed
     vertex                    : VertexState(
       module                  : shader,
       entryPoint              : "vert".cstring,
       constantCount           : 0,
       constants               : nil,
-      bufferCount             : 1,                   # <--- This changed
-      buffers                 : triangleLayout.addr, # <--- This changed
+      bufferCount             : triangleLayout.len,     # <--- This changed
+      buffers                 : triangleLayout[0].addr, # <--- This changed
       ), # << vertex
     primitive                 : PrimitiveState(
       nextInChain             : nil,
@@ -309,12 +366,10 @@ proc run=
       )) # << renderPass
     # Draw into the texture with the given settings
     renderPass.setPipeline(pipeline)
-
     # NEW:
-    # 6. Set the vertex buffer in the RenderPass
+    # Set the vertex buffer in the RenderPass
     renderPass.setVertexBuffer(0, triangleBuffer, 0, triangle.size)
-    renderPass.draw(triangle.len.uint32, 1,0,0)  # vertexCount, instanceCount, firstVertex, firstInstance
-
+    renderPass.draw(triangle.vertexCount, 1,0,0)  # vertexCount, instanceCount, firstVertex, firstInstance
     # OLD: Continue as before
     renderPass.End()
     nextTexture.drop()

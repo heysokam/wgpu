@@ -47,12 +47,24 @@ but they have all been heavily edited and renamed manually line by line.
 All names have been shortened, with extensive use of name overloads.  
 The goal was removing the need for C style `WGPUCrazyLongAndRepetitive_Names` everywhere.  
 
-Use `import wgpu` to access the normal wgpu wrapper.  
-If you don't like the naming convention used:
-- `import wgpu/raw` to access the completely unmodified C names.  
-
-#### Exceptions
-Names that clash with nim keywords have been kept shortened, but starting with a capital letter:  
+#### Renaming logic
+Names that clash with nim keywords have been shortened, but start with a capital letter:  
 - `end` is always `End`, even inside enums.
 - `discard` is always `Discard`, even inside enums.
+- `float32` is `Float32` when it has no suffix
+
+Function names that contain a type differentiator have been shortened where possible:  
+Example1:
+- from: `wgpuNameGetSomething(name)`
+- to:   `getSomething()` which applied becomes `name.getSomething()`
+- eg:   `wgpuDeviceGetQueue(device)` becomes `device.getQueue()`
+Example2:
+- from: `wgpuNameGetSomething(name, something)`
+- to:   `get()` which applied becomes `name.get(something)`
+- eg:   `wgpuDeviceGetLimits(device, limits)` becomes `device.get(limits)`
+
+#### Renaming disclaimer
+Use `import wgpu` to access the normal wgpu wrapper.  
+If you don't like the naming convention used:  
+- `import wgpu/raw` to access the completely unmodified C names.  
 

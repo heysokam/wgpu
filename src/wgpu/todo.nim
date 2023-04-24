@@ -82,8 +82,8 @@ const
   # QueueWorkDoneStatus*          = distinct uint32
   # RenderPassTimestampLocation*  = distinct uint32
   # RequestAdapterStatus*         = distinct uint32
-  RequestDeviceStatus*          = distinct uint32
-  SType*                        = distinct uint32
+  # RequestDeviceStatus*          = distinct uint32
+  # SType*                        = distinct uint32
   SamplerBindingType*           = distinct uint32
   # StencilOperation*             = distinct uint32
   StorageTextureAccess*         = distinct uint32
@@ -236,11 +236,11 @@ const
     y*: uint
     z*: uint
 
-  PipelineLayoutDescriptor* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    label*: cstring
-    bindGroupLayoutCount*: uint
-    bindGroupLayouts*: ptr BindGroupLayout
+  # PipelineLayoutDescriptor* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   label*: cstring
+  #   bindGroupLayoutCount*: uint
+  #   bindGroupLayouts*: ptr BindGroupLayout
 
   PrimitiveDepthClipControl* {.bycopy.} = object
     chain*: ChainedStruct
@@ -502,9 +502,9 @@ const
   #   hintCount*: uint
   #   hints*: ptr ShaderModuleCompilationHint
 
-  SupportedLimits* {.bycopy.} = object
-    nextInChain*: ptr ChainedStructOut
-    limits*: Limits
+  # SupportedLimits* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStructOut
+  #   limits*: Limits
 
   TextureDescriptor* {.bycopy.} = object
     nextInChain*: ptr ChainedStruct
@@ -603,7 +603,7 @@ const
   ProcCreateInstance* = proc (descriptor: ptr InstanceDescriptor): Instance {.cdecl.}
   ProcGetProcAddress* = proc (device: Device; procName: cstring): Proc {.cdecl.}
   ProcAdapterEnumerateFeatures* = proc (adapter: Adapter; features: ptr Feature): csize_t {.cdecl.}
-  ProcAdapterGetLimits* = proc (adapter: Adapter; limits: ptr SupportedLimits): bool {.cdecl.}
+  # ProcAdapterGetLimits* = proc (adapter: Adapter; limits: ptr SupportedLimits): bool {.cdecl.}
   ProcAdapterGetProperties* = proc (adapter: Adapter; properties: ptr AdapterProperties) {.cdecl.}
   ProcAdapterHasFeature* = proc (adapter: Adapter; feature: Feature): bool {.cdecl.}
   ProcAdapterRequestDevice* = proc (adapter: Adapter; descriptor: ptr DeviceDescriptor; callback: RequestDeviceCallback; userdata: pointer) {.cdecl.}
@@ -650,7 +650,7 @@ const
   ProcDeviceCreateCommandEncoder* = proc (device: Device; descriptor: ptr CommandEncoderDescriptor): CommandEncoder {.cdecl.}
   ProcDeviceCreateComputePipeline* = proc (device: Device; descriptor: ptr ComputePipelineDescriptor): ComputePipeline {.cdecl.}
   ProcDeviceCreateComputePipelineAsync* = proc (device: Device; descriptor: ptr ComputePipelineDescriptor; callback: CreateComputePipelineAsyncCallback; userdata: pointer) {.cdecl.}
-  ProcDeviceCreatePipelineLayout* = proc (device: Device; descriptor: ptr PipelineLayoutDescriptor): PipelineLayout {.cdecl.}
+  # ProcDeviceCreatePipelineLayout* = proc (device: Device; descriptor: ptr PipelineLayoutDescriptor): PipelineLayout {.cdecl.}
   ProcDeviceCreateQuerySet* = proc (device: Device; descriptor: ptr QuerySetDescriptor): QuerySet {.cdecl.}
   ProcDeviceCreateRenderBundleEncoder* = proc (device: Device; descriptor: ptr RenderBundleEncoderDescriptor): RenderBundleEncoder {.cdecl.}
   ProcDeviceCreateRenderPipeline* = proc (device: Device; descriptor: ptr RenderPipelineDescriptor): RenderPipeline {.cdecl.}
@@ -661,7 +661,7 @@ const
   ProcDeviceCreateTexture* = proc (device: Device; descriptor: ptr TextureDescriptor): Texture {.cdecl.}
   ProcDeviceDestroy* = proc (device: Device) {.cdecl.}
   ProcDeviceEnumerateFeatures* = proc (device: Device; features: ptr Feature): csize_t {.cdecl.}
-  ProcDeviceGetLimits* = proc (device: Device; limits: ptr SupportedLimits): bool {.cdecl.}
+  # ProcDeviceGetLimits* = proc (device: Device; limits: ptr SupportedLimits): bool {.cdecl.}
   ProcDeviceGetQueue* = proc (device: Device): Queue {.cdecl.}
   ProcDeviceHasFeature* = proc (device: Device; feature: Feature): bool {.cdecl.}
   ProcDevicePopErrorScope* = proc (device: Device; callback: ErrorCallback; userdata: pointer): bool {.cdecl.}
@@ -897,9 +897,9 @@ const
   # RequestAdapterStatus_Error* = RequestAdapterStatus(0x00000002)
   # RequestAdapterStatus_Unknown* = RequestAdapterStatus(0x00000003)
 
-  RequestDeviceStatus_Success* = RequestDeviceStatus(0x00000000)
-  RequestDeviceStatus_Error* = RequestDeviceStatus(0x00000001)
-  RequestDeviceStatus_Unknown* = RequestDeviceStatus(0x00000002)
+  # RequestDeviceStatus_Success* = RequestDeviceStatus(0x00000000)
+  # RequestDeviceStatus_Error* = RequestDeviceStatus(0x00000001)
+  # RequestDeviceStatus_Unknown* = RequestDeviceStatus(0x00000002)
 
   # SType_Invalid* = SType(0x00000000)
   # SType_SurfaceDescriptorFromMetalLayer* = SType(0x00000001)
@@ -1132,7 +1132,7 @@ const
 
 # proc getProcAddress*(device: Device; procName: cstring): Proc {.cdecl, importc: "wgpuGetProcAddress", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
 # proc adapterEnumerateFeatures*(adapter: Adapter; features: ptr Feature): csize_t {.cdecl, importc:"wgpuAdapterEnumerateFeatures".}
-proc adapterGetLimits*(adapter: Adapter; limits: ptr SupportedLimits): bool {.cdecl, importc: "wgpuAdapterGetLimits".}
+# proc adapterGetLimits*(adapter: Adapter; limits: ptr SupportedLimits): bool {.cdecl, importc: "wgpuAdapterGetLimits".}
 proc adapterGetProperties*(adapter: Adapter; properties: ptr AdapterProperties) {.cdecl, importc:"wgpuAdapterGetProperties".}
 proc adapterHasFeature*(adapter: Adapter; feature: Feature): bool {.cdecl, importc: "wgpuAdapterHasFeature".}
 # proc adapterRequestDevice*(adapter: Adapter; descriptor: ptr DeviceDescriptor; callback: RequestDeviceCallback; userdata: pointer) {.cdecl, importc:"wgpuAdapterRequestDevice".}
@@ -1180,7 +1180,7 @@ proc deviceCreateBindGroupLayout*(device: Device; descriptor: ptr BindGroupLayou
 # proc deviceCreateCommandEncoder*(device: Device; descriptor: ptr CommandEncoderDescriptor): CommandEncoder {.cdecl, importc:"wgpuDeviceCreateCommandEncoder".}
 # proc deviceCreateComputePipeline*(device: Device; descriptor: ptr ComputePipelineDescriptor): ComputePipeline {.cdecl, importc:"wgpuDeviceCreateComputePipeline".}
 # proc deviceCreateComputePipelineAsync*(device: Device; descriptor: ptr ComputePipelineDescriptor; callback: CreateComputePipelineAsyncCallback; userdata: pointer) {.cdecl, importc:"wgpuDeviceCreateComputePipelineAsync", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
-proc deviceCreatePipelineLayout*(device: Device; descriptor: ptr PipelineLayoutDescriptor): PipelineLayout {.cdecl, importc:"wgpuDeviceCreatePipelineLayout".}
+# proc deviceCreatePipelineLayout*(device: Device; descriptor: ptr PipelineLayoutDescriptor): PipelineLayout {.cdecl, importc:"wgpuDeviceCreatePipelineLayout".}
 proc deviceCreateQuerySet*(device: Device; descriptor: ptr QuerySetDescriptor): QuerySet {.cdecl, importc:"wgpuDeviceCreateQuerySet".}
 proc deviceCreateRenderBundleEncoder*(device: Device; descriptor: ptr RenderBundleEncoderDescriptor): RenderBundleEncoder {.cdecl, importc:"wgpuDeviceCreateRenderBundleEncoder".}
 # proc deviceCreateRenderPipeline*(device: Device; descriptor: ptr RenderPipelineDescriptor): RenderPipeline {.cdecl, importc:"wgpuDeviceCreateRenderPipeline".}
@@ -1191,7 +1191,7 @@ proc deviceCreateSampler*(device: Device; descriptor: ptr SamplerDescriptor): Sa
 proc deviceCreateTexture*(device: Device; descriptor: ptr TextureDescriptor): Texture {.cdecl, importc:"wgpuDeviceCreateTexture".}
 proc deviceDestroy*(device: Device) {.cdecl, importc: "wgpuDeviceDestroy".}
 proc deviceEnumerateFeatures*(device: Device; features: ptr Feature): csize_t {.cdecl, importc:"wgpuDeviceEnumerateFeatures".}
-proc deviceGetLimits*(device: Device; limits: ptr SupportedLimits): bool {.cdecl, importc: "wgpuDeviceGetLimits".}
+# proc deviceGetLimits*(device: Device; limits: ptr SupportedLimits): bool {.cdecl, importc: "wgpuDeviceGetLimits".}
 # proc deviceGetQueue*(device: Device): Queue {.cdecl, importc: "wgpuDeviceGetQueue".}
 proc deviceHasFeature*(device: Device; feature: Feature): bool {.cdecl, importc: "wgpuDeviceHasFeature".}
 # proc devicePopErrorScope*(device: Device; callback: ErrorCallback; userdata: pointer): bool {.cdecl, importc:"wgpuDevicePopErrorScope", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
@@ -1245,7 +1245,7 @@ proc renderPassEncoderSetIndexBuffer*(renderPassEncoder: RenderPassEncoder; buff
 # proc renderPassEncoderSetPipeline*(renderPassEncoder: RenderPassEncoder; pipeline: RenderPipeline) {.cdecl, importc:"wgpuRenderPassEncoderSetPipeline".}
 proc renderPassEncoderSetScissorRect*(renderPassEncoder: RenderPassEncoder; x: uint; y: uint; width: uint; height: uint) {.cdecl, importc:"wgpuRenderPassEncoderSetScissorRect".}
 proc renderPassEncoderSetStencilReference*( renderPassEncoder: RenderPassEncoder; reference: uint) {.cdecl, importc:"wgpuRenderPassEncoderSetStencilReference".}
-proc renderPassEncoderSetVertexBuffer*(renderPassEncoder: RenderPassEncoder; slot: uint; buffer: Buffer; offset: uint64; size: uint64) {.cdecl, importc:"wgpuRenderPassEncoderSetVertexBuffer".}
+# proc renderPassEncoderSetVertexBuffer*(renderPassEncoder: RenderPassEncoder; slot: uint; buffer: Buffer; offset: uint64; size: uint64) {.cdecl, importc:"wgpuRenderPassEncoderSetVertexBuffer".}
 proc renderPassEncoderSetViewport*(renderPassEncoder: RenderPassEncoder; x: cfloat; y: cfloat; width: cfloat; height: cfloat; minDepth: cfloat; maxDepth: cfloat) {.cdecl, importc:"wgpuRenderPassEncoderSetViewport".}
 proc renderPipelineGetBindGroupLayout*(renderPipeline: RenderPipeline; groupIndex: uint): BindGroupLayout {.cdecl, importc:"wgpuRenderPipelineGetBindGroupLayout".}
 # proc renderPipelineSetLabel*(renderPipeline: RenderPipeline; label: cstring) {.cdecl, importc:"wgpuRenderPipelineSetLabel", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}

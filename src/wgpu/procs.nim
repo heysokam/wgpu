@@ -21,6 +21,7 @@ proc requestAdapter *(instance :Instance; options :ptr RequestAdapterOptions; ca
 proc enumerateFeatures *(adapter :Adapter; features :ptr Feature) :csize_t {.cdecl, importc:"wgpuAdapterEnumerateFeatures", header: "webgpu-headers/webgpu.h".}
 type RequestDeviceCallback * = proc (status :RequestDeviceStatus; device :Device; message :cstring; userdata :pointer) :void {.cdecl.}
 proc requestDevice     *(adapter :Adapter; descriptor :ptr DeviceDescriptor; callback :RequestDeviceCallback; userdata :pointer) :void {.cdecl, importc:"wgpuAdapterRequestDevice", header: "webgpu-headers/webgpu.h".}
+proc get               *(adapter :Adapter; limits :ptr SupportedLimits) :bool {.cdecl, importc: "wgpuAdapterGetLimits", header: "webgpu-headers/webgpu.h".}
 
 # Device
 type ErrorCallback * = proc (typ :ErrorType; message :cstring; userdata :pointer) :void {.cdecl.}
@@ -34,7 +35,9 @@ proc create *(device :Device; surface :Surface; descriptor :ptr SwapChainDescrip
 proc create *(device :Device; descriptor :ptr CommandEncoderDescriptor) :CommandEncoder {.cdecl, importc:"wgpuDeviceCreateCommandEncoder", header: "webgpu-headers/webgpu.h".}
 proc create *(device :Device; descriptor :ptr BufferDescriptor) :Buffer {.cdecl, importc:"wgpuDeviceCreateBuffer", header: "webgpu-headers/webgpu.h".}
 proc create *(device :Device; descriptor :ptr BindGroupDescriptor) :BindGroup {.cdecl, importc:"wgpuDeviceCreateBindGroup", header: "webgpu-headers/webgpu.h".}
+proc create *(device :Device; descriptor :ptr PipelineLayoutDescriptor) :PipelineLayout {.cdecl, importc:"wgpuDeviceCreatePipelineLayout", header: "webgpu-headers/webgpu.h".}
 proc getQueue *(device :Device) :Queue {.cdecl, importc: "wgpuDeviceGetQueue", header: "webgpu-headers/webgpu.h".}
+proc get      *(device :Device; limits :ptr SupportedLimits) :bool {.cdecl, importc: "wgpuDeviceGetLimits", header: "webgpu-headers/webgpu.h".}
 
 # Surface
 proc getPreferredFormat *(surface :Surface; adapter :Adapter) :TextureFormat {.cdecl, importc:"wgpuSurfaceGetPreferredFormat", header: "webgpu-headers/webgpu.h".}
@@ -44,9 +47,10 @@ proc getCurrentTextureView *(swapChain :SwapChain) :TextureView {.cdecl, importc
 proc present               *(swapChain :SwapChain) :void {.cdecl, importc: "wgpuSwapChainPresent", header: "webgpu-headers/webgpu.h".}
 
 # RenderPass Encoder
-proc setPipeline *(renderPassEncoder :RenderPassEncoder; pipeline :RenderPipeline) :void {.cdecl, importc:"wgpuRenderPassEncoderSetPipeline", header: "webgpu-headers/webgpu.h".}
-proc draw        *(renderPassEncoder :RenderPassEncoder; vertexCount :uint32; instanceCount :uint32; firstVertex :uint32; firstInstance :uint32) :void {.cdecl, importc:"wgpuRenderPassEncoderDraw", header: "webgpu-headers/webgpu.h".}
-proc End         *(renderPassEncoder :RenderPassEncoder) :void {.cdecl, importc: "wgpuRenderPassEncoderEnd", header: "webgpu-headers/webgpu.h".}
+proc setPipeline     *(renderPassEncoder :RenderPassEncoder; pipeline :RenderPipeline) :void {.cdecl, importc:"wgpuRenderPassEncoderSetPipeline", header: "webgpu-headers/webgpu.h".}
+proc setVertexBuffer *(renderPassEncoder :RenderPassEncoder; slot :uint32; buffer :Buffer; offset :uint64; size :uint64) :void {.cdecl, importc:"wgpuRenderPassEncoderSetVertexBuffer", header: "webgpu-headers/webgpu.h".}
+proc draw *(renderPassEncoder :RenderPassEncoder; vertexCount :uint32; instanceCount :uint32; firstVertex :uint32; firstInstance :uint32) :void {.cdecl, importc:"wgpuRenderPassEncoderDraw", header: "webgpu-headers/webgpu.h".}
+proc End  *(renderPassEncoder :RenderPassEncoder) :void {.cdecl, importc: "wgpuRenderPassEncoderEnd", header: "webgpu-headers/webgpu.h".}
 
 # Command Encoder
 proc begin  *(commandEncoder :CommandEncoder; descriptor :ptr RenderPassDescriptor) :RenderPassEncoder {.cdecl, importc:"wgpuCommandEncoderBeginRenderPass", header: "webgpu-headers/webgpu.h".}
@@ -117,6 +121,93 @@ proc drop *(textureView :TextureView) :void {.importc: "wgpuTextureViewDrop", he
 
 
 #_______________________________________
+# Missing Functionality
+# Should be part of the bindings, but they don't exist in wgpu-native
+#___________________
+# Default Limits
+proc default *(_ :typedesc[Limits]) :Limits=
+  # TODO: Switch to default values when 2.0devel becomes stable
+  # https://docs.rs/wgpu-types/0.16.0/src/wgpuTypes/lib.rs.html#912
+  result.maxTextureDimension1D                     = 8192
+  result.maxTextureDimension2D                     = 8192
+  result.maxTextureDimension3D                     = 2048
+  result.maxTextureArrayLayers                     = 256
+  result.maxBindGroups                             = 4
+  result.maxBindingsPerBindGroup                   = 640
+  result.maxDynamicUniformBuffersPerPipelineLayout = 8
+  result.maxDynamicStorageBuffersPerPipelineLayout = 4
+  result.maxSampledTexturesPerShaderStage          = 16
+  result.maxSamplersPerShaderStage                 = 16
+  result.maxStorageBuffersPerShaderStage           = 8
+  result.maxStorageTexturesPerShaderStage          = 4
+  result.maxUniformBuffersPerShaderStage           = 12
+  result.maxUniformBufferBindingSize               = 64 shl 10
+  result.maxStorageBufferBindingSize               = 128 shl 20
+  result.maxVertexBuffers                          = 8
+  result.maxBufferSize                             = 1 shl 28
+  result.maxVertexAttributes                       = 16
+  result.maxVertexBufferArrayStride                = 2048
+  result.minUniformBufferOffsetAlignment           = 256
+  result.minStorageBufferOffsetAlignment           = 256
+  result.maxInterStageShaderComponents             = 60
+  result.maxComputeWorkgroupStorageSize            = 16384
+  result.maxComputeInvocationsPerWorkgroup         = 256
+  result.maxComputeWorkgroupSizeX                  = 256
+  result.maxComputeWorkgroupSizeY                  = 256
+  result.maxComputeWorkgroupSizeZ                  = 64
+  result.maxComputeWorkgroupsPerDimension          = 65535
+  # result.maxPushConstantSize                       = 0
+#___________________
+proc downlevel_defaults *(_ :typedesc[Limits]) :Limits=
+  ## These default limits are guaranteed to be compatible with GLES-3.1, and D3D11
+  result.maxTextureDimension1D                     = 2048
+  result.maxTextureDimension2D                     = 2048
+  result.maxTextureDimension3D                     = 256
+  result.maxTextureArrayLayers                     = 256
+  result.maxBindGroups                             = 4
+  result.maxBindingsPerBindGroup                   = 640
+  result.maxDynamicUniformBuffersPerPipelineLayout = 8
+  result.maxDynamicStorageBuffersPerPipelineLayout = 4
+  result.maxSampledTexturesPerShaderStage          = 16
+  result.maxSamplersPerShaderStage                 = 16
+  result.maxStorageBuffersPerShaderStage           = 4
+  result.maxStorageTexturesPerShaderStage          = 4
+  result.maxUniformBuffersPerShaderStage           = 12
+  result.maxUniformBufferBindingSize               = 16 shl 10
+  result.maxStorageBufferBindingSize               = 128 shl 20
+  result.maxVertexBuffers                          = 8
+  result.maxBufferSize                             = 16
+  result.maxVertexAttributes                       = 2048
+  result.maxVertexBufferArrayStride                = 0
+  result.minUniformBufferOffsetAlignment           = 256
+  result.minStorageBufferOffsetAlignment           = 256
+  result.maxInterStageShaderComponents             = 60
+  result.maxComputeWorkgroupStorageSize            = 16352
+  result.maxComputeInvocationsPerWorkgroup         = 256
+  result.maxComputeWorkgroupSizeX                  = 256
+  result.maxComputeWorkgroupSizeY                  = 256
+  result.maxComputeWorkgroupSizeZ                  = 64
+  result.maxComputeWorkgroupsPerDimension          = 65535
+  # result.maxPushConstantSize                       = 1 shl 28
+#___________________
+proc downlevel_webgl2_defaults *(_ :typedesc[Limits]) :Limits=
+  ## These default limits are guaranteed to be compatible with GLES-3.0, and D3D11, and WebGL2
+  result = Limits.downlevelDefaults()  # Most of the values should be the same as the downlevel defaults
+  result.maxUniformBuffersPerShaderStage           = 11
+  result.maxStorageBuffersPerShaderStage           = 0
+  result.maxStorageTexturesPerShaderStage          = 0
+  result.maxDynamicStorageBuffersPerPipelineLayout = 0
+  result.maxStorageBufferBindingSize               = 0
+  result.maxVertexBufferArrayStride                = 255
+  result.maxComputeWorkgroupStorageSize            = 0
+  result.maxComputeInvocationsPerWorkgroup         = 0
+  result.maxComputeWorkgroupSize_x                 = 0
+  result.maxComputeWorkgroupSize_y                 = 0
+  result.maxComputeWorkgroupSize_z                 = 0
+  result.maxComputeWorkgroupsPerDimension          = 0
+
+
+#_______________________________________
 # wgpu-native/src/unimplemented.rs
 #___________________
 type Proc* = proc () {.cdecl.}
@@ -180,4 +271,5 @@ proc getUsage*(texture :Texture) :TextureUsage {.cdecl, importc: "wgpuTextureGet
 proc getWidth*(texture :Texture) :uint32 {.cdecl, importc: "wgpuTextureGetWidth", header: "webgpu-headers/webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
 proc setLabel*(texture :Texture; label :cstring) :void {.cdecl, importc: "wgpuTextureSetLabel", header: "webgpu-headers/webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
 proc setLabel*(textureView :TextureView; label :cstring) :void {.cdecl, importc: "wgpuTextureViewSetLabel", header: "webgpu-headers/webgpu.h", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
+
 
