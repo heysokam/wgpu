@@ -49,7 +49,9 @@ proc present               *(swapChain :SwapChain) :void {.cdecl, importc: "wgpu
 # RenderPass Encoder
 proc setPipeline     *(renderPassEncoder :RenderPassEncoder; pipeline :RenderPipeline) :void {.cdecl, importc:"wgpuRenderPassEncoderSetPipeline", header: "webgpu-headers/webgpu.h".}
 proc setVertexBuffer *(renderPassEncoder :RenderPassEncoder; slot :uint32; buffer :Buffer; offset :uint64; size :uint64) :void {.cdecl, importc:"wgpuRenderPassEncoderSetVertexBuffer", header: "webgpu-headers/webgpu.h".}
+proc setIndexBuffer  *(renderPassEncoder :RenderPassEncoder; buffer :Buffer; format :IndexFormat; offset :uint64; size :uint64) :void {.cdecl, importc:"wgpuRenderPassEncoderSetIndexBuffer", header: "webgpu-headers/webgpu.h".}
 proc draw *(renderPassEncoder :RenderPassEncoder; vertexCount :uint32; instanceCount :uint32; firstVertex :uint32; firstInstance :uint32) :void {.cdecl, importc:"wgpuRenderPassEncoderDraw", header: "webgpu-headers/webgpu.h".}
+proc draw *(renderPassEncoder :RenderPassEncoder; indexCount :uint32; instanceCount :uint32; firstIndex :uint32; baseVertex :int32; firstInstance :uint32) :void {.cdecl, importc:"wgpuRenderPassEncoderDrawIndexed", header: "webgpu-headers/webgpu.h".}
 proc End  *(renderPassEncoder :RenderPassEncoder) :void {.cdecl, importc: "wgpuRenderPassEncoderEnd", header: "webgpu-headers/webgpu.h".}
 
 # Command Encoder

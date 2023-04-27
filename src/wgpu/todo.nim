@@ -705,7 +705,7 @@ const
   ProcRenderPassEncoderBeginOcclusionQuery* = proc ( renderPassEncoder: RenderPassEncoder; queryIndex: uint) {.cdecl.}
   ProcRenderPassEncoderBeginPipelineStatisticsQuery* = proc ( renderPassEncoder: RenderPassEncoder; querySet: QuerySet; queryIndex: uint) {.cdecl.}
   ProcRenderPassEncoderDraw* = proc (renderPassEncoder: RenderPassEncoder; vertexCount: uint; instanceCount: uint; firstVertex: uint; firstInstance: uint) {.cdecl.}
-  ProcRenderPassEncoderDrawIndexed* = proc (renderPassEncoder: RenderPassEncoder; indexCount: uint; instanceCount: uint; firstIndex: uint; baseVertex: int32; firstInstance: uint) {.cdecl.}
+  # ProcRenderPassEncoderDrawIndexed* = proc (renderPassEncoder: RenderPassEncoder; indexCount: uint; instanceCount: uint; firstIndex: uint; baseVertex: int32; firstInstance: uint) {.cdecl.}
   ProcRenderPassEncoderDrawIndexedIndirect* = proc ( renderPassEncoder: RenderPassEncoder; indirectBuffer: Buffer; indirectOffset: uint64) {.cdecl.}
   ProcRenderPassEncoderDrawIndirect* = proc (renderPassEncoder: RenderPassEncoder; indirectBuffer: Buffer; indirectOffset: uint64) {.cdecl.}
   ProcRenderPassEncoderEnd* = proc (renderPassEncoder: RenderPassEncoder) {.cdecl.}
@@ -717,7 +717,7 @@ const
   ProcRenderPassEncoderPushDebugGroup* = proc ( renderPassEncoder: RenderPassEncoder; groupLabel: cstring) {.cdecl.}
   ProcRenderPassEncoderSetBindGroup* = proc (renderPassEncoder: RenderPassEncoder; groupIndex: uint; group: BindGroup; dynamicOffsetCount: uint; dynamicOffsets: ptr uint) {.cdecl.}
   ProcRenderPassEncoderSetBlendConstant* = proc ( renderPassEncoder: RenderPassEncoder; color: ptr Color) {.cdecl.}
-  ProcRenderPassEncoderSetIndexBuffer* = proc ( renderPassEncoder: RenderPassEncoder; buffer: Buffer; format: IndexFormat; offset: uint64; size: uint64) {.cdecl.}
+  # ProcRenderPassEncoderSetIndexBuffer* = proc ( renderPassEncoder: RenderPassEncoder; buffer: Buffer; format: IndexFormat; offset: uint64; size: uint64) {.cdecl.}
   ProcRenderPassEncoderSetLabel* = proc (renderPassEncoder: RenderPassEncoder; label: cstring) {.cdecl.}
   ProcRenderPassEncoderSetPipeline* = proc (renderPassEncoder: RenderPassEncoder; pipeline: RenderPipeline) {.cdecl.}
   ProcRenderPassEncoderSetScissorRect* = proc ( renderPassEncoder: RenderPassEncoder; x: uint; y: uint; width: uint; height: uint) {.cdecl.}
@@ -1235,7 +1235,7 @@ proc renderBundleEncoderSetVertexBuffer*( renderBundleEncoder: RenderBundleEncod
 # proc renderPassEncoderBeginOcclusionQuery*( renderPassEncoder: RenderPassEncoder; queryIndex: uint) {.cdecl, importc:"wgpuRenderPassEncoderBeginOcclusionQuery", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
 proc renderPassEncoderBeginPipelineStatisticsQuery*( renderPassEncoder: RenderPassEncoder; querySet: QuerySet; queryIndex: uint) {.cdecl, importc:"wgpuRenderPassEncoderBeginPipelineStatisticsQuery".}
 # proc renderPassEncoderDraw*(renderPassEncoder: RenderPassEncoder; vertexCount: uint; instanceCount: uint; firstVertex: uint; firstInstance: uint) {.cdecl, importc:"wgpuRenderPassEncoderDraw".}
-proc renderPassEncoderDrawIndexed*(renderPassEncoder: RenderPassEncoder; indexCount: uint; instanceCount: uint; firstIndex: uint; baseVertex: int32; firstInstance: uint) {.cdecl, importc:"wgpuRenderPassEncoderDrawIndexed".}
+# proc renderPassEncoderDrawIndexed*(renderPassEncoder: RenderPassEncoder; indexCount: uint; instanceCount: uint; firstIndex: uint; baseVertex: int32; firstInstance: uint) {.cdecl, importc:"wgpuRenderPassEncoderDrawIndexed".}
 proc renderPassEncoderDrawIndexedIndirect*( renderPassEncoder: RenderPassEncoder; indirectBuffer: Buffer; indirectOffset: uint64) {.cdecl, importc:"wgpuRenderPassEncoderDrawIndexedIndirect".}
 proc renderPassEncoderDrawIndirect*(renderPassEncoder: RenderPassEncoder; indirectBuffer: Buffer; indirectOffset: uint64) {.cdecl, importc:"wgpuRenderPassEncoderDrawIndirect".}
 # proc renderPassEncoderEnd*(renderPassEncoder: RenderPassEncoder) {.cdecl, importc: "wgpuRenderPassEncoderEnd".}
@@ -1247,7 +1247,7 @@ proc renderPassEncoderPopDebugGroup*(renderPassEncoder: RenderPassEncoder) {.cde
 proc renderPassEncoderPushDebugGroup*(renderPassEncoder: RenderPassEncoder; groupLabel: cstring) {.cdecl, importc:"wgpuRenderPassEncoderPushDebugGroup".}
 proc renderPassEncoderSetBindGroup*(renderPassEncoder: RenderPassEncoder; groupIndex: uint; group: BindGroup; dynamicOffsetCount: uint; dynamicOffsets: ptr uint) {.cdecl, importc:"wgpuRenderPassEncoderSetBindGroup".}
 proc renderPassEncoderSetBlendConstant*(renderPassEncoder: RenderPassEncoder; color: ptr Color) {.cdecl, importc:"wgpuRenderPassEncoderSetBlendConstant".}
-proc renderPassEncoderSetIndexBuffer*(renderPassEncoder: RenderPassEncoder; buffer: Buffer; format: IndexFormat; offset: uint64; size: uint64) {.cdecl, importc:"wgpuRenderPassEncoderSetIndexBuffer".}
+# proc renderPassEncoderSetIndexBuffer*(renderPassEncoder: RenderPassEncoder; buffer: Buffer; format: IndexFormat; offset: uint64; size: uint64) {.cdecl, importc:"wgpuRenderPassEncoderSetIndexBuffer".}
 # proc renderPassEncoderSetLabel*(renderPassEncoder: RenderPassEncoder; label: cstring) {.cdecl, importc:"wgpuRenderPassEncoderSetLabel", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
 # proc renderPassEncoderSetPipeline*(renderPassEncoder: RenderPassEncoder; pipeline: RenderPipeline) {.cdecl, importc:"wgpuRenderPassEncoderSetPipeline".}
 proc renderPassEncoderSetScissorRect*(renderPassEncoder: RenderPassEncoder; x: uint; y: uint; width: uint; height: uint) {.cdecl, importc:"wgpuRenderPassEncoderSetScissorRect".}

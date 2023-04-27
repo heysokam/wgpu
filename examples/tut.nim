@@ -1,10 +1,10 @@
 #:____________________________________________________
 #  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
 #:____________________________________________________
-# Fully featured Buffer-based Triangle          |
-# with a deinterleaved vertex attribute buffer  |
-# Attributes:  pos, color, uv, normal           |
-#_______________________________________________|
+# Buffer-based Indexed Triangle                   |
+# with a deinterleaved attributes+indices buffer  |
+# Attributes:  pos, color, uv, normal             |
+#_________________________________________________|
 # std dependencies
 import std/strformat
 import std/os
@@ -28,23 +28,26 @@ type Mesh * = object
   color  *:seq[Vec4]
   uv     *:seq[Vec2]
   norm   *:seq[Vec3]
-  # inds   *:seq[UVec3]
+  inds   *:seq[UVec3]
 #________________________________________________
 # mesh.nim
 #__________________
 type Attr *{.pure.}= enum pos, color, uv, norm
   ## Attribute location ids for the shader
-converter toInt *(attr :Attr) :uint32=  attr.ord.uint32
+converter toInt *(attr :Attr) :uint32=  uint32( attr.ord )
   ## Automatically convert to int when required, without needing to add `.ord` everywhere.
 converter toCsize *(n :SomeUnsignedInt) :csize_t=  n.csize_t
   ## Automatically convert unsigned integers to csize_t when required, without needing to specify with `.csize_t`.
-template vertCount *(m :Mesh) :uint32=  m.pos.len.uint32
+func vertCount *(m :Mesh) :uint32=  uint32( m.pos.len )
   ## Returns the mesh vertex count, based on the number of vertex positions.
-template size *[T](n :T)      :uint64=  uint64( sizeof(n) )
+func indsCount *(m :Mesh) :uint32=  uint32( m.inds.len * 3)
+  ## Returns the mesh index count, based on the indices data. Assumes meshes are triangulated (aka 3 vertex per entry).
+func size *[T](n :T)      :uint64=  uint64( sizeof(n) )
   ## Returns the size in bytes of the given type. Alias for sizeof()
-template size *[T](v :seq[T]) :uint64=  uint64( v.len * sizeof(v[0]) )
+func size *[T](v :seq[T]) :uint64=  uint64( v.len * sizeof(v[0]) )
   ## Returns the size in bytes of the given seq
-proc size *(m :Mesh) :uint64=
+func size *(m :Mesh) :uint64=
+  ## Returns the size in bytes of the given mesh
   for attr in m.fields:
     if attr.len > 0:  result += attr.size   # Do not add empty seq
 
@@ -141,7 +144,7 @@ var triangle = Mesh(
     vec3( 0.0, 1.0, 0.0 ),  # v1
     vec3( 0.0, 0.0, 1.0 ),  # v2
     ], # norm
-  # inds: @[uvec3(0,1,2)]
+  inds: @[uvec3(0,1,2)]
   ) # << Mesh()
 let vertc = triangle.vertCount.int
 doAssert vertc == triangle.color.len and 
@@ -183,18 +186,17 @@ proc run=
     )
   var adapter :wgpu.Adapter;  instance.requestAdapter(adapterOpts.addr, adapterRequestCB, adapter.addr)
   doAssert adapter != nil, "wgpu.Adapter could not be requested."
-  #__________________________________
-  # NEW:
-  # 1. Set the limits that we require for this example
+
+  # Set the limits that we require for this example
   var requiredLimits = RequiredLimits(
     nextInChain           : nil,
     limits                : Limits.new(  # With custom `new` proc because some required defaults are not 0
       maxVertexAttributes = 4,
-      maxVertexBuffers    = 4,
+      maxVertexBuffers    = 5,  # <-- new, to include the index buffer
       ), # << limits
     ) # << requiredLimits
 
-  # OLD: Create the device descriptor, with our custom limits
+  # Create the device descriptor, with our custom limits
   var deviceDesc = DeviceDescriptor(
     nextInChain              : nil,
     label                    : "Hello Device",
@@ -225,7 +227,7 @@ proc run=
   # Get the queue, so we can add commands to it
   var queue = device.getQueue()
 
-  # Create the shader and swapchain. Nothing changed
+  # Create the shader and swapchain
   var shaderDesc      = shaderCode.wgslToDescriptor(label = "TriangleShader")
   let shader          = device.create(shaderDesc.addr)
   let swapchainFormat = surface.getPreferredFormat(adapter)
@@ -250,21 +252,24 @@ proc run=
   echo &":: Initial window size: {config.width} x {config.height}"
   var swapChain = device.create(surface, config.addr)
 
-  #__________________________________
-  # NEW:
-  # 2. Create and upload all the triangle buffers. Before we just uploaded the position.
+  # Create and upload all the triangle buffers. Before we just uploaded the position.
   var triangleLayout :seq[VertexBufferLayout]
   var triangleAttr   :seq[VertexAttribute]
   var triangleBuffer = device.create(vaddr BufferDescriptor(
     nextInChain       : nil,
     label             : "Triangle Vertex buffer".cstring,
-    usage             : {BufferUsage.copyDst, BufferUsage.vertex},
+    # NEW:
+    # 1. Add BufferUsage.index to the usage flags of the triangle Buffer.
+    usage             : {BufferUsage.copyDst, BufferUsage.vertex, BufferUsage.index},
     size              : triangle.size,
     mappedAtCreation  : false,
     )) # << device.createBuffer()
+  # 2. Write the indices to the triangle buffer
   var offset :uint64= 0
+  queue.writeBuffer(triangleBuffer, offset, triangle.inds[0].addr, triangle.inds.size)
+  offset += triangle.inds.size
 
-  # 2.1. Positions
+  # Positions
   triangleLayout.add VertexBufferLayout(
     arrayStride       : triangle.pos[0].size,
     stepMode          : VertexStepMode.vertex,
@@ -279,7 +284,7 @@ proc run=
   queue.writeBuffer(triangleBuffer, offset, triangle.pos[0].addr, triangle.pos.size)
   offset += triangle.pos.size
 
-  # 2.2. Colors
+  # Colors
   triangleLayout.add VertexBufferLayout(
     arrayStride       : triangle.color[0].size,
     stepMode          : VertexStepMode.vertex,
@@ -294,7 +299,7 @@ proc run=
   queue.writeBuffer(triangleBuffer, offset, triangle.color[0].addr, triangle.color.size)
   offset += triangle.color.size
 
-  # 2.3. Texture coordinates
+  # Texture coordinates
   triangleLayout.add VertexBufferLayout(
     arrayStride       : triangle.uv[0].size,
     stepMode          : VertexStepMode.vertex,
@@ -309,7 +314,7 @@ proc run=
   queue.writeBuffer(triangleBuffer, offset, triangle.uv[0].addr, triangle.uv.size)
   offset += triangle.uv.size
 
-  # 2.4. Normals
+  # Normals
   triangleLayout.add VertexBufferLayout(
     arrayStride       : triangle.norm[0].size,
     stepMode          : VertexStepMode.vertex,
@@ -324,7 +329,7 @@ proc run=
   queue.writeBuffer(triangleBuffer, offset, triangle.norm[0].addr, triangle.norm.size)
   offset += triangle.norm.size
 
-  # OLD: Create the PipelineLayout
+  # Create the PipelineLayout
   var layout = device.create(vaddr PipelineLayoutDescriptor(
     nextInChain          : nil,
     label                : "Hello PipelineLayout".cstring,
@@ -430,11 +435,17 @@ proc run=
     # NOTE : The rendering code shouldn't care about buffer order. The position buffer could be at the end, or at the beginning
     #        this part of the code shouldn't rely on the order. It should just have a slice that it can bind
     offset = 0
+    # NEW:
+    # 3. Set the Index block of the buffer in the renderPass
+    renderPass.setIndexBuffer(triangleBuffer, IndexFormat.Uint32, offset, triangle.inds.size); offset += triangle.inds.size
+    # OLD: Continue as before
     renderPass.setVertexBuffer(0, triangleBuffer, offset, triangle.pos.size)   ; offset += triangle.pos.size
     renderPass.setVertexBuffer(1, triangleBuffer, offset, triangle.color.size) ; offset += triangle.color.size
     renderPass.setVertexBuffer(2, triangleBuffer, offset, triangle.uv.size)    ; offset += triangle.uv.size
     renderPass.setVertexBuffer(3, triangleBuffer, offset, triangle.norm.size)  ; offset += triangle.norm.size
-    renderPass.draw(triangle.vertCount, 1,0,0)  # vertexCount, instanceCount, firstVertex, firstInstance
+    # NEW:
+    # 4. Draw using the indexed version
+    renderPass.draw(triangle.indsCount, 1,0,0,0)  # vertexCount, instanceCount, firstVertex, baseVertex, firstInstance
     # Continue as before
     renderPass.End()
     nextTexture.drop()
