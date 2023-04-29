@@ -15,9 +15,11 @@ proc sh (cmd :string; dir :string= "") :void=
   ## Executes the given shell command and writes the output to console.
   ## Same as the nimscript version, but usable at compile time in static blocks.
   ## Runs the command from `dir` when specified.
-  when defined(windows):  {.warning: "running `sh -c` commands on Windows has not been tested".}
-  if dir != "":  var command = &"cd {dir}; " & cmd
-  else:          var command = cmd
+  when defined(windows):
+    {.warning: "running `sh -c` commands on Windows has not been tested".}
+  var command :string
+  if dir != "":  command = &"cd {dir}; " & cmd
+  else:          command = cmd
   echo gorgeEx(&"sh -c \"{$command}\"").output
 #_____________________________
 proc cp (src, trg :string) :void=
