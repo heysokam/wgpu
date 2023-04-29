@@ -430,7 +430,7 @@ proc run=
       timestampWrites         : nil,
       )) # << renderPass
     # Draw into the texture with the given settings
-    renderPass.setPipeline(pipeline)
+    renderPass.set(pipeline)
     # Set the vertex buffer in the RenderPass
     # NOTE : The rendering code shouldn't care about buffer order. The position buffer could be at the end, or at the beginning
     #        this part of the code shouldn't rely on the order. It should just have a slice that it can bind

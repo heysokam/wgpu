@@ -3,10 +3,14 @@
 - [x] Hello Triangle
 - [x] Hello Buffer
 - [x] Hello Compute
-
-- [ ] Buffered Triangle
+- [x] Buffered Triangle
   - [x] Single Buffer
-  - [ ] Multi-Buffer
-- [ ] ? Textured Triangle/Quad?
+  - [x] Multi-Buffer
+  - [x] Indexed Multi-Buffer
+
+- [ ] Uniforms
+  - [ ] Hello Uniform variable
+  - [ ] Hello Uniform Block
+  - [ ] Hello Sampler (textured quad)
 - [ ] Hello Framebuffer
 

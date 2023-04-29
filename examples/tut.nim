@@ -1,10 +1,9 @@
 #:____________________________________________________
 #  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
 #:____________________________________________________
-# Buffer-based Indexed Triangle                   |
-# with a deinterleaved attributes+indices buffer  |
-# Attributes:  pos, color, uv, normal             |
-#_________________________________________________|
+# Single uniform example                        |
+# Current time can be accessed in shader code.  |
+#_______________________________________________|
 # std dependencies
 import std/strformat
 import std/os
@@ -93,6 +92,10 @@ proc logCB *(level :LogLevel; message :cstring; userdata :pointer) :void {.cdecl
 
 # Triangle shader
 const shaderCode = """
+// NEW: Our uniform variable
+@group(0) @binding(0) var<uniform> uTime :f32;
+
+// OLD: Continue as before
 struct VertIn {
   @builtin(vertex_index) id :u32,
   @location(0) pos   :vec3<f32>,
@@ -105,18 +108,30 @@ struct VertOut {
   @location(0)       color :vec4<f32>,
   @location(1)       uv    :vec2<f32>,
   @location(2)       norm  :vec3<f32>,
+  @location(3)       time  :f32,
 }
 @vertex fn vert(in :VertIn) ->VertOut {
+  // NEW: Add the uniform variable to the position of this vertex
+  let offset = 0.3 * vec3<f32>(cos(uTime), sin(uTime), 0.0);  // Calculate the (x,y) offset
+  let pos    = in.pos + offset;                               // Move the vertex position using the offset
+
+  // OLD: Continue as before
   var out   :VertOut;
-  out.pos   = vec4<f32>(in.pos, 1.0);
+  out.pos   = vec4<f32>(pos, 1.0);
   out.color = in.color;  // Forward the color attribute to the fragment shader
   out.uv    = in.uv;     // Forward the texture coordinates to the fragment shader
   out.norm  = in.norm;   // Forward the vertex normal to the fragment shader
+
+  // NEW: Forward the uniform variable to the fragment shader
+  //    : Not required. The value could be given directly to the fragment shader instead
+  out.time  = uTime;
+
+  // OLD: Continue as before
   return out;
 }
 
 @fragment fn frag(in :VertOut) ->@location(0) vec4<f32> {
-  return vec4<f32>(in.color);
+  return vec4<f32>(in.color.r, in.color.g, in.color.b, in.color.a);
 }
 """
 
@@ -159,6 +174,7 @@ var window = Window(
   ct: nil, title: "wgpu Tut",
   w:960, h:540,
   )
+var time :cdouble # NEW: Our uniform value on cpu-side
 
 #________________________________________________
 # Entry Point
@@ -192,7 +208,11 @@ proc run=
     nextInChain           : nil,
     limits                : Limits.new(  # With custom `new` proc because some required defaults are not 0
       maxVertexAttributes = 4,
-      maxVertexBuffers    = 5,  # <-- new, to include the index buffer
+      maxVertexBuffers    = 5,
+      # NEW: Change limits for the one uniform value we upload.
+      maxBindGroups                   = 1,
+      maxUniformBuffersPerShaderStage = 1,
+      maxUniformBufferBindingSize     = uint64( sizeof(float32) ),
       ), # << limits
     ) # << requiredLimits
 
@@ -258,8 +278,6 @@ proc run=
   var triangleBuffer = device.create(vaddr BufferDescriptor(
     nextInChain       : nil,
     label             : "Triangle Vertex buffer".cstring,
-    # NEW:
-    # 1. Add BufferUsage.index to the usage flags of the triangle Buffer.
     usage             : {BufferUsage.copyDst, BufferUsage.vertex, BufferUsage.index},
     size              : triangle.size,
     mappedAtCreation  : false,
@@ -329,15 +347,81 @@ proc run=
   queue.writeBuffer(triangleBuffer, offset, triangle.norm[0].addr, triangle.norm.size)
   offset += triangle.norm.size
 
-  # Create the PipelineLayout
+  # NEW:
+  # 1. Create the Uniform Buffer that will hold the variable, and upload the initial data
+  var uniformBuffer = device.create(vaddr BufferDescriptor(
+    nextInChain       : nil,
+    label             : "Uniform buffer".cstring,
+    usage             : {BufferUsage.copyDst, BufferUsage.uniform},  # Mark the buffer as a Uniform Buffer
+    size              : uint64( sizeof(float32) ),                   # The buffer will only contain one float
+    mappedAtCreation  : false,
+    )) # << device.createBuffer()
+  time = glfw.getTime(); echo "glfw.getTime = ",time
+  queue.writeBuffer(uniformBuffer, 0, time.addr, sizeof(float32).csize_t)
+
+  # 2. Create the BindGroup Layout
+  #    NOTE: Fully verbose, but such verbosity is not needed.
+  #        : Modified variables are commented, and the rest would be correctly given by Nim's zero initialization if omitted.
+  var bindGroupLayout = device.create(vaddr BindGroupLayoutDescriptor(
+    nextInChain          : nil,
+    label                : "Hello Uniform BindGroupLayout".cstring, # Recognizable name for errors
+    entryCount           : 1,                           # We only add one entry
+    entries              : vaddr BindGroupLayoutEntry(  # Uniform Layout Entry starts here
+      nextInChain        : nil,
+      binding            : 0,                           # Shader @binding(0) index
+      visibility         : { ShaderStage.vertex },      # Used only in the vertex stage
+      buffer             : BufferBindingLayout(
+        nextInChain      : nil,
+        typ              : BufferBindingType.uniform,   # Mark the buffer for usage as a uniform
+        hasDynamicOffset : false,
+        minBindingSize   : uint64( sizeof(float32) ),   # Minimum size for uploaded values
+        ), # << buffer
+      # Not Used. Could be Zero-Initalizated instead of explicit.
+      sampler            : SamplerBindingLayout(
+        nextInChain      : nil,
+        typ              : SamplerBindingType.undefined,
+        ), # << sampler
+      texture            : TextureBindingLayout(
+        nextInChain      : nil,
+        sampleType       : TextureSampleType.undefined,
+        viewDimension    : TextureViewDimension.undefined,
+        multisampled     : false,
+        ), # << texture
+      storageTexture     : StorageTextureBindingLayout(
+        nextInChain      : nil,
+        access           : StorageTextureAccess.undefined,
+        format           : TextureFormat.undefined,
+        viewDimension    : TextureViewDimension.undefined,
+        ), # << storageTexture
+      ) # << entries
+    )) # << device.createBindGroupLayout()
+
+  # 2. Create the PipelineLayout, with our bindgroup as input
   var layout = device.create(vaddr PipelineLayoutDescriptor(
     nextInChain          : nil,
     label                : "Hello PipelineLayout".cstring,
-    bindGroupLayoutCount : 0,
-    bindGroupLayouts     : nil,
+    bindGroupLayoutCount : 1,
+    bindGroupLayouts     : bindGroupLayout.addr,
     )) # << device.createPipelineLayout()
 
-  # Configure the pipeline with the buffer inputs
+  # 3. Create the BindGroup, with our single uniform variable.
+  var bindGroup = device.create(vaddr BindGroupDescriptor(
+    nextInChain   : nil,
+    label         : "Hello BindGroup".cstring,
+    layout        : bindGroupLayout,
+    entryCount    : 1,
+    entries       : vaddr BindGroupEntry(       # Our bindgroup entry starts here
+      nextInChain : nil,
+      binding     : 0,                          # Shader @binding(0) index
+      buffer      : uniformBuffer,              # Buffer that contains the data for this binding
+      offset      : 0,                          # Offset within the buffer (useful for storing multiple blocks in the same buffer)
+      size        : uint64( sizeof(float32) ),  # Size of the buffer
+      sampler     : nil,
+      textureView : nil,
+      ) # << entries
+    )) # << device.createBindGroup()
+
+  # OLD: Configure the pipeline with the buffer inputs
   let pipeline = device.create(vaddr RenderPipelineDescriptor(
     nextInChain               : nil,
     label                     : "Render pipeline".cstring,
@@ -394,6 +478,12 @@ proc run=
   #__________________
   # Update loop
   while not window.close():
+    # NEW:
+    # 4. Update time and write it to the uniform buffer value
+    time = glfw.getTime(); echo "glfw.getTime = ",time
+    queue.writeBuffer(uniformBuffer, 0, time.addr, sizeof(float32).csize_t)
+
+    # OLD: Continue the update loop as before
     var nextTexture :TextureView= nil
     for attempt in 0..<2:  # Attempt to create the swapchain twice
       var prevWidth  = config.width
@@ -430,23 +520,26 @@ proc run=
       timestampWrites         : nil,
       )) # << renderPass
     # Draw into the texture with the given settings
-    renderPass.setPipeline(pipeline)
+    renderPass.set(pipeline)
     # Set the vertex buffer in the RenderPass
     # NOTE : The rendering code shouldn't care about buffer order. The position buffer could be at the end, or at the beginning
     #        this part of the code shouldn't rely on the order. It should just have a slice that it can bind
     offset = 0
-    # NEW:
-    # 3. Set the Index block of the buffer in the renderPass
+    # Set the Index block of the buffer in the renderPass
     renderPass.setIndexBuffer(triangleBuffer, IndexFormat.Uint32, offset, triangle.inds.size); offset += triangle.inds.size
-    # OLD: Continue as before
+    # Set the vertex attributes buffer
     renderPass.setVertexBuffer(0, triangleBuffer, offset, triangle.pos.size)   ; offset += triangle.pos.size
     renderPass.setVertexBuffer(1, triangleBuffer, offset, triangle.color.size) ; offset += triangle.color.size
     renderPass.setVertexBuffer(2, triangleBuffer, offset, triangle.uv.size)    ; offset += triangle.uv.size
     renderPass.setVertexBuffer(3, triangleBuffer, offset, triangle.norm.size)  ; offset += triangle.norm.size
+
     # NEW:
-    # 4. Draw using the indexed version
+    # 5. Set the binding group in the renderPass
+    renderPass.set(0, bindGroup, 0, nil)  # Set the `bindGroup` at @group(0), with no dynamic offsets (0, nil)
+
+    # OLD: Draw using the indexed version
     renderPass.draw(triangle.indsCount, 1,0,0,0)  # vertexCount, instanceCount, firstVertex, baseVertex, firstInstance
-    # Continue as before
+    # Finish drawing
     renderPass.End()
     nextTexture.drop()
     # Submit the Rendering Queue, and present it to the surface

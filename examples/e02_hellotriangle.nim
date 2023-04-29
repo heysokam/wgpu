@@ -247,7 +247,7 @@ proc run=
       timestampWrites         : nil,
       )) # << renderPass
     # Draw into the texture with the given settings
-    renderPass.setPipeline(pipeline)
+    renderPass.set(pipeline)
     renderPass.draw(3,1,0,0)  # vertexCount, instanceCount, firstVertex, firstInstance
     renderPass.End()
     nextTexture.drop()

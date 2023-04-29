@@ -64,7 +64,7 @@ const
   # BackendType*                  = distinct uint32
   # BlendFactor*                  = distinct uint32
   # BlendOperation*               = distinct uint32
-  BufferBindingType*            = distinct uint32
+  # BufferBindingType*            = distinct uint32
   # BufferMapAsyncStatus*         = distinct uint32
   # CompareFunction*              = distinct uint32
   # CompilationInfoRequestStatus* = distinct uint32
@@ -91,16 +91,16 @@ const
   # RequestAdapterStatus*         = distinct uint32
   # RequestDeviceStatus*          = distinct uint32
   # SType*                        = distinct uint32
-  SamplerBindingType*           = distinct uint32
+  # SamplerBindingType*           = distinct uint32
   # StencilOperation*             = distinct uint32
-  StorageTextureAccess*         = distinct uint32
+  # StorageTextureAccess*         = distinct uint32
   # StoreOp*                      = distinct uint32
   TextureAspect*                = distinct uint32
   TextureComponentType*         = distinct uint32
   # TextureDimension*             = distinct uint32
   TextureFormat*                = distinct uint32
-  TextureSampleType*            = distinct uint32
-  TextureViewDimension*         = distinct uint32
+  # TextureSampleType*            = distinct uint32
+  # TextureViewDimension*         = distinct uint32
   # VertexFormat*                 = distinct uint32
   # VertexStepMode*               = distinct uint32
   BufferUsage*                  = distinct uint32
@@ -146,11 +146,11 @@ const
   #   srcFactor*: BlendFactor
   #   dstFactor*: BlendFactor
 
-  BufferBindingLayout* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    `type`*: BufferBindingType
-    hasDynamicOffset*: bool
-    minBindingSize*: uint64
+  # BufferBindingLayout* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   `type`*: BufferBindingType
+  #   hasDynamicOffset*: bool
+  #   minBindingSize*: uint64
 
   # BufferDescriptor* {.bycopy.} = object
   #   nextInChain*: ptr ChainedStruct
@@ -312,9 +312,9 @@ const
   #   powerPreference*: PowerPreference
   #   forceFallbackAdapter*: bool
 
-  SamplerBindingLayout* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    `type`*: SamplerBindingType
+  # SamplerBindingLayout* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   `type`*: SamplerBindingType
 
   SamplerDescriptor* {.bycopy.} = object
     nextInChain*: ptr ChainedStruct
@@ -350,11 +350,11 @@ const
   #   depthFailOp*: StencilOperation
   #   passOp*: StencilOperation
 
-  StorageTextureBindingLayout* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    access*: StorageTextureAccess
-    format*: TextureFormat
-    viewDimension*: TextureViewDimension
+  # StorageTextureBindingLayout* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   access*: StorageTextureAccess
+  #   format*: TextureFormat
+  #   viewDimension*: TextureViewDimension
 
   # SurfaceDescriptor* {.bycopy.} = object
   #   nextInChain*: ptr ChainedStruct
@@ -401,11 +401,11 @@ const
   #   height*: uint
   #   presentMode*: PresentMode
 
-  TextureBindingLayout* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    sampleType*: TextureSampleType
-    viewDimension*: TextureViewDimension
-    multisampled*: bool
+  # TextureBindingLayout* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   sampleType*: TextureSampleType
+  #   viewDimension*: TextureViewDimension
+  #   multisampled*: bool
 
   TextureDataLayout* {.bycopy.} = object
     nextInChain*: ptr ChainedStruct
@@ -436,14 +436,14 @@ const
   #   entryCount*: uint
   #   entries*: ptr BindGroupEntry
 
-  BindGroupLayoutEntry* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    binding*: uint
-    visibility*: ShaderStageFlags
-    buffer*: BufferBindingLayout
-    sampler*: SamplerBindingLayout
-    texture*: TextureBindingLayout
-    storageTexture*: StorageTextureBindingLayout
+  # BindGroupLayoutEntry* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   binding*: uint
+  #   visibility*: ShaderStageFlags
+  #   buffer*: BufferBindingLayout
+  #   sampler*: SamplerBindingLayout
+  #   texture*: TextureBindingLayout
+  #   storageTexture*: StorageTextureBindingLayout
 
   # BlendState* {.bycopy.} = object
   #   color*: BlendComponent
@@ -531,11 +531,11 @@ const
   #   attributeCount*: uint
   #   attributes*: ptr VertexAttribute
 
-  BindGroupLayoutDescriptor* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    label*: cstring
-    entryCount*: uint
-    entries*: ptr BindGroupLayoutEntry
+  # BindGroupLayoutDescriptor* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   label*: cstring
+  #   entryCount*: uint
+  #   entries*: ptr BindGroupLayoutEntry
 
   # ColorTargetState* {.bycopy.} = object
   #   nextInChain*: ptr ChainedStruct
@@ -652,7 +652,7 @@ const
   ProcComputePipelineGetBindGroupLayout* = proc (computePipeline: ComputePipeline; groupIndex: uint): BindGroupLayout {.cdecl.}
   ProcComputePipelineSetLabel* = proc (computePipeline: ComputePipeline; label: cstring) {.cdecl.}
   # ProcDeviceCreateBindGroup* = proc (device: Device; descriptor: ptr BindGroupDescriptor): BindGroup {.cdecl.}
-  ProcDeviceCreateBindGroupLayout* = proc (device: Device; descriptor: ptr BindGroupLayoutDescriptor): BindGroupLayout {.cdecl.}
+  # ProcDeviceCreateBindGroupLayout* = proc (device: Device; descriptor: ptr BindGroupLayoutDescriptor): BindGroupLayout {.cdecl.}
   ProcDeviceCreateBuffer* = proc (device: Device; descriptor: ptr BufferDescriptor): Buffer {.cdecl.}
   ProcDeviceCreateCommandEncoder* = proc (device: Device; descriptor: ptr CommandEncoderDescriptor): CommandEncoder {.cdecl.}
   ProcDeviceCreateComputePipeline* = proc (device: Device; descriptor: ptr ComputePipelineDescriptor): ComputePipeline {.cdecl.}
@@ -715,7 +715,7 @@ const
   ProcRenderPassEncoderInsertDebugMarker* = proc ( renderPassEncoder: RenderPassEncoder; markerLabel: cstring) {.cdecl.}
   ProcRenderPassEncoderPopDebugGroup* = proc (renderPassEncoder: RenderPassEncoder) {.cdecl.}
   ProcRenderPassEncoderPushDebugGroup* = proc ( renderPassEncoder: RenderPassEncoder; groupLabel: cstring) {.cdecl.}
-  ProcRenderPassEncoderSetBindGroup* = proc (renderPassEncoder: RenderPassEncoder; groupIndex: uint; group: BindGroup; dynamicOffsetCount: uint; dynamicOffsets: ptr uint) {.cdecl.}
+  # ProcRenderPassEncoderSetBindGroup* = proc (renderPassEncoder: RenderPassEncoder; groupIndex: uint; group: BindGroup; dynamicOffsetCount: uint; dynamicOffsets: ptr uint) {.cdecl.}
   ProcRenderPassEncoderSetBlendConstant* = proc ( renderPassEncoder: RenderPassEncoder; color: ptr Color) {.cdecl.}
   # ProcRenderPassEncoderSetIndexBuffer* = proc ( renderPassEncoder: RenderPassEncoder; buffer: Buffer; format: IndexFormat; offset: uint64; size: uint64) {.cdecl.}
   ProcRenderPassEncoderSetLabel* = proc (renderPassEncoder: RenderPassEncoder; label: cstring) {.cdecl.}
@@ -784,10 +784,10 @@ const
   # BlendOperation_Min* = BlendOperation(0x00000003)
   # BlendOperation_Max* = BlendOperation(0x00000004)
 
-  BufferBindingType_Undefined* = BufferBindingType(0x00000000)
-  BufferBindingType_Uniform* = BufferBindingType(0x00000001)
-  BufferBindingType_Storage* = BufferBindingType(0x00000002)
-  BufferBindingType_ReadOnlyStorage* = BufferBindingType(0x00000003)
+  # BufferBindingType_Undefined* = BufferBindingType(0x00000000)
+  # BufferBindingType_Uniform* = BufferBindingType(0x00000001)
+  # BufferBindingType_Storage* = BufferBindingType(0x00000002)
+  # BufferBindingType_ReadOnlyStorage* = BufferBindingType(0x00000003)
 
   # BufferMapAsyncStatus_Success* = BufferMapAsyncStatus(0x00000000)
   # BufferMapAsyncStatus_Error* = BufferMapAsyncStatus(0x00000001)
@@ -921,10 +921,10 @@ const
   # SType_SurfaceDescriptorFromXcbWindow* = SType(0x0000000A)
   # SType_RenderPassDescriptorMaxDrawCount* = SType(0x0000000F)
   
-  SamplerBindingType_Undefined* = SamplerBindingType(0x00000000)
-  SamplerBindingType_Filtering* = SamplerBindingType(0x00000001)
-  SamplerBindingType_NonFiltering* = SamplerBindingType(0x00000002)
-  SamplerBindingType_Comparison* = SamplerBindingType(0x00000003)
+  # SamplerBindingType_Undefined* = SamplerBindingType(0x00000000)
+  # SamplerBindingType_Filtering* = SamplerBindingType(0x00000001)
+  # SamplerBindingType_NonFiltering* = SamplerBindingType(0x00000002)
+  # SamplerBindingType_Comparison* = SamplerBindingType(0x00000003)
 
   # StencilOperation_Keep* = StencilOperation(0x00000000)
   # StencilOperation_Zero* = StencilOperation(0x00000001)
@@ -935,8 +935,8 @@ const
   # StencilOperation_IncrementWrap* = StencilOperation(0x00000006)
   # StencilOperation_DecrementWrap* = StencilOperation(0x00000007)
 
-  StorageTextureAccess_Undefined* = StorageTextureAccess(0x00000000)
-  StorageTextureAccess_WriteOnly* = StorageTextureAccess(0x00000001)
+  # StorageTextureAccess_Undefined* = StorageTextureAccess(0x00000000)
+  # StorageTextureAccess_WriteOnly* = StorageTextureAccess(0x00000001)
 
   # StoreOp_Undefined* = StoreOp(0x00000000)
   # StoreOp_Store* = StoreOp(0x00000001)
@@ -1051,20 +1051,20 @@ const
   # TextureFormat_ASTC12x12Unorm* = TextureFormat(0x0000005D)
   # TextureFormat_ASTC12x12UnormSrgb* = TextureFormat(0x0000005E)
 
-  TextureSampleType_Undefined* = TextureSampleType(0x00000000) 
-  TextureSampleType_Float* = TextureSampleType(0x00000001)
-  TextureSampleType_UnfilterableFloat* = TextureSampleType(0x00000002)
-  TextureSampleType_Depth* = TextureSampleType(0x00000003) 
-  TextureSampleType_Sint* = TextureSampleType(0x00000004)
-  TextureSampleType_Uint* = TextureSampleType(0x00000005)
+  # TextureSampleType_Undefined* = TextureSampleType(0x00000000) 
+  # TextureSampleType_Float* = TextureSampleType(0x00000001)
+  # TextureSampleType_UnfilterableFloat* = TextureSampleType(0x00000002)
+  # TextureSampleType_Depth* = TextureSampleType(0x00000003) 
+  # TextureSampleType_Sint* = TextureSampleType(0x00000004)
+  # TextureSampleType_Uint* = TextureSampleType(0x00000005)
 
-  TextureViewDimension_Undefined* = TextureViewDimension(0x00000000)
-  TextureViewDimension_1D* = TextureViewDimension(0x00000001) 
-  TextureViewDimension_2D* = TextureViewDimension(0x00000002)
-  TextureViewDimension_2DArray* = TextureViewDimension(0x00000003)
-  TextureViewDimension_Cube* = TextureViewDimension(0x00000004)
-  TextureViewDimension_CubeArray* = TextureViewDimension(0x00000005)
-  TextureViewDimension_3D* = TextureViewDimension(0x00000006)
+  # TextureViewDimension_Undefined* = TextureViewDimension(0x00000000)
+  # TextureViewDimension_1D* = TextureViewDimension(0x00000001) 
+  # TextureViewDimension_2D* = TextureViewDimension(0x00000002)
+  # TextureViewDimension_2DArray* = TextureViewDimension(0x00000003)
+  # TextureViewDimension_Cube* = TextureViewDimension(0x00000004)
+  # TextureViewDimension_CubeArray* = TextureViewDimension(0x00000005)
+  # TextureViewDimension_3D* = TextureViewDimension(0x00000006)
 
   # VertexFormat_Undefined* = VertexFormat(0x00000000) 
   # VertexFormat_Uint8x2* = VertexFormat(0x00000001)
@@ -1182,7 +1182,7 @@ proc computePassEncoderPushDebugGroup*( computePassEncoder: ComputePassEncoder; 
 # proc computePipelineGetBindGroupLayout*(computePipeline: ComputePipeline; groupIndex: uint): BindGroupLayout {.cdecl, importc:"wgpuComputePipelineGetBindGroupLayout".}
 # proc computePipelineSetLabel*(computePipeline: ComputePipeline; label: cstring) {.cdecl, importc:"wgpuComputePipelineSetLabel", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
 # proc deviceCreateBindGroup*(device: Device; descriptor: ptr BindGroupDescriptor): BindGroup {.cdecl, importc:"wgpuDeviceCreateBindGroup".}
-proc deviceCreateBindGroupLayout*(device: Device; descriptor: ptr BindGroupLayoutDescriptor): BindGroupLayout {.cdecl, importc:"wgpuDeviceCreateBindGroupLayout".}
+# proc deviceCreateBindGroupLayout*(device: Device; descriptor: ptr BindGroupLayoutDescriptor): BindGroupLayout {.cdecl, importc:"wgpuDeviceCreateBindGroupLayout".}
 # proc deviceCreateBuffer*(device: Device; descriptor: ptr BufferDescriptor): Buffer {.cdecl, importc:"wgpuDeviceCreateBuffer".}
 # proc deviceCreateCommandEncoder*(device: Device; descriptor: ptr CommandEncoderDescriptor): CommandEncoder {.cdecl, importc:"wgpuDeviceCreateCommandEncoder".}
 # proc deviceCreateComputePipeline*(device: Device; descriptor: ptr ComputePipelineDescriptor): ComputePipeline {.cdecl, importc:"wgpuDeviceCreateComputePipeline".}
@@ -1245,7 +1245,7 @@ proc renderPassEncoderExecuteBundles*(renderPassEncoder: RenderPassEncoder; bund
 proc renderPassEncoderInsertDebugMarker*( renderPassEncoder: RenderPassEncoder; markerLabel: cstring) {.cdecl, importc:"wgpuRenderPassEncoderInsertDebugMarker".}
 proc renderPassEncoderPopDebugGroup*(renderPassEncoder: RenderPassEncoder) {.cdecl, importc:"wgpuRenderPassEncoderPopDebugGroup".}
 proc renderPassEncoderPushDebugGroup*(renderPassEncoder: RenderPassEncoder; groupLabel: cstring) {.cdecl, importc:"wgpuRenderPassEncoderPushDebugGroup".}
-proc renderPassEncoderSetBindGroup*(renderPassEncoder: RenderPassEncoder; groupIndex: uint; group: BindGroup; dynamicOffsetCount: uint; dynamicOffsets: ptr uint) {.cdecl, importc:"wgpuRenderPassEncoderSetBindGroup".}
+# proc renderPassEncoderSetBindGroup*(renderPassEncoder: RenderPassEncoder; groupIndex: uint; group: BindGroup; dynamicOffsetCount: uint; dynamicOffsets: ptr uint) {.cdecl, importc:"wgpuRenderPassEncoderSetBindGroup".}
 proc renderPassEncoderSetBlendConstant*(renderPassEncoder: RenderPassEncoder; color: ptr Color) {.cdecl, importc:"wgpuRenderPassEncoderSetBlendConstant".}
 # proc renderPassEncoderSetIndexBuffer*(renderPassEncoder: RenderPassEncoder; buffer: Buffer; format: IndexFormat; offset: uint64; size: uint64) {.cdecl, importc:"wgpuRenderPassEncoderSetIndexBuffer".}
 # proc renderPassEncoderSetLabel*(renderPassEncoder: RenderPassEncoder; label: cstring) {.cdecl, importc:"wgpuRenderPassEncoderSetLabel", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}

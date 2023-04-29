@@ -47,12 +47,14 @@ type LogLevel *{.pure, size: sizeof(int32).}= enum
   off, error, warn, info, debug, trace
 
 type InstanceBackend *{.pure, size: sizeof(int32).}= enum
-  None, Vulkan, Metal, DX12, DX1, GL, BrowserWebGPU
+  Vulkan, Metal, DX12, DX1, GL, BrowserWebGPU
 template Primary   *(_ :typedesc[InstanceBackend]) :auto=  {InstanceBackend.Vulkan, InstanceBackend.Metal, InstanceBackend.DX12, InstanceBackend.BrowserWebGPU}
 template Secondary *(_ :typedesc[InstanceBackend]) :auto=  {InstanceBackend.GL, InstanceBackend.DX11}
+template None      *(_ :typedesc[InstanceBackend]) :auto=  {}
 type InstanceBackendFlags * = set[InstanceBackend]
 
-type Flags * = uint32
+# TODO: Remove, probably. Not used anywhere, because of Nim's enum sets as flags
+# type Flags * = uint32
 
 type Dx12Compiler *{.pure, size: sizeof(int32).}= enum
   undefined, fxc, dxc
@@ -144,9 +146,11 @@ type SupportedLimitsExtras * = object
   chain                *:ChainedStructOut
   maxPushConstantSize  *:uint32
 
-type ShaderStage {.pure, size: sizeof(int32).}= enum
-  none, vertex, fragment, compute
+type ShaderStage *{.pure, size: sizeof(int32).}= enum
+  vertex, fragment, compute
 type ShaderStageFlags * = set[ShaderStage]
+template none *(_ :typedesc[ShaderStage]) :auto=  {}
+template all  *(_ :typedesc[ShaderStage]) :auto=  { ShaderStage.vertex, ShaderStage.fragment, ShaderStage.compute }
 
 type PushConstantRange * = object
   stages  *:ShaderStageFlags
@@ -208,7 +212,7 @@ type GlobalReport * = object
   gl           *:HubReport
 
 type TextureFormat *{.pure, size: sizeof(int32).}= enum
-  Undefined,
+  undefined,
   R8Unorm,        R8Snorm,          R8Uint,     R8Sint,
   R16Uint,        R16Sint,          R16Float,
   RG8Unorm,       RG8Snorm,         RG8Uint,    RG8Sint,
@@ -736,6 +740,58 @@ type BindGroupDescriptor *{.bycopy.}= object
   layout      *:BindGroupLayout
   entryCount  *:uint32
   entries     *:ptr BindGroupEntry
+
+type BufferBindingType *{.pure, size: sizeof(int32).}= enum
+  undefined, uniform, storage, readOnlyStorage
+
+type BufferBindingLayout* {.bycopy.} = object
+  nextInChain      *:ptr ChainedStruct
+  typ              *:BufferBindingType
+  hasDynamicOffset *:bool
+  minBindingSize   *:uint64
+
+type SamplerBindingType *{.pure, size: sizeof(int32).}= enum
+  undefined, filtering, nonFiltering, comparison
+
+type SamplerBindingLayout *{.bycopy.}= object
+  nextInChain *:ptr ChainedStruct
+  typ         *:SamplerBindingType
+
+type TextureSampleType *{.pure, size: sizeof(int32).}= enum
+  undefined, Float, unfilterableFloat, depth, sint, Uint
+
+type TextureViewDimension *{.pure, size: sizeof(int32).}= enum
+  undefined, dim1D, dim2D, array2D, cube, arrayCube, dim3D
+
+type TextureBindingLayout *{.bycopy.}= object
+  nextInChain   *:ptr ChainedStruct
+  sampleType    *:TextureSampleType
+  viewDimension *:TextureViewDimension
+  multisampled  *:bool
+
+type StorageTextureAccess *{.pure, size: sizeof(int32).}= enum
+  undefined, writeOnly
+
+type StorageTextureBindingLayout *{.bycopy.}= object
+  nextInChain   *:ptr ChainedStruct
+  access        *:StorageTextureAccess
+  format        *:TextureFormat
+  viewDimension *:TextureViewDimension
+
+type BindGroupLayoutEntry *{.bycopy.}= object
+  nextInChain    *:ptr ChainedStruct
+  binding        *:uint32
+  visibility     *:ShaderStageFlags
+  buffer         *:BufferBindingLayout
+  sampler        *:SamplerBindingLayout
+  texture        *:TextureBindingLayout
+  storageTexture *:StorageTextureBindingLayout
+
+type BindGroupLayoutDescriptor *{.bycopy.}= object
+  nextInChain *:ptr ChainedStruct
+  label       *:cstring
+  entryCount  *:uint32
+  entries     *:ptr BindGroupLayoutEntry
 
 # Compute Pass
 type ComputePassTimestampLocation *{.pure, size: sizeof(int32).}= enum

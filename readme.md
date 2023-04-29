@@ -51,7 +51,13 @@ The goal was removing the need for C style `WGPUCrazyLongAndRepetitive_Names` ev
 Names that clash with nim keywords have been shortened, but start with a capital letter:  
 - `end` is always `End`, even inside enums.
 - `discard` is always `Discard`, even inside enums.
-- `float32`, `uint16` and `uint32` are `Float32`, `Uint16` and `Uint32` when they have no suffix
+- `float`, `float32`, `uint`, `uint16` and `uint32` are...
+  `Float`, `Float32`, `Uint`, `Uint16` and `Uint32` when they have no suffix
+- `type` is always `typ` or `kind`.
+
+Names that start with numbers are illegal in Nim, so these are changed:
+- `1D`, `2D` and `3D` become `dim1D`, `dim2D`, `dim3D`
+- `2DArray` and `CubeArray` become `array2D` and `arrayCube` for naming consistency.
 
 Function names that contain a type differentiator have been shortened where possible:  
 Example1:

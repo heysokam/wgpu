@@ -36,6 +36,7 @@ proc create *(device :Device; descriptor :ptr CommandEncoderDescriptor) :Command
 proc create *(device :Device; descriptor :ptr BufferDescriptor) :Buffer {.cdecl, importc:"wgpuDeviceCreateBuffer", header: "webgpu-headers/webgpu.h".}
 proc create *(device :Device; descriptor :ptr BindGroupDescriptor) :BindGroup {.cdecl, importc:"wgpuDeviceCreateBindGroup", header: "webgpu-headers/webgpu.h".}
 proc create *(device :Device; descriptor :ptr PipelineLayoutDescriptor) :PipelineLayout {.cdecl, importc:"wgpuDeviceCreatePipelineLayout", header: "webgpu-headers/webgpu.h".}
+proc create *(device :Device; descriptor :ptr BindGroupLayoutDescriptor) :BindGroupLayout {.cdecl, importc:"wgpuDeviceCreateBindGroupLayout", header: "webgpu-headers/webgpu.h".}
 proc getQueue *(device :Device) :Queue {.cdecl, importc: "wgpuDeviceGetQueue", header: "webgpu-headers/webgpu.h".}
 proc get      *(device :Device; limits :ptr SupportedLimits) :bool {.cdecl, importc: "wgpuDeviceGetLimits", header: "webgpu-headers/webgpu.h".}
 
@@ -47,9 +48,10 @@ proc getCurrentTextureView *(swapChain :SwapChain) :TextureView {.cdecl, importc
 proc present               *(swapChain :SwapChain) :void {.cdecl, importc: "wgpuSwapChainPresent", header: "webgpu-headers/webgpu.h".}
 
 # RenderPass Encoder
-proc setPipeline     *(renderPassEncoder :RenderPassEncoder; pipeline :RenderPipeline) :void {.cdecl, importc:"wgpuRenderPassEncoderSetPipeline", header: "webgpu-headers/webgpu.h".}
 proc setVertexBuffer *(renderPassEncoder :RenderPassEncoder; slot :uint32; buffer :Buffer; offset :uint64; size :uint64) :void {.cdecl, importc:"wgpuRenderPassEncoderSetVertexBuffer", header: "webgpu-headers/webgpu.h".}
 proc setIndexBuffer  *(renderPassEncoder :RenderPassEncoder; buffer :Buffer; format :IndexFormat; offset :uint64; size :uint64) :void {.cdecl, importc:"wgpuRenderPassEncoderSetIndexBuffer", header: "webgpu-headers/webgpu.h".}
+proc set  *(renderPassEncoder :RenderPassEncoder; pipeline :RenderPipeline) :void {.cdecl, importc:"wgpuRenderPassEncoderSetPipeline", header: "webgpu-headers/webgpu.h".}
+proc set  *(renderPassEncoder :RenderPassEncoder; groupIndex :uint32; group :BindGroup; dynamicOffsetCount :uint32; dynamicOffsets :ptr uint32) :void {.cdecl, importc:"wgpuRenderPassEncoderSetBindGroup", header: "webgpu-headers/webgpu.h".}
 proc draw *(renderPassEncoder :RenderPassEncoder; vertexCount :uint32; instanceCount :uint32; firstVertex :uint32; firstInstance :uint32) :void {.cdecl, importc:"wgpuRenderPassEncoderDraw", header: "webgpu-headers/webgpu.h".}
 proc draw *(renderPassEncoder :RenderPassEncoder; indexCount :uint32; instanceCount :uint32; firstIndex :uint32; baseVertex :int32; firstInstance :uint32) :void {.cdecl, importc:"wgpuRenderPassEncoderDrawIndexed", header: "webgpu-headers/webgpu.h".}
 proc End  *(renderPassEncoder :RenderPassEncoder) :void {.cdecl, importc: "wgpuRenderPassEncoderEnd", header: "webgpu-headers/webgpu.h".}

@@ -308,7 +308,7 @@ proc run=
       timestampWrites         : nil,
       )) # << renderPass
     # Draw into the texture with the given settings
-    renderPass.setPipeline(pipeline)
+    renderPass.set(pipeline)
 
     # NEW:
     # 6. Set the vertex buffer in the RenderPass
