@@ -42,10 +42,7 @@ requires "chroma"                            ## Color manipulation
 #________________________________________
 # Helpers
 #___________________
-when defined(debug):
-  let nimcr = &"nim c -r --verbosity:2 --outdir:{binDir}"
-else:
-  let nimcr = &"nim c -r --verbosity:1 --outdir:{binDir}"
+let nimcr  = &"nim c -r --verbosity:1 --outdir:{binDir}"
   ## Compile and run, outputting to binDir
 proc runFile (file, dir :string) :void=  exec &"{nimcr} {dir/file}"
   ## Runs file from the given dir, using the nimcr command
@@ -60,9 +57,17 @@ proc runExample (file :string) :void=  file.runFile(examplesDir)
 task git, "Updates the wgpu-native submodules, and copies the header files into the C folder.":
   exec "git submodule update --recursive src/wgpu/C/wgpu-native"
 #___________________
-task lib, "Builds the wgpu-native library in the correct mode (release or debug).":
+task lib, "Builds the wgpu-native library in both release and debug modes":
+  # Note: This is automatically done by the buildsystem, without running this task.
   exec "nimble git"
   withDir wgpuDir:
-    when defined(debug): exec "make lib-native"
-    else:                exec "make lib-native-release"
+    exec "make lib-native"
+    exec "make lib-native-release"
+    # Fix the static linking mess of clang+mac
+    when defined(macosx):
+      let rlsDir = "./target/release"
+      let dbgDir = "./target/debug"
+      let file   = "libwgpu_native.a"
+      if fileExists( rlsDir/file ):  cpFile rlsDir/file, rlsDir/"libwgpu_native_static.a"
+      if fileExists( dbgDir/file ):  cpFile dbgDir/file, dbgDir/"libwgpu_native_static.a"
 

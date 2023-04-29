@@ -3,6 +3,54 @@
 #:____________________________________________________
 # Compilation system for linking to wgpu headers  |
 #_________________________________________________|
+# std dependencies
+import std/os
+import std/strformat
+
+
+#_________________________________________________
+# Helpers
+#_____________________________
+proc sh (cmd :string; dir :string= "") :void=
+  ## Executes the given shell command and writes the output to console.
+  ## Same as the nimscript version, but usable at compile time in static blocks.
+  ## Runs the command from `dir` when specified.
+  when defined(windows):  {.warning: "running `sh -c` commands on Windows has not been tested".}
+  if dir != "":  var command = &"cd {dir}; " & cmd
+  else:          var command = cmd
+  echo gorgeEx(&"sh -c \"{$command}\"").output
+#_____________________________
+proc cp (src, trg :string) :void=
+  ## Copies `src` to `trg`, using the shell's `cp` command.
+  ## Usable at compile time in static blocks.
+  echo &": Copying {src}\n  to {trg}"
+  sh &"cp {src} {trg}"
+#_____________________________
+const thisDir = currentSourcePath().parentDir()
+const wgpuDir = thisDir/"C"/"wgpu-native"
+const rlsDir  = wgpuDir/"target"/"release"
+const dbgDir  = wgpuDir/"target"/"debug"
+
+
+#_________________________________________________
+# Build wgpu
+#_____________________________
+# Note: Cannot be a nimble task
+#   wgpu should be built with either debug or release, just like Nim code.
+#   Nimble doesn't understand defines, which makes it impossible to designate a nimble task for it.
+#   Usually you would compile C code with {.compile.} pragmas and nim,
+#   but that's not possible for Rust
+#   So this system calls for the wgpu-native buildsystem instead.
+#_____________________________
+static:
+  echo ": Compiling wgpu-native..."
+  when defined(debug):  sh "make lib-native", wgpuDir
+  else:                 sh "make lib-native-release", wgpuDir
+  # Fix the static linking mess of clang+mac
+  when defined(macosx):
+    const file = "libwgpu_native.a"
+    if fileExists( rlsDir/file ):  cp rlsDir/file, rlsDir/"libwgpu_native_static.a"
+    if fileExists( dbgDir/file ):  cp dbgDir/file, dbgDir/"libwgpu_native_static.a"
 
 
 #_________________________________________________
@@ -15,9 +63,8 @@
 #_________________________________________________
 # Pass ldflag to link to the folder where the libs are output
 #_____________________________
-when not defined(clang):  # clang doesn't support `:` in `-l:libname.a`
-  when defined(debug):  {.passL: "-L./src/wgpu/C/wgpu-native/target/debug".}
-  else:                 {.passL: "-L./src/wgpu/C/wgpu-native/target/release".}
+when defined(debug):  {.passL: "-L./src/wgpu/C/wgpu-native/target/debug".}
+else:                 {.passL: "-L./src/wgpu/C/wgpu-native/target/release".}
 
 
 #_________________________________________________
@@ -25,11 +72,9 @@ when not defined(clang):  # clang doesn't support `:` in `-l:libname.a`
 #_____________________________
 # Linux+Mac
 when defined(unix):       # Both Linux and Mac
-  when defined(clang):    # clang doesn't support `:` in `-l:libname.a`
-    when defined(debug):  {.passL: "-l./src/wgpu/C/wgpu-native/target/debug/libwgpu_native.a".}
-    else:                 {.passL: "-l./src/wgpu/C/wgpu-native/target/release/libwgpu_native.a".}
-  elif defined(gcc):      {.passL: "-l:libwgpu_native.a".}  # Use `:` with gcc
-  else:                   {.error: "Compilers currently supported are gcc and clang".}
+  when not defined(clang) and not defined(gcc): {.error: "Compilers currently supported are gcc and clang".}
+  when defined(macosx): {.passL: "-lwgpu_native_static".}  # Use the renamed file with mac
+  else:                 {.passL: "-l:libwgpu_native.a".}   # Use `:` with linux
 #_____________________________
 # Windows
 elif defined(windows):

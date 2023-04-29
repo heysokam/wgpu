@@ -92,8 +92,12 @@ proc logCB *(level :LogLevel; message :cstring; userdata :pointer) :void {.cdecl
 
 # Triangle shader
 const shaderCode = """
-// NEW: Our uniform variable
-@group(0) @binding(0) var<uniform> uTime :f32;
+// NEW: Our uniform variable is now a struct
+struct Uniforms {
+  time  :f32,
+  color :vec4<f32>,
+}
+@group(0) @binding(0) var<uniform> u :Uniforms;
 
 // OLD: Continue as before
 struct VertIn {
@@ -108,30 +112,22 @@ struct VertOut {
   @location(0)       color :vec4<f32>,
   @location(1)       uv    :vec2<f32>,
   @location(2)       norm  :vec3<f32>,
-  @location(3)       time  :f32,
 }
 @vertex fn vert(in :VertIn) ->VertOut {
-  // NEW: Add the uniform variable to the position of this vertex
-  let offset = 0.3 * vec3<f32>(cos(uTime), sin(uTime), 0.0);  // Calculate the (x,y) offset
-  let pos    = in.pos + offset;                               // Move the vertex position using the offset
-
-  // OLD: Continue as before
+  // Add the uniform variable to the position of this vertex
+  let offset = 0.3 * vec3<f32>(cos(u.time), sin(u.time), 0.0);  // Calculate the (x,y) offset
+  let pos    = in.pos + offset;                                 // Move the vertex position using the offset
+  // Define the output of the vertex shader
   var out   :VertOut;
   out.pos   = vec4<f32>(pos, 1.0);
   out.color = in.color;  // Forward the color attribute to the fragment shader
   out.uv    = in.uv;     // Forward the texture coordinates to the fragment shader
   out.norm  = in.norm;   // Forward the vertex normal to the fragment shader
-
-  // NEW: Forward the uniform variable to the fragment shader
-  //    : Not required. The value could be given directly to the fragment shader instead
-  out.time  = uTime;
-
-  // OLD: Continue as before
   return out;
 }
 
 @fragment fn frag(in :VertOut) ->@location(0) vec4<f32> {
-  return vec4<f32>(sin(in.time), in.color.g, in.color.b, in.color.a);
+  return vec4<f32>(u.color.r, in.color.g, in.color.b, in.color.a);
 }
 """
 
@@ -174,7 +170,10 @@ var window = Window(
   ct: nil, title: "wgpu Tut",
   w:960, h:540,
   )
-var time :float32 # NEW: Our uniform value on cpu-side
+type Uniforms = object  # NEW: Our uniform value is now a struct
+  time   :float32
+  color  :wgpu.Color
+var u :Uniforms
 
 #________________________________________________
 # Entry Point
@@ -356,8 +355,8 @@ proc run=
     size              : uint64( sizeof(float32) ),                   # The buffer will only contain one float
     mappedAtCreation  : false,
     )) # << device.createBuffer()
-  time = glfw.getTime().float32
-  queue.writeBuffer(uniformBuffer, 0, time.addr, sizeof(float32).csize_t)
+  u.time = glfw.getTime().float32
+  queue.writeBuffer(uniformBuffer, 0, u.time.addr, sizeof(float32).csize_t)
 
   # 2. Create the BindGroup Layout
   #    NOTE: Fully verbose, but such verbosity is not needed.
@@ -480,8 +479,8 @@ proc run=
   while not window.close():
     # NEW:
     # 4. Update time and write it to the uniform buffer value
-    time = glfw.getTime().float32
-    queue.writeBuffer(uniformBuffer, 0, time.addr, sizeof(float32).csize_t)
+    u.time = glfw.getTime().float32
+    queue.writeBuffer(uniformBuffer, 0, u.time.addr, sizeof(float32).csize_t)
 
     # OLD: Continue the update loop as before
     var nextTexture :TextureView= nil

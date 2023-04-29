@@ -13,8 +13,8 @@ Install brew:
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 Then do:
-2.1 Install nim: `brew install nim`
-2.1 Install rust: `brew install rust`
+2. Install nim: `brew install nim`
+3. Install rust: `brew install rust`
 
 ## Alternative: Install Nim and Rust, using their dev instructions:
 2.1. Install `choosenim`:  https://github.com/dom96/choosenim/releases

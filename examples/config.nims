@@ -6,7 +6,8 @@ switch("path", "$projectDir/../src")  # add our dependency without installing it
 --nimcache:"bin/nimcache"
 --passC:"-m64"
 --passC:"-march=native"
-switch("d", "wgpu")
+--d:release   # Default to release when no options, instead of debug
+--d:wgpu
 
 #_____________________
 # Default option to run when noOpt
@@ -14,6 +15,11 @@ switch("d", "wgpu")
 #   Broken from this file. Doesn't make the other checks valid after this definition. 
 #   Not usable for noOpt
 # when not defined(release) and not defined(debug):
+
+#______________________
+# Define debug when it should be
+when not defined(release) and not defined(danger):
+  --d:debug
 
 #______________________
 # Release mode 
