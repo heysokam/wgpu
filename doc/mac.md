@@ -1,6 +1,6 @@
 # Building wgpu
-_wgpu-native is compiled into a static library, using its cargo+make buildsystem._
-_So we need Nim, Rust and Make installed in the system._
+_wgpu-native is compiled into a static library, using its cargo+make+cmake buildsystem._
+_So we need both Nim and Rust installed in the system._
 
 ## Install mac developer tools
 We need `clang`, `git`, `make` and `cmake`, so install them if they are not already
@@ -24,6 +24,7 @@ _Note: the apps need to be accesible witout absolute variables, so this depends 
 
 ## Download the code
 4. `git clone --recurse-submodules https://github.com/heysokam/wgpu`
+_Note: The repository needs to be cloned with recurse-submodules, or it won't work._
 
 ## Optional
 Check that everything needed is accesible without having to call their full paths:
@@ -32,6 +33,8 @@ nimble -v
 nim -v
 cargo -v
 git -v
+make -v
+cmake -v
 ```
 
 ## Build the app

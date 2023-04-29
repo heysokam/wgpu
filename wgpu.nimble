@@ -29,4 +29,5 @@ task compute, "  Build+Run the hellocompute app."                    : exec "nim
 task triangle2, "Build+Run the simple buffered triangle app."        : exec "nimble lib"; runExample "e05_trianglebuffered1"
 task triangle3, "Build+Run the multi-buffered triangle app."         : exec "nimble lib"; runExample "e06_trianglebuffered2"
 task triangle4, "Build+Run the indexed multi-buffered triangle app." : exec "nimble lib"; runExample "e07_trianglebuffered3"
+task uniform, "  Build+Run the single uniform app."                  : exec "nimble lib"; runExample "e08_hellouniform"
 
