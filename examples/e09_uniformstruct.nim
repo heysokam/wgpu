@@ -175,7 +175,7 @@ type Uniforms = object         # NEW: Our uniform value is now a struct
   time  {.align(16).}:float32  # Mark as align(16) in this variable is not needed, since its 0. Just for clarity
   color {.align(16).}:Vec4     # Mark as align(16), so that the time field gets padded.
 var u :Uniforms
-static: assert Uniforms.sizeof mod 16 == 0, "Uniforms size must be aligned to 16 (aka the size of a vec4<f32>)"
+static: assert Uniforms.sizeof mod Vec4.sizeof == 0, "Uniforms size must be aligned to the size of a vec4<f32>
 
 #________________________________________________
 # Entry Point
@@ -487,7 +487,7 @@ proc run=
   while not window.close():
     # Update time and write it to the uniform buffer value
     u.time = glfw.getTime().float32
-    queue.writeBuffer(uniformBuffer, 0, u.time.addr, sizeof(float32).csize_t)
+    queue.writeBuffer(uniformBuffer, Uniforms.offsetOf(time).uint64, u.time.addr, sizeof(float32).csize_t)
 
     # Continue the update loop
     var nextTexture :TextureView= nil

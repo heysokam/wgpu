@@ -29,4 +29,6 @@ task triangle3, "Build+Run the multi-buffered triangle app."         : exec "nim
 task triangle4, "Build+Run the indexed multi-buffered triangle app." : exec "nimble git"; runExample "e07_trianglebuffered3"
 task uniform, "  Build+Run the single uniform app."                  : exec "nimble git"; runExample "e08_hellouniform"
 task struct, "   Build+Run the uniform struct app."                  : exec "nimble git"; runExample "e09_uniformstruct"
+# task dynamic, "  Build+Run the uniform struct app."                  : exec "nimble git"; runExample "e10_dynamicuniform"
+task texture, "  Build+Run the simple byte texture app."             : exec "nimble git"; runExample "e11_hellotexture"
 

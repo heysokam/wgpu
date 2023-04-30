@@ -9,8 +9,9 @@
   - [x] Indexed Multi-Buffer
 
 - [ ] Uniforms
-  - [ ] Hello Uniform variable
-  - [ ] Hello Uniform Block
+  - [x] Hello Uniform variable
+  - [x] Hello Uniform Block
+  - [x] Hello Texture
   - [ ] Hello Sampler (textured quad)
 - [ ] Hello Framebuffer
 

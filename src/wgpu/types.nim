@@ -812,4 +812,53 @@ type ComputePassDescriptor *{.bycopy.}= object
   timestampWriteCount *:uint32
   timestampWrites     *:ptr ComputePassTimestampWrite
 
+# Textures
+type Extent3D *{.bycopy.}= object
+  width              *:uint32
+  height             *:uint32
+  depthOrArrayLayers *:uint32
+
+type Origin3D *{.bycopy.}= object
+  x  *:uint32
+  y  *:uint32
+  z  *:uint32
+
+type TextureDescriptor *{.bycopy.}= object
+  nextInChain     *:ptr ChainedStruct
+  label           *:cstring
+  usage           *:TextureUsageFlags
+  dimension       *:TextureDimension
+  size            *:Extent3D
+  format          *:TextureFormat
+  mipLevelCount   *:uint32
+  sampleCount     *:uint32
+  viewFormatCount *:uint32
+  viewFormats     *:ptr TextureFormat
+
+type TextureAspect *{.pure, size: sizeof(int32).}= enum
+  all, stencilOnly, depthOnly
+
+type TextureViewDescriptor *{.bycopy.}= object
+  nextInChain     *:ptr ChainedStruct
+  label           *:cstring
+  format          *:TextureFormat
+  dimension       *:TextureViewDimension
+  baseMipLevel    *:uint32
+  mipLevelCount   *:uint32
+  baseArrayLayer  *:uint32
+  arrayLayerCount *:uint32
+  aspect          *:TextureAspect
+
+type ImageCopyTexture* {.bycopy.} = object
+  nextInChain *:ptr ChainedStruct
+  texture     *:Texture
+  mipLevel    *:uint32
+  origin      *:Origin3D
+  aspect      *:TextureAspect
+
+type TextureDataLayout *{.bycopy.}= object
+  nextInChain  *:ptr ChainedStruct
+  offset       *:uint64
+  bytesPerRow  *:uint32
+  rowsPerImage *:uint32
 

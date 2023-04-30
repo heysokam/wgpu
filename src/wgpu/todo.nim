@@ -95,22 +95,22 @@ const
   # StencilOperation*             = distinct uint32
   # StorageTextureAccess*         = distinct uint32
   # StoreOp*                      = distinct uint32
-  TextureAspect*                = distinct uint32
+  # TextureAspect*                = distinct uint32
   TextureComponentType*         = distinct uint32
   # TextureDimension*             = distinct uint32
-  TextureFormat*                = distinct uint32
+  # TextureFormat*                = distinct uint32
   # TextureSampleType*            = distinct uint32
   # TextureViewDimension*         = distinct uint32
   # VertexFormat*                 = distinct uint32
   # VertexStepMode*               = distinct uint32
-  BufferUsage*                  = distinct uint32
+  # BufferUsage*                  = distinct uint32
   # BufferUsageFlags*             = Flags
   # ColorWriteMask*               = distinct uint32
   # ColorWriteMaskFlags*          = Flags
   MapMode*                      = distinct uint32
   # MapModeFlags*                 = Flags
   # ShaderStage*                  = distinct uint32
-  ShaderStageFlags*             = Flags
+  # ShaderStageFlags*             = Flags
   # TextureUsage*                 = distinct uint32
   # TextureUsageFlags*            = Flags
   # ChainedStruct* {.bycopy.} = object
@@ -192,10 +192,10 @@ const
   #   key*: cstring
   #   value*: cdouble
 
-  Extent3D* {.bycopy.} = object
-    width*: uint
-    height*: uint
-    depthOrArrayLayers*: uint
+  # Extent3D* {.bycopy.} = object
+  #   width*: uint
+  #   height*: uint
+  #   depthOrArrayLayers*: uint
 
   # InstanceDescriptor* {.bycopy.} = object
   #   nextInChain*: ptr ChainedStruct
@@ -238,10 +238,10 @@ const
   #   mask*: uint
   #   alphaToCoverageEnabled*: bool
 
-  Origin3D* {.bycopy.} = object
-    x*: uint
-    y*: uint
-    z*: uint
+  # Origin3D* {.bycopy.} = object
+  #   x*: uint
+  #   y*: uint
+  #   z*: uint
 
   # PipelineLayoutDescriptor* {.bycopy.} = object
   #   nextInChain*: ptr ChainedStruct
@@ -407,22 +407,22 @@ const
   #   viewDimension*: TextureViewDimension
   #   multisampled*: bool
 
-  TextureDataLayout* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    offset*: uint64
-    bytesPerRow*: uint
-    rowsPerImage*: uint
+  # TextureDataLayout* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   offset*: uint64
+  #   bytesPerRow*: uint
+  #   rowsPerImage*: uint
 
-  TextureViewDescriptor* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    label*: cstring
-    format*: TextureFormat
-    dimension*: TextureViewDimension
-    baseMipLevel*: uint
-    mipLevelCount*: uint
-    baseArrayLayer*: uint
-    arrayLayerCount*: uint
-    aspect*: TextureAspect
+  # TextureViewDescriptor* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   label*: cstring
+  #   format*: TextureFormat
+  #   dimension*: TextureViewDimension
+  #   baseMipLevel*: uint
+  #   mipLevelCount*: uint
+  #   baseArrayLayer*: uint
+  #   arrayLayerCount*: uint
+  #   aspect*: TextureAspect
 
   # VertexAttribute* {.bycopy.} = object
   #   format*: VertexFormat
@@ -478,12 +478,12 @@ const
     layout*: TextureDataLayout
     buffer*: Buffer
 
-  ImageCopyTexture* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    texture*: Texture
-    mipLevel*: uint
-    origin*: Origin3D
-    aspect*: TextureAspect
+  # ImageCopyTexture* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   texture*: Texture
+  #   mipLevel*: uint
+  #   origin*: Origin3D
+  #   aspect*: TextureAspect
 
   # ProgrammableStageDescriptor* {.bycopy.} = object
   #   nextInChain*: ptr ChainedStruct
@@ -513,17 +513,17 @@ const
   #   nextInChain*: ptr ChainedStructOut
   #   limits*: Limits
 
-  TextureDescriptor* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    label*: cstring
-    usage*: TextureUsageFlags
-    dimension*: TextureDimension
-    size*: Extent3D
-    format*: TextureFormat
-    mipLevelCount*: uint
-    sampleCount*: uint
-    viewFormatCount*: uint
-    viewFormats*: ptr TextureFormat
+  # TextureDescriptor* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   label*: cstring
+  #   usage*: TextureUsageFlags
+  #   dimension*: TextureDimension
+  #   size*: Extent3D
+  #   format*: TextureFormat
+  #   mipLevelCount*: uint
+  #   sampleCount*: uint
+  #   viewFormatCount*: uint
+  #   viewFormats*: ptr TextureFormat
 
   # VertexBufferLayout* {.bycopy.} = object
   #   arrayStride*: uint64
@@ -607,7 +607,7 @@ const
   # QueueWorkDoneCallback* = proc (status: QueueWorkDoneStatus; userdata: pointer) {.cdecl.}
   # RequestAdapterCallback* = proc (status: RequestAdapterStatus; adapter: Adapter; message: cstring; userdata: pointer) {.cdecl.}
   # RequestDeviceCallback* = proc (status: RequestDeviceStatus; device: Device; message: cstring; userdata: pointer) {.cdecl.}
-  ProcCreateInstance* = proc (descriptor: ptr InstanceDescriptor): Instance {.cdecl.}
+  # ProcCreateInstance* = proc (descriptor: ptr InstanceDescriptor): Instance {.cdecl.}
   ProcGetProcAddress* = proc (device: Device; procName: cstring): Proc {.cdecl.}
   ProcAdapterEnumerateFeatures* = proc (adapter: Adapter; features: ptr Feature): csize_t {.cdecl.}
   # ProcAdapterGetLimits* = proc (adapter: Adapter; limits: ptr SupportedLimits): bool {.cdecl.}
@@ -623,7 +623,7 @@ const
   ProcBufferGetUsage* = proc (buffer: Buffer): BufferUsage {.cdecl.}
   # ProcBufferMapAsync* = proc (buffer: Buffer; mode: MapModeFlags; offset: csize_t; size: csize_t; callback: BufferMapCallback; userdata: pointer) {.cdecl.}
   ProcBufferSetLabel* = proc (buffer: Buffer; label: cstring) {.cdecl.}
-  ProcBufferUnmap* = proc (buffer: Buffer) {.cdecl.}
+  # ProcBufferUnmap* = proc (buffer: Buffer) {.cdecl.}
   ProcCommandBufferSetLabel* = proc (commandBuffer: CommandBuffer; label: cstring) {.cdecl.}
   # ProcCommandEncoderBeginComputePass* = proc (commandEncoder: CommandEncoder; descriptor: ptr ComputePassDescriptor): ComputePassEncoder {.cdecl.}
   ProcCommandEncoderBeginRenderPass* = proc (commandEncoder: CommandEncoder; descriptor: ptr RenderPassDescriptor): RenderPassEncoder {.cdecl.}
@@ -632,7 +632,7 @@ const
   ProcCommandEncoderCopyBufferToTexture* = proc (commandEncoder: CommandEncoder; source: ptr ImageCopyBuffer; destination: ptr ImageCopyTexture; copySize: ptr Extent3D) {.cdecl.}
   ProcCommandEncoderCopyTextureToBuffer* = proc (commandEncoder: CommandEncoder; source: ptr ImageCopyTexture; destination: ptr ImageCopyBuffer; copySize: ptr Extent3D) {.cdecl.}
   ProcCommandEncoderCopyTextureToTexture* = proc (commandEncoder: CommandEncoder; source: ptr ImageCopyTexture; destination: ptr ImageCopyTexture; copySize: ptr Extent3D) {.cdecl.}
-  ProcCommandEncoderFinish* = proc (commandEncoder: CommandEncoder; descriptor: ptr CommandBufferDescriptor): CommandBuffer {.cdecl.} = proc (commandEncoder: CommandEncoder; markerLabel: cstring) {.cdecl.}
+  # ProcCommandEncoderFinish* = proc (commandEncoder: CommandEncoder; descriptor: ptr CommandBufferDescriptor): CommandBuffer {.cdecl.} = proc (commandEncoder: CommandEncoder; markerLabel: cstring) {.cdecl.}
   ProcCommandEncoderPopDebugGroup* = proc (commandEncoder: CommandEncoder) {.cdecl.}
   ProcCommandEncoderPushDebugGroup* = proc (commandEncoder: CommandEncoder; groupLabel: cstring) {.cdecl.}
   ProcCommandEncoderResolveQuerySet* = proc (commandEncoder: CommandEncoder; querySet: QuerySet; firstQuery: uint; queryCount: uint; destination: Buffer; destinationOffset: uint64) {.cdecl.}
@@ -665,7 +665,7 @@ const
   ProcDeviceCreateSampler* = proc (device: Device; descriptor: ptr SamplerDescriptor): Sampler {.cdecl.}
   ProcDeviceCreateShaderModule* = proc (device: Device; descriptor: ptr ShaderModuleDescriptor): ShaderModule {.cdecl.}
   ProcDeviceCreateSwapChain* = proc (device: Device; surface: Surface; descriptor: ptr SwapChainDescriptor): SwapChain {.cdecl.}
-  ProcDeviceCreateTexture* = proc (device: Device; descriptor: ptr TextureDescriptor): Texture {.cdecl.}
+  # ProcDeviceCreateTexture* = proc (device: Device; descriptor: ptr TextureDescriptor): Texture {.cdecl.}
   ProcDeviceDestroy* = proc (device: Device) {.cdecl.}
   ProcDeviceEnumerateFeatures* = proc (device: Device; features: ptr Feature): csize_t {.cdecl.}
   # ProcDeviceGetLimits* = proc (device: Device; limits: ptr SupportedLimits): bool {.cdecl.}
@@ -688,7 +688,7 @@ const
   ProcQueueSetLabel* = proc (queue: Queue; label: cstring) {.cdecl.}
   ProcQueueSubmit* = proc (queue: Queue; commandCount: uint; commands: ptr CommandBuffer) {.cdecl.}
   ProcQueueWriteBuffer* = proc (queue: Queue; buffer: Buffer; bufferOffset: uint64; data: pointer; size: csize_t) {.cdecl.}
-  ProcQueueWriteTexture* = proc (queue: Queue; destination: ptr ImageCopyTexture; data: pointer; dataSize: csize_t; dataLayout: ptr TextureDataLayout; writeSize: ptr Extent3D) {.cdecl.}
+  # ProcQueueWriteTexture* = proc (queue: Queue; destination: ptr ImageCopyTexture; data: pointer; dataSize: csize_t; dataLayout: ptr TextureDataLayout; writeSize: ptr Extent3D) {.cdecl.}
   ProcRenderBundleEncoderDraw* = proc (renderBundleEncoder: RenderBundleEncoder; vertexCount: uint; instanceCount: uint; firstVertex: uint; firstInstance: uint) {.cdecl.}
   ProcRenderBundleEncoderDrawIndexed* = proc ( renderBundleEncoder: RenderBundleEncoder; indexCount: uint; instanceCount: uint; firstIndex: uint; baseVertex: int32; firstInstance: uint) {.cdecl.}
   ProcRenderBundleEncoderDrawIndexedIndirect* = proc ( renderBundleEncoder: RenderBundleEncoder; indirectBuffer: Buffer; indirectOffset: uint64) {.cdecl.}
@@ -732,7 +732,7 @@ const
   ProcSurfaceGetPreferredFormat* = proc (surface: Surface; adapter: Adapter): TextureFormat {.cdecl.}
   ProcSwapChainGetCurrentTextureView* = proc (swapChain: SwapChain): TextureView {.cdecl.}
   ProcSwapChainPresent* = proc (swapChain: SwapChain) {.cdecl.}
-  ProcTextureCreateView* = proc (texture: Texture; descriptor: ptr TextureViewDescriptor): TextureView {.cdecl.}
+  # ProcTextureCreateView* = proc (texture: Texture; descriptor: ptr TextureViewDescriptor): TextureView {.cdecl.}
   ProcTextureDestroy* = proc (texture: Texture) {.cdecl.}
   ProcTextureGetDepthOrArrayLayers* = proc (texture: Texture): uint {.cdecl.}
   ProcTextureGetDimension* = proc (texture: Texture): TextureDimension {.cdecl.}
@@ -942,9 +942,9 @@ const
   # StoreOp_Store* = StoreOp(0x00000001)
   # StoreOp_Discard* = StoreOp(0x00000002)
 
-  TextureAspect_All* = TextureAspect(0x00000000) 
-  TextureAspect_StencilOnly* = TextureAspect(0x00000001)
-  TextureAspect_DepthOnly* = TextureAspect(0x00000002)
+  # TextureAspect_All* = TextureAspect(0x00000000) 
+  # TextureAspect_StencilOnly* = TextureAspect(0x00000001)
+  # TextureAspect_DepthOnly* = TextureAspect(0x00000002)
 
   TextureComponentType_Float* = TextureComponentType(0x00000000)
   TextureComponentType_Sint* = TextureComponentType(0x00000001)
@@ -1102,17 +1102,17 @@ const
   # VertexStepMode_Instance* = VertexStepMode(0x00000001)
   # VertexStepMode_VertexBufferNotUsed* = VertexStepMode(0x00000002)
 
-  BufferUsage_None* = BufferUsage(0x00000000) 
-  BufferUsage_MapRead* = BufferUsage(0x00000001)
-  BufferUsage_MapWrite* = BufferUsage(0x00000002) 
-  BufferUsage_CopySrc* = BufferUsage(0x00000004)
-  BufferUsage_CopyDst* = BufferUsage(0x00000008) 
-  BufferUsage_Index* = BufferUsage(0x00000010)
-  BufferUsage_Vertex* = BufferUsage(0x00000020) 
-  BufferUsage_Uniform* = BufferUsage(0x00000040)
-  BufferUsage_Storage* = BufferUsage(0x00000080) 
-  BufferUsage_Indirect* = BufferUsage(0x00000100)
-  BufferUsage_QueryResolve* = BufferUsage(0x00000200)
+  # BufferUsage_None* = BufferUsage(0x00000000) 
+  # BufferUsage_MapRead* = BufferUsage(0x00000001)
+  # BufferUsage_MapWrite* = BufferUsage(0x00000002) 
+  # BufferUsage_CopySrc* = BufferUsage(0x00000004)
+  # BufferUsage_CopyDst* = BufferUsage(0x00000008) 
+  # BufferUsage_Index* = BufferUsage(0x00000010)
+  # BufferUsage_Vertex* = BufferUsage(0x00000020) 
+  # BufferUsage_Uniform* = BufferUsage(0x00000040)
+  # BufferUsage_Storage* = BufferUsage(0x00000080) 
+  # BufferUsage_Indirect* = BufferUsage(0x00000100)
+  # BufferUsage_QueryResolve* = BufferUsage(0x00000200)
 
   # ColorWriteMask_None* = ColorWriteMask(0x00000000) 
   # ColorWriteMask_Red* = ColorWriteMask(0x00000001)
@@ -1195,8 +1195,8 @@ proc deviceCreateRenderBundleEncoder*(device: Device; descriptor: ptr RenderBund
 proc deviceCreateSampler*(device: Device; descriptor: ptr SamplerDescriptor): Sampler {.cdecl, importc:"wgpuDeviceCreateSampler".}
 # proc deviceCreateShaderModule*(device: Device; descriptor: ptr ShaderModuleDescriptor): ShaderModule {.cdecl, importc:"wgpuDeviceCreateShaderModule".}
 # proc deviceCreateSwapChain*(device: Device; surface: Surface; descriptor: ptr SwapChainDescriptor): SwapChain {.cdecl, importc:"wgpuDeviceCreateSwapChain".}
-proc deviceCreateTexture*(device: Device; descriptor: ptr TextureDescriptor): Texture {.cdecl, importc:"wgpuDeviceCreateTexture".}
-proc deviceDestroy*(device: Device) {.cdecl, importc: "wgpuDeviceDestroy".}
+# proc deviceCreateTexture*(device: Device; descriptor: ptr TextureDescriptor): Texture {.cdecl, importc:"wgpuDeviceCreateTexture".}
+# proc deviceDestroy*(device: Device) {.cdecl, importc: "wgpuDeviceDestroy".}
 proc deviceEnumerateFeatures*(device: Device; features: ptr Feature): csize_t {.cdecl, importc:"wgpuDeviceEnumerateFeatures".}
 # proc deviceGetLimits*(device: Device; limits: ptr SupportedLimits): bool {.cdecl, importc: "wgpuDeviceGetLimits".}
 # proc deviceGetQueue*(device: Device): Queue {.cdecl, importc: "wgpuDeviceGetQueue".}
@@ -1218,7 +1218,7 @@ proc deviceHasFeature*(device: Device; feature: Feature): bool {.cdecl, importc:
 # proc queueSetLabel*(queue: Queue; label: cstring) {.cdecl, importc: "wgpuQueueSetLabel", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
 # proc queueSubmit*(queue: Queue; commandCount: uint; commands: ptr CommandBuffer) {.cdecl, importc:"wgpuQueueSubmit".}
 # proc queueWriteBuffer*(queue: Queue; buffer: Buffer; bufferOffset: uint64; data: pointer; size: csize_t) {.cdecl, importc:"wgpuQueueWriteBuffer".}
-proc queueWriteTexture*(queue: Queue; destination: ptr ImageCopyTexture; data: pointer; dataSize: csize_t; dataLayout: ptr TextureDataLayout; writeSize: ptr Extent3D) {.cdecl, importc:"wgpuQueueWriteTexture".}
+# proc queueWriteTexture*(queue: Queue; destination: ptr ImageCopyTexture; data: pointer; dataSize: csize_t; dataLayout: ptr TextureDataLayout; writeSize: ptr Extent3D) {.cdecl, importc:"wgpuQueueWriteTexture".}
 proc renderBundleEncoderDraw*(renderBundleEncoder: RenderBundleEncoder; vertexCount: uint; instanceCount: uint; firstVertex: uint; firstInstance: uint) {.cdecl, importc:"wgpuRenderBundleEncoderDraw".}
 proc renderBundleEncoderDrawIndexed*(renderBundleEncoder: RenderBundleEncoder; indexCount: uint; instanceCount: uint; firstIndex: uint; baseVertex: int32; firstInstance: uint) {.cdecl, importc:"wgpuRenderBundleEncoderDrawIndexed".}
 proc renderBundleEncoderDrawIndexedIndirect*( renderBundleEncoder: RenderBundleEncoder; indirectBuffer: Buffer; indirectOffset: uint64) {.cdecl, importc:"wgpuRenderBundleEncoderDrawIndexedIndirect".}
@@ -1262,7 +1262,7 @@ proc renderPipelineGetBindGroupLayout*(renderPipeline: RenderPipeline; groupInde
 # proc surfaceGetPreferredFormat*(surface: Surface; adapter: Adapter): TextureFormat {.cdecl, importc:"wgpuSurfaceGetPreferredFormat".}
 # proc swapChainGetCurrentTextureView*(swapChain: SwapChain): TextureView {.cdecl, importc: "wgpuSwapChainGetCurrentTextureView".}
 # proc swapChainPresent*(swapChain: SwapChain) {.cdecl, importc: "wgpuSwapChainPresent".}
-proc textureCreateView*(texture: Texture; descriptor: ptr TextureViewDescriptor): TextureView {.cdecl, importc:"wgpuTextureCreateView".}
+# proc textureCreateView*(texture: Texture; descriptor: ptr TextureViewDescriptor): TextureView {.cdecl, importc:"wgpuTextureCreateView".}
 proc textureDestroy*(texture: Texture) {.cdecl, importc: "wgpuTextureDestroy".}
 # proc textureGetDepthOrArrayLayers*(texture: Texture): uint {.cdecl, importc: "wgpuTextureGetDepthOrArrayLayers", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
 # proc textureGetDimension*(texture: Texture): TextureDimension {.cdecl, importc: "wgpuTextureGetDimension", error: "Procedure is unimplemented in wgpu-native. See: wgpu-native/src/unimplemented.rs".}
@@ -1439,3 +1439,4 @@ proc surfaceGetSupportedPresentModes*(surface: Surface; adapter: Adapter; count:
 # proc textureDrop*(texture: Texture) {.cdecl, importc: "wgpuTextureDrop".}
 # proc textureViewDrop*(textureView: TextureView) {.cdecl, importc: "wgpuTextureViewDrop".}
 proc free*(`ptr`: pointer; size: csize_t; align: csize_t) {.cdecl, importc: "wgpuFree".}
+

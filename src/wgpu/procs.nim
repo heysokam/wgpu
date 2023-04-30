@@ -37,8 +37,10 @@ proc create *(device :Device; descriptor :ptr BufferDescriptor) :Buffer {.cdecl,
 proc create *(device :Device; descriptor :ptr BindGroupDescriptor) :BindGroup {.cdecl, importc:"wgpuDeviceCreateBindGroup", header: "webgpu-headers/webgpu.h".}
 proc create *(device :Device; descriptor :ptr PipelineLayoutDescriptor) :PipelineLayout {.cdecl, importc:"wgpuDeviceCreatePipelineLayout", header: "webgpu-headers/webgpu.h".}
 proc create *(device :Device; descriptor :ptr BindGroupLayoutDescriptor) :BindGroupLayout {.cdecl, importc:"wgpuDeviceCreateBindGroupLayout", header: "webgpu-headers/webgpu.h".}
+proc create *(device :Device; descriptor :ptr TextureDescriptor) :Texture {.cdecl, importc:"wgpuDeviceCreateTexture", header: "webgpu-headers/webgpu.h".}
 proc getQueue *(device :Device) :Queue {.cdecl, importc: "wgpuDeviceGetQueue", header: "webgpu-headers/webgpu.h".}
 proc get      *(device :Device; limits :ptr SupportedLimits) :bool {.cdecl, importc: "wgpuDeviceGetLimits", header: "webgpu-headers/webgpu.h".}
+proc destroy  *(device :Device) :void {.cdecl, importc: "wgpuDeviceDestroy", header: "webgpu-headers/webgpu.h".}
 
 # Surface
 proc getPreferredFormat *(surface :Surface; adapter :Adapter) :TextureFormat {.cdecl, importc:"wgpuSurfaceGetPreferredFormat", header: "webgpu-headers/webgpu.h".}
@@ -64,8 +66,9 @@ proc copy   *(commandEncoder :CommandEncoder; source :Buffer; sourceOffset :uint
   ## Copy Buffer to Buffer
 
 # Queue
-proc submit      *(queue :Queue; commandCount :uint32; commands :ptr CommandBuffer) :void {.cdecl, importc:"wgpuQueueSubmit", header: "webgpu-headers/webgpu.h".}
-proc writeBuffer *(queue :Queue; buffer :Buffer; bufferOffset :uint64; data :pointer; size :csize_t) :void {.cdecl, importc:"wgpuQueueWriteBuffer", header: "webgpu-headers/webgpu.h".}
+proc submit *(queue :Queue; commandCount :uint32; commands :ptr CommandBuffer) :void {.cdecl, importc:"wgpuQueueSubmit", header: "webgpu-headers/webgpu.h".}
+proc write  *(queue :Queue; buffer :Buffer; bufferOffset :uint64; data :pointer; size :csize_t) :void {.cdecl, importc:"wgpuQueueWriteBuffer", header: "webgpu-headers/webgpu.h".}
+proc write  *(queue :Queue; destination :ptr ImageCopyTexture; data :pointer; dataSize :csize_t; dataLayout :ptr TextureDataLayout; writeSize :ptr Extent3D) :void {.cdecl, importc:"wgpuQueueWriteTexture", header: "webgpu-headers/webgpu.h".}
 
 # Buffer
 type BufferMapCallback * = proc (status :BufferMapAsyncStatus; userdata :pointer) :void {.cdecl.}
@@ -83,6 +86,8 @@ proc set *(computePassEncoder :ComputePassEncoder; groupIndex :uint32; group :Bi
 proc dispatchWorkgroups *(computePassEncoder :ComputePassEncoder; workgroupCountX :uint32; workgroupCountY :uint32; workgroupCountZ :uint32) {.cdecl, importc:"wgpuComputePassEncoderDispatchWorkgroups", header: "webgpu-headers/webgpu.h".}
 proc End *(computePassEncoder :ComputePassEncoder) :void {.cdecl, importc: "wgpuComputePassEncoderEnd", header: "webgpu-headers/webgpu.h".}
 
+# Texture
+proc create *(texture :Texture; descriptor :ptr TextureViewDescriptor) :TextureView {.cdecl, importc:"wgpuTextureCreateView", header: "webgpu-headers/webgpu.h".}
 
 #_______________________________________
 # wgpu.h
