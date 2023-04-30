@@ -321,6 +321,10 @@ type SurfaceDescriptorFromXlibWindow *{.bycopy.}= object
   display  *:pointer
   window   *:uint32
 
+type SurfaceDescriptorFromMetalLayer *{.bycopy.}= object
+  chain  *:ChainedStruct
+  layer  *:pointer
+
 #___________________
 # Adapter
 type RequestAdapterStatus *{.pure, size: sizeof(int32).}= enum

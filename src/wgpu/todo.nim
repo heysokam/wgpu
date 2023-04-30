@@ -368,9 +368,9 @@ const
     chain*: ChainedStruct
     selector*: cstring
 
-  SurfaceDescriptorFromMetalLayer* {.bycopy.} = object
-    chain*: ChainedStruct
-    layer*: pointer
+  # SurfaceDescriptorFromMetalLayer* {.bycopy.} = object
+  #   chain*: ChainedStruct
+  #   layer*: pointer
 
   SurfaceDescriptorFromWaylandSurface* {.bycopy.} = object
     chain*: ChainedStruct

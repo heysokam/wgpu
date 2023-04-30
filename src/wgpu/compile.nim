@@ -11,12 +11,12 @@ import std/strformat
 #_________________________________________________
 # Helpers
 #_____________________________
+# TODO: Switch to osproc when 2.0 devel becomes stable
 proc sh (cmd :string; dir :string= "") :void=
   ## Executes the given shell command and writes the output to console.
   ## Same as the nimscript version, but usable at compile time in static blocks.
   ## Runs the command from `dir` when specified.
-  when defined(windows):
-    {.warning: "running `sh -c` commands on Windows has not been tested".}
+  when defined(windows): {.warning: "running `sh -c` commands on Windows has not been tested".}
   var command :string
   if dir != "":  command = &"cd {dir}; " & cmd
   else:          command = cmd
@@ -75,8 +75,11 @@ else:                 {.passL: "-L./src/wgpu/C/wgpu-native/target/release".}
 # Linux+Mac
 when defined(unix):       # Both Linux and Mac
   when not defined(clang) and not defined(gcc): {.error: "Compilers currently supported are gcc and clang".}
-  when defined(macosx): {.passL: "-lwgpu_native_static".}  # Use the renamed file with mac
-  else:                 {.passL: "-l:libwgpu_native.a".}   # Use `:` with linux
+  when defined(macosx):
+    {.passL: "-framework Metal -weak_framework QuartzCore".}  # Link to Metal and Quartz
+    {.passL: "-lwgpu_native_static".}  # Use the renamed file with mac
+  else:
+    {.passL: "-l:libwgpu_native.a".}   # Use `:` with linux
 #_____________________________
 # Windows
 elif defined(windows):

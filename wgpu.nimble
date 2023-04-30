@@ -15,9 +15,7 @@ license       = "MIT"
 skipdirs      = @[binDir, examplesDir, testsDir, docDir, wgpuDir] # Tell nimble what folders to skip in the package
 
 #___________________
-task tut, "Builds the tutorial app.":
-  exec "nimble lib"
-  "tut".runExample
+task tut, "Builds the tutorial app.":  exec "nimble git"; runExample "tut"
 
 #___________________
 # Build the examples binaries
@@ -30,4 +28,5 @@ task triangle2, "Build+Run the simple buffered triangle app."        : exec "nim
 task triangle3, "Build+Run the multi-buffered triangle app."         : exec "nimble git"; runExample "e06_trianglebuffered2"
 task triangle4, "Build+Run the indexed multi-buffered triangle app." : exec "nimble git"; runExample "e07_trianglebuffered3"
 task uniform, "  Build+Run the single uniform app."                  : exec "nimble git"; runExample "e08_hellouniform"
+task struct, "   Build+Run the uniform struct app."                  : exec "nimble git"; runExample "e09_uniformstruct"
 
