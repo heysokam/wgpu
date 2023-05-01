@@ -95,23 +95,23 @@ proc getSurface *(instance :Instance; win :glfw.Window) :Surface=
 proc features *(adapter :Adapter) :seq[Feature]=
   ## Returns the features supported by the adapter as a seq[Feature]
   ## Note: id is represented as a hex number in the wgpu headers
-  let count    = adapter.enumerateFeatures(nil).int
+  let count    = adapter.enumerate(nil).int
   var features = newSeqWith[Feature](count, Feature 0)
-  discard adapter.enumerateFeatures(features[0].addr)
+  discard adapter.enumerate(features[0].addr)
   result = features
 #___________________
 proc capabilities *(surface :Surface; adapter :Adapter
   ) :tuple[textureFormats:seq[TextureFormat], presentModes:seq[PresentMode], alphaModes:seq[CompositeAlphaMode]]=
   ## Returns the capabilities supported by the surface as a tuple of (seq[textureFormats], seq[presentModes], seq[alphaModes])
   var caps = SurfaceCapabilities()
-  surface.getCapabilities(adapter, caps.addr)
+  surface.get(adapter, caps.addr)
   var formats       = newSeqWith[TextureFormat](caps.formatCount.int, TextureFormat 0)
   var presents      = newSeqWith[PresentMode](caps.presentModeCount.int, PresentMode 0)
   var alphas        = newSeqWith[CompositeAlphaMode](caps.alphaModeCount.int, CompositeAlphaMode 0)
   caps.formats      = formats[0].addr
   caps.presentModes = presents[0].addr
   caps.alphaModes   = alphas[0].addr
-  surface.getCapabilities(adapter, caps.addr)
+  surface.get(adapter, caps.addr)
   result = (formats, presents, alphas)
 
 #_______________________________________

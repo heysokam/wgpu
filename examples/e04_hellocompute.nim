@@ -81,7 +81,7 @@ proc run=
   # Init wgpu
   var instance = wgpu.create(vaddr InstanceDescriptor(nextInChain: nil))
   var adapter :wgpu.Adapter; instance.requestAdapter(nil, adapterRequestCB, adapter.addr)
-  var device :wgpu.Device; adapter.requestDevice(nil, deviceRequestCB, device.addr)
+  var device :wgpu.Device; adapter.request(nil, deviceRequestCB, device.addr)
   device.setUncapturedErrorCallback(errorCB, nil)
   device.setDeviceLostCallback(deviceLostCB, nil)
 

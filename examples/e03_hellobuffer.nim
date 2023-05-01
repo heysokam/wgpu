@@ -64,7 +64,7 @@ proc run=
       ), # << RequestAdapterOptions
     adapterRequestCB, adapter.addr,
     ) # << instance.requestAdapter()
-  var device :wgpu.Device; adapter.requestDevice(vaddr DeviceDescriptor(
+  var device :wgpu.Device; adapter.request(vaddr DeviceDescriptor(
       nextInChain            : nil,
       label                  : "Hello Device",
       requiredFeaturesCount  : 0,

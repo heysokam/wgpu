@@ -117,7 +117,7 @@ proc run=
       label                : "Hello Default Queue"
       ), # << defaultQueue
     ) # << deviceDesc
-  var device :wgpu.Device; adapter.requestDevice(deviceDesc.addr, deviceRequestCB, device.addr)
+  var device :wgpu.Device; adapter.request(deviceDesc.addr, deviceRequestCB, device.addr)
   device.setUncapturedErrorCallback(errorCB, nil)
   device.setDeviceLostCallback(deviceLostCB, nil)
   # 3. Create the SwapChain

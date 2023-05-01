@@ -146,7 +146,7 @@ proc run=
       label                  : "Hello Default Queue"
       ), # << defaultQueue
     ) # << deviceDesc
-  var device :wgpu.Device; adapter.requestDevice(deviceDesc.addr, deviceRequestCB, device.addr)
+  var device :wgpu.Device; adapter.request(deviceDesc.addr, deviceRequestCB, device.addr)
   doAssert device != nil, "wgpu.Device could not be requested."
   device.setUncapturedErrorCallback(errorCB, nil)
   device.setDeviceLostCallback(deviceLostCB, nil)
