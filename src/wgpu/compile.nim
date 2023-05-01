@@ -79,9 +79,10 @@ when defined(unix):       # Both Linux and Mac
   when defined(macosx):
     const macLibs   = "-framework Cocoa -framework CoreVideo -framework IOKit -framework QuartzCore"
     const glueFlags = "-lglfw " & macLibs
-    {.compile: Cdir/"mac_glue.m", glueFlags.}  # Compile the mac glue code
-    {.passL: macLibs.}                         # Libs required by Mac
-    {.passL: "-lwgpu_native_static".}          # Use the renamed file with mac
+    const glueFile  = Cdir/"mac_glue.m"
+    {.compile: glueFile, glueFlags.}  # Compile the mac glue code
+    {.passL: macLibs.}                # Libs required by Mac
+    {.passL: "-lwgpu_native_static".} # Use the renamed file with mac
   else:
     {.passL: "-l:libwgpu_native.a".}   # Use `:` with linux
 #_____________________________
