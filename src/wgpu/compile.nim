@@ -59,8 +59,7 @@ static:
 #_________________________________________________
 # Pass cflag -I to the compiler to include the header folders
 #_____________________________
-{.passC: "-I./src/wgpu/C/wgpu-native/ffi".}
-{.passC: "-I./src/wgpu/C".}  # For the mac_glue.h header
+{.passC: "-I./src/wgpu/C/wgpu-native/ffi -I./src/wgpu/C".}   # For the mac_glue.h header
 
 
 #_________________________________________________
@@ -77,11 +76,11 @@ else:                 {.passL: "-L./src/wgpu/C/wgpu-native/target/release".}
 when defined(unix):       # Both Linux and Mac
   when not defined(clang) and not defined(gcc): {.error: "Compilers currently supported are gcc and clang".}
   when defined(macosx):
-    const macLibs   = "-framework Cocoa -framework CoreVideo -framework IOKit -framework QuartzCore"
-    const glueFlags = "-lglfw " & macLibs
-    const glueFile  = Cdir/"mac_glue.m"
-    {.compile: glueFile, glueFlags.}  # Compile the mac glue code
-    {.passL: macLibs.}                # Libs required by Mac
+    const macLibs = "-framework Metal -framework Cocoa -framework CoreVideo -framework IOKit -framework QuartzCore"
+    # Compile the mac glue code
+    {.compile: ("./src/wgpu/C/mac_glue.m", "-lglfw " & macLibs).}
+    # Link with the mac libs
+    {.passL: macLibs.}
     {.passL: "-lwgpu_native_static".} # Use the renamed file with mac
   else:
     {.passL: "-l:libwgpu_native.a".}   # Use `:` with linux
