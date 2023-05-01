@@ -41,7 +41,7 @@ when defined(linux) and not defined(wayland):
   proc getSurfaceX11 *(instance :Instance; win :glfw.Window) :Surface=
     let xdisplay = glfw.getX11Display()
     let xwindow  = glfw.getX11Window(win)
-    result = instance.createSurface(vaddr SurfaceDescriptor(
+    result = instance.create(vaddr SurfaceDescriptor(
       label       : nil,
       nextInChain : cast[ptr ChainedStruct](vaddr SurfaceDescriptorFromXlibWindow(
         chain     : ChainedStruct(
@@ -51,7 +51,7 @@ when defined(linux) and not defined(wayland):
         display   : cast[pointer](xdisplay),
         window    : xwindow.uint32,
         )), # << nextInChain
-      )) # << createSurface
+      )) # << instance.createSurface()
 
 #___________________
 # Mac context creation
@@ -59,38 +59,18 @@ elif defined(macosx):
   {.warning:
     "Metal Support is completely untested. This will fail."
   .}
-  type CAMetalLayer {.importc: "CAMetalLayer", header: "<QuartzCore/CAMetalLayer.h>".} = ptr object
+  proc getMetalLayer(window :glfw.Window) :pointer {.importc: "macGetMetalLayer", header: "mac_glue.h", nodecl.}
   proc getSurfaceMac *(instance :Instance; win :glfw.Window) :Surface=
-    var window = glfw.getCocoaWindow(win)
-    window.contentView.wantsLayer = true
-    var metalLayer :CAMetalLayer
-    window.contentView.layer = metalLayer
-    result = instance.createSurface(vaddr SurfaceDescriptor(
+    result = instance.create(vaddr SurfaceDescriptor(
       label       : nil,
       nextInChain : cast[ptr ChainedStruct](vaddr SurfaceDescriptorFromMetalLayer(
         chain     : ChainedStruct(
           next    : nil,
           sType   : SType.surfaceDescriptorFromMetalLayer,
           ), # << chain
-        layer     : metalLayer,
+        layer     : win.getMetalLayer(),
         )), # << nextInChain
-      )) # << createSurface
-##[
-WGPUSurface wgSurfaceCreateMac(GLFWwindow* w, WGPUInstance instance) {
-  id metal_layer = NULL;
-  # NSWindow* ns_window = glfwGetCocoaWindow(window);
-  [ns_window.contentView setWantsLayer:YES];
-  metal_layer = [CAMetalLayer layer];
-  [ns_window.contentView setLayer:metal_layer];
-  # surface = wgpuInstanceCreateSurface(instance, &(WGPUSurfaceDescriptor){
-    # .label       = NULL,
-    # .nextInChain = (const WGPUChainedStruct *)&(WGPUSurfaceDescriptorFromMetalLayer){
-      # .chain     = (WGPUChainedStruct){
-        # .next    = NULL,
-        # .sType   = WGPUSType_SurfaceDescriptorFromMetalLayer,
-        # },
-      # .layer     = metal_layer,
-]##
+      )) # << instance.createSurface()
 
 #_______________________________________
 # Native Surface: Create for any system
@@ -100,8 +80,14 @@ proc getSurface *(instance :Instance; win :glfw.Window) :Surface=
   ## Returns the appropriate native surface based on the system.
   when defined(linux) and not defined(wayland):
     result = instance.getSurfaceX11(win)
+  elif defined(linux) and defined(wayland):
+    {.error: "Wayland support is not implemented yet".}
   elif defined(macosx):
     result = instance.getSurfaceMac(win)
+  elif defined(windows):
+    {.error: "Windows support is not implemented yet".}
+  else:
+    {.error: "Platform is currently not supported".}
 
 #_______________________________________
 # Hardware Information

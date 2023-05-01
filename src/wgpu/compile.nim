@@ -29,7 +29,8 @@ proc cp (src, trg :string) :void=
   sh &"cp {src} {trg}"
 #_____________________________
 const thisDir = currentSourcePath().parentDir()
-const wgpuDir = thisDir/"C"/"wgpu-native"
+const Cdir    = thisDir/"C"
+const wgpuDir = Cdir/"wgpu-native"
 const rlsDir  = wgpuDir/"target"/"release"
 const dbgDir  = wgpuDir/"target"/"debug"
 
@@ -59,7 +60,7 @@ static:
 # Pass cflag -I to the compiler to include the header folders
 #_____________________________
 {.passC: "-I./src/wgpu/C/wgpu-native/ffi".}
-{.passC: "-I./src/wgpu/C/wgpu-native/ffi/webgpu-header".}
+{.passC: "-I./src/wgpu/C".}  # For the mac_glue.h header
 
 
 #_________________________________________________
@@ -76,8 +77,11 @@ else:                 {.passL: "-L./src/wgpu/C/wgpu-native/target/release".}
 when defined(unix):       # Both Linux and Mac
   when not defined(clang) and not defined(gcc): {.error: "Compilers currently supported are gcc and clang".}
   when defined(macosx):
-    {.passL: "-framework Metal -weak_framework QuartzCore".}  # Link to Metal and Quartz
-    {.passL: "-lwgpu_native_static".}  # Use the renamed file with mac
+    const macLibs   = "-framework Cocoa -framework CoreVideo -framework IOKit -framework QuartzCore"
+    const glueFlags = "-lglfw " & macLibs
+    {.compile: Cdir/"mac_glue.m", glueFlags.}  # Compile the mac glue code
+    {.passL: macLibs.}                         # Libs required by Mac
+    {.passL: "-lwgpu_native_static".}          # Use the renamed file with mac
   else:
     {.passL: "-l:libwgpu_native.a".}   # Use `:` with linux
 #_____________________________
