@@ -55,7 +55,7 @@ proc run=
   wgpu.set LogLevel.warn
   #__________________
   # Init wgpu
-  var instance = wgpu.createInstance(wgpu.InstanceDescriptor(nextInChain: nil).vaddr)
+  var instance = wgpu.create(wgpu.InstanceDescriptor(nextInChain: nil).vaddr)
   var adapter :wgpu.Adapter;  instance.requestAdapter(vaddr RequestAdapterOptions(
       nextInChain           : nil,
       compatibleSurface     : nil,

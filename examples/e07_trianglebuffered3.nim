@@ -176,7 +176,7 @@ proc run=
   #__________________
   # Init wgpu
   var instanceDesc = InstanceDescriptor(nextInChain: nil)
-  var instance     = createInstance(instanceDesc.addr)
+  var instance     = wgpu.create(instanceDesc.addr)
   var surface      = instance.getSurface(window.ct)
   var adapterOpts  = RequestAdapterOptions(
     nextInChain           : nil,

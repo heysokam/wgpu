@@ -64,7 +64,7 @@ proc run=
   echo "Hello wgpu"
   window.init()
   var descriptor = wgpu.InstanceDescriptor(nextInChain: nil)
-  var instance   = wgpu.createInstance(descriptor.addr)
+  var instance   = wgpu.create(descriptor.addr)
   doAssert instance != nil, "Couldn't create the wgpu-native instance."
   echo "wgpu works | Press Escape to close the window."
   echo "           | descriptor address is: ", descriptor.getAddr()

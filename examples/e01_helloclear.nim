@@ -85,7 +85,7 @@ proc run=
   #__________________
   # Init wgpu
   # 1. Create the Instance
-  instance    = wgpu.createInstance(wgpu.InstanceDescriptor(nextInChain: nil).vaddr)
+  instance    = wgpu.create(wgpu.InstanceDescriptor(nextInChain: nil).vaddr)
   doAssert instance != nil, "Could not initialize wgpu"
   # 2. Create the Surface and Adapter
   var surface = instance.getSurface(window.ct)
