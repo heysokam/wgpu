@@ -11,7 +11,7 @@ import std/strformat
 #_________________________________________________
 # Helpers
 #_____________________________
-# TODO: Switch to osproc when 2.0 devel becomes stable
+# TODO: Switch to execShellCmd when 2.0 devel becomes stable
 proc sh (cmd :string; dir :string= "") :void=
   ## Executes the given shell command and writes the output to console.
   ## Same as the nimscript version, but usable at compile time in static blocks.
@@ -40,7 +40,7 @@ const dbgDir  = wgpuDir/"target"/"debug"
 #_____________________________
 # Note: Cannot be a nimble task
 #   wgpu should be built with either debug or release, just like Nim code.
-#   Nimble doesn't understand defines, which makes it impossible to designate a nimble task for it.
+#   Nimble doesn't understand auto-defines, which makes it impossible to designate a nimble task for it.
 #   Usually you would compile C code with {.compile.} pragmas and nim,
 #   but that's not possible for Rust
 #   So this system calls for the wgpu-native buildsystem instead.
@@ -59,7 +59,7 @@ static:
 #_________________________________________________
 # Pass cflag -I to the compiler to include the header folders
 #_____________________________
-{.passC: "-I./src/wgpu/C/wgpu-native/ffi -I./src/wgpu/C".}   # For the mac_glue.h header
+{.passC: "-I./src/wgpu/C/wgpu-native/ffi".}
 
 
 #_________________________________________________
@@ -76,11 +76,7 @@ else:                 {.passL: "-L./src/wgpu/C/wgpu-native/target/release".}
 when defined(unix):       # Both Linux and Mac
   when not defined(clang) and not defined(gcc): {.error: "Compilers currently supported are gcc and clang".}
   when defined(macosx):
-    const macLibs = "-framework Metal -framework Cocoa -framework CoreVideo -framework IOKit -framework QuartzCore"
-    # Compile the mac glue code
-    {.compile: ("./src/wgpu/C/mac_glue.m", "-lglfw " & macLibs).}
-    # Link with the mac libs
-    {.passL: macLibs.}
+    {.passL: "-framework Metal -framework Cocoa -framework CoreVideo -framework IOKit -framework QuartzCore".}
     {.passL: "-lwgpu_native_static".} # Use the renamed file with mac
   else:
     {.passL: "-l:libwgpu_native.a".}   # Use `:` with linux

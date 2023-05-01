@@ -59,7 +59,6 @@ elif defined(macosx):
   {.warning:
     "Metal Support is completely untested. This will fail."
   .}
-  proc getMetalLayer(window :glfw.Window) :pointer {.importc: "macGetMetalLayer", header: "mac_glue.h", nodecl.}
   proc getSurfaceMac *(instance :Instance; win :glfw.Window) :Surface=
     result = instance.create(vaddr SurfaceDescriptor(
       label       : nil,
@@ -68,7 +67,8 @@ elif defined(macosx):
           next    : nil,
           sType   : SType.surfaceDescriptorFromMetalLayer,
           ), # << chain
-        layer     : win.getMetalLayer(),
+        # Get metal layer with our nglfw/metal_glue.h extension
+        layer     : glfw.getMetalLayer(win),
         )), # << nextInChain
       )) # << instance.createSurface()
 
@@ -81,13 +81,13 @@ proc getSurface *(instance :Instance; win :glfw.Window) :Surface=
   when defined(linux) and not defined(wayland):
     result = instance.getSurfaceX11(win)
   elif defined(linux) and defined(wayland):
-    {.error: "Wayland support is not implemented yet".}
+    {.error: "Wayland Surface support is not implemented yet".}
   elif defined(macosx):
     result = instance.getSurfaceMac(win)
   elif defined(windows):
-    {.error: "Windows support is not implemented yet".}
+    {.error: "Windows Surface support is not implemented yet".}
   else:
-    {.error: "Platform is currently not supported".}
+    {.error: "Surface creation for this platform is currently not supported".}
 
 #_______________________________________
 # Hardware Information
