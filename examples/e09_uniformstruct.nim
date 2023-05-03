@@ -10,7 +10,6 @@ import std/strformat
 import std/os
 # External dependencies
 from   pkg/nglfw as glfw import nil
-import vmath  # for Vector types
 # Module dependencies
 import wgpu
 
@@ -175,7 +174,7 @@ type Uniforms = object         # NEW: Our uniform value is now a struct
   time  {.align(16).}:float32  # Mark as align(16) in this variable is not needed, since its 0. Just for clarity
   color {.align(16).}:Vec4     # Mark as align(16), so that the time field gets padded.
 var u :Uniforms
-static: assert Uniforms.sizeof mod Vec4.sizeof == 0, "Uniforms size must be aligned to the size of a vec4<f32>
+static: assert Uniforms.sizeof mod Vec4.sizeof == 0, "Uniforms size must be aligned to the size of a vec4<f32>"
 
 #________________________________________________
 # Entry Point
@@ -285,7 +284,7 @@ proc run=
     )) # << device.createBuffer()
   # 2. Write the indices to the triangle buffer
   var offset :uint64= 0
-  queue.writeBuffer(triangleBuffer, offset, triangle.inds[0].addr, triangle.inds.size)
+  queue.write(triangleBuffer, offset, triangle.inds[0].addr, triangle.inds.size)
   offset += triangle.inds.size
 
   # Positions
@@ -300,7 +299,7 @@ proc run=
       ) # << posAttr
     ) # << posLayout
   # Write triangle.position at triangleBuffer offset 0
-  queue.writeBuffer(triangleBuffer, offset, triangle.pos[0].addr, triangle.pos.size)
+  queue.write(triangleBuffer, offset, triangle.pos[0].addr, triangle.pos.size)
   offset += triangle.pos.size
 
   # Colors
@@ -315,7 +314,7 @@ proc run=
       ) # << colorAttr
     ) # << colorLayout
   # Write triangle.color at triangleBuffer offset = triangle.pos.size
-  queue.writeBuffer(triangleBuffer, offset, triangle.color[0].addr, triangle.color.size)
+  queue.write(triangleBuffer, offset, triangle.color[0].addr, triangle.color.size)
   offset += triangle.color.size
 
   # Texture coordinates
@@ -330,7 +329,7 @@ proc run=
       ) # << uvAttr
     ) # << uvLayout
   # Write triangle.uv at triangleBuffer offset = triangle.color.size
-  queue.writeBuffer(triangleBuffer, offset, triangle.uv[0].addr, triangle.uv.size)
+  queue.write(triangleBuffer, offset, triangle.uv[0].addr, triangle.uv.size)
   offset += triangle.uv.size
 
   # Normals
@@ -345,7 +344,7 @@ proc run=
       ) # << normAttr
     ) # << normLayout
   # Write triangle.norm at triangleBuffer offset = triangle.uv.size
-  queue.writeBuffer(triangleBuffer, offset, triangle.norm[0].addr, triangle.norm.size)
+  queue.write(triangleBuffer, offset, triangle.norm[0].addr, triangle.norm.size)
   offset += triangle.norm.size
 
   # Create the Uniform Buffer that will hold the variable, and upload the initial data
@@ -360,7 +359,7 @@ proc run=
   u.time  = glfw.getTime().float32
   # NEW: 2. Define the uniform color, and upload the object data instead of a single float.
   u.color = vec4(0,1,0,1)
-  queue.writeBuffer(uniformBuffer, 0, u.addr, sizeof(Uniforms).csize_t)
+  queue.write(uniformBuffer, 0, u.addr, sizeof(Uniforms).csize_t)
 
   # Create the BindGroup Layout
   # NOTE: Fully verbose, but such verbosity is not needed.
@@ -487,7 +486,7 @@ proc run=
   while not window.close():
     # Update time and write it to the uniform buffer value
     u.time = glfw.getTime().float32
-    queue.writeBuffer(uniformBuffer, Uniforms.offsetOf(time).uint64, u.time.addr, sizeof(float32).csize_t)
+    queue.write(uniformBuffer, Uniforms.offsetOf(time).uint64, u.time.addr, sizeof(float32).csize_t)
 
     # Continue the update loop
     var nextTexture :TextureView= nil

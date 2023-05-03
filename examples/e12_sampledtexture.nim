@@ -1,12 +1,13 @@
 #:____________________________________________________
 #  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
 #:____________________________________________________
-# Single uniform example                        |
-# Current time can be accessed in shader code.  |
-#_______________________________________________|
+# Sampled Texture example                         |
+# Our byte array can be sampled from the shader.  |
+#_________________________________________________|
 # std dependencies
-import std/strformat
 import std/os
+import std/strformat
+import std/sequtils
 # External dependencies
 from   pkg/nglfw as glfw import nil
 # Module dependencies
@@ -16,6 +17,19 @@ import wgpu
 #________________________________________________
 # types.nim
 #__________________
+type Vec2 = object
+  x,y :float32
+type Vec3 = object
+  x,y,z :float32
+type Vec4 = object
+  x,y,z,w :float32
+type UVec3 = object
+  x,y,z :uint32
+proc vec2  (x,y :SomeNumber)     :Vec2=   Vec2(x:x.float32, y:y.float32)
+proc vec3  (x,y,z :SomeNumber)   :Vec3=   Vec3(x:x.float32, y:y.float32, z:z.float32)
+proc vec4  (x,y,z,w :SomeNumber) :Vec4=   Vec4(x:x.float32, y:y.float32, z:z.float32, w:w.float32)
+proc uvec3 (x,y,z :SomeNumber)   :UVec3=  UVec3(x:x.uint32, y:y.uint32, z:z.uint32)
+
 type Window * = object
   ct     *:glfw.Window
   w,h    *:int32
@@ -27,6 +41,11 @@ type Mesh * = object
   uv     *:seq[Vec2]
   norm   *:seq[Vec3]
   inds   *:seq[UVec3]
+
+type Color8 = object
+  r,g,b,a :uint8
+type Pixels = seq[Color8]
+
 #________________________________________________
 # mesh.nim
 #__________________
@@ -91,10 +110,12 @@ proc logCB *(level :LogLevel; message :cstring; userdata :pointer) :void {.cdecl
 
 # Triangle shader
 const shaderCode = """
-// NEW: Our uniform variable
-@group(0) @binding(0) var<uniform> uTime :f32;
+struct Uniforms {
+  time  :f32,
+  color :vec4<f32>,
+}
+@group(0) @binding(0) var<uniform> u :Uniforms;
 
-// OLD: Continue as before
 struct VertIn {
   @builtin(vertex_index) id :u32,
   @location(0) pos   :vec3<f32>,
@@ -107,30 +128,28 @@ struct VertOut {
   @location(0)       color :vec4<f32>,
   @location(1)       uv    :vec2<f32>,
   @location(2)       norm  :vec3<f32>,
-  @location(3)       time  :f32,
 }
 @vertex fn vert(in :VertIn) ->VertOut {
-  // NEW: Add the uniform variable to the position of this vertex
-  let offset = 0.3 * vec3<f32>(cos(uTime), sin(uTime), 0.0);  // Calculate the (x,y) offset
-  let pos    = in.pos + offset;                               // Move the vertex position using the offset
-
-  // OLD: Continue as before
+  // Add the uniform variable to the position of this vertex
+  let offset = 0.3 * vec3<f32>(cos(u.time), sin(u.time), 0.0);  // Calculate the (x,y) offset
+  let pos    = in.pos + offset;                                 // Move the vertex position using the offset
+  // Define the output of the vertex shader
   var out   :VertOut;
   out.pos   = vec4<f32>(pos, 1.0);
   out.color = in.color;  // Forward the color attribute to the fragment shader
   out.uv    = in.uv;     // Forward the texture coordinates to the fragment shader
   out.norm  = in.norm;   // Forward the vertex normal to the fragment shader
-
-  // NEW: Forward the uniform variable to the fragment shader
-  //    : Not required. The value could be given directly to the fragment shader instead
-  out.time  = uTime;
-
-  // OLD: Continue as before
   return out;
 }
 
+@group(0) @binding(1) var tex :texture_2d<f32>;
+// NEW: We now have access to the sampler at @binding(2) in the fragment stage
+@group(0) @binding(2) var texSampler :sampler;
+
 @fragment fn frag(in :VertOut) ->@location(0) vec4<f32> {
-  return vec4<f32>(sin(in.time), in.color.g, in.color.b, in.color.a);
+  // return vec4<f32>(u.color.r, u.color.g, u.color.b, in.color.a);
+  // return textureLoad(tex, vec2<i32>(in.pos.xy), 0);
+  return textureSample(tex, texSampler, in.uv);  // NEW: We now sample the texture directly
 }
 """
 
@@ -165,6 +184,11 @@ doAssert vertc == triangle.color.len and
          vertc == triangle.uv.len and 
          vertc == triangle.norm.len,
          "All attributes must contain the same amount of vertex"
+# NEW:
+# Create the texture data
+const width  :uint32=  512
+const height :uint32=  512
+var   pixels :Pixels=  newSeqWith[Color8](int(width*height), Color8(r:255, g:255, b:255, a:255))
 
 #________________________________________________
 # state.nim
@@ -173,7 +197,11 @@ var window = Window(
   ct: nil, title: "wgpu Tut",
   w:960, h:540,
   )
-var time :float32 # NEW: Our uniform value on cpu-side
+type Uniforms = object         # NEW: Our uniform value is now a struct
+  time  {.align(16).}:float32  # Mark as align(16) in this variable is not needed, since its 0. Just for clarity
+  color {.align(16).}:Vec4     # Mark as align(16), so that the time field gets padded.
+var u :Uniforms
+static: assert Uniforms.sizeof mod Vec4.sizeof == 0, "Uniforms size must be aligned to the size of a vec4<f32>"
 
 #________________________________________________
 # Entry Point
@@ -208,10 +236,10 @@ proc run=
     limits                : Limits.new(  # With custom `new` proc because some required defaults are not 0
       maxVertexAttributes = 4,
       maxVertexBuffers    = 5,
-      # NEW: Change limits for the one uniform value we upload.
+      # Change limits for the one uniform value we upload.
       maxBindGroups                   = 1,
       maxUniformBuffersPerShaderStage = 1,
-      maxUniformBufferBindingSize     = uint64( sizeof(float32) ),
+      maxUniformBufferBindingSize     = uint64( sizeof(Uniforms) ),  # max uniform buffer binding size is the size of our object
       ), # << limits
     ) # << requiredLimits
 
@@ -281,7 +309,7 @@ proc run=
     size              : triangle.size,
     mappedAtCreation  : false,
     )) # << device.createBuffer()
-  # 2. Write the indices to the triangle buffer
+  # Write the indices to the triangle buffer
   var offset :uint64= 0
   queue.write(triangleBuffer, offset, triangle.inds[0].addr, triangle.inds.size)
   offset += triangle.inds.size
@@ -346,56 +374,130 @@ proc run=
   queue.write(triangleBuffer, offset, triangle.norm[0].addr, triangle.norm.size)
   offset += triangle.norm.size
 
-  # NEW:
-  # 1. Create the Uniform Buffer that will hold the variable, and upload the initial data
+  # Create the Uniform Buffer that will hold the variable, and upload the initial data
+  # Specify the size for our Uniforms object
   var uniformBuffer = device.create(vaddr BufferDescriptor(
     nextInChain       : nil,
     label             : "Uniform buffer".cstring,
     usage             : {BufferUsage.copyDst, BufferUsage.uniform},  # Mark the buffer as a Uniform Buffer
-    size              : uint64( sizeof(float32) ),                   # The buffer will only contain one float
+    size              : uint64( sizeof(Uniforms) ), # NEW: The buffer will contain the Uniforms struct
     mappedAtCreation  : false,
     )) # << device.createBuffer()
-  time = glfw.getTime().float32
-  queue.write(uniformBuffer, 0, time.addr, sizeof(float32).csize_t)
+  u.time  = glfw.getTime().float32
+  # Define the uniform color, and upload the object data instead of a single float.
+  u.color = vec4(0,1,0,1)
+  queue.write(uniformBuffer, 0, u.addr, sizeof(Uniforms).csize_t)
 
-  # 2. Create the BindGroup Layout
-  #    NOTE: Fully verbose, but such verbosity is not needed.
-  #        : Modified variables are commented, and the rest would be correctly given by Nim's zero initialization if omitted.
+  # Create the BindGroupLayoutEntries for both the Uniforms object and the texture
+  # NOTE: Fully verbose, but such verbosity is not needed.
+  #     : Modified variables are commented, and the rest would be correctly given by Nim's zero initialization if omitted.
+  var bindGroupLayoutEntries :seq[BindGroupLayoutEntry]
+  # Create the BindGroup Layout
+  # Specify the bindGroup as accesible by the vertex and fragment stages
+  # Mark the minimum binding size as the size of our Uniforms object
+  bindGroupLayoutEntries.add BindGroupLayoutEntry(
+    nextInChain        : nil,
+    binding            : 0,                           # Shader @binding(0) index
+    visibility         : { ShaderStage.vertex, ShaderStage.fragment }, # NEW: Used in both vertex and fragment stages
+    buffer             : BufferBindingLayout(
+      nextInChain      : nil,
+      typ              : BufferBindingType.uniform,   # Mark the buffer for usage as a uniform
+      hasDynamicOffset : false,
+      minBindingSize   : uint64( sizeof(Uniforms) ),  # Minimum size for uploaded values is now the size of the object
+      ), # << buffer
+    # Not Used. Could be Zero-Initalizated instead of explicit.
+    sampler            : SamplerBindingLayout(
+      nextInChain      : nil,
+      typ              : SamplerBindingType.undefined,
+      ), # << sampler
+    texture            : TextureBindingLayout(
+      nextInChain      : nil,
+      sampleType       : TextureSampleType.undefined,
+      viewDimension    : TextureViewDimension.undefined,
+      multisampled     : false,
+      ), # << texture
+    storageTexture     : StorageTextureBindingLayout(
+      nextInChain      : nil,
+      access           : StorageTextureAccess.undefined,
+      format           : TextureFormat.undefined,
+      viewDimension    : TextureViewDimension.undefined,
+      ), # << storageTexture
+    ) # << Uniforms entry
+
+  # Create the texture entry
+  bindGroupLayoutEntries.add BindGroupLayoutEntry(
+    nextInChain        : nil,
+    binding            : 1,                        # NEW: Shader @binding(1) index
+    visibility         : { ShaderStage.fragment }, # NEW: Used in the fragment stage
+    # Not Used. Could be Zero-Initalizated instead of explicit.
+    buffer             : BufferBindingLayout(
+      nextInChain      : nil,
+      typ              : BufferBindingType.undefined,
+      hasDynamicOffset : false,
+      minBindingSize   : 0,
+      ), # << buffer
+    # Define the Texture properties
+    sampler            : SamplerBindingLayout(
+      nextInChain      : nil,
+      typ              : SamplerBindingType.nonFiltering,  # NEW: Set filter to none
+      ), # << sampler
+    texture            : TextureBindingLayout(
+      nextInChain      : nil,
+      sampleType       : TextureSampleType.Float,          # NEW: Set the color type to float
+      viewDimension    : TextureViewDimension.dim2D,       # NEW: Make it a 2D texture
+      multisampled     : false,
+      ), # << texture
+    # Not Used. Could be Zero-Initalizated instead of explicit.
+    storageTexture     : StorageTextureBindingLayout(
+      nextInChain      : nil,
+      access           : StorageTextureAccess.undefined,
+      format           : TextureFormat.undefined,
+      viewDimension    : TextureViewDimension.undefined,
+      ), # << storageTexture
+    ) # << Uniforms entry
+
+  # NEW:
+  # 1. Create the Sampler BindGroup entry
+  bindGroupLayoutEntries.add BindGroupLayoutEntry(
+    nextInChain        : nil,
+    binding            : 2,                        # NEW: Shader @binding(2) index
+    visibility         : { ShaderStage.fragment }, # Used in the fragment stage
+    # Not Used. Could be Zero-Initalizated instead of explicit.
+    buffer             : BufferBindingLayout(
+      nextInChain      : nil,
+      typ              : BufferBindingType.undefined,
+      hasDynamicOffset : false,
+      minBindingSize   : 0,
+      ), # << buffer
+    # Define the Texture properties
+    sampler            : SamplerBindingLayout(
+      nextInChain      : nil,
+      typ              : SamplerBindingType.filtering,  # NEW: Set filtering
+      ), # << sampler
+    # Not Used. Could be Zero-Initalizated instead of explicit.
+    texture            : TextureBindingLayout(
+      nextInChain      : nil,
+      sampleType       : TextureSampleType.undefined,
+      viewDimension    : TextureViewDimension.undefined,
+      multisampled     : false,
+      ), # << texture
+    storageTexture     : StorageTextureBindingLayout(
+      nextInChain      : nil,
+      access           : StorageTextureAccess.undefined,
+      format           : TextureFormat.undefined,
+      viewDimension    : TextureViewDimension.undefined,
+      ), # << storageTexture
+    ) # << Uniforms entry
+
+  # 2. Assign the BindGroupLayoutEntries to the Layout, including the new Sampler entry
   var bindGroupLayout = device.create(vaddr BindGroupLayoutDescriptor(
     nextInChain          : nil,
-    label                : "Hello Uniform BindGroupLayout".cstring, # Recognizable name for errors
-    entryCount           : 1,                           # We only add one entry
-    entries              : vaddr BindGroupLayoutEntry(  # Uniform Layout Entry starts here
-      nextInChain        : nil,
-      binding            : 0,                           # Shader @binding(0) index
-      visibility         : { ShaderStage.vertex },      # Used only in the vertex stage
-      buffer             : BufferBindingLayout(
-        nextInChain      : nil,
-        typ              : BufferBindingType.uniform,   # Mark the buffer for usage as a uniform
-        hasDynamicOffset : false,
-        minBindingSize   : uint64( sizeof(float32) ),   # Minimum size for uploaded values
-        ), # << buffer
-      # Not Used. Could be Zero-Initalizated instead of explicit.
-      sampler            : SamplerBindingLayout(
-        nextInChain      : nil,
-        typ              : SamplerBindingType.undefined,
-        ), # << sampler
-      texture            : TextureBindingLayout(
-        nextInChain      : nil,
-        sampleType       : TextureSampleType.undefined,
-        viewDimension    : TextureViewDimension.undefined,
-        multisampled     : false,
-        ), # << texture
-      storageTexture     : StorageTextureBindingLayout(
-        nextInChain      : nil,
-        access           : StorageTextureAccess.undefined,
-        format           : TextureFormat.undefined,
-        viewDimension    : TextureViewDimension.undefined,
-        ), # << storageTexture
-      ) # << entries
+    label                : "Hello Uniform BindGroupLayout".cstring,
+    entryCount           : bindGroupLayoutEntries.len.uint32,
+    entries              : bindGroupLayoutEntries[0].addr,
     )) # << device.createBindGroupLayout()
 
-  # 2. Create the PipelineLayout, with our bindgroup as input
+  # OLD: Create the PipelineLayout, with our bindGroupLayout as input
   var layout = device.create(vaddr PipelineLayoutDescriptor(
     nextInChain          : nil,
     label                : "Hello PipelineLayout".cstring,
@@ -403,24 +505,7 @@ proc run=
     bindGroupLayouts     : bindGroupLayout.addr,
     )) # << device.createPipelineLayout()
 
-  # 3. Create the BindGroup, with our single uniform variable.
-  var bindGroup = device.create(vaddr BindGroupDescriptor(
-    nextInChain   : nil,
-    label         : "Hello BindGroup".cstring,
-    layout        : bindGroupLayout,
-    entryCount    : 1,
-    entries       : vaddr BindGroupEntry(       # Our bindgroup entry starts here
-      nextInChain : nil,
-      binding     : 0,                          # Shader @binding(0) index
-      buffer      : uniformBuffer,              # Buffer that contains the data for this binding
-      offset      : 0,                          # Offset within the buffer (useful for storing multiple blocks in the same buffer)
-      size        : uint64( sizeof(float32) ),  # Size of the buffer
-      sampler     : nil,
-      textureView : nil,
-      ) # << entries
-    )) # << device.createBindGroup()
-
-  # OLD: Configure the pipeline with the buffer inputs
+  # Configure the pipeline with the buffer inputs
   let pipeline = device.create(vaddr RenderPipelineDescriptor(
     nextInChain               : nil,
     label                     : "Render pipeline".cstring,
@@ -474,15 +559,122 @@ proc run=
       ), # << fragment
     )) # << pipeline
 
+  # Create the BindGroup, with both our texture and uniform objects.
+  # The size of the gpu buffer is the size of our Uniforms object
+  var bindGroupEntries :seq[BindGroupEntry]
+  # Create the Uniforms entry, and add it to the list of entries
+  bindGroupEntries.add BindGroupEntry(
+    nextInChain : nil,
+    binding     : 0,                          # Shader @binding(0) index
+    buffer      : uniformBuffer,              # Buffer that contains the data for this binding
+    offset      : 0,                          # Offset within the buffer (useful for storing multiple blocks in the same buffer)
+    size        : uint64( sizeof(Uniforms) ), # NEW: Size of the buffer is now the size of the object
+    sampler     : nil,
+    textureView : nil,
+    ) # << Uniforms entry
+
+  # Create the Texture
+  var texSize   = Extent3D(width:width, height:height, depthOrArrayLayers:1)
+  var texFormat = TextureFormat.RGBA8Unorm
+  var tex       = device.create(vaddr TextureDescriptor(
+    nextInChain     : nil,
+    label           : "Hello Tex".cstring,
+    usage           : { TextureUsage.copyDst, TextureUsage.textureBinding },
+    dimension       : TextureDimension.dim2D,
+    size            : texSize,
+    format          : texFormat,
+    mipLevelCount   : 1,
+    sampleCount     : 1,
+    viewFormatCount : 0,
+    viewFormats     : nil,
+    )) # << device.createTexture()
+
+  # Create the Texture Copy arguments
+  var destination = ImageCopyTexture(
+    nextInChain : nil,
+    texture     : tex,
+    mipLevel    : 0,
+    origin      : Origin3D(x:0, y:0, z:0),
+    aspect      : TextureAspect.all,
+    )
+  # Create the Texture Layout
+  var source = TextureDataLayout(
+    nextInChain  : nil,
+    offset       : 0,
+    bytesPerRow  : sizeof(Color8).uint32 * width,
+    rowsPerImage : height, 
+    )
+  # Upload the texture to the GPU
+  queue.write(destination.addr, pixels[0].addr, pixels.size, source.addr, texSize.addr)
+
+  # Create the View into the Texture
+  var texView = tex.create(vaddr TextureViewDescriptor(
+    nextInChain     : nil,
+    label           : "Hello TexView".cstring,
+    format          : texFormat,
+    dimension       : TextureViewDimension.dim2D,
+    baseMipLevel    : 0,
+    mipLevelCount   : 1,
+    baseArrayLayer  : 0,
+    arrayLayerCount : 1,
+    aspect          : TextureAspect.all,
+    )) # << texture.createTextureView()
+
+  # Create the Texture entry, and add it to the list of entries
+  bindGroupEntries.add BindGroupEntry(
+    nextInChain : nil,
+    binding     : 1,   # Shader @binding(1) index
+    buffer      : nil,
+    offset      : 0,
+    size        : 0,
+    sampler     : nil,
+    textureView : texView,
+    ) # << Texture entry
+
+  # 3. Create the sampler
+  var sampler = device.create(vaddr SamplerDescriptor(
+    nextInChain   : nil,
+    label         : "Hello Sampler".cstring,
+    addressModeU  : AddressMode.repeat,
+    addressModeV  : AddressMode.repeat,
+    addressModeW  : AddressMode.repeat,
+    magFilter     : FilterMode.linear,
+    minFilter     : FilterMode.linear,
+    mipmapFilter  : MipmapFilterMode.linear,
+    lodMinClamp   : 0.0.cfloat,
+    lodMaxClamp   : 32.0.cfloat,
+    compare       : CompareFunction.undefined,
+    maxAnisotropy : 1.uint16,
+    ))
+  # 4. Create the sampler BindGroupEntry
+  bindGroupEntries.add BindGroupEntry(
+    nextInChain : nil,
+    binding     : 2,   # Shader @binding(2) index
+    buffer      : nil,
+    offset      : 0,
+    size        : 0,
+    sampler     : sampler, # Add the sampler to the entry
+    textureView : nil,
+    ) # << Sampler entry
+
+  # OLD: Create the BindGroup
+  var bindGroup = device.create(vaddr BindGroupDescriptor(
+    nextInChain   : nil,
+    label         : "Hello BindGroup".cstring,
+    layout        : bindGroupLayout,
+    entryCount    : bindGroupEntries.len.uint32,  # We send multiple bindgroup entries
+    entries       : bindGroupEntries[0].addr,     # Pass the address of the first, wgpu does the rest
+    )) # << device.createBindGroup()
+
+
   #__________________
   # Update loop
   while not window.close():
-    # NEW:
-    # 4. Update time and write it to the uniform buffer value
-    time = glfw.getTime().float32
-    queue.write(uniformBuffer, 0, time.addr, sizeof(float32).csize_t)
+    # Update time and write it to the uniform buffer value
+    u.time = glfw.getTime().float32
+    queue.write(uniformBuffer, Uniforms.offsetOf(time).uint64, u.time.addr, sizeof(float32).csize_t)
 
-    # OLD: Continue the update loop as before
+    # Continue the update loop
     var nextTexture :TextureView= nil
     for attempt in 0..<2:  # Attempt to create the swapchain twice
       var prevWidth  = config.width
@@ -532,11 +724,10 @@ proc run=
     renderPass.setVertexBuffer(2, triangleBuffer, offset, triangle.uv.size)    ; offset += triangle.uv.size
     renderPass.setVertexBuffer(3, triangleBuffer, offset, triangle.norm.size)  ; offset += triangle.norm.size
 
-    # NEW:
-    # 5. Set the binding group in the renderPass
+    # Set the binding group in the renderPass
     renderPass.set(0, bindGroup, 0, nil)  # Set the `bindGroup` at @group(0), with no dynamic offsets (0, nil)
 
-    # OLD: Draw using the indexed version
+    # Draw using the indexed version
     renderPass.draw(triangle.indsCount, 1,0,0,0)  # vertexCount, instanceCount, firstVertex, baseVertex, firstInstance
     # Finish drawing
     renderPass.End()

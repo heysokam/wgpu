@@ -5,14 +5,12 @@ import std/os
 import std/strformat
 import std/strutils
 
-##[  NOTE:
-## Include this file into your `PROJECT/name.nimble` file:
+##[  DEV NOTE:
+# Include this file into your `PROJECT/name.nimble` file:
 include wgpu/nimble
-## This will give access to the build tasks of wgpu,
-nimble git   ## Updates the wgpu-native submodule
-nimble lib   ## Builds the wgpu-native library in the correct mode (release or debug)
-## it also adds the wgpu-native dependencies to your project
-## and other convenience functionality.
+# This will give access to the manual build tasks for wgpu,
+nimble git   # Updates the wgpu-native submodule
+nimble lib   # Builds the wgpu-native library in both modes (release and debug)
 ]##
 
 #_____________________________
@@ -27,8 +25,8 @@ var docDir       = "doc"
 #_____________________________
 # Headers setup
 #___________________
-let Cdir         = srcDir/"wgpu"/"C"                          # Internal folder where the header files will be stored
-var wgpuDir      = Cdir/"wgpu-native"                         # Folder where the wgpu submodule is stored.
+let Cdir         = srcDir/"wgpu"/"C"   # Internal folder where the header files will be stored
+var wgpuDir      = Cdir/"wgpu-native"  # Folder where the wgpu submodule is stored.
 
 #_____________________________
 # Build requirements
@@ -36,13 +34,12 @@ var wgpuDir      = Cdir/"wgpu-native"                         # Folder where the
 requires "nim >= 1.6.12"
 requires "https://github.com/heysokam/nstd"  ## Nim stdlib extension
 requires "https://github.com/heysokam/nglfw" ## For window creation. GLFW bindings, without dynamic libraries required
-requires "vmath"                             ## For vector math
-requires "chroma"                            ## Color manipulation
 
 #________________________________________
 # Helpers
 #___________________
-let nimcr  = &"nim c -r --verbosity:1 --outdir:{binDir}"
+const vlevel = when defined(debug): 2 else: 1
+let nimcr  = &"nimble c -r --verbose --verbosity:{vlevel} --outdir:{binDir}"
   ## Compile and run, outputting to binDir
 proc runFile (file, dir :string) :void=  exec &"{nimcr} {dir/file}"
   ## Runs file from the given dir, using the nimcr command

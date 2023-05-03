@@ -38,6 +38,7 @@ proc create *(device :Device; descriptor :ptr BindGroupDescriptor) :BindGroup {.
 proc create *(device :Device; descriptor :ptr PipelineLayoutDescriptor) :PipelineLayout {.cdecl, importc:"wgpuDeviceCreatePipelineLayout", header: "webgpu-headers/webgpu.h".}
 proc create *(device :Device; descriptor :ptr BindGroupLayoutDescriptor) :BindGroupLayout {.cdecl, importc:"wgpuDeviceCreateBindGroupLayout", header: "webgpu-headers/webgpu.h".}
 proc create *(device :Device; descriptor :ptr TextureDescriptor) :Texture {.cdecl, importc:"wgpuDeviceCreateTexture", header: "webgpu-headers/webgpu.h".}
+proc create *(device :Device; descriptor :ptr SamplerDescriptor) :Sampler {.cdecl, importc:"wgpuDeviceCreateSampler", header: "webgpu-headers/webgpu.h".}
 proc getQueue *(device :Device) :Queue {.cdecl, importc: "wgpuDeviceGetQueue", header: "webgpu-headers/webgpu.h".}
 proc get      *(device :Device; limits :ptr SupportedLimits) :bool {.cdecl, importc: "wgpuDeviceGetLimits", header: "webgpu-headers/webgpu.h".}
 proc destroy  *(device :Device) :void {.cdecl, importc: "wgpuDeviceDestroy", header: "webgpu-headers/webgpu.h".}

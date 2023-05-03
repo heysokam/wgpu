@@ -812,7 +812,7 @@ type ComputePassDescriptor *{.bycopy.}= object
   timestampWriteCount *:uint32
   timestampWrites     *:ptr ComputePassTimestampWrite
 
-# Textures
+# Textures and Sampler
 type Extent3D *{.bycopy.}= object
   width              *:uint32
   height             *:uint32
@@ -861,4 +861,28 @@ type TextureDataLayout *{.bycopy.}= object
   offset       *:uint64
   bytesPerRow  *:uint32
   rowsPerImage *:uint32
+
+type AddressMode *{.pure, size: sizeof(int32).}= enum
+  repeat, mirrorRepeat, clampToEdge
+
+type FilterMode *{.pure, size: sizeof(int32).}= enum
+  nearest, linear
+
+type MipmapFilterMode *{.pure, size: sizeof(int32).}= enum
+  nearest, linear
+
+type SamplerDescriptor *{.bycopy.}= object
+  nextInChain   *:ptr ChainedStruct
+  label         *:cstring
+  addressModeU  *:AddressMode
+  addressModeV  *:AddressMode
+  addressModeW  *:AddressMode
+  magFilter     *:FilterMode
+  minFilter     *:FilterMode
+  mipmapFilter  *:MipmapFilterMode
+  lodMinClamp   *:cfloat
+  lodMaxClamp   *:cfloat
+  compare       *:CompareFunction
+  maxAnisotropy *:uint16
+
 

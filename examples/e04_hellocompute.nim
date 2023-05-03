@@ -176,7 +176,7 @@ proc run=
     )) # << encoder.finish()
 
   # 11. Copy the buffer from RAM to VRAM
-  queue.writeBuffer(bufferStorage, 0, numbers[0].unsafeAddr, numbersSize.csize_t)
+  queue.write(bufferStorage, 0, numbers[0].unsafeAddr, numbersSize.csize_t)
 
   # 12. Submit the encoded CommandBuffer
   queue.submit(1, cmdBuffer.addr)

@@ -9,7 +9,6 @@ import std/strformat
 import std/os
 # External dependencies
 from   pkg/nglfw as glfw import nil
-import vmath  # for Vector types
 # Module dependencies
 import wgpu
 
@@ -17,6 +16,10 @@ import wgpu
 #________________________________________________
 # types.nim
 #__________________
+type Vec3 = object
+  x,y,z :float32
+proc vec3  (x,y,z :SomeNumber)   :Vec3=   Vec3(x:x.float32, y:y.float32, z:z.float32)
+
 type Window * = object
   ct     *:glfw.Window
   w,h    *:int32
@@ -212,7 +215,7 @@ proc run=
       ) # << posAttr
     ) # << posLayout
   # Write triangle.position at triangleBuffer offset 0
-  queue.writeBuffer(triangleBuffer, 0, triangle[0].addr, triangle.size.csize_t)
+  queue.write(triangleBuffer, 0, triangle[0].addr, triangle.size.csize_t)
 
   # 5. Configure the pipeline
   #    Only the buffer inputs have changed.

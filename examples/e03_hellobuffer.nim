@@ -111,7 +111,7 @@ proc run=
   for num in 0..<16: numbers.add num.uint8
 
   # 5. Copy the buffer from RAM to VRAM
-  queue.writeBuffer(buffer1, 0, numbers[0].addr, 16)
+  queue.write(buffer1, 0, numbers[0].addr, 16)
 
   # 6. Create the CommandEncoder, which is needed to do anything other than uploading data.
   var encoder = device.create(vaddr CommandEncoderDescriptor(

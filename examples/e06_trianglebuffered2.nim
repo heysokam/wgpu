@@ -10,7 +10,6 @@ import std/strformat
 import std/os
 # External dependencies
 from   pkg/nglfw as glfw import nil
-import vmath  # for Vector types
 # Module dependencies
 import wgpu
 
@@ -18,6 +17,16 @@ import wgpu
 #________________________________________________
 # types.nim
 #__________________
+type Vec2 = object
+  x,y :float32
+type Vec3 = object
+  x,y,z :float32
+type Vec4 = object
+  x,y,z,w :float32
+proc vec2  (x,y :SomeNumber)     :Vec2=   Vec2(x:x.float32, y:y.float32)
+proc vec3  (x,y,z :SomeNumber)   :Vec3=   Vec3(x:x.float32, y:y.float32, z:z.float32)
+proc vec4  (x,y,z,w :SomeNumber) :Vec4=   Vec4(x:x.float32, y:y.float32, z:z.float32, w:w.float32)
+
 type Window * = object
   ct     *:glfw.Window
   w,h    *:int32
@@ -29,6 +38,7 @@ type Mesh * = object
   uv     *:seq[Vec2]
   norm   *:seq[Vec3]
   # inds   *:seq[UVec3]
+
 #________________________________________________
 # mesh.nim
 #__________________
@@ -276,7 +286,7 @@ proc run=
       ) # << posAttr
     ) # << posLayout
   # Write triangle.position at triangleBuffer offset 0
-  queue.writeBuffer(triangleBuffer, offset, triangle.pos[0].addr, triangle.pos.size)
+  queue.write(triangleBuffer, offset, triangle.pos[0].addr, triangle.pos.size)
   offset += triangle.pos.size
 
   # 2.2. Colors
@@ -291,7 +301,7 @@ proc run=
       ) # << colorAttr
     ) # << colorLayout
   # Write triangle.color at triangleBuffer offset = triangle.pos.size
-  queue.writeBuffer(triangleBuffer, offset, triangle.color[0].addr, triangle.color.size)
+  queue.write(triangleBuffer, offset, triangle.color[0].addr, triangle.color.size)
   offset += triangle.color.size
 
   # 2.3. Texture coordinates
@@ -306,7 +316,7 @@ proc run=
       ) # << uvAttr
     ) # << uvLayout
   # Write triangle.uv at triangleBuffer offset = triangle.color.size
-  queue.writeBuffer(triangleBuffer, offset, triangle.uv[0].addr, triangle.uv.size)
+  queue.write(triangleBuffer, offset, triangle.uv[0].addr, triangle.uv.size)
   offset += triangle.uv.size
 
   # 2.4. Normals
@@ -321,7 +331,7 @@ proc run=
       ) # << normAttr
     ) # << normLayout
   # Write triangle.norm at triangleBuffer offset = triangle.uv.size
-  queue.writeBuffer(triangleBuffer, offset, triangle.norm[0].addr, triangle.norm.size)
+  queue.write(triangleBuffer, offset, triangle.norm[0].addr, triangle.norm.size)
   offset += triangle.norm.size
 
   # OLD: Create the PipelineLayout

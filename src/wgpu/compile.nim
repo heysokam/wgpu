@@ -28,11 +28,12 @@ proc cp (src, trg :string) :void=
   echo &": Copying {src}\n  to {trg}"
   sh &"cp {src} {trg}"
 #_____________________________
-const thisDir = currentSourcePath().parentDir()
-const Cdir    = thisDir/"C"
-const wgpuDir = Cdir/"wgpu-native"
-const rlsDir  = wgpuDir/"target"/"release"
-const dbgDir  = wgpuDir/"target"/"debug"
+const thisDir   = currentSourcePath().parentDir()
+const Cdir      = thisDir/"C"
+const wgpuDir   = Cdir/"wgpu-native"
+const headerDir = wgpuDir/"ffi"
+const rlsDir    = wgpuDir/"target"/"release"
+const dbgDir    = wgpuDir/"target"/"debug"
 
 
 #_________________________________________________
@@ -59,14 +60,14 @@ static:
 #_________________________________________________
 # Pass cflag -I to the compiler to include the header folders
 #_____________________________
-{.passC: "-I./src/wgpu/C/wgpu-native/ffi".}
+{.passC: &"-I{headerDir}".}
 
 
 #_________________________________________________
 # Pass ldflag to link to the folder where the libs are output
 #_____________________________
-when defined(debug):  {.passL: "-L./src/wgpu/C/wgpu-native/target/debug".}
-else:                 {.passL: "-L./src/wgpu/C/wgpu-native/target/release".}
+when defined(debug):  {.passL: &"-L{dbgDir}".}
+else:                 {.passL: &"-L{rlsDir}".}
 
 
 #_________________________________________________
@@ -77,7 +78,7 @@ when defined(unix):       # Both Linux and Mac
   when not defined(clang) and not defined(gcc): {.error: "Compilers currently supported are gcc and clang".}
   when defined(macosx):
     {.passL: "-framework Metal -framework Cocoa -framework CoreVideo -framework IOKit -framework QuartzCore".}
-    {.passL: "-lwgpu_native_static".} # Use the renamed file with mac
+    {.passL: "-lwgpu_native_static".}  # Use the renamed file with mac
   else:
     {.passL: "-l:libwgpu_native.a".}   # Use `:` with linux
 #_____________________________

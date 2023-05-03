@@ -60,7 +60,7 @@ const
   # Texture*                      = ptr TextureImpl
   # TextureView*                  = ptr TextureViewImpl
   AdapterType*                  = distinct uint32
-  AddressMode*                  = distinct uint32
+  # AddressMode*                  = distinct uint32
   # BackendType*                  = distinct uint32
   # BlendFactor*                  = distinct uint32
   # BlendOperation*               = distinct uint32
@@ -76,11 +76,11 @@ const
   # ErrorFilter*                  = distinct uint32
   ErrorType*                    = distinct uint32
   # Feature*                  = distinct uint32
-  FilterMode*                   = distinct uint32
+  # FilterMode*                   = distinct uint32
   # FrontFace*                    = distinct uint32
   # IndexFormat*                  = distinct uint32
   # LoadOp*                       = distinct uint32
-  MipmapFilterMode*             = distinct uint32
+  # MipmapFilterMode*             = distinct uint32
   PipelineStatisticName*        = distinct uint32
   # PowerPreference*              = distinct uint32
   # PresentMode*                  = distinct uint32
@@ -316,19 +316,19 @@ const
   #   nextInChain*: ptr ChainedStruct
   #   `type`*: SamplerBindingType
 
-  SamplerDescriptor* {.bycopy.} = object
-    nextInChain*: ptr ChainedStruct
-    label*: cstring
-    addressModeU*: AddressMode
-    addressModeV*: AddressMode
-    addressModeW*: AddressMode
-    magFilter*: FilterMode
-    minFilter*: FilterMode
-    mipmapFilter*: MipmapFilterMode
-    lodMinClamp*: cfloat
-    lodMaxClamp*: cfloat
-    compare*: CompareFunction
-    maxAnisotropy*: uint16
+  # SamplerDescriptor* {.bycopy.} = object
+  #   nextInChain*: ptr ChainedStruct
+  #   label*: cstring
+  #   addressModeU*: AddressMode
+  #   addressModeV*: AddressMode
+  #   addressModeW*: AddressMode
+  #   magFilter*: FilterMode
+  #   minFilter*: FilterMode
+  #   mipmapFilter*: MipmapFilterMode
+  #   lodMinClamp*: cfloat
+  #   lodMaxClamp*: cfloat
+  #   compare*: CompareFunction
+  #   maxAnisotropy*: uint16
 
   # ShaderModuleCompilationHint* {.bycopy.} = object
   #   nextInChain*: ptr ChainedStruct
@@ -649,20 +649,20 @@ const
   # ProcComputePassEncoderSetBindGroup* = proc ( computePassEncoder: ComputePassEncoder; groupIndex: uint; group: BindGroup; dynamicOffsetCount: uint; dynamicOffsets: ptr uint) {.cdecl.}
   ProcComputePassEncoderSetLabel* = proc (computePassEncoder: ComputePassEncoder; label: cstring) {.cdecl.}
   ProcComputePassEncoderSetPipeline* = proc ( computePassEncoder: ComputePassEncoder; pipeline: ComputePipeline) {.cdecl.}
-  ProcComputePipelineGetBindGroupLayout* = proc (computePipeline: ComputePipeline; groupIndex: uint): BindGroupLayout {.cdecl.}
-  ProcComputePipelineSetLabel* = proc (computePipeline: ComputePipeline; label: cstring) {.cdecl.}
+  # ProcComputePipelineGetBindGroupLayout* = proc (computePipeline: ComputePipeline; groupIndex: uint): BindGroupLayout {.cdecl.}
+  # ProcComputePipelineSetLabel* = proc (computePipeline: ComputePipeline; label: cstring) {.cdecl.}
   # ProcDeviceCreateBindGroup* = proc (device: Device; descriptor: ptr BindGroupDescriptor): BindGroup {.cdecl.}
   # ProcDeviceCreateBindGroupLayout* = proc (device: Device; descriptor: ptr BindGroupLayoutDescriptor): BindGroupLayout {.cdecl.}
   ProcDeviceCreateBuffer* = proc (device: Device; descriptor: ptr BufferDescriptor): Buffer {.cdecl.}
   ProcDeviceCreateCommandEncoder* = proc (device: Device; descriptor: ptr CommandEncoderDescriptor): CommandEncoder {.cdecl.}
-  ProcDeviceCreateComputePipeline* = proc (device: Device; descriptor: ptr ComputePipelineDescriptor): ComputePipeline {.cdecl.}
-  ProcDeviceCreateComputePipelineAsync* = proc (device: Device; descriptor: ptr ComputePipelineDescriptor; callback: CreateComputePipelineAsyncCallback; userdata: pointer) {.cdecl.}
+  # ProcDeviceCreateComputePipeline* = proc (device: Device; descriptor: ptr ComputePipelineDescriptor): ComputePipeline {.cdecl.}
+  # ProcDeviceCreateComputePipelineAsync* = proc (device: Device; descriptor: ptr ComputePipelineDescriptor; callback: CreateComputePipelineAsyncCallback; userdata: pointer) {.cdecl.}
   # ProcDeviceCreatePipelineLayout* = proc (device: Device; descriptor: ptr PipelineLayoutDescriptor): PipelineLayout {.cdecl.}
   ProcDeviceCreateQuerySet* = proc (device: Device; descriptor: ptr QuerySetDescriptor): QuerySet {.cdecl.}
   ProcDeviceCreateRenderBundleEncoder* = proc (device: Device; descriptor: ptr RenderBundleEncoderDescriptor): RenderBundleEncoder {.cdecl.}
   ProcDeviceCreateRenderPipeline* = proc (device: Device; descriptor: ptr RenderPipelineDescriptor): RenderPipeline {.cdecl.}
   ProcDeviceCreateRenderPipelineAsync* = proc (device: Device; descriptor: ptr RenderPipelineDescriptor; callback: CreateRenderPipelineAsyncCallback; userdata: pointer) {.cdecl.}
-  ProcDeviceCreateSampler* = proc (device: Device; descriptor: ptr SamplerDescriptor): Sampler {.cdecl.}
+  # ProcDeviceCreateSampler* = proc (device: Device; descriptor: ptr SamplerDescriptor): Sampler {.cdecl.}
   ProcDeviceCreateShaderModule* = proc (device: Device; descriptor: ptr ShaderModuleDescriptor): ShaderModule {.cdecl.}
   ProcDeviceCreateSwapChain* = proc (device: Device; surface: Surface; descriptor: ptr SwapChainDescriptor): SwapChain {.cdecl.}
   # ProcDeviceCreateTexture* = proc (device: Device; descriptor: ptr TextureDescriptor): Texture {.cdecl.}
@@ -751,9 +751,9 @@ const
   AdapterType_CPU* = AdapterType(0x00000002)
   AdapterType_Unknown* = AdapterType(0x00000003)
 
-  AddressMode_Repeat* = AddressMode(0x00000000) 
-  AddressMode_MirrorRepeat* = AddressMode(0x00000001)
-  AddressMode_ClampToEdge* = AddressMode(0x00000002)
+  # AddressMode_Repeat* = AddressMode(0x00000000) 
+  # AddressMode_MirrorRepeat* = AddressMode(0x00000001)
+  # AddressMode_ClampToEdge* = AddressMode(0x00000002)
 
   # BackendType_Null* = BackendType(0x00000000) 
   # BackendType_WebGPU* = BackendType(0x00000001)
@@ -854,8 +854,8 @@ const
   # Feature_ShaderF16* = Feature(0x00000009)
   # Feature_RG11B10UfloatRenderable* = Feature(0x0000000A)
 
-  FilterMode_Nearest* = FilterMode(0x00000000)
-  FilterMode_Linear* = FilterMode(0x00000001)
+  # FilterMode_Nearest* = FilterMode(0x00000000)
+  # FilterMode_Linear* = FilterMode(0x00000001)
 
   # FrontFace_CCW* = FrontFace(0x00000000)
   # FrontFace_CW* = FrontFace(0x00000001)
@@ -868,8 +868,8 @@ const
   # LoadOp_Clear* = LoadOp(0x00000001)
   # LoadOp_Load* = LoadOp(0x00000002)
 
-  MipmapFilterMode_Nearest* = MipmapFilterMode(0x00000000)
-  MipmapFilterMode_Linear* = MipmapFilterMode(0x00000001)
+  # MipmapFilterMode_Nearest* = MipmapFilterMode(0x00000000)
+  # MipmapFilterMode_Linear* = MipmapFilterMode(0x00000001)
 
   PipelineStatisticName_VertexShaderInvocations* = PipelineStatisticName(0x00000000)
   PipelineStatisticName_ClipperInvocations* = PipelineStatisticName(0x00000001)
@@ -1192,7 +1192,7 @@ proc deviceCreateQuerySet*(device: Device; descriptor: ptr QuerySetDescriptor): 
 proc deviceCreateRenderBundleEncoder*(device: Device; descriptor: ptr RenderBundleEncoderDescriptor): RenderBundleEncoder {.cdecl, importc:"wgpuDeviceCreateRenderBundleEncoder".}
 # proc deviceCreateRenderPipeline*(device: Device; descriptor: ptr RenderPipelineDescriptor): RenderPipeline {.cdecl, importc:"wgpuDeviceCreateRenderPipeline".}
 # proc deviceCreateRenderPipelineAsync*(device: Device; descriptor: ptr RenderPipelineDescriptor; callback: CreateRenderPipelineAsyncCallback; userdata: pointer) {.cdecl, importc:"wgpuDeviceCreateRenderPipelineAsync".}
-proc deviceCreateSampler*(device: Device; descriptor: ptr SamplerDescriptor): Sampler {.cdecl, importc:"wgpuDeviceCreateSampler".}
+# proc deviceCreateSampler*(device: Device; descriptor: ptr SamplerDescriptor): Sampler {.cdecl, importc:"wgpuDeviceCreateSampler".}
 # proc deviceCreateShaderModule*(device: Device; descriptor: ptr ShaderModuleDescriptor): ShaderModule {.cdecl, importc:"wgpuDeviceCreateShaderModule".}
 # proc deviceCreateSwapChain*(device: Device; surface: Surface; descriptor: ptr SwapChainDescriptor): SwapChain {.cdecl, importc:"wgpuDeviceCreateSwapChain".}
 # proc deviceCreateTexture*(device: Device; descriptor: ptr TextureDescriptor): Texture {.cdecl, importc:"wgpuDeviceCreateTexture".}
