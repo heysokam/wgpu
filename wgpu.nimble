@@ -15,7 +15,8 @@ license       = "MIT"
 skipdirs      = @[binDir, examplesDir, testsDir, docDir, wgpuDir]  # Tell nimble what folders to skip in the package
 
 #___________________
-task tut, "Builds the tutorial app.":  exec "nimble git"; runExample "tut"
+task tut, " Builds the tutorial app.":   exec "nimble git"; runExample "tut"
+task app1, "Builds the Frambuffer app.": exec "nimble git"; runExample "app_framebuffer"
 
 #___________________
 # Build the examples binaries
@@ -32,4 +33,5 @@ task struct, "   Example 09:  uniform struct."                  : exec "nimble g
 # task dynamic, "  Example 10:  uniform struct."                  : exec "nimble git"; runExample "e10_dynamicuniform"
 task texture, "  Example 11:  simple byte texture."             : exec "nimble git"; runExample "e11_hellotexture"
 task texture2, " Example 12:  sampled byte texture."            : exec "nimble git"; runExample "e12_sampledtexture"
+task depth, "    Example 13:  simple depth buffer attachment."  : exec "nimble git"; runExample "e13_hellodepth"
 

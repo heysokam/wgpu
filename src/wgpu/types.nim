@@ -682,49 +682,7 @@ type MapModeFlags * = set[MapMode]
 template none *(_ :typedesc[MapMode]) :auto=  {}
 
 
-
-
 #____________________________________________________
-# unimplemented.rs Requirements
-type ErrorFilter *{.pure, size: sizeof(int32).}= enum
-  validation, outOfMemory, internal
-
-type ProgrammableStageDescriptor *{.bycopy.}= object
-  nextInChain   *:ptr ChainedStruct
-  module        *:ShaderModule
-  entryPoint    *:cstring
-  constantCount *:uint32
-  constants     *:ptr ConstantEntry
-
-type ComputePipelineDescriptor *{.bycopy.}= object
-  nextInChain *:ptr ChainedStruct
-  label       *:cstring
-  layout      *:PipelineLayout
-  compute     *:ProgrammableStageDescriptor
-
-type QueryType *{.pure, size: sizeof(int32).}= enum
-  occlusion, pipelineStatistics, timestamp
-
-type CompilationInfoRequestStatus *{.pure, size: sizeof(int32).}= enum
-  success, error, deviceLost, unknown
-
-type CompilationMessageType *{.pure, size: sizeof(int32).}= enum
-  error, warning, info
-
-type CompilationMessage *{.bycopy.}= object
-  nextInChain *:ptr ChainedStruct
-  message     *:cstring
-  `type`      *:CompilationMessageType
-  lineNum     *:uint64
-  linePos     *:uint64
-  offset      *:uint64
-  length      *:uint64
-
-type CompilationInfo *{.bycopy.}= object
-  nextInChain  *:ptr ChainedStruct
-  messageCount *:uint
-  messages     *:ptr CompilationMessage
-
 type TextureDimension *{.pure, size: sizeof(int32).}= enum
   dim1D, dim2D, dim3D  # Cannot start with number :_(
 
@@ -812,6 +770,7 @@ type ComputePassDescriptor *{.bycopy.}= object
   timestampWriteCount *:uint32
   timestampWrites     *:ptr ComputePassTimestampWrite
 
+#____________________________________________________
 # Textures and Sampler
 type Extent3D *{.bycopy.}= object
   width              *:uint32
@@ -885,4 +844,48 @@ type SamplerDescriptor *{.bycopy.}= object
   compare       *:CompareFunction
   maxAnisotropy *:uint16
 
+
+
+
+
+#____________________________________________________
+# unimplemented.rs Requirements
+type ErrorFilter *{.pure, size: sizeof(int32).}= enum
+  validation, outOfMemory, internal
+
+type ProgrammableStageDescriptor *{.bycopy.}= object
+  nextInChain   *:ptr ChainedStruct
+  module        *:ShaderModule
+  entryPoint    *:cstring
+  constantCount *:uint32
+  constants     *:ptr ConstantEntry
+
+type ComputePipelineDescriptor *{.bycopy.}= object
+  nextInChain *:ptr ChainedStruct
+  label       *:cstring
+  layout      *:PipelineLayout
+  compute     *:ProgrammableStageDescriptor
+
+type QueryType *{.pure, size: sizeof(int32).}= enum
+  occlusion, pipelineStatistics, timestamp
+
+type CompilationInfoRequestStatus *{.pure, size: sizeof(int32).}= enum
+  success, error, deviceLost, unknown
+
+type CompilationMessageType *{.pure, size: sizeof(int32).}= enum
+  error, warning, info
+
+type CompilationMessage *{.bycopy.}= object
+  nextInChain *:ptr ChainedStruct
+  message     *:cstring
+  `type`      *:CompilationMessageType
+  lineNum     *:uint64
+  linePos     *:uint64
+  offset      *:uint64
+  length      *:uint64
+
+type CompilationInfo *{.bycopy.}= object
+  nextInChain  *:ptr ChainedStruct
+  messageCount *:uint
+  messages     *:ptr CompilationMessage
 

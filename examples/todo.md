@@ -15,8 +15,10 @@
   - [x] Hello Sampled Texture
 
 ## 3D
-- [ ] Camera
+- [x] Depth attachment
 - [ ] Cube
+  - [x] Flat
+  - [ ] Camera
 - [ ] Textured Cube
 - [ ] Instanced Cube
 - [ ] Multiple Meshes
