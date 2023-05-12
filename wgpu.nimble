@@ -3,6 +3,8 @@
 #:____________________________________________________
 include src/wgpu/nimble
 
+requires "vmath#head"  # TODO: Remove from the wgpu bindings
+
 #___________________
 # Package
 packageName   = "wgpu"

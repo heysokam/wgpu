@@ -56,9 +56,6 @@ when defined(linux) and not defined(wayland):
 #___________________
 # Mac context creation
 elif defined(macosx):
-  {.warning:
-    "Metal Support is completely untested. This will fail."
-  .}
   proc getSurfaceMac *(instance :Instance; win :glfw.Window) :Surface=
     result = instance.create(vaddr SurfaceDescriptor(
       label       : nil,
@@ -82,10 +79,10 @@ proc getSurface *(instance :Instance; win :glfw.Window) :Surface=
     result = instance.getSurfaceX11(win)
   elif defined(linux) and defined(wayland):
     {.error: "Wayland Surface support is not implemented yet".}
-  elif defined(macosx):
-    result = instance.getSurfaceMac(win)
   elif defined(windows):
     {.error: "Windows Surface support is not implemented yet".}
+  elif defined(macosx):
+    result = instance.getSurfaceMac(win)
   else:
     {.error: "Surface creation for this platform is currently not supported".}
 

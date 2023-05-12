@@ -19,6 +19,7 @@ switch("path", "$projectDir/../src")  # add our dependency without installing it
 #______________________
 # Define debug when it should be
 when not defined(release) and not defined(danger):
+  --showAllMismatches:on
   --d:debug
 
 #______________________

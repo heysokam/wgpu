@@ -143,16 +143,14 @@ struct VertOut {
 # Cube mesh with Deinterleaved vertex attributes
 var cube = Mesh(
   pos: @[#  x    y    z
-    # NOTE: These values should just be 1. But we wouldn't see anything with this simple setup
-    #     : depth test would remove the far face, near face would be right on top of the camera, and the others are backfaces
-    vec3( -0.99999, -0.99999, -0.99999 ),  # v0
-    vec3(  0.99999, -0.99999, -0.99999 ),  # v1
-    vec3(  0.99999, -0.99999,  0.99999 ),  # v2
-    vec3( -0.99999, -0.99999,  0.99999 ),  # v3
-    vec3( -0.99999,  0.99999, -0.99999 ),  # v4
-    vec3(  0.99999,  0.99999, -0.99999 ),  # v5
-    vec3(  0.99999,  0.99999,  0.99999 ),  # v6
-    vec3( -0.99999,  0.99999,  0.99999 ),  # v7
+    vec3( -1, -1,  0 ),  # v0
+    vec3(  1, -1,  0 ),  # v1
+    vec3(  1, -1,  1 ),  # v2
+    vec3( -1, -1,  1 ),  # v3
+    vec3( -1,  1,  0 ),  # v4
+    vec3(  1,  1,  0 ),  # v5
+    vec3(  1,  1,  1 ),  # v6
+    vec3( -1,  1,  1 ),  # v7
     ], # << pos
   color: @[#r   g    b    a
     vec4( 1, 0, 0, 1 ),  # v0
@@ -818,6 +816,7 @@ proc run=
     # Finish drawing
     renderPass.End()
     nextTexture.drop()
+    depthTexture.drop()
     depthTextureView.drop()
     # Submit the Rendering Queue, and present it to the surface
     var cmdBuffer = encoder.finish(vaddr CommandBufferDescriptor(

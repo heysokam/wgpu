@@ -1,9 +1,10 @@
 #:____________________________________________________
 #  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
 #:____________________________________________________
-# Minimal depth texture example                    |
-# Vertex colored cube in NDC, without perspective  |
-#__________________________________________________|
+# Minimal Camera controller                         |
+# Vertex colored cube,                              |
+# with perspective and WASD+Mouse camera movement.  |
+#___________________________________________________|
 # std dependencies
 import std/os
 import std/strformat
@@ -13,62 +14,46 @@ from   pkg/nglfw as glfw import nil
 # Module dependencies
 import wgpu
 # Example Extensions
-import ./math  # In a real app this should be vmath
+import ./extras  # In a real app, these should be coming from external libraries
 
 
-#________________________________________________
-# types.nim
 #__________________
-# Types to hold the texture data.
-#   Note: In a real app this should be a treeform/pixie.Image object instead
-type Color8 = object
-  r,g,b,a :uint8
-type Pixels = seq[Color8]
-
-# Other types:
-type Window * = object
-  ct     *:glfw.Window
-  w,h    *:int32
-  title  *:string
-
-type Mesh * = object
-  pos    *:seq[Vec3]
-  color  *:seq[Vec4]
-  uv     *:seq[Vec2]
-  norm   *:seq[Vec3]
-  inds   *:seq[UVec3]
-
-
+var cam :Camera
 #________________________________________________
-# mesh.nim
+# inputs.nim
 #__________________
-type Attr *{.pure.}= enum pos, color, uv, norm
-  ## Attribute location ids for the shader
-converter toInt *(attr :Attr) :uint32=  uint32( attr.ord )
-  ## Automatically convert to int when required, without needing to add `.ord` everywhere.
-converter toCsize *(n :SomeUnsignedInt) :csize_t=  n.csize_t
-  ## Automatically convert unsigned integers to csize_t when required, without needing to specify with `.csize_t`.
-func vertCount *(m :Mesh) :uint32=  uint32( m.pos.len )
-  ## Returns the mesh vertex count, based on the number of vertex positions.
-func indsCount *(m :Mesh) :uint32=  uint32( m.inds.len * 3)
-  ## Returns the mesh index count, based on the indices data. Assumes meshes are triangulated (aka 3 vertex per entry).
-func size *[T](n :T)      :uint64=  uint64( sizeof(n) )
-  ## Returns the size in bytes of the given type. Alias for sizeof()
-func size *[T](v :seq[T]) :uint64=  uint64( v.len * sizeof(v[0]) )
-  ## Returns the size in bytes of the given seq
-func size *(m :Mesh) :uint64=
-  ## Returns the size in bytes of the given mesh
-  for attr in m.fields:
-    if attr.len > 0:  result += attr.size   # Do not add empty seq
-
-
-#________________________________________________
-# window.nim
+var i :Inputs  # Inputs state
+# glfw Input Callbacks control the Inputs State
 #__________________
 proc key (win :glfw.Window; key, code, action, mods :cint) :void {.cdecl.}=
   ## GLFW Keyboard Input Callback
-  if (key == glfw.KeyEscape and action == glfw.Press):
+  let hold = action == glfw.Press or action == glfw.Repeat
+  let rls  = action == glfw.Release
+  if key == glfw.KeyEscape and action == glfw.Press:
     glfw.setWindowShouldClose(win, true.cint)
+  # Input manager: Update state
+  case key
+  of glfw.KeyW:
+    if hold: i.fw = true elif rls: i.fw = false
+  of glfw.KeyS:
+    if hold: i.bw = true elif rls: i.bw = false
+  of glfw.KeyA:
+    if hold: i.lf = true elif rls: i.lf = false
+  of glfw.KeyD:
+    if hold: i.rt = true elif rls: i.rt = false
+  of glfw.KeySpace:
+    if action == glfw.Press: echo &"pos:{cam.pos}  trg:{cam.dir}"
+  else: discard
+
+#__________________
+proc mousePos *(window :glfw.Window; xpos, ypos :float64) :void {.cdecl.}=
+  ## GLFW Mouse Position Input Callback
+  let chg = dvec2(xpos-i.cursor.pos.x, ypos-i.cursor.pos.y)  # Current - previous
+  if chg < dvec2(10,10): i.cursor.chg += chg
+  i.cursor.pos = dvec2(xpos, ypos)  # Store current x,y
+
+#________________________________________________
+# window.nim
 #__________________
 proc close  (win :Window) :bool=  glfw.windowShouldClose(win.ct).bool
   ## Returns true when the GLFW window has been marked to be closed.
@@ -84,6 +69,22 @@ proc init(win :var Window) :void=
   win.ct = glfw.createWindow(win.w, win.h, win.title.cstring, nil, nil)
   doAssert win.ct != nil, "Failed to create GLFW window"
   discard glfw.setKeyCallback(win.ct, key)
+  discard glfw.setCursorPosCallback(win.ct, mousePos)
+  glfw.setInputMode(win.ct, glfw.Cursor, glfw.CursorDisabled)
+
+#________________________________________________
+# camera.nim
+#__________________
+const spd = 0.125'f
+proc update (cam :var Camera) :void=
+  # WASD movement
+  if i.fw:  cam.move(cam.dir   * -spd)
+  if i.bw:  cam.move(cam.dir   *  spd)
+  if i.lf:  cam.move(cam.right * -spd)
+  if i.rt:  cam.move(cam.right *  spd)
+  # Mouse control
+  cam.rotate(i.cursor.chg)
+  i.cursor.chg = dvec2(0,0) # Reset after each frame
 
 #__________________
 # WGPU callbacks
@@ -104,6 +105,9 @@ proc logCB *(level :LogLevel; message :cstring; userdata :pointer) :void {.cdecl
 # cube shader
 const shaderCode = """
 struct Uniforms {
+  W     :mat4x4<f32>,
+  V     :mat4x4<f32>,
+  P     :mat4x4<f32>,
   time  :f32,
   color :vec4<f32>,
 }
@@ -125,7 +129,7 @@ struct VertOut {
 @vertex fn vert(in :VertIn) ->VertOut {
   // Define the output of the vertex shader
   var out   :VertOut;
-  out.pos   = vec4<f32>(in.pos, 1.0);
+  out.pos   = u.P * u.V * u.W * vec4<f32>(in.pos, 1.0);
   out.color = in.color;  // Forward the color attribute to the fragment shader
   out.uv    = in.uv;     // Forward the texture coordinates to the fragment shader
   out.norm  = in.norm;   // Forward the vertex normal to the fragment shader
@@ -143,16 +147,14 @@ struct VertOut {
 # Cube mesh with Deinterleaved vertex attributes
 var cube = Mesh(
   pos: @[#  x    y    z
-    # NOTE: These values should just be 1. But we wouldn't see anything with this simple setup
-    #     : depth test would remove the far face, near face would be right on top of the camera, and the others are backfaces
-    vec3( -0.99999, -0.99999, -0.99999 ),  # v0
-    vec3(  0.99999, -0.99999, -0.99999 ),  # v1
-    vec3(  0.99999, -0.99999,  0.99999 ),  # v2
-    vec3( -0.99999, -0.99999,  0.99999 ),  # v3
-    vec3( -0.99999,  0.99999, -0.99999 ),  # v4
-    vec3(  0.99999,  0.99999, -0.99999 ),  # v5
-    vec3(  0.99999,  0.99999,  0.99999 ),  # v6
-    vec3( -0.99999,  0.99999,  0.99999 ),  # v7
+    vec3( -1, -1,  0 ),  # v0
+    vec3(  1, -1,  0 ),  # v1
+    vec3(  1, -1,  1 ),  # v2
+    vec3( -1, -1,  1 ),  # v3
+    vec3( -1,  1,  0 ),  # v4
+    vec3(  1,  1,  0 ),  # v5
+    vec3(  1,  1,  1 ),  # v6
+    vec3( -1,  1,  1 ),  # v7
     ], # << pos
   color: @[#r   g    b    a
     vec4( 1, 0, 0, 1 ),  # v0
@@ -213,11 +215,15 @@ var window = Window(
   ct: nil, title: "wgpu Tut",
   w:960, h:540,
   )
-type Uniforms = object         # Our uniform value is a struct
-  time  {.align(16).}:float32  # Mark as align(16) in this variable is not needed, since its 0. Just for clarity
-  color {.align(16).}:Vec4     # Mark as align(16), so that the time field gets padded.
+type Uniforms = object          # Our uniform value is a struct
+  W      {.align(16).}:Mat4     # Local-to-World matrix
+  V      {.align(16).}:Mat4     # World-to-View matrix
+  P      {.align(16).}:Mat4     # View-to-Projection matrix
+  time   {.align(16).}:float32  # Time in seconds
+  color  {.align(16).}:Vec4     # Uniform color
 var u :Uniforms
 static: assert Uniforms.sizeof mod Vec4.sizeof == 0, "Uniforms size must be aligned to the size of a vec4<f32>"
+
 
 #________________________________________________
 # Entry Point
@@ -227,7 +233,6 @@ proc run=
   # Init Window
   echo "Hello Buffered cube"
   window.init()
-
   #__________________
   # Set wgpu.Logging
   wgpu.setLogCallback(logCB, nil)
@@ -402,6 +407,23 @@ proc run=
   u.time  = glfw.getTime().float32
   # Define the uniform color, and upload the object data instead of a single float.
   u.color = vec4(0,1,0,1)
+
+  # NEW:
+  # 1. Create the camera
+  cam = Camera.new(
+    origin = dvec3(0,-1,-6),
+    target = dvec3(1,-1,1),
+    up     = dvec3(0,1,0),
+    fov    = 45.0,  # 90 degree vertical fov
+    near   = 0.1,
+    far    = 100.0,
+    )
+  # 2. Generate the WVP matrices
+  u.W = mat4()                                       # Identity matrix for the Model-to-World conversion of our cube coordinates
+  u.V = cam.view().mat4()                            # Get the view matrix from the camera
+  u.P = cam.proj(config.width/config.height).mat4()  # Get the proj matrix from the camera, based on the current screen size
+
+  # OLD: Upload the Uniforms data
   queue.write(uniformBuffer, 0, u.addr, sizeof(Uniforms).csize_t)
 
   # Create the BindGroupLayoutEntries for both the Uniforms object and the texture
@@ -520,8 +542,7 @@ proc run=
     bindGroupLayouts     : bindGroupLayout.addr,
     )) # << device.createPipelineLayout()
 
-  # NEW:
-  # 1. Define the depth texture format
+  # Define the depth texture format
   var depthTextureFormat = TextureFormat.Depth24Plus
   # Configure the pipeline with the buffer inputs
   let pipeline = device.create(vaddr RenderPipelineDescriptor(
@@ -543,9 +564,7 @@ proc run=
       frontFace              : FrontFace.ccw,
       cullMode               : CullMode.none,
       ), # << primitive
-    # NEW:
-    # 2. Setup the Z-Buffer options
-    # depthStencil             : nil,
+    # Setup the Z-Buffer options
     depthStencil             : vaddr DepthStencilState(
       nextInChain            : nil,
       format                 : depthTextureFormat,    # Assign the depth format to the pipeline
@@ -714,7 +733,12 @@ proc run=
   #__________________
   # Update loop
   while not window.close():
-    # Update time and write it to the uniform buffer value
+    # NEW:
+    # 3. Update the camera at the beginning of the frame   (input polling moved to the start of the frame)
+    window.update()  # ... camera needs updated glfw.pollEvents(), inside the input callbacks. Should be separate in a real app.
+    cam.update()     # Update the camera position and view
+
+    # OLD: Update time and write it to the uniform buffer value
     u.time = glfw.getTime().float32
     queue.write(uniformBuffer, Uniforms.offsetOf(time).uint64, u.time.addr, sizeof(float32).csize_t)
 
@@ -734,12 +758,23 @@ proc run=
         continue  # Skip to the next step
       break       # Exit attempts. We are either at the second attempt, or the texture already works
     doAssert nextTexture != nil, "ERR:: Cannot acquire next swap chain texture"
+
+    # NEW:
+    # 4. Generate the current frame WVP matrices  (after the window size has been updated, for the projection)
+    u.W = mat4()                                       # Identity matrix for the Model-to-World conversion of our cube coordinates
+    u.V = cam.view().mat4()                            # Get the view matrix from the camera
+    u.P = cam.proj(config.width/config.height).mat4()  # Get the proj matrix from the camera, based on the current screen size
+    # 5. Upload the new values
+    queue.write(uniformBuffer, Uniforms.offsetOf(W).uint64, u.W[0,0].addr, sizeof(Mat4).csize_t)
+    queue.write(uniformBuffer, Uniforms.offsetOf(V).uint64, u.V[0,0].addr, sizeof(Mat4).csize_t)
+    queue.write(uniformBuffer, Uniforms.offsetOf(P).uint64, u.P[0,0].addr, sizeof(Mat4).csize_t)
+
+    # OLD: Setup the command buffer
     var encoder = device.create(vaddr CommandEncoderDescriptor(
       nextInChain  : nil,
-      label        : "Command Encoder",
+      label        : "Hello Command Encoder".cstring,
       ))
-    # NEW:
-    # 3. Create the depth texture
+    # Create the depth texture
     var depthTexture = device.create(vaddr TextureDescriptor(
       nextInChain     : nil,
       label           : "Hello Depth Texture".cstring,
@@ -753,7 +788,7 @@ proc run=
       viewFormats     : depthTextureFormat.addr,
       )) # << device.createTexture()
 
-    # 4. Create the depth texture view
+    # Create the depth texture view
     var depthTextureView = depthTexture.create(vaddr TextureViewDescriptor(
       nextInChain     : nil,
       label           : "Hello DepthView".cstring,
@@ -766,7 +801,7 @@ proc run=
       aspect          : TextureAspect.depthOnly,
       )) # << depthTexture.createView()
 
-    # 5. Create the render pass, including our depth texture
+    # Create the render pass, including our depth texture
     var renderPass = encoder.begin(vaddr RenderPassDescriptor(
       nextInChain             : nil,
       label                   : nil,
@@ -778,7 +813,7 @@ proc run=
         storeOp               : StoreOp.store,
         clearValue            : Color(r:0.1, g:0.1, b:0.1, a:1.0),  # WGPU Color, but similar to chroma/color
         ), # << colorAttachments
-      # NEW: Include our depth attachment
+      # Include our depth attachment
       depthStencilAttachment  : vaddr RenderPassDepthStencilAttachment(
         view                  : depthTextureView,  # Attach the depth view
         depthLoadOp           : LoadOp.clear,      # Similar to the color attachment
@@ -796,7 +831,7 @@ proc run=
       timestampWrites         : nil,
       )) # << renderPass
 
-    # OLD: Draw into the texture with the given settings
+    # Draw into the texture with the given settings
     renderPass.set(pipeline)
     # Set the vertex buffer in the RenderPass
     # NOTE : The rendering code shouldn't care about buffer order. The position buffer could be at the end, or at the beginning
@@ -818,6 +853,7 @@ proc run=
     # Finish drawing
     renderPass.End()
     nextTexture.drop()
+    depthTexture.drop()
     depthTextureView.drop()
     # Submit the Rendering Queue, and present it to the surface
     var cmdBuffer = encoder.finish(vaddr CommandBufferDescriptor(
@@ -826,8 +862,6 @@ proc run=
       )) # << encoder.finish()
     queue.submit(1, cmdBuffer.addr)
     swapChain.present()  # like gl.swapBuffers()
-    # Input update from glfw
-    window.update()
 
   #__________________
   # Terminate
