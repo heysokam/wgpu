@@ -19,6 +19,7 @@ from   pkg/nglfw as glfw import nil
 type Color8 * = object
   r*,g*,b*,a* :uint8
 type Pixels * = seq[Color8]
+proc color8 *(c :uint8) :Color8=  Color8(r:c, g:c, b:c, a:255)
 
 # Other types:
 type Window * = object
@@ -66,7 +67,7 @@ func size *(m :Mesh) :uint64=
 # wgpu : Coordinate Systems
 #_____________________________
 # NDC: normalized device coordinates
-#   +Y is up
+#   +X right, +Y up, +Z forward
 #   (-1.0, -1.0) is the bottom-left corner
 #   x,y : range[-1.0..1.0] inclusive
 #   z   : range[ 0.0..1.0] inclusive
@@ -83,7 +84,8 @@ func size *(m :Mesh) :uint64=
 #_______________________________________
 # Differences from OpenGL:
 # 1. 3x3 matrices are padded to 4x4 
-# 2. +Y is up, instead of down
+# 2. +Z is forward, instead of backwards (away from the screen)
+# 3. Depth range of NDC is 0..1, instead of -1..1
 #_______________________________________
 
 # std/math : Extensions

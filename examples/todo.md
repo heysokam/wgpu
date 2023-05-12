@@ -16,10 +16,10 @@
 
 ## 3D
 - [x] Depth attachment
-- [ ] Cube
+- [x] Cube
   - [x] Flat
-  - [ ] Camera
-- [ ] Textured Cube
+  - [x] Camera
+- [x] Textured Cube
 - [ ] Instanced Cube
 - [ ] Multiple Meshes
 

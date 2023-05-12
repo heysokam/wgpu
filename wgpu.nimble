@@ -37,4 +37,5 @@ task texture, "  Example 11:  simple byte texture."             : exec "nimble g
 task texture2, " Example 12:  sampled byte texture."            : exec "nimble git"; runExample "e12_sampledtexture"
 task depth, "    Example 13:  simple depth buffer attachment."  : exec "nimble git"; runExample "e13_hellodepth"
 task camera, "   Example 14:  simple 3D camera controller."     : exec "nimble git"; runExample "e14_hellocamera"
+task uvs, "      Example 15:  cube textured using its UVs."     : exec "nimble git"; runExample "e15_cubetextured"
 

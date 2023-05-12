@@ -231,7 +231,7 @@ static: assert Uniforms.sizeof mod Vec4.sizeof == 0, "Uniforms size must be alig
 proc run=
   #__________________
   # Init Window
-  echo "Hello Buffered cube"
+  echo "Hello Camera"
   window.init()
   #__________________
   # Set wgpu.Logging
