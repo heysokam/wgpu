@@ -36,4 +36,5 @@ task struct, "   Example 09:  uniform struct."                  : exec "nimble g
 task texture, "  Example 11:  simple byte texture."             : exec "nimble git"; runExample "e11_hellotexture"
 task texture2, " Example 12:  sampled byte texture."            : exec "nimble git"; runExample "e12_sampledtexture"
 task depth, "    Example 13:  simple depth buffer attachment."  : exec "nimble git"; runExample "e13_hellodepth"
+task camera, "   Example 14:  simple 3D camera controller."     : exec "nimble git"; runExample "e14_hellocamera"
 
