@@ -3,7 +3,7 @@
 #:____________________________________________________
 include src/wgpu/nimble
 
-requires "vmath#head"  # TODO: Remove from the wgpu bindings
+requires "vmath"  # TODO: Remove from the wgpu bindings
 
 #___________________
 # Package
@@ -14,7 +14,7 @@ description   = "Native WebGPU for Nim"
 license       = "MIT"
 #___________________
 # wgpu specific nimble config
-skipdirs      = @[binDir, examplesDir, testsDir, docDir, wgpuDir]  # Tell nimble what folders to skip in the package
+skipdirs      = @[binDir, examplesDir, testsDir, docDir]  # Tell nimble what folders to skip in the package
 
 #___________________
 task tut, " Builds the tutorial app.":   exec "nimble git"; runExample "tut"

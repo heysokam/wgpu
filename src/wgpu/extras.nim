@@ -39,8 +39,6 @@ template iaddr *(num :uint32) :ptr int32=  cast[ptr int32](num.addr)
 # X11 context creation
 when defined(linux) and not defined(wayland):
   proc getSurfaceX11 *(instance :Instance; win :glfw.Window) :Surface=
-    let xdisplay = glfw.getX11Display()
-    let xwindow  = glfw.getX11Window(win)
     result = instance.create(vaddr SurfaceDescriptor(
       label       : nil,
       nextInChain : cast[ptr ChainedStruct](vaddr SurfaceDescriptorFromXlibWindow(
@@ -48,9 +46,45 @@ when defined(linux) and not defined(wayland):
           next    : nil,
           sType   : SType.surfaceDescriptorFromXlibWindow,
           ), # << chain
-        display   : cast[pointer](xdisplay),
-        window    : xwindow.uint32,
+        display   : glfw.getX11Display(),
+        window    : glfw.getX11Window(win).uint32,
         )), # << nextInChain
+      )) # << instance.createSurface()
+
+#___________________
+# Wayland context creation
+elif defined(linux) and defined(wayland):
+  proc getSurfaceWayland *(instance :Instance; win :glfw.Window) :Surface=
+    result = instance.create(vaddr SurfaceDescriptor(
+      label       : nil,
+      nextInChain : cast[ptr ChainedStruct](vaddr SurfaceDescriptorFromWaylandSurface(
+        chain     : ChainedStruct(
+          next    : nil,
+          sType   : SType.surfaceDescriptorFromWaylandSurface,
+          ), # << chain
+        display   : glfw.getWaylandDisplay(),
+        surface   : glfw.getWaylandWindow(win),
+        )), # << nextInChain
+      )) # << instance.createSurface()
+
+
+#___________________
+# Windows context creation
+elif defined(windows):
+  proc getModuleHandle *(lpModuleName :cstring) :pointer {.importc: "GetModuleHandleW", winapi, stdcall, dynlib: "kernel32".}
+  proc getSurfaceWin *(instance :Instance; win :glfw.Window) :Surface=
+    let hwnd      = glfw.getWin32Window(win)
+    let hinstance = getModuleHandle(nil)
+    result = instance.create(vaddr SurfaceDescriptor(
+      label       : nil,
+      nextInChain : cast[ptr ChainedStruct](vaddr SurfaceDescriptorFromWindowsHWND(
+        chain     : ChainedStruct(
+          next    : nil,
+          sType   : SType.surfaceDescriptorFromWindowsHWND,
+          ), # << chain
+        hinstance : hinstance,
+        hwnd      : hwnd,
+        )) # << nextInChain
       )) # << instance.createSurface()
 
 #___________________
@@ -78,9 +112,10 @@ proc getSurface *(instance :Instance; win :glfw.Window) :Surface=
   when defined(linux) and not defined(wayland):
     result = instance.getSurfaceX11(win)
   elif defined(linux) and defined(wayland):
-    {.error: "Wayland Surface support is not implemented yet".}
+    {.warning: "Wayland Surface support is not implemented yet".}
+    result = instance.getSurfaceWayland(win)
   elif defined(windows):
-    {.error: "Windows Surface support is not implemented yet".}
+    result = instance.getSurfaceWin(win)
   elif defined(macosx):
     result = instance.getSurfaceMac(win)
   else:

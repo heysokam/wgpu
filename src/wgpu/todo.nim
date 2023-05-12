@@ -335,10 +335,10 @@ const
   #   entryPoint*: cstring
   #   layout*: PipelineLayout
 
-  ShaderModuleSPIRVDescriptor* {.bycopy.} = object
-    chain*: ChainedStruct
-    codeSize*: uint
-    code*: ptr uint
+  # ShaderModuleSPIRVDescriptor* {.bycopy.} = object
+  #   chain*: ChainedStruct
+  #   codeSize*: uint
+  #   code*: ptr uint
 
   # ShaderModuleWGSLDescriptor* {.bycopy.} = object
   #   chain*: ChainedStruct
@@ -360,32 +360,32 @@ const
   #   nextInChain*: ptr ChainedStruct
   #   label*: cstring
 
-  SurfaceDescriptorFromAndroidNativeWindow* {.bycopy.} = object
-    chain*: ChainedStruct
-    window*: pointer
+  # SurfaceDescriptorFromAndroidNativeWindow* {.bycopy.} = object
+  #   chain*: ChainedStruct
+  #   window*: pointer
 
-  SurfaceDescriptorFromCanvasHTMLSelector* {.bycopy.} = object
-    chain*: ChainedStruct
-    selector*: cstring
+  # SurfaceDescriptorFromCanvasHTMLSelector* {.bycopy.} = object
+  #   chain*: ChainedStruct
+  #   selector*: cstring
 
   # SurfaceDescriptorFromMetalLayer* {.bycopy.} = object
   #   chain*: ChainedStruct
   #   layer*: pointer
 
-  SurfaceDescriptorFromWaylandSurface* {.bycopy.} = object
-    chain*: ChainedStruct
-    display*: pointer
-    surface*: pointer
+  # SurfaceDescriptorFromWaylandSurface* {.bycopy.} = object
+  #   chain*: ChainedStruct
+  #   display*: pointer
+  #   surface*: pointer
 
-  SurfaceDescriptorFromWindowsHWND* {.bycopy.} = object
-    chain*: ChainedStruct
-    hinstance*: pointer
-    hwnd*: pointer
+  # SurfaceDescriptorFromWindowsHWND* {.bycopy.} = object
+  #   chain*: ChainedStruct
+  #   hinstance*: pointer
+  #   hwnd*: pointer
 
-  SurfaceDescriptorFromXcbWindow* {.bycopy.} = object
-    chain*: ChainedStruct
-    connection*: pointer
-    window*: uint
+  # SurfaceDescriptorFromXcbWindow* {.bycopy.} = object
+  #   chain*: ChainedStruct
+  #   connection*: pointer
+  #   window*: uint
 
   # SurfaceDescriptorFromXlibWindow* {.bycopy.} = object
   #   chain*: ChainedStruct

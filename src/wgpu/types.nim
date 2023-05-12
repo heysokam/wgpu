@@ -321,9 +321,32 @@ type SurfaceDescriptorFromXlibWindow *{.bycopy.}= object
   display  *:pointer
   window   *:uint32
 
+type SurfaceDescriptorFromWaylandSurface *{.bycopy.}= object
+  chain   *:ChainedStruct
+  display *:pointer
+  surface *:pointer
+
+type SurfaceDescriptorFromWindowsHWND *{.bycopy.}= object
+  chain      *:ChainedStruct
+  hinstance  *:pointer
+  hwnd       *:pointer
+
 type SurfaceDescriptorFromMetalLayer *{.bycopy.}= object
   chain  *:ChainedStruct
   layer  *:pointer
+
+type SurfaceDescriptorFromCanvasHTMLSelector *{.bycopy.}= object
+  chain    *:ChainedStruct
+  selector *:cstring
+
+type SurfaceDescriptorFromAndroidNativeWindow *{.bycopy.}= object
+  chain  *:ChainedStruct
+  window *:pointer
+
+type SurfaceDescriptorFromXcbWindow *{.bycopy.}= object
+  chain      *:ChainedStruct
+  connection *:pointer
+  window     *:uint
 
 #___________________
 # Adapter
@@ -392,6 +415,11 @@ type DeviceLostReason *{.pure, size: sizeof(int32).}= enum
 type ShaderModuleWGSLDescriptor *{.bycopy.}= object
   chain  *:ChainedStruct
   code   *:cstring
+
+type ShaderModuleSPIRVDescriptor *{.bycopy.}= object
+  chain     *:ChainedStruct
+  codeSize  *:uint32
+  code      *:ptr uint32
 
 type ShaderModuleCompilationHint *{.bycopy.}= object
   nextInChain  *:ptr ChainedStruct
