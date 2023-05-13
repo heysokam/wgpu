@@ -6,7 +6,7 @@
 # In a real app, everything in this file     |
 # should be imported from libraries instead  |
 #____________________________________________|
-import std/strformat
+import std/sequtils
 import std/math
 import pkg/vmath ; export vmath
 from   pkg/nglfw as glfw import nil
@@ -40,6 +40,18 @@ type Cursor * = object
 type Inputs * = object
   fw*,bw*,lf*,rt* :bool
   cursor*         :Cursor
+
+
+#________________________________________________
+# texture.nim
+#_____________________________
+proc genTexture *(width,height :SomeNumber) :seq[Color8]=
+  ## Generates a gradient texture, with 5 bands, left to right, black to white
+  result = newSeqWith[Color8](int(width*height), color8(255))
+  for id,pix in result.mpairs:
+    let column = id.uint32 mod (width div 5) # Create 5 stripes along the full width of the texture
+    pix = ((column/width)*255).uint8.color8  # Set color based on width, left to right, 0..255
+
 
 #________________________________________________
 # mesh.nim
@@ -108,7 +120,11 @@ proc dvec4 *(x,y,z,w :SomeNumber) :DVec4=  result[0] = x.float64; result[1] = y.
 proc uvec3 *(x,y,z :SomeNumber)   :UVec3=  result[0] = x.uint32;  result[1] = y.uint32;  result[2] = z.uint32
 proc `<`   *[T](v1,v2 :GVec2[T])  :bool=   v1.length < v2.length
 # Matrices: Constructors
-proc mat4  *[T](m :GMat4[T]) :Mat4=  mat4( m[0,0],m[0,1],m[0,2],m[0,3],   m[1,0],m[1,1],m[1,2],m[1,3],   m[2,0],m[2,1],m[2,2],m[2,3],  m[3,0],m[3,1],m[3,2],m[3,3] )
+proc mat4  *[T](m :GMat4[T]) :Mat4=  mat4(
+  float32 m[0,0], float32 m[0,1], float32 m[0,2], float32 m[0,3],
+  float32 m[1,0], float32 m[1,1], float32 m[1,2], float32 m[1,3],
+  float32 m[2,0], float32 m[2,1], float32 m[2,2], float32 m[2,3],
+  float32 m[3,0], float32 m[3,1], float32 m[3,2], float32 m[3,3] )
 
 #_______________________________________
 # wgpu : Matrices

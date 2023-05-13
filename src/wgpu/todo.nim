@@ -653,7 +653,7 @@ const
   # ProcComputePipelineSetLabel* = proc (computePipeline: ComputePipeline; label: cstring) {.cdecl.}
   # ProcDeviceCreateBindGroup* = proc (device: Device; descriptor: ptr BindGroupDescriptor): BindGroup {.cdecl.}
   # ProcDeviceCreateBindGroupLayout* = proc (device: Device; descriptor: ptr BindGroupLayoutDescriptor): BindGroupLayout {.cdecl.}
-  ProcDeviceCreateBuffer* = proc (device: Device; descriptor: ptr BufferDescriptor): Buffer {.cdecl.}
+  # ProcDeviceCreateBuffer* = proc (device: Device; descriptor: ptr BufferDescriptor): Buffer {.cdecl.}
   ProcDeviceCreateCommandEncoder* = proc (device: Device; descriptor: ptr CommandEncoderDescriptor): CommandEncoder {.cdecl.}
   # ProcDeviceCreateComputePipeline* = proc (device: Device; descriptor: ptr ComputePipelineDescriptor): ComputePipeline {.cdecl.}
   # ProcDeviceCreateComputePipelineAsync* = proc (device: Device; descriptor: ptr ComputePipelineDescriptor; callback: CreateComputePipelineAsyncCallback; userdata: pointer) {.cdecl.}

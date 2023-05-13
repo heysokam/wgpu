@@ -351,6 +351,7 @@ proc run=
 
   # Create and upload all the cube buffers. Before we just uploaded the position.
   var cubeLayout :seq[VertexBufferLayout]
+  var cubeAttr   :seq[VertexAttribute]
   var cubeBuffer = device.create(vaddr BufferDescriptor(
     nextInChain       : nil,
     label             : "cube Vertex buffer".cstring,

@@ -112,9 +112,10 @@ proc getSurface *(instance :Instance; win :glfw.Window) :Surface=
   when defined(linux) and not defined(wayland):
     result = instance.getSurfaceX11(win)
   elif defined(linux) and defined(wayland):
-    {.warning: "Wayland Surface support is not implemented yet".}
+    {.warning: "Wayland Surface support has not been tested yet".}
     result = instance.getSurfaceWayland(win)
   elif defined(windows):
+    {.warning: "Windows Surface support has not been tested yet".}
     result = instance.getSurfaceWin(win)
   elif defined(macosx):
     result = instance.getSurfaceMac(win)

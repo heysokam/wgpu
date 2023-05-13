@@ -205,10 +205,7 @@ doAssert vertc == cube.color.len and
 # Create the texture data
 const width  :uint32=  512
 const height :uint32=  512
-var   pixels :Pixels=  newSeqWith[Color8](int(width*height), color8(255))
-for id,pix in pixels.mpairs:
-  let column = id.uint32 mod (width div 5) # Create 5 stripes along the full width of the texture
-  pix = ((column/width)*255).uint8.color8  # Set color based on width, left to right, 0..255
+var   pixels :Pixels=  genTexture(width, height)
 
 #________________________________________________
 # state.nim
@@ -410,8 +407,7 @@ proc run=
   # Define the uniform color, and upload the object data instead of a single float.
   u.color = vec4(0,1,0,1)
 
-  # NEW:
-  # 1. Create the camera
+  # Create the camera
   cam = Camera.new(
     origin = dvec3(0,-1,-6),
     target = dvec3(1,-1,1),
@@ -420,12 +416,12 @@ proc run=
     near   = 0.1,
     far    = 100.0,
     )
-  # 2. Generate the WVP matrices
+  # Generate the WVP matrices
   u.W = mat4()                                       # Identity matrix for the Model-to-World conversion of our cube coordinates
   u.V = cam.view().mat4()                            # Get the view matrix from the camera
   u.P = cam.proj(config.width/config.height).mat4()  # Get the proj matrix from the camera, based on the current screen size
 
-  # OLD: Upload the Uniforms data
+  # Upload the Uniforms data
   queue.write(uniformBuffer, 0, u.addr, sizeof(Uniforms).csize_t)
 
   # Create the BindGroupLayoutEntries for both the Uniforms object and the texture
@@ -735,12 +731,11 @@ proc run=
   #__________________
   # Update loop
   while not window.close():
-    # NEW:
-    # 3. Update the camera at the beginning of the frame   (input polling moved to the start of the frame)
+    # Update the camera at the beginning of the frame   (input polling moved to the start of the frame)
     window.update()  # ... camera needs updated glfw.pollEvents(), inside the input callbacks. Should be separate in a real app.
     cam.update()     # Update the camera position and view
 
-    # OLD: Update time and write it to the uniform buffer value
+    # Update time and write it to the uniform buffer value
     u.time = glfw.getTime().float32
     queue.write(uniformBuffer, Uniforms.offsetOf(time).uint64, u.time.addr, sizeof(float32).csize_t)
 
@@ -761,8 +756,7 @@ proc run=
       break       # Exit attempts. We are either at the second attempt, or the texture already works
     doAssert nextTexture != nil, "ERR:: Cannot acquire next swap chain texture"
 
-    # NEW:
-    # 4. Generate the current frame WVP matrices  (after the window size has been updated, for the projection)
+    # Generate the current frame WVP matrices  (after the window size has been updated, for the projection)
     u.W = mat4()                                       # Identity matrix for the Model-to-World conversion of our cube coordinates
     u.V = cam.view().mat4()                            # Get the view matrix from the camera
     u.P = cam.proj(config.width/config.height).mat4()  # Get the proj matrix from the camera, based on the current screen size
@@ -771,7 +765,7 @@ proc run=
     queue.write(uniformBuffer, Uniforms.offsetOf(V).uint64, u.V[0,0].addr, sizeof(Mat4).csize_t)
     queue.write(uniformBuffer, Uniforms.offsetOf(P).uint64, u.P[0,0].addr, sizeof(Mat4).csize_t)
 
-    # OLD: Setup the command buffer
+    # Setup the command buffer
     var encoder = device.create(vaddr CommandEncoderDescriptor(
       nextInChain  : nil,
       label        : "Hello Command Encoder".cstring,
