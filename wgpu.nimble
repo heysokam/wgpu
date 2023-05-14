@@ -39,4 +39,5 @@ task depth, "    Example 13:  simple depth buffer attachment."  : exec "nimble g
 task camera, "   Example 14:  simple 3D camera controller."     : exec "nimble git"; runExample "e14_hellocamera"
 task uvs, "      Example 15:  cube textured using its UVs."     : exec "nimble git"; runExample "e15_cubetextured"
 task instance, " Example 16:  cube instanced 100 times."        : exec "nimble git"; runExample "e16_cubeinstanced"
+task multimesh, "Example 16:  multi-mesh. cubes + pyramid."     : exec "nimble git"; runExample "e17_multimesh"
 

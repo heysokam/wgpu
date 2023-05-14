@@ -20,8 +20,8 @@
   - [x] Flat
   - [x] Camera
 - [x] Textured Cube
-- [ ] Instanced Cube
-- [ ] Multiple Meshes
+- [x] Instanced Cube
+- [x] Multiple Meshes
 
 ## Apps
 - [ ] Framebuffer

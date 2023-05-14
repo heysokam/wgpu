@@ -66,6 +66,8 @@ func vertCount *(m :Mesh) :uint32=  uint32( m.pos.len )
   ## Returns the mesh vertex count, based on the number of vertex positions.
 func indsCount *(m :Mesh) :uint32=  uint32( m.inds.len * 3)
   ## Returns the mesh index count, based on the indices data. Assumes meshes are triangulated (aka 3 vertex per entry).
+func size *[T](t :typedesc[T]) :uint64=  uint64( sizeof(t) )
+  ## Returns the size in bytes of the given type. Alias for sizeof()
 func size *[T](n :T)      :uint64=  uint64( sizeof(n) )
   ## Returns the size in bytes of the given type. Alias for sizeof()
 func size *[T](v :seq[T]) :uint64=  uint64( v.len * sizeof(v[0]) )
@@ -74,6 +76,109 @@ func size *(m :Mesh) :uint64=
   ## Returns the size in bytes of the given mesh
   for attr in m.fields:
     if attr.len > 0:  result += attr.size   # Do not add empty seq
+template check (m :Mesh) :void=
+  ## Checks that the mesh has the correct number of vertex for each attribute
+  let vertc = m.vertCount.int
+  doAssert vertc == m.color.len and 
+           vertc == m.uv.len and 
+           vertc == m.norm.len,
+           "All attributes of the mesh must contain the same amount of vertex"
+#__________________
+proc genCube *(size :SomeNumber) :Mesh=
+  ## Generates a Cube mesh with Deinterleaved vertex attributes
+  result = Mesh(
+    pos: @[#  x    y    z
+      vec3( -size, -size, -size ),  # v0
+      vec3(  size, -size, -size ),  # v1
+      vec3(  size, -size,  size ),  # v2
+      vec3( -size, -size,  size ),  # v3
+      vec3( -size,  size, -size ),  # v4
+      vec3(  size,  size, -size ),  # v5
+      vec3(  size,  size,  size ),  # v6
+      vec3( -size,  size,  size ),  # v7
+      ], # << pos
+    color: @[#r   g    b    a
+      vec4( 1, 0, 0, 1 ),  # v0
+      vec4( 0, 1, 0, 1 ),  # v1
+      vec4( 1, 0, 1, 1 ),  # v2
+      vec4( 1, 1, 0, 1 ),  # v3
+      vec4( 1, 0, 1, 1 ),  # v4
+      vec4( 1, 1, 0, 1 ),  # v5
+      vec4( 1, 1, 1, 1 ),  # v6
+      vec4( 1, 1, 1, 1 ),  # v7
+      ], # << color
+    uv: @[#  u    v
+      # NOTE: Incorrect (just placeholders)
+      vec2( 1, 0 ),  # v0
+      vec2( 0, 1 ),  # v1
+      vec2( 1, 1 ),  # v2
+      vec2( 0, 0 ),  # v3
+      vec2( 1, 0 ),  # v4
+      vec2( 0, 1 ),  # v5
+      vec2( 1, 1 ),  # v6
+      vec2( 0, 0 ),  # v7
+      ], # << uv
+    norm: @[
+      # NOTE: Incorrect (just placeholders)
+      vec3( 1, 0, 0 ),  # v0
+      vec3( 0, 1, 0 ),  # v1
+      vec3( 1, 0, 1 ),  # v2
+      vec3( 1, 1, 0 ),  # v3
+      vec3( 1, 0, 1 ),  # v4
+      vec3( 1, 1, 0 ),  # v5
+      vec3( 1, 1, 1 ),  # v6
+      vec3( 1, 1, 1 ),  # v7
+      ], # << norm
+    inds: @[
+      uvec3(0, 1, 2), uvec3(0, 2, 3),  # Bottom face
+      uvec3(4, 5, 6), uvec3(4, 6, 7),  # Top    face
+      uvec3(3, 2, 6), uvec3(3, 6, 7),  # Front  face
+      uvec3(1, 0, 4), uvec3(1, 4, 5),  # Back   face
+      uvec3(3, 0, 7), uvec3(0, 7, 4),  # Left   face
+      uvec3(2, 1, 6), uvec3(1, 6, 5),  # Right  face
+      ] # << inds
+    ) # << Mesh()
+  result.check()
+#__________________
+proc genPyramid *() :Mesh=
+  ## Generates a Pyramid mesh with Deinterleaved vertex attributes
+  result = Mesh(
+    pos: @[
+      vec3(-1.0, -5.0, -1.0),  # Base0
+      vec3( 1.0, -5.0, -1.0),  # Base1
+      vec3( 1.0, -5.0,  1.0),  # Base2
+      vec3(-1.0, -5.0,  1.0),  # Base3
+      vec3( 0.5, -7.0,  0.5),  # Top
+      ], # << pos
+    uv: @[#  u    v
+      # NOTE: Incorrect (just placeholders)
+      vec2( 0, 0 ),  # v0
+      vec2( 0, 0 ),  # v1
+      vec2( 0, 0 ),  # v2
+      vec2( 0, 0 ),  # v3
+      vec2( 1, 1 ),  # v4
+      ], # << uv
+    norm: @[
+      vec3( 0, -1, 0 ),  # v0
+      vec3( 0, -1, 0 ),  # v1
+      vec3( 0, -1, 0 ),  # v2
+      vec3( 0, -1, 0 ),  # v3
+      vec3( 0,  1, 0 ),  # v4
+      ], # << norm
+
+    color: @[
+      vec4(1.0, 1.0, 1.0, 1.0),
+      vec4(1.0, 1.0, 1.0, 1.0),
+      vec4(1.0, 1.0, 1.0, 1.0),
+      vec4(1.0, 1.0, 1.0, 1.0),
+      vec4(0.5, 0.5, 0.5, 1.0),
+      ], # << color
+    inds: @[
+      uvec3(0, 1, 2), uvec3(0, 2, 3),  # Base
+      uvec3(0, 1, 4), uvec3(1, 2, 4), uvec3(2, 3, 4), uvec3(3, 0, 4),  # Sides
+      ], # << inds
+    ) # << Mesh()
+  result.check()
 
 #_______________________________________
 # wgpu : Coordinate Systems
