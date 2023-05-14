@@ -208,6 +208,7 @@ proc run=
   #__________________
   # Init Window
   echo "Hello Multi-Mesh"
+  echo "wgpu : Initializing version: ",wgpu.getVersion()
   window.init()
   #__________________
   # Set wgpu.Logging

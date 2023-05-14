@@ -15,17 +15,11 @@ They follow the structure of [Learn WebGPU C++](https://eliemichel.github.io/Lea
 It's the best newbie-friendly tutorial out there for wgpu, and it doesn't require knowing TypeScript or Rust.  
 
 ## Current state and todo
-- [ ] Features
-  - [x] Partial  _see the `./examples` folder_
-  - [ ] Complete
-- [x] Linux suppport 
+- [x] Full Wrapper for wgpu-native v0.16
+- [x] Linux suppport
 - [ ] Windows support
 - [x] Mac support
-
-For better reference, see:
-- The [examples](./examples) folder, for what the library can currently do.  
-- The [todo.nim](src/wgpu/todo.nim) file, for an overview of whats left of `webgpu.h` to wrap.  
-
+- [ ] Web support (wasm with emscripten) (note: low prio)
 
 ## Build Info
 ### Requirements

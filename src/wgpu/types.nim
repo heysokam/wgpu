@@ -35,14 +35,6 @@ type SType *{.pure, size: sizeof(int32).}= enum
 template supportedLimitsExtras *(_ :typedesc[SType]) :auto=  SType 0x60000003  # repeat of SType.requiredLimitsExtras
 
 
-# type Feature *{.pure, size: sizeof(int32).}= enum
-#   ## WGPUNativeFeature
-#   pushConstants  = 0x60000001
-#   textureAdapter_SpecificFormatFeatures
-#   multiDrawIndirect
-#   multiDrawIndirect_count
-#   vertexWritableStorage
-
 type LogLevel *{.pure, size: sizeof(int32).}= enum
   off, error, warn, info, debug, trace
 
@@ -382,6 +374,20 @@ type Feature *{.pure, size: sizeof(int32).}= enum
   multiDrawIndirect_count
   vertexWritableStorage
 
+type AdapterType *{.pure, size: sizeof(int32).}= enum
+  discreteGPU, integratedGPU, CPU, unknown
+
+type AdapterProperties *{.bycopy.}= object
+  nextInChain       *:ptr ChainedStructOut
+  vendorID          *:uint32
+  vendorName        *:cstring
+  architecture      *:cstring
+  deviceID          *:uint32
+  name              *:cstring
+  driverDescription *:cstring
+  adapterType       *:AdapterType
+  backendType       *:BackendType
+
 #___________________
 # Queue
 type QueueWorkDoneStatus *{.pure, size: sizeof(int32).}= enum
@@ -599,6 +605,13 @@ type PipelineLayoutDescriptor *{.bycopy.}= object
   bindGroupLayoutCount *:uint32
   bindGroupLayouts     *:ptr BindGroupLayout
 
+type PipelineStatisticName *{.pure, size: sizeof(int32).}= enum
+  vertexShaderInvocations, clipperInvocations, clipperPrimitivesOut, fragmentShaderInvocations, computeShaderInvocations,
+
+type PrimitiveDepthClipControl *{.bycopy.}= object
+  chain          *:ChainedStruct
+  unclippedDepth *:bool
+
 #___________________
 # SwapChain
 type TextureUsage *{.pure, size: sizeof(int32).}= enum
@@ -676,6 +689,11 @@ type RenderPassDescriptor *{.bycopy.}= object
   timestampWriteCount     *:uint32
   timestampWrites         *:ptr RenderPassTimestampWrite
 
+type RenderPassDescriptorMaxDrawCount *{.bycopy.}= object
+  chain        *:ChainedStruct
+  maxDrawCount *:uint64
+
+#___________________
 # Buffer Objects
 type BufferUsage *{.pure, size: sizeof(int32).}= enum
   mapRead,  mapWrite
@@ -734,7 +752,7 @@ type BindGroupDescriptor *{.bycopy.}= object
 type BufferBindingType *{.pure, size: sizeof(int32).}= enum
   undefined, uniform, storage, readOnlyStorage
 
-type BufferBindingLayout* {.bycopy.} = object
+type BufferBindingLayout *{.bycopy.}= object
   nextInChain      *:ptr ChainedStruct
   typ              *:BufferBindingType
   hasDynamicOffset *:bool
@@ -836,7 +854,7 @@ type TextureViewDescriptor *{.bycopy.}= object
   arrayLayerCount *:uint32
   aspect          *:TextureAspect
 
-type ImageCopyTexture* {.bycopy.} = object
+type ImageCopyTexture *{.bycopy.}= object
   nextInChain *:ptr ChainedStruct
   texture     *:Texture
   mipLevel    *:uint32
@@ -848,6 +866,12 @@ type TextureDataLayout *{.bycopy.}= object
   offset       *:uint64
   bytesPerRow  *:uint32
   rowsPerImage *:uint32
+
+type ImageCopyBuffer *{.bycopy.}= object
+  nextInChain *:ptr ChainedStruct
+  layout      *:TextureDataLayout
+  buffer      *:Buffer
+
 
 type AddressMode *{.pure, size: sizeof(int32).}= enum
   repeat, mirrorRepeat, clampToEdge
@@ -872,9 +896,43 @@ type SamplerDescriptor *{.bycopy.}= object
   compare       *:CompareFunction
   maxAnisotropy *:uint16
 
+type TextureComponentType *{.pure, size: sizeof(int32).}= enum
+  Float, Sint, Uint, DepthComparison
 
+#____________________________________________________
+# QuerySet
+type QueryType *{.pure, size: sizeof(int32).}= enum
+  occlusion, pipelineStatistics, timestamp
 
+type QuerySetDescriptor *{.bycopy.}= object
+  nextInChain             *:ptr ChainedStruct
+  label                   *:cstring
+  typ                     *:QueryType
+  count                   *:uint32
+  pipelineStatistics      *:ptr PipelineStatisticName
+  pipelineStatisticsCount *:uint32
 
+#____________________________________________________
+# RenderBundle
+type RenderBundleDescriptor *{.bycopy.}= object
+  nextInChain *:ptr ChainedStruct
+  label       *:cstring
+
+type RenderBundleEncoderDescriptor *{.bycopy.}= object
+  nextInChain        *:ptr ChainedStruct
+  label              *:cstring
+  colorFormatsCount  *:uint32
+  colorFormats       *:ptr TextureFormat
+  depthStencilFormat *:TextureFormat
+  sampleCount        *:uint32
+  depthReadOnly      *:bool
+  stencilReadOnly    *:bool
+
+#____________________________________________________
+# Not Used
+#___________________
+# include ./dynamic
+# include ./undefined
 
 #____________________________________________________
 # unimplemented.rs Requirements
@@ -893,9 +951,6 @@ type ComputePipelineDescriptor *{.bycopy.}= object
   label       *:cstring
   layout      *:PipelineLayout
   compute     *:ProgrammableStageDescriptor
-
-type QueryType *{.pure, size: sizeof(int32).}= enum
-  occlusion, pipelineStatistics, timestamp
 
 type CompilationInfoRequestStatus *{.pure, size: sizeof(int32).}= enum
   success, error, deviceLost, unknown
