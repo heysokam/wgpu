@@ -243,12 +243,9 @@ type SurfaceCapabilities * = object
 
 type SwapChainDescriptorExtras * = object
   chain            *:ChainedStruct
-  alphaMode        *:CompositeAlphaMode
+  alphaMode        *:CompositeAlphaMode  ## For when the window is transparent
   viewFormatCount  *:csize_t
-  viewFormats      *:ptr TextureFormat
-
-type LogCallback * = proc (level :LogLevel; message :cstring; userdata :pointer) {.cdecl.}
-
+  viewFormats      *:ptr TextureFormat   ## List of Texture view formats that the SwapChain can have (might be different than the underlying texture)
 
 #_______________________________________
 # webgpu.h
@@ -537,10 +534,10 @@ type DepthStencilState *{.bycopy.}= object
   depthBiasClamp       *:cfloat
 
 type MultisampleState *{.bycopy.}= object
-  nextInChain             *: ptr ChainedStruct
-  count                   *: uint32
-  mask                    *: uint32
-  alphaToCoverageEnabled  *: bool
+  nextInChain             *:ptr ChainedStruct
+  count                   *:uint32
+  mask                    *:uint32
+  alphaToCoverageEnabled  *:bool
 
 type BlendOperation *{.pure, size: sizeof(int32).}= enum
   Add, subtract, reverseSubtract
@@ -730,7 +727,7 @@ template none *(_ :typedesc[MapMode]) :auto=  {}
 
 #____________________________________________________
 type TextureDimension *{.pure, size: sizeof(int32).}= enum
-  dim1D, dim2D, dim3D  # Cannot start with number :_(
+  dim1D, dim2D, dim3D  # Names cannot start with number :_(
 
 # BindGroups
 type BindGroupEntry *{.bycopy.}= object
@@ -927,6 +924,17 @@ type RenderBundleEncoderDescriptor *{.bycopy.}= object
   sampleCount        *:uint32
   depthReadOnly      *:bool
   stencilReadOnly    *:bool
+
+#____________________________________________________
+# Callbacks
+#___________________
+type LogCallback            * = proc (level :LogLevel; message :cstring; userdata :pointer) {.cdecl.}
+type BufferMapCallback      * = proc (status :BufferMapAsyncStatus; userdata :pointer) :void {.cdecl.}
+type ErrorCallback          * = proc (typ :ErrorType; message :cstring; userdata :pointer) :void {.cdecl.}
+type DeviceLostCallback     * = proc (reason :DeviceLostReason; message :cstring; userdata :pointer) :void {.cdecl.}
+type RequestAdapterCallback * = proc (status :RequestAdapterStatus; adapter :Adapter; message :cstring; userdata :pointer) :void {.cdecl.}
+type RequestDeviceCallback  * = proc (status :RequestDeviceStatus; device :Device; message :cstring; userdata :pointer) :void {.cdecl.}
+
 
 #____________________________________________________
 # Not Used

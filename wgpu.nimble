@@ -1,12 +1,12 @@
 #:____________________________________________________
 #  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
 #:____________________________________________________
-include src/wgpu/nimble
+include wgpu/nimble
 
 #___________________
 # Package
 packageName   = "wgpu"
-version       = "0.16.1"  # First two numbers in sync with wgpu-native
+version       = "0.16.2"  # First two numbers in sync with wgpu-native
 author        = "sOkam"
 description   = "Native WebGPU for Nim"
 license       = "MIT"

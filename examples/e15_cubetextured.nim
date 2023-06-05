@@ -29,7 +29,7 @@ proc key (win :glfw.Window; key, code, action, mods :cint) :void {.cdecl.}=
   let hold = action == glfw.Press or action == glfw.Repeat
   let rls  = action == glfw.Release
   if key == glfw.KeyEscape and action == glfw.Press:
-    glfw.setWindowShouldClose(win, true.cint)
+    glfw.setWindowShouldClose(win, true)
   # Input manager: Update state
   case key
   of glfw.KeyW:

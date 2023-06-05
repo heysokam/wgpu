@@ -5,6 +5,7 @@ Names that clash with nim keywords have been shortened, but start with a capital
 - `float`, `float32`, `uint`, `uint16` and `uint32` are...
   `Float`, `Float32`, `Uint`, `Uint16` and `Uint32` when they have no suffix
 - `type` is always `typ` or `kind`.
+-  `min`, `max` are always `Min`, `Max` when they have no suffix
 
 Names that start with numbers are illegal in Nim, so these are changed:
 - `1D`, `2D` and `3D` become `dim1D`, `dim2D`, `dim3D`

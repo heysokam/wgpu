@@ -27,7 +27,7 @@ type Window * = object
 proc key (win :glfw.Window; key, code, action, mods :cint) :void {.cdecl.}=
   ## GLFW Keyboard Input Callback
   if (key == glfw.KeyEscape and action == glfw.Press):
-    glfw.setWindowShouldClose(win, true.cint)
+    glfw.setWindowShouldClose(win, true)
 #__________________
 proc close  (win :Window) :bool=  glfw.windowShouldClose(win.ct).bool
   ## Returns true when the GLFW window has been marked to be closed.
