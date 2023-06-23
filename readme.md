@@ -2,7 +2,7 @@
 # wgpu wrapper for Nim
 Handmade wgpu-native wrapper, with an automated buildsystem.  
 
-If you want a 3D rendering library, consider using @[heysokam/ngpu](https://github.com/heysokam/wgpu) instead,  
+If you want a 3D rendering library, consider using @[heysokam/ngpu](https://github.com/heysokam/ngpu) instead,  
 which is built using this exact same API.  
 
 ## How to
