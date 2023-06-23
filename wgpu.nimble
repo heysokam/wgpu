@@ -1,30 +1,70 @@
 #:____________________________________________________
 #  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
 #:____________________________________________________
-include wgpu/nimble
+import std/os
+import std/strformat
+import std/strutils
 
 #___________________
 # Package
 packageName   = "wgpu"
-version       = "0.16.2"  # First two numbers in sync with wgpu-native
+version       = "0.16.3"  # First two numbers in sync with wgpu-native
 author        = "sOkam"
-description   = "Native WebGPU for Nim"
+description   = "Native WebGPU for Nim | wgpu-native"
 license       = "MIT"
+
+#_____________________________
+# Folders
 #___________________
-# wgpu specific nimble config
-skipdirs      = @[binDir, examplesDir, testsDir, docDir]  # Tell nimble what folders to skip in the package
+srcDir           = "src"
+binDir           = "bin"
+var testsDir     = "tests"
+var examplesDir  = "examples"
+var docDir       = "doc"
 
+#_____________________________
+# Headers setup
+#___________________
+let Cdir         = srcDir/"wgpu"/"C"   # Internal folder where the header files will be stored
+var wgpuDir      = Cdir/"wgpu-native"  # Folder where the wgpu submodule is stored.
 
+#_____________________________
+# Build requirements
+#___________________
+requires "nim >= 1.6.12"
 #___________________
 # TODO: Remove from the wgpu bindings
 #     : Should be taskRequires instead, only used in the examples
 #     : Depends on Nim2.0 becoming stable
+requires "https://github.com/heysokam/nstd"  ## Nim stdlib extension
+requires "https://github.com/heysokam/nglfw" ## For window creation. GLFW bindings, without dynamic libraries required
 requires "vmath"
 
-#___________________
-task tut, " Builds the latest/current wip tutorial app.":  runExample "tut"
-task app1, "Builds the Frambuffer app.": runExample "app_framebuffer"
 
+#________________________________________
+# Helpers
+#___________________
+const vlevel = when defined(debug): 2 else: 1
+let nimcr  = &"nimble c -r --verbose --verbosity:{vlevel} --outdir:{binDir}"
+  ## Compile and run, outputting to binDir
+proc runFile (file, dir :string) :void=  exec &"{nimcr} {dir/file}"
+  ## Runs file from the given dir, using the nimcr command
+proc runTest (file :string) :void=  file.runFile(testsDir)
+  ## Runs the given test file. Assumes the file is stored in the default testsDir folder
+proc runExample (file :string) :void=  file.runFile(examplesDir)
+  ## Runs the given test file. Assumes the file is stored in the default testsDir folder
+
+#________________________________________
+# Build tasks
+#___________________
+task git, " Internal:  Updates the wgpu-native submodule.":
+  exec "git submodule update --recursive src/wgpu/C/wgpu-native"
+#___________________
+task push, "Internal:  Pushes the git repository, and orders to create a new git tag for the package, using the latest version.":
+  ## Does nothing when local and remote versions are the same.
+  requires "https://github.com/beef331/graffiti.git"
+  exec "git push"  # Requires local auth
+  exec "graffiti ./confy.nimble"
 #___________________
 # Build the examples binaries
 task hello, "    Example 00:  hellowindow."                     : runExample "e00_hellowgpu"
@@ -44,5 +84,24 @@ task depth, "    Example 13:  simple depth buffer attachment."  : runExample "e1
 task camera, "   Example 14:  simple 3D camera controller."     : runExample "e14_hellocamera"
 task uvs, "      Example 15:  cube textured using its UVs."     : runExample "e15_cubetextured"
 task instance, " Example 16:  cube instanced 100 times."        : runExample "e16_cubeinstanced"
-task multimesh, "Example 16:  multi-mesh. cubes + pyramid."     : runExample "e17_multimesh"
+task multimesh, "Example 17:  multi-mesh. cubes + pyramid."     : runExample "e17_multimesh"
+task tut, "      Example WIP: Builds the latest/current wip tutorial app.": runExample "tut"
+#___________________
+# Build the demo apps
+task app1, "     App 01: Builds the Framebuffer app.": runExample "app_framebuffer"
+#___________________
+# Reference Task
+task lib, "      Reference-only: Builds the wgpu-native library in both release and debug modes":
+  # Note: This is automatically done by the buildsystem, without running this task. Only here for reference.
+  exec "nimble git"
+  withDir wgpuDir:
+    exec "make lib-native"
+    exec "make lib-native-release"
+    # Fix the static linking mess of clang+mac
+    when defined(macosx):
+      let rlsDir = "./target/release"
+      let dbgDir = "./target/debug"
+      let file   = "libwgpu_native.a"
+      if fileExists( rlsDir/file ):  cpFile rlsDir/file, rlsDir/"libwgpu_native_static.a"
+      if fileExists( dbgDir/file ):  cpFile dbgDir/file, dbgDir/"libwgpu_native_static.a"
 

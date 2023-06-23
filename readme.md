@@ -1,12 +1,13 @@
+![wgpu](./doc/res/gh_banner.png)
 # wgpu wrapper for Nim
 Handmade wgpu-native wrapper, with an automated buildsystem.  
 
-If you want a 3D rendering library, consider using `heysokam/ngpu` instead,  
+If you want a 3D rendering library, consider using @[heysokam/ngpu](https://github.com/heysokam/wgpu) instead,  
 which is built using this exact same API.  
 
 ## How to
-1. Install requirements: `rust`, `cmake`, `git`, `nim`  
-2. Install the bindings with `nimble install https://github.com/heysokam/wgpu`  
+1. Install requirements: `rust`, `git`, `nim`  
+2. Install the bindings with `nimble install https://github.com/heysokam/wgpu`, or add them to your project's nimble file  
 3. Use `import wgpu` to access the wgpu bindings.  
 
 See the [examples](./examples) folder for how wgpu implementations work.  
@@ -22,11 +23,12 @@ It's the best newbie-friendly tutorial out there for wgpu, and it doesn't requir
 - [ ] Web support (wasm with emscripten) (note: low prio)
 
 ## Build Info
-### Requirements
 ```md
-nim, nimble  # For compiling the wrapper
-rust, cargo  # For compiling wgpu-native
-glfw         # For window creation with GLFW3
+# Requirements  (manually installed by the user)
+nim   # For compiling the wrapper
+rust  # For compiling wgpu-native
+# Dependencies  (automatically installed by the lib)
+heysokam/nglfw  # window surface creation is done with GLFW
 ```
 
 ### Static Linking
