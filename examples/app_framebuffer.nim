@@ -98,7 +98,7 @@ proc run=
 
   #__________________
   # Set wgpu.Logging
-  wgpu.setLogCallback(logCB, nil)
+  wgpu.set(logCB, nil)
   wgpu.set LogLevel.warn
   #__________________
   # Init wgpu
@@ -107,15 +107,17 @@ proc run=
   var adapterOpts  = RequestAdapterOptions(
     compatibleSurface : surface,
     powerPreference   : PowerPreference.highPerformance,
+    backendType       : BackendType.undefined,
     )
-  var adapter :wgpu.Adapter;  instance.requestAdapter(adapterOpts.addr, adapterRequestCB, adapter.addr)
+  var adapter :wgpu.Adapter;  instance.request(adapterOpts.addr, adapterRequestCB, adapter.addr)
   var deviceDesc = DeviceDescriptor(
-    label        : "Framebuffer Device".cstring,
-    defaultQueue : QueueDescriptor(label: "Framebuffer Queue".cstring)
+    label              : "Framebuffer Device".cstring,
+    defaultQueue       : QueueDescriptor(label: "Framebuffer Queue".cstring)
+    deviceLostCallback : deviceLostCB,
+    deviceLostUserdata : nil,
     )
   var device :wgpu.Device; adapter.request(deviceDesc.addr, deviceRequestCB, device.addr)
-  device.setUncapturedErrorCallback(errorCB, nil)
-  device.setDeviceLostCallback(deviceLostCB, nil)
+  device.set(errorCB, nil)
   var shaderDesc      = shaderCode.wgslToDescriptor(label = "FramebufferShader")
   let shader          = device.create(shaderDesc.addr)
   let swapchainFormat = surface.getPreferredFormat(adapter)
@@ -198,7 +200,7 @@ proc run=
     renderPass.set(pipeline)
     renderPass.draw(3,1,0,0)  # vertexCount, instanceCount, firstVertex, firstInstance
     renderPass.End()
-    nextTexture.drop()
+    nextTexture.release()
     # Submit the Rendering Queue, and present it to the surface
     var queue     = device.getQueue()
     var cmdBuffer = encoder.finish(vaddr CommandBufferDescriptor())

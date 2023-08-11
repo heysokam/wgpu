@@ -8,7 +8,7 @@ import std/strutils
 #___________________
 # Package
 packageName   = "wgpu"
-version       = "0.16.0.3"  # First three numbers in sync with wgpu-native
+version       = "0.17.2.0"  # First three numbers in sync with wgpu-native
 author        = "sOkam"
 description   = "Native WebGPU for Nim | wgpu-native"
 license       = "MIT"
@@ -31,19 +31,13 @@ var wgpuDir      = Cdir/"wgpu-native"  # Folder where the wgpu submodule is stor
 #_____________________________
 # Build requirements
 #___________________
-requires "nim >= 1.6.12"
-#___________________
-# TODO: Remove from the wgpu bindings
-#     : Should be taskRequires instead, only used in the examples
-#     : Depends on Nim2.0 becoming stable
-requires "https://github.com/heysokam/nglfw" ## For window creation. GLFW bindings, without dynamic libraries required
-
+requires "nim >= 2.0.0"
 
 #________________________________________
 # Helpers
 #___________________
 const vlevel = when defined(debug): 2 else: 1
-let nimcr  = &"nimble c -r --verbose --verbosity:{vlevel} --outdir:{binDir}"
+let nimcr  = &"nim c -r --verbosity:{vlevel} --outdir:{binDir}"
   ## Compile and run, outputting to binDir
 proc runFile (file, dir :string) :void=  exec &"{nimcr} {dir/file}"
   ## Runs file from the given dir, using the nimcr command
@@ -51,12 +45,20 @@ proc runTest (file :string) :void=  file.runFile(testsDir)
   ## Runs the given test file. Assumes the file is stored in the default testsDir folder
 proc runExample (file :string) :void=  file.runFile(examplesDir)
   ## Runs the given test file. Assumes the file is stored in the default testsDir folder
+template example (name :untyped; descr,file :static string)=
+  ## Generates a task to build+run the given example
+  let sname = astToStr(name)  # string name
+  taskRequires sname, "https://github.com/heysokam/nglfw" ## For window creation. GLFW bindings, without dynamic libraries required
+  taskRequires sname, "vmath"                             ## Vector math library.
+  task name, descr:
+    runExample file
 
 #________________________________________
 # Build tasks
 #___________________
-task git, " Internal:  Updates the wgpu-native submodule.":
-  exec "git submodule update --recursive src/wgpu/C/wgpu-native"
+task git, "Internal:  Updates the wgpu-native submodule.":
+  withDir wgpuDir:
+    exec "git pull --recurse-submodules origin trunk"
 #___________________
 task push, "Internal:  Pushes the git repository, and orders to create a new git tag for the package, using the latest version.":
   ## Does nothing when local and remote versions are the same.
@@ -65,25 +67,25 @@ task push, "Internal:  Pushes the git repository, and orders to create a new git
   exec &"graffiti ./{packageName}.nimble"
 #___________________
 # Build the examples binaries
-task hello,      "Example 00:  hellowindow."                     : runExample "e00_hellowgpu"
-task clear,      "Example 01:  helloclear."                      : runExample "e01_helloclear"
-task triangle,   "Example 02:  hellotriangle."                   : runExample "e02_hellotriangle"
-task buffer,     "Example 03:  hellobuffer."                     : runExample "e03_hellobuffer"
-task compute,    "Example 04:  hellocompute."                    : runExample "e04_hellocompute"
-task triangle2,  "Example 05:  simple buffered triangle."        : runExample "e05_trianglebuffered1"
-task triangle3,  "Example 06:  multi-buffered triangle."         : runExample "e06_trianglebuffered2"
-task triangle4,  "Example 07:  indexed multi-buffered triangle." : runExample "e07_trianglebuffered3"
-task uniform,    "Example 08:  single uniform."                  : runExample "e08_hellouniform"
-task struct,     "Example 09:  uniform struct."                  : runExample "e09_uniformstruct"
-# task dynamic,    "Example 10:  uniform struct."                  : runExample "e10_dynamicuniform"
-task texture,    "Example 11:  simple byte texture."             : runExample "e11_hellotexture"
-task texture2,   "Example 12:  sampled byte texture."            : runExample "e12_sampledtexture"
-task depth,      "Example 13:  simple depth buffer attachment."  : requires "vmath"; runExample "e13_hellodepth"
-task camera,     "Example 14:  simple 3D camera controller."     : runExample "e14_hellocamera"
-task uvs,        "Example 15:  cube textured using its UVs."     : runExample "e15_cubetextured"
-task instance,   "Example 16:  cube instanced 100 times."        : runExample "e16_cubeinstanced"
-task multimesh,  "Example 17:  multi-mesh. cubes + pyramid."     : runExample "e17_multimesh"
-task tut,        "Example WIP: Builds the latest/current wip tutorial app.": runExample "tut"
+example wip,       "Example WIP: Builds the current wip example.",  "wip"
+example hello,     "Example 00:  hellowindow.",                     "e00_hellowgpu"
+example clear,     "Example 01:  helloclear.",                      "e01_helloclear"
+example triangle,  "Example 02:  hellotriangle.",                   "e02_hellotriangle"
+example buffer,    "Example 03:  hellobuffer.",                     "e03_hellobuffer"
+example compute,   "Example 04:  hellocompute.",                    "e04_hellocompute"
+example triangle2, "Example 05:  simple buffered triangle.",        "e05_trianglebuffered1"
+example triangle3, "Example 06:  multi-buffered triangle.",         "e06_trianglebuffered2"
+example triangle4, "Example 07:  indexed multi-buffered triangle.", "e07_trianglebuffered3"
+example uniform,   "Example 08:  single uniform.",                  "e08_hellouniform"
+example struct,    "Example 09:  uniform struct.",                  "e09_uniformstruct"
+# example dynamic,   "Example 10:  uniform struct.",                  "e10_dynamicuniform"
+example texture,   "Example 11:  simple byte texture.",             "e11_hellotexture"
+example texture2,  "Example 12:  sampled byte texture.",            "e12_sampledtexture"
+example depth,     "Example 13:  simple depth buffer attachment.",  "e13_hellodepth"
+example camera,    "Example 14:  simple 3D camera controller.",     "e14_hellocamera"
+example uvs,       "Example 15:  cube textured using its UVs.",     "e15_cubetextured"
+example instance,  "Example 16:  cube instanced 100 times.",        "e16_cubeinstanced"
+example multimesh, "Example 17:  multi-mesh. cubes + pyramid.",     "e17_multimesh"
 #___________________
 # Build the demo apps
 task app1, "App 01: Builds the Framebuffer app.": runExample "app_framebuffer"

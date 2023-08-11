@@ -12,6 +12,8 @@ import std/os
 from   pkg/nglfw as glfw import nil
 # Module dependencies
 import wgpu
+# Example Extensions
+import ./extras  # In a real app, these should be coming from external libraries
 
 
 #________________________________________________
@@ -183,7 +185,7 @@ proc run=
 
   #__________________
   # Set wgpu.Logging
-  wgpu.setLogCallback(logCB, nil)
+  wgpu.set(logCB, nil)
   wgpu.set LogLevel.warn
   #__________________
   # Init wgpu
@@ -194,9 +196,10 @@ proc run=
     nextInChain           : nil,
     compatibleSurface     : surface,
     powerPreference       : PowerPreference.highPerformance,
+    backendType           : BackendType.undefined,
     forceFallbackAdapter  : false,
     )
-  var adapter :wgpu.Adapter;  instance.requestAdapter(adapterOpts.addr, adapterRequestCB, adapter.addr)
+  var adapter :wgpu.Adapter;  instance.request(adapterOpts.addr, adapterRequestCB, adapter.addr)
   doAssert adapter != nil, "wgpu.Adapter could not be requested."
 
   # Set the limits that we require for this example
@@ -219,11 +222,12 @@ proc run=
       nextInChain            : nil,
       label                  : "Hello Default Queue"
       ), # << defaultQueue
+    deviceLostCallback     : deviceLostCB,
+    deviceLostUserdata     : nil,
     ) # << deviceDesc
   var device :wgpu.Device; adapter.request(deviceDesc.addr, deviceRequestCB, device.addr)
   doAssert device != nil, "wgpu.Device could not be requested."
-  device.setUncapturedErrorCallback(errorCB, nil)
-  device.setDeviceLostCallback(deviceLostCB, nil)
+  device.set(errorCB, nil)
 
   # Read the vertex attributes and buffers limits of the system
   echo ":: Supported limits:   (after setting RequiredLimits)"
@@ -460,7 +464,7 @@ proc run=
     renderPass.draw(triangle.indsCount, 1,0,0,0)  # vertexCount, instanceCount, firstVertex, baseVertex, firstInstance
     # Continue as before
     renderPass.End()
-    nextTexture.drop()
+    nextTexture.release()
     # Submit the Rendering Queue, and present it to the surface
     var cmdBuffer = encoder.finish(vaddr CommandBufferDescriptor(
       nextInChain : nil,

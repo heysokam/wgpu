@@ -125,14 +125,15 @@ proc features *(adapter :Adapter) :seq[Feature]=
 proc capabilities *(surface :Surface; adapter :Adapter
   ) :tuple[textureFormats:seq[TextureFormat], presentModes:seq[PresentMode], alphaModes:seq[CompositeAlphaMode]]=
   ## Returns the capabilities supported by the surface as a tuple of (seq[textureFormats], seq[presentModes], seq[alphaModes])
-  var caps = SurfaceCapabilities()
+  {.warning: "Getting capabilities from a surface is currently broken for an unknown reason. Needs fixing.".}
+  var caps :SurfaceCapabilities
   surface.get(adapter, caps.addr)
   var formats       = newSeqWith[TextureFormat](caps.formatCount.int, TextureFormat 0)
   var presents      = newSeqWith[PresentMode](caps.presentModeCount.int, PresentMode 0)
   var alphas        = newSeqWith[CompositeAlphaMode](caps.alphaModeCount.int, CompositeAlphaMode 0)
-  caps.formats      = formats[0].addr
-  caps.presentModes = presents[0].addr
-  caps.alphaModes   = alphas[0].addr
+  if formats.len  > 0: caps.formats      = formats[0].addr
+  if presents.len > 0: caps.presentModes = presents[0].addr
+  if alphas.len   > 0: caps.alphaModes   = alphas[0].addr
   surface.get(adapter, caps.addr)
   result = (formats, presents, alphas)
 
@@ -151,7 +152,7 @@ proc wgslToDescriptor *(code, label :string) :ShaderModuleDescriptor=
     label       : label.cstring,
     hintCount   : 0,
     hints       : nil,
-    )
+    ) # << ShaderModuleDescriptor( ... )
 
 #___________________
 # ShaderModuleDescriptor wgslFileToDescriptor(const char* src);

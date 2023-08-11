@@ -11,6 +11,8 @@ import std/os
 from pkg/nglfw as glfw import nil
 # Module dependencies
 import wgpu
+# Example Extensions
+import ./extras  # In a real app, these should be coming from external libraries
 
 #__________________
 # WGPU callbacks
@@ -51,15 +53,16 @@ proc run=
 
   #__________________
   # Set wgpu.Logging
-  wgpu.setLogCallback(logCB, nil)
+  wgpu.set(logCB, nil)
   wgpu.set LogLevel.warn
   #__________________
   # Init wgpu
   var instance = wgpu.create(wgpu.InstanceDescriptor(nextInChain: nil).vaddr)
-  var adapter :wgpu.Adapter;  instance.requestAdapter(vaddr RequestAdapterOptions(
+  var adapter :wgpu.Adapter;  instance.request(vaddr RequestAdapterOptions(
       nextInChain           : nil,
       compatibleSurface     : nil,
       powerPreference       : PowerPreference.highPerformance,
+      backendType           : BackendType.undefined,
       forceFallbackAdapter  : false,
       ), # << RequestAdapterOptions
     adapterRequestCB, adapter.addr,
@@ -74,11 +77,12 @@ proc run=
         nextInChain          : nil,
         label                : "Hello Default Queue"
         ), # << defaultQueue
+      deviceLostCallback     : deviceLostCB,
+      deviceLostUserdata     : nil,
       ), # << DeviceDescriptor
     deviceRequestCB, device.addr
     ) # << adapter.requestDevice()
-  device.setUncapturedErrorCallback(errorCB, nil)
-  device.setDeviceLostCallback(deviceLostCB, nil)
+  device.set(errorCB, nil)
 
   #________________________________________________
   # NEW : Define the Buffer Objects

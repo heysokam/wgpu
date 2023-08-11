@@ -11,6 +11,8 @@ import std/os
 from   pkg/nglfw as glfw import nil
 # Module dependencies
 import wgpu
+# Example Extensions
+import ./extras  # In a real app, these should be coming from external libraries
 
 
 #________________________________________________
@@ -111,7 +113,7 @@ proc run=
 
   #__________________
   # Set wgpu.Logging
-  wgpu.setLogCallback(logCB, nil)
+  wgpu.set(logCB, nil)
   wgpu.set LogLevel.warn
   #__________________
   # Init wgpu
@@ -122,9 +124,10 @@ proc run=
     nextInChain           : nil,
     compatibleSurface     : surface,
     powerPreference       : PowerPreference.highPerformance,
+    backendType           : BackendType.undefined,
     forceFallbackAdapter  : false,
     )
-  var adapter :wgpu.Adapter;  instance.requestAdapter(adapterOpts.addr, adapterRequestCB, adapter.addr)
+  var adapter :wgpu.Adapter;  instance.request(adapterOpts.addr, adapterRequestCB, adapter.addr)
   doAssert adapter != nil, "wgpu.Adapter could not be requested."
   #__________________________________
   # NEW:
@@ -139,20 +142,21 @@ proc run=
 
   # 2. Create the device descriptor, with our custom limits
   var deviceDesc = DeviceDescriptor(
-    nextInChain              : nil,
-    label                    : "Hello Device",
-    requiredFeaturesCount    : 0,
-    requiredFeatures         : nil,
-    requiredLimits           : requiredLimits.addr,  # <-- Added for this example, the rest is the same
-    defaultQueue             : QueueDescriptor(
-      nextInChain            : nil,
-      label                  : "Hello Default Queue"
+    nextInChain            : nil,
+    label                  : "Hello Device",
+    requiredFeaturesCount  : 0,
+    requiredFeatures       : nil,
+    requiredLimits         : requiredLimits.addr,  # <-- Added for this example, the rest is the same
+    defaultQueue           : QueueDescriptor(
+      nextInChain          : nil,
+      label                : "Hello Default Queue"
       ), # << defaultQueue
+    deviceLostCallback     : deviceLostCB,
+    deviceLostUserdata     : nil,
     ) # << deviceDesc
   var device :wgpu.Device; adapter.request(deviceDesc.addr, deviceRequestCB, device.addr)
   doAssert device != nil, "wgpu.Device could not be requested."
-  device.setUncapturedErrorCallback(errorCB, nil)
-  device.setDeviceLostCallback(deviceLostCB, nil)
+  device.set(errorCB, nil)
 
   # 3. Read the vertex attributes and buffers limits of the system
   echo ":: Supported limits:   (after setting RequiredLimits)"
@@ -320,7 +324,7 @@ proc run=
 
     # OLD: Continue as before
     renderPass.End()
-    nextTexture.drop()
+    nextTexture.release()
     # Submit the Rendering Queue, and present it to the surface
     var cmdBuffer = encoder.finish(vaddr CommandBufferDescriptor(
       nextInChain : nil,

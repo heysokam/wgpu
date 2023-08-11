@@ -8,6 +8,8 @@ import std/strformat
 import std/os
 # Module dependencies
 import wgpu
+# Example Extensions
+import ./extras  # In a real app, these should be coming from external libraries
 
 
 #__________________
@@ -74,16 +76,15 @@ proc run=
 
   #__________________
   # Set wgpu.Logging
-  wgpu.setLogCallback(logCB, nil)
+  wgpu.set(logCB, nil)
   wgpu.set LogLevel.warn
 
   #__________________
   # Init wgpu
   var instance = wgpu.create(vaddr InstanceDescriptor(nextInChain: nil))
-  var adapter :wgpu.Adapter; instance.requestAdapter(nil, adapterRequestCB, adapter.addr)
+  var adapter :wgpu.Adapter; instance.request(nil, adapterRequestCB, adapter.addr)
   var device :wgpu.Device; adapter.request(nil, deviceRequestCB, device.addr)
-  device.setUncapturedErrorCallback(errorCB, nil)
-  device.setDeviceLostCallback(deviceLostCB, nil)
+  device.set(errorCB, nil)
 
   #__________________________________
   # 1. Create the compute shader
