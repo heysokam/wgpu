@@ -27,8 +27,6 @@ It's the best newbie-friendly tutorial out there for wgpu, and it doesn't requir
 # Requirements  (manually installed by the user)
 nim   # For compiling the wrapper
 rust  # For compiling wgpu-native
-# Dependencies  (automatically installed by the lib)
-heysokam/nglfw  # window surface creation is done with GLFW
 ```
 
 ### Static Linking
