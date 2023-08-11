@@ -15,9 +15,10 @@ import ./types
 #___________________
 {.push header: "webgpu-headers/webgpu.h".}
 # Instance
-proc create  *(descriptor :ptr InstanceDescriptor) :Instance {.importc: "wgpuCreateInstance".}
-proc create  *(instance :Instance; descriptor :ptr SurfaceDescriptor) :Surface {.importc: "wgpuInstanceCreateSurface".}
-proc request *(instance :Instance; options :ptr RequestAdapterOptions; callback :RequestAdapterCallback; userdata :pointer) :void {.importc: "wgpuInstanceRequestAdapter".}
+proc create    *(descriptor :ptr InstanceDescriptor) :Instance {.importc: "wgpuCreateInstance".}
+proc create    *(instance :Instance; descriptor :ptr SurfaceDescriptor) :Surface {.importc: "wgpuInstanceCreateSurface".}
+proc request   *(instance :Instance; options :ptr RequestAdapterOptions; callback :RequestAdapterCallback; userdata :pointer) :void {.importc: "wgpuInstanceRequestAdapter".}
+proc enumerate *(instance :Instance; options :ptr EnumerateAdapterOptions; adapters :ptr Adapter) :csize_t {.importc: "wgpuInstanceEnumerateAdapters".}
 
 # Adapter
 proc enumerate *(adapter :Adapter; features :ptr Feature) :csize_t {.importc: "wgpuAdapterEnumerateFeatures".}
@@ -27,26 +28,27 @@ proc get       *(adapter :Adapter; properties :ptr AdapterProperties) :void {.im
 proc has       *(adapter :Adapter; feature :Feature) :bool {.importc: "wgpuAdapterHasFeature".}
 
 # Device
-proc set       *(device :Device; callback :ErrorCallback; userdata :pointer) :void {.importc: "wgpuDeviceSetUncapturedErrorCallback".}
-proc set       *(device :Device; callback :DeviceLostCallback; userdata :pointer) :void {.importc: "wgpuDeviceSetDeviceLostCallback".}
-proc create    *(device :Device; descriptor :ptr ShaderModuleDescriptor) :ShaderModule {.importc: "wgpuDeviceCreateShaderModule".}
-proc create    *(device :Device; descriptor :ptr RenderPipelineDescriptor): RenderPipeline {.importc: "wgpuDeviceCreateRenderPipeline".}
-proc create    *(device :Device; descriptor :ptr ComputePipelineDescriptor) :ComputePipeline {.importc: "wgpuDeviceCreateComputePipeline".}
-proc create    *(device :Device; surface :Surface; descriptor :ptr SwapChainDescriptor) :SwapChain {.importc: "wgpuDeviceCreateSwapChain".}
-proc create    *(device :Device; descriptor :ptr CommandEncoderDescriptor) :CommandEncoder {.importc: "wgpuDeviceCreateCommandEncoder".}
-proc create    *(device :Device; descriptor :ptr BufferDescriptor) :Buffer {.importc: "wgpuDeviceCreateBuffer".}
-proc create    *(device :Device; descriptor :ptr BindGroupDescriptor) :BindGroup {.importc: "wgpuDeviceCreateBindGroup".}
-proc create    *(device :Device; descriptor :ptr PipelineLayoutDescriptor) :PipelineLayout {.importc: "wgpuDeviceCreatePipelineLayout".}
-proc create    *(device :Device; descriptor :ptr BindGroupLayoutDescriptor) :BindGroupLayout {.importc: "wgpuDeviceCreateBindGroupLayout".}
-proc create    *(device :Device; descriptor :ptr TextureDescriptor) :Texture {.importc: "wgpuDeviceCreateTexture".}
-proc create    *(device :Device; descriptor :ptr SamplerDescriptor) :Sampler {.importc: "wgpuDeviceCreateSampler".}
-proc create    *(device :Device; descriptor :ptr QuerySetDescriptor) :QuerySet {.importc:"wgpuDeviceCreateQuerySet".}
-proc create    *(device :Device; descriptor :ptr RenderBundleEncoderDescriptor) :RenderBundleEncoder {.importc:"wgpuDeviceCreateRenderBundleEncoder".}
-proc getQueue  *(device :Device) :Queue {.importc: "wgpuDeviceGetQueue".}
-proc get       *(device :Device; limits :ptr SupportedLimits) :bool {.importc: "wgpuDeviceGetLimits".}
-proc destroy   *(device :Device) :void {.importc: "wgpuDeviceDestroy".}
-proc enumerate *(device :Device; features :ptr Feature) :csize_t {.importc:"wgpuDeviceEnumerateFeatures".}
-proc has       *(device :Device; feature :Feature) :bool {.importc: "wgpuDeviceHasFeature".}
+proc set            *(device :Device; callback :ErrorCallback; userdata :pointer) :void {.importc: "wgpuDeviceSetUncapturedErrorCallback".}
+proc create         *(device :Device; descriptor :ptr ShaderModuleDescriptor) :ShaderModule {.importc: "wgpuDeviceCreateShaderModule".}
+proc create         *(device :Device; descriptor :ptr RenderPipelineDescriptor): RenderPipeline {.importc: "wgpuDeviceCreateRenderPipeline".}
+proc create         *(device :Device; descriptor :ptr ComputePipelineDescriptor) :ComputePipeline {.importc: "wgpuDeviceCreateComputePipeline".}
+proc create         *(device :Device; surface :Surface; descriptor :ptr SwapChainDescriptor) :SwapChain {.importc: "wgpuDeviceCreateSwapChain".}
+proc create         *(device :Device; descriptor :ptr CommandEncoderDescriptor) :CommandEncoder {.importc: "wgpuDeviceCreateCommandEncoder".}
+proc create         *(device :Device; descriptor :ptr BufferDescriptor) :Buffer {.importc: "wgpuDeviceCreateBuffer".}
+proc create         *(device :Device; descriptor :ptr BindGroupDescriptor) :BindGroup {.importc: "wgpuDeviceCreateBindGroup".}
+proc create         *(device :Device; descriptor :ptr PipelineLayoutDescriptor) :PipelineLayout {.importc: "wgpuDeviceCreatePipelineLayout".}
+proc create         *(device :Device; descriptor :ptr BindGroupLayoutDescriptor) :BindGroupLayout {.importc: "wgpuDeviceCreateBindGroupLayout".}
+proc create         *(device :Device; descriptor :ptr TextureDescriptor) :Texture {.importc: "wgpuDeviceCreateTexture".}
+proc create         *(device :Device; descriptor :ptr SamplerDescriptor) :Sampler {.importc: "wgpuDeviceCreateSampler".}
+proc create         *(device :Device; descriptor :ptr QuerySetDescriptor) :QuerySet {.importc: "wgpuDeviceCreateQuerySet".}
+proc create         *(device :Device; descriptor :ptr RenderBundleEncoderDescriptor) :RenderBundleEncoder {.importc:"wgpuDeviceCreateRenderBundleEncoder".}
+proc getQueue       *(device :Device) :Queue {.importc: "wgpuDeviceGetQueue".}
+proc get            *(device :Device; limits :ptr SupportedLimits) :bool {.importc: "wgpuDeviceGetLimits".}
+proc destroy        *(device :Device) :void {.importc: "wgpuDeviceDestroy".}
+proc enumerate      *(device :Device; features :ptr Feature) :csize_t {.importc:"wgpuDeviceEnumerateFeatures".}
+proc has            *(device :Device; feature :Feature) :bool {.importc: "wgpuDeviceHasFeature".}
+proc popErrorScope  *(device :Device; callback :ErrorCallback; userdata :pointer) :void {.importc: "wgpuDevicePopErrorScope".}
+proc pushErrorScope *(device :Device; filter :ErrorFilter) :void {.importc: "wgpuDevicePushErrorScope".}
 
 # Surface
 proc getPreferredFormat *(surface :Surface; adapter :Adapter) :TextureFormat {.importc: "wgpuSurfaceGetPreferredFormat".}
@@ -60,7 +62,7 @@ proc setVertexBuffer              *(renderPass :RenderPassEncoder; slot :uint32;
 proc setIndexBuffer               *(renderPass :RenderPassEncoder; buffer :Buffer; format :IndexFormat; offset :uint64; size :uint64) :void {.importc: "wgpuRenderPassEncoderSetIndexBuffer".}
 template setIndexBuffer           *(renderPass :RenderPassEncoder; format :IndexFormat; buffer :Buffer; offset :uint64; size :uint64) :void=  setIndexBuffer(renderPass, buffer, format, offset, size)
 proc set                          *(renderPass :RenderPassEncoder; pipeline :RenderPipeline) :void {.importc: "wgpuRenderPassEncoderSetPipeline".}
-proc set                          *(renderPass :RenderPassEncoder; groupIndex :uint32; group :BindGroup; dynamicOffsetCount :uint32; dynamicOffsets :ptr uint32) :void {.importc: "wgpuRenderPassEncoderSetBindGroup".}
+proc set                          *(renderPass :RenderPassEncoder; groupIndex :uint32; group :BindGroup; dynamicOffsetCount :csize_t; dynamicOffsets :ptr uint32) :void {.importc: "wgpuRenderPassEncoderSetBindGroup".}
 proc setBlendConstant             *(renderPass :RenderPassEncoder; color :ptr Color) :void {.importc:"wgpuRenderPassEncoderSetBlendConstant".}
 proc setScissorRect               *(renderPass :RenderPassEncoder; x :uint32; y :uint32; width :uint32; height :uint32) :void {.importc:"wgpuRenderPassEncoderSetScissorRect".}
 proc setStencilReference          *(renderPass :RenderPassEncoder; reference :uint32) :void {.importc:"wgpuRenderPassEncoderSetStencilReference".}
@@ -70,7 +72,7 @@ proc draw                         *(renderPass :RenderPassEncoder; indexCount :u
 proc drawIndirect                 *(renderPass :RenderPassEncoder; indirectBuffer :Buffer; indirectOffset :uint64) :void {.importc:"wgpuRenderPassEncoderDrawIndirect".}
 proc drawIndexedIndirect          *(renderPass :RenderPassEncoder; indirectBuffer :Buffer; indirectOffset :uint64) :void {.importc:"wgpuRenderPassEncoderDrawIndexedIndirect".}
 proc End                          *(renderPass :RenderPassEncoder) :void {.importc: "wgpuRenderPassEncoderEnd".}
-proc execute                      *(renderPass :RenderPassEncoder; bundlesCount :uint32; bundles :ptr RenderBundle) :void {.importc:"wgpuRenderPassEncoderExecuteBundles".}
+proc execute                      *(renderPass :RenderPassEncoder; bundlesCount :csize_t; bundles :ptr RenderBundle) :void {.importc:"wgpuRenderPassEncoderExecuteBundles".}
 proc beginPipelineStatisticsQuery *(renderPass :RenderPassEncoder; querySet :QuerySet; queryIndex :uint32) :void {.importc:"wgpuRenderPassEncoderBeginPipelineStatisticsQuery".}
 proc endPipelineStatisticsQuery   *(renderPass :RenderPassEncoder) :void {.importc:"wgpuRenderPassEncoderEndPipelineStatisticsQuery".}
 proc insertDebugMarker            *(renderPass :RenderPassEncoder; markerLabel :cstring) :void {.importc:"wgpuRenderPassEncoderInsertDebugMarker".}
@@ -98,14 +100,17 @@ proc resolve           *(commandEncoder :CommandEncoder; querySet :QuerySet; fir
 proc writeTimestamp    *(commandEncoder :CommandEncoder; querySet :QuerySet; queryIndex :uint32) :void {.importc:"wgpuCommandEncoderWriteTimestamp".}
 
 # Queue
-proc submit *(queue :Queue; commandCount :uint32; commands :ptr CommandBuffer) :void {.importc: "wgpuQueueSubmit".}
-proc write  *(queue :Queue; buffer :Buffer; bufferOffset :uint64; data :pointer; size :csize_t) :void {.importc: "wgpuQueueWriteBuffer".}
-proc write  *(queue :Queue; destination :ptr ImageCopyTexture; data :pointer; dataSize :csize_t; dataLayout :ptr TextureDataLayout; writeSize :ptr Extent3D) :void {.importc: "wgpuQueueWriteTexture".}
+proc submit              *(queue :Queue; commandCount :csize_t; commands :ptr CommandBuffer) :void {.importc: "wgpuQueueSubmit".}
+proc write               *(queue :Queue; buffer :Buffer; bufferOffset :uint64; data :pointer; size :csize_t) :void {.importc: "wgpuQueueWriteBuffer".}
+proc write               *(queue :Queue; destination :ptr ImageCopyTexture; data :pointer; dataSize :csize_t; dataLayout :ptr TextureDataLayout; writeSize :ptr Extent3D) :void {.importc: "wgpuQueueWriteTexture".}
+proc onSubmittedWorkDone *(queue :Queue; callback :QueueWorkDoneCallback; userdata :pointer) :void {.importc: "wgpuQueueOnSubmittedWorkDone".}
 
 # Buffer
 proc mapAsync            *(buffer :Buffer; mode :MapModeFlags; offset :csize_t; size :csize_t; callback :BufferMapCallback; userdata :pointer) :void {.importc: "wgpuBufferMapAsync".}
 proc getMappedRange      *(buffer :Buffer; offset :csize_t; size :csize_t) :pointer {.importc: "wgpuBufferGetMappedRange".}
 proc getConstMappedRange *(buffer :Buffer; offset :csize_t; size :csize_t) :pointer {.importc:"wgpuBufferGetConstMappedRange".}
+proc getSize             *(buffer :Buffer) :uint64 {.importc: "wgpuBufferGetSize".}
+proc getUsage            *(buffer :Buffer) :BufferUsageFlags {.importc: "wgpuBufferGetUsage".}
 proc unmap               *(buffer :Buffer) :void {.importc: "wgpuBufferUnmap".}
 proc destroy             *(buffer :Buffer) :void {.importc: "wgpuBufferDestroy".}
 
@@ -117,7 +122,7 @@ proc getBindGroupLayout *(computePipeline :ComputePipeline; groupIndex :uint32) 
 
 # ComputePass Encoder
 proc set                          *(computePassEncoder :ComputePassEncoder; pipeline :ComputePipeline) :void {.importc: "wgpuComputePassEncoderSetPipeline".}
-proc set                          *(computePassEncoder :ComputePassEncoder; groupIndex :uint32; group :BindGroup; dynamicOffsetCount :uint32; dynamicOffsets :ptr uint32) :void {.importc: "wgpuComputePassEncoderSetBindGroup".}
+proc set                          *(computePassEncoder :ComputePassEncoder; groupIndex :uint32; group :BindGroup; dynamicOffsetCount :csize_t; dynamicOffsets :ptr uint32) :void {.importc: "wgpuComputePassEncoderSetBindGroup".}
 proc End                          *(computePassEncoder :ComputePassEncoder) :void {.importc: "wgpuComputePassEncoderEnd".}
 proc dispatchWorkgroups           *(computePassEncoder :ComputePassEncoder; workgroupCountX :uint32; workgroupCountY :uint32; workgroupCountZ :uint32) :void {.importc: "wgpuComputePassEncoderDispatchWorkgroups".}
 proc dispatchWorkgroupsIndirect   *(computePassEncoder :ComputePassEncoder; indirectBuffer :Buffer; indirectOffset :uint64) :void {.importc:"wgpuComputePassEncoderDispatchWorkgroupsIndirect".}
@@ -128,15 +133,23 @@ proc popDebugGroup                *(computePassEncoder :ComputePassEncoder) :voi
 proc pushDebugGroup               *(computePassEncoder :ComputePassEncoder; groupLabel :cstring) :void {.importc:"wgpuComputePassEncoderPushDebugGroup".}
 
 # Texture
-proc create  *(texture :Texture; descriptor :ptr TextureViewDescriptor) :TextureView {.importc: "wgpuTextureCreateView".}
-proc destroy *(texture :Texture) :void {.importc: "wgpuTextureDestroy".}
+proc create                *(texture :Texture; descriptor :ptr TextureViewDescriptor) :TextureView {.importc: "wgpuTextureCreateView".}
+proc destroy               *(texture :Texture) :void {.importc: "wgpuTextureDestroy".}
+proc getDepthOrArrayLayers *(texture :Texture) :uint32 {.importc: "wgpuTextureGetDepthOrArrayLayers".}
+proc getDimension          *(texture :Texture) :TextureDimension {.importc: "wgpuTextureGetDimension".}
+proc getFormat             *(texture :Texture) :TextureFormat {.importc: "wgpuTextureGetFormat".}
+proc getHeight             *(texture :Texture) :uint32 {.importc: "wgpuTextureGetHeight".}
+proc getMipLevelCount      *(texture :Texture) :uint32 {.importc: "wgpuTextureGetMipLevelCount".}
+proc getSampleCount        *(texture :Texture) :uint32 {.importc: "wgpuTextureGetSampleCount".}
+proc getUsage              *(texture :Texture) :TextureUsageFlags {.importc: "wgpuTextureGetUsage".}
+proc getWidth              *(texture :Texture) :uint32 {.importc: "wgpuTextureGetWidth".}
 
 # RenderBundle
 proc draw                *(renderBundleEncoder :RenderBundleEncoder; vertexCount :uint32; instanceCount :uint32; firstVertex :uint32; firstInstance :uint32) :void {.importc:"wgpuRenderBundleEncoderDraw".}
 proc draw                *(renderBundleEncoder :RenderBundleEncoder; indexCount :uint32; instanceCount :uint32; firstIndex :uint32; baseVertex :int32; firstInstance :uint32) :void {.importc:"wgpuRenderBundleEncoderDrawIndexed".}
 proc drawIndirect        *(renderBundleEncoder :RenderBundleEncoder; indirectBuffer :Buffer; indirectOffset :uint64) :void {.importc:"wgpuRenderBundleEncoderDrawIndirect".}
 proc drawIndexedIndirect *(renderBundleEncoder :RenderBundleEncoder; indirectBuffer :Buffer; indirectOffset :uint64) :void {.importc:"wgpuRenderBundleEncoderDrawIndexedIndirect".}
-proc set                 *(renderBundleEncoder :RenderBundleEncoder; groupIndex :uint32; group :BindGroup; dynamicOffsetCount :uint32; dynamicOffsets :ptr uint32) :void {.importc:"wgpuRenderBundleEncoderSetBindGroup".}
+proc set                 *(renderBundleEncoder :RenderBundleEncoder; groupIndex :uint32; group :BindGroup; dynamicOffsetCount :csize_t; dynamicOffsets :ptr uint32) :void {.importc:"wgpuRenderBundleEncoderSetBindGroup".}
 proc set                 *(renderBundleEncoder :RenderBundleEncoder; pipeline :RenderPipeline) :void {.importc:"wgpuRenderBundleEncoderSetPipeline".}
 proc setVertexBuffer     *(renderBundleEncoder :RenderBundleEncoder; slot :uint32; buffer :Buffer; offset :uint64; size :uint64) :void {.importc:"wgpuRenderBundleEncoderSetVertexBuffer".}
 proc setIndexBuffer      *(renderBundleEncoder :RenderBundleEncoder; buffer :Buffer; format :IndexFormat; offset :uint64; size :uint64) :void {.importc:"wgpuRenderBundleEncoderSetIndexBuffer".}
@@ -145,6 +158,54 @@ proc insertDebugMarker   *(renderBundleEncoder :RenderBundleEncoder; markerLabel
 proc popDebugGroup       *(renderBundleEncoder :RenderBundleEncoder) :void {.importc:"wgpuRenderBundleEncoderPopDebugGroup".}
 proc pushDebugGroup      *(renderBundleEncoder :RenderBundleEncoder; groupLabel :cstring) :void {.importc:"wgpuRenderBundleEncoderPushDebugGroup".}
 
+# QuerySet
+proc destroy *(querySet :QuerySet) :void {.importc: "wgpuQuerySetDestroy".}
+
+# Resources: Reference Counting
+proc reference *(device :Device) :void {.importc: "wgpuDeviceReference".}
+proc reference *(instance :Instance) :void {.importc: "wgpuInstanceReference".}
+proc reference *(adapter :Adapter) :void {.importc: "wgpuAdapterReference".}
+proc reference *(bindGroup :BindGroup) :void {.importc: "wgpuBindGroupReference".}
+proc reference *(bindGroupLayout :BindGroupLayout) :void {.importc: "wgpuBindGroupLayoutReference".}
+proc reference *(buffer :Buffer) :void {.importc: "wgpuBufferReference".}
+proc reference *(commandBuffer :CommandBuffer) :void {.importc: "wgpuCommandBufferReference".}
+proc reference *(commandEncoder :CommandEncoder) :void {.importc: "wgpuCommandEncoderReference".}
+proc reference *(renderPassEncoder :RenderPassEncoder) :void {.importc: "wgpuRenderPassEncoderReference".}
+proc reference *(computePassEncoder :ComputePassEncoder) :void {.importc: "wgpuComputePassEncoderReference".}
+proc reference *(renderBundleEncoder :RenderBundleEncoder) :void {.importc: "wgpuRenderBundleEncoderReference".}
+proc reference *(computePipeline :ComputePipeline) :void {.importc: "wgpuComputePipelineReference".}
+proc reference *(pipelineLayout :PipelineLayout) :void {.importc: "wgpuPipelineLayoutReference".}
+proc reference *(querySet :QuerySet) :void {.importc: "wgpuQuerySetReference".}
+proc reference *(renderBundle :RenderBundle) :void {.importc: "wgpuRenderBundleReference".}
+proc reference *(renderPipeline :RenderPipeline) :void {.importc: "wgpuRenderPipelineReference".}
+proc reference *(sampler :Sampler) :void {.importc: "wgpuSamplerReference".}
+proc reference *(shaderModule :ShaderModule) :void {.importc: "wgpuShaderModuleReference".}
+proc reference *(surface :Surface) :void {.importc: "wgpuSurfaceReference".}
+proc reference *(swapChain :SwapChain) :void {.importc: "wgpuSwapChainReference".}
+proc reference *(texture :Texture) :void {.importc: "wgpuTextureReference".}
+proc reference *(textureView :TextureView) :void {.importc: "wgpuTextureViewReference".}
+proc release   *(device :Device) :void {.importc: "wgpuDeviceRelease".}
+proc release   *(instance :Instance) :void {.importc: "wgpuInstanceRelease".}
+proc release   *(adapter :Adapter) :void {.importc: "wgpuAdapterRelease".}
+proc release   *(bindGroup :BindGroup) :void {.importc: "wgpuBindGroupRelease".}
+proc release   *(bindGroupLayout :BindGroupLayout) :void {.importc: "wgpuBindGroupLayoutRelease".}
+proc release   *(buffer :Buffer) :void {.importc: "wgpuBufferRelease".}
+proc release   *(commandBuffer :CommandBuffer) :void {.importc: "wgpuCommandBufferRelease".}
+proc release   *(commandEncoder :CommandEncoder) :void {.importc: "wgpuCommandEncoderRelease".}
+proc release   *(renderPassEncoder :RenderPassEncoder) :void {.importc: "wgpuRenderPassEncoderRelease".}
+proc release   *(computePassEncoder :ComputePassEncoder) :void {.importc: "wgpuComputePassEncoderRelease".}
+proc release   *(renderBundleEncoder :RenderBundleEncoder) :void {.importc: "wgpuRenderBundleEncoderRelease".}
+proc release   *(computePipeline :ComputePipeline) :void {.importc: "wgpuComputePipelineRelease".}
+proc release   *(pipelineLayout :PipelineLayout) :void {.importc: "wgpuPipelineLayoutRelease".}
+proc release   *(querySet :QuerySet) :void {.importc: "wgpuQuerySetRelease".}
+proc release   *(renderBundle :RenderBundle) :void {.importc: "wgpuRenderBundleRelease".}
+proc release   *(renderPipeline :RenderPipeline) :void {.importc: "wgpuRenderPipelineRelease".}
+proc release   *(sampler :Sampler) :void {.importc: "wgpuSamplerRelease".}
+proc release   *(shaderModule :ShaderModule) :void {.importc: "wgpuShaderModuleRelease".}
+proc release   *(surface :Surface) :void {.importc: "wgpuSurfaceRelease".}
+proc release   *(swapChain :SwapChain) :void {.importc: "wgpuSwapChainRelease".}
+proc release   *(texture :Texture) :void {.importc: "wgpuTextureRelease".}
+proc release   *(textureView :TextureView) :void {.importc: "wgpuTextureViewRelease".}
 #___________________
 {.pop.} # << header: "webgpu-headers/webgpu.h"
 
@@ -158,12 +219,10 @@ proc getVersion *() :uint32 {.importc: "wgpuGetVersion".}
 proc free  *(p :pointer; size :csize_t; align :csize_t) :void {.importc: "wgpuFree".}
 # Instance
 proc generate *(instance :Instance; report :ptr GlobalReport) :void {.importc: "wgpuGenerateReport".}
-proc drop     *(instance :Instance) :void {.importc: "wgpuInstanceDrop".}
 # Queue
-proc submitForIndex *(queue :Queue; commandCount :uint32; commands :ptr CommandBuffer) :SubmissionIndex {.importc: "wgpuQueueSubmitForIndex".}
+proc submitForIndex *(queue :Queue; commandCount :csize_t; commands :ptr CommandBuffer) :SubmissionIndex {.importc: "wgpuQueueSubmitForIndex".}
 # Device
 proc poll *(device :Device; wait :bool; wrappedSubmissionIndex :ptr WrappedSubmissionIndex) :bool {.importc: "wgpuDevicePoll".}
-proc drop *(device :Device) :void {.importc: "wgpuDeviceDrop".}
   ## Returns true if the queue is empty, or false if there are more queue submissions still in flight.
 # Logging
 proc set *(callback :LogCallback; userdata :pointer) :void {.importc: "wgpuSetLogCallback".}
@@ -178,27 +237,6 @@ proc multiDrawIndirect             *(encoder :RenderPassEncoder; buffer :Buffer;
 proc multiDrawIndirectCount        *(encoder :RenderPassEncoder; buffer :Buffer; offset :uint64; count_buffer :Buffer; count_buffer_offset :uint64; max_count :uint32) :void {.importc: "wgpuRenderPassEncoderMultiDrawIndirectCount".}
 proc multiDrawIndexedIndirect      *(encoder :RenderPassEncoder; buffer :Buffer; offset :uint64; count :uint32) :void {.importc: "wgpuRenderPassEncoderMultiDrawIndexedIndirect".}
 proc multiDrawIndexedIndirectCount *(encoder :RenderPassEncoder; buffer :Buffer; offset :uint64; count_buffer :Buffer; count_buffer_offset :uint64; max_count :uint32) :void {.importc: "wgpuRenderPassEncoderMultiDrawIndexedIndirectCount".}
-# Resources: Drop
-proc drop *(adapter :Adapter) :void {.importc: "wgpuAdapterDrop".}
-proc drop *(bindGroup :BindGroup) :void {.importc: "wgpuBindGroupDrop".}
-proc drop *(bindGroupLayout :BindGroupLayout) :void {.importc: "wgpuBindGroupLayoutDrop".}
-proc drop *(buffer :Buffer) :void {.importc: "wgpuBufferDrop".}
-proc drop *(commandBuffer :CommandBuffer) :void {.importc: "wgpuCommandBufferDrop".}
-proc drop *(commandEncoder :CommandEncoder) :void {.importc: "wgpuCommandEncoderDrop".}
-proc drop *(renderPassEncoder :RenderPassEncoder) :void {.importc: "wgpuRenderPassEncoderDrop".}
-proc drop *(computePassEncoder :ComputePassEncoder) :void {.importc: "wgpuComputePassEncoderDrop".}
-proc drop *(renderBundleEncoder :RenderBundleEncoder) :void {.importc: "wgpuRenderBundleEncoderDrop".}
-proc drop *(computePipeline :ComputePipeline) :void {.importc: "wgpuComputePipelineDrop".}
-proc drop *(pipelineLayout :PipelineLayout) :void {.importc: "wgpuPipelineLayoutDrop".}
-proc drop *(querySet :QuerySet) :void {.importc: "wgpuQuerySetDrop".}
-proc drop *(renderBundle :RenderBundle) :void {.importc: "wgpuRenderBundleDrop".}
-proc drop *(renderPipeline :RenderPipeline) :void {.importc: "wgpuRenderPipelineDrop".}
-proc drop *(sampler :Sampler) :void {.importc: "wgpuSamplerDrop".}
-proc drop *(shaderModule :ShaderModule) :void {.importc: "wgpuShaderModuleDrop".}
-proc drop *(surface :Surface) :void {.importc: "wgpuSurfaceDrop".}
-proc drop *(swapChain :SwapChain) :void {.importc: "wgpuSwapChainDrop".}
-proc drop *(texture :Texture) :void {.importc: "wgpuTextureDrop".}
-proc drop *(textureView :TextureView) :void {.importc: "wgpuTextureViewDrop".}
 {.pop.} # << header: "wgpu.h"
 #___________________
 {.pop.} # << cdecl
@@ -301,8 +339,6 @@ proc downlevel_webgl2_defaults *(_ :typedesc[Limits]) :Limits=
 proc setLabel*(bindGroup: BindGroup; label: cstring) :void {.importc: "wgpuBindGroupSetLabel".}
 proc layoutSetLabel*(bindGroupLayout: BindGroupLayout; label: cstring) :void {.importc: "wgpuBindGroupLayoutSetLabel".}
 # Buffer
-proc getSize*(buffer: Buffer): uint64 {.importc: "wgpuBufferGetSize".}
-proc getUsage*(buffer: Buffer): BufferUsage {.importc: "wgpuBufferGetUsage".}
 proc setLabel*(buffer: Buffer; label: cstring) :void {.importc: "wgpuBufferSetLabel".}
 # CommandBuffer
 proc setLabel*(commandBuffer: CommandBuffer; label: cstring) :void {.importc: "wgpuCommandBufferSetLabel".}
@@ -313,8 +349,6 @@ proc setLabel*(computePipeline: ComputePipeline; label: cstring) :void {.importc
 # Device
 type Proc * = proc () {.cdecl.}
 proc getProcAddress*(device: Device; procName: cstring): Proc {.importc: "wgpuGetProcAddress".}
-proc popErrorScope*(device: Device; callback: ErrorCallback; userdata: pointer): bool {.importc: "wgpuDevicePopErrorScope".}
-proc pushErrorScope*(device: Device; filter: ErrorFilter) :void {.importc: "wgpuDevicePushErrorScope".}
 proc setLabel*(device: Device; label: cstring) :void {.importc: "wgpuDeviceSetLabel".}
 type CreateComputePipelineAsyncCallback* = proc (status: CreatePipelineAsyncStatus; pipeline: ComputePipeline; message: cstring; userdata: pointer) :void {.cdecl.}
 proc createComputePipelineAsync*(device: Device; descriptor: ptr ComputePipelineDescriptor; callback: CreateComputePipelineAsyncCallback; userdata: pointer) :void {.importc: "wgpuDeviceCreateComputePipelineAsync".}
@@ -325,15 +359,13 @@ proc processEvents*(instance: Instance) :void {.importc: "wgpuInstanceProcessEve
 # Pipeline
 proc setLabel*(pipelineLayout: PipelineLayout; label: cstring) :void {.importc: "wgpuPipelineLayoutSetLabel".}
 # QuerySet
-proc destroy*(querySet: QuerySet) :void {.importc: "wgpuQuerySetDestroy".}
 proc getCount*(querySet: QuerySet): uint32 {.importc: "wgpuQuerySetGetCount".}
 proc getType*(querySet: QuerySet): QueryType {.importc: "wgpuQuerySetGetType".}
 proc setLabel*(querySet: QuerySet; label: cstring) :void {.importc: "wgpuQuerySetSetLabel".}
 # Queue
-type QueueWorkDoneCallback * = proc (status :QueueWorkDoneStatus; userdata :pointer) :void {.cdecl.}
-proc onSubmittedWorkDone *(queue :Queue; callback :QueueWorkDoneCallback; userdata :pointer) :void {.importc: "wgpuQueueOnSubmittedWorkDone".}
 proc setLabel*(queue: Queue; label: cstring) :void {.importc: "wgpuQueueSetLabel".}
 # RenderBundle
+proc setLabel*(renderBundle: RenderBundle; label: cstring) :void {.importc: "wgpuRenderBundleSetLabel".}
 proc setLabel*(renderBundleEncoder: RenderBundleEncoder; label: cstring) :void {.importc: "wgpuRenderBundleEncoderSetLabel".}
 # RenderPass
 proc beginOcclusionQuery*(renderPassEncoder: RenderPassEncoder; queryIndex: uint32) :void {.importc: "wgpuRenderPassEncoderBeginOcclusionQuery".}
@@ -348,18 +380,24 @@ type CompilationInfoCallback* = proc (status: CompilationInfoRequestStatus; comp
 proc getCompilationInfo*(shaderModule: ShaderModule; callback: CompilationInfoCallback; userdata: pointer) :void {.importc: "wgpuShaderModuleGetCompilationInfo".}
 proc setLabel*(shaderModule: ShaderModule; label: cstring) :void {.importc: "wgpuShaderModuleSetLabel".}
 # Texture
-proc getDepthOrArrayLayers*(texture :Texture) :uint32 {.importc: "wgpuTextureGetDepthOrArrayLayers".}
-proc getDimension*(texture :Texture) :TextureDimension {.importc: "wgpuTextureGetDimension".}
-proc getFormat*(texture :Texture) :TextureFormat {.importc: "wgpuTextureGetFormat".}
-proc getHeight*(texture :Texture) :uint32 {.importc: "wgpuTextureGetHeight".}
-proc getMipLevelCount*(texture :Texture) :uint32 {.importc: "wgpuTextureGetMipLevelCount".}
-proc getSampleCount*(texture :Texture) :uint32 {.importc: "wgpuTextureGetSampleCount".}
-proc getUsage*(texture :Texture) :TextureUsage {.importc: "wgpuTextureGetUsage".}
-proc getWidth*(texture :Texture) :uint32 {.importc: "wgpuTextureGetWidth".}
 proc setLabel*(texture :Texture; label :cstring) :void {.importc: "wgpuTextureSetLabel".}
 proc setLabel*(textureView :TextureView; label :cstring) :void {.importc: "wgpuTextureViewSetLabel".}
 {.pop.} # << warning: unimplemented
 {.pop.} # << header: "webgpu-headers/webgpu.h"
 {.pop.} # << cdecl
 
+##[
+#_______________________________________
+# webgpu.h new procs, currently unmapped in wgpu-native
+#___________________
+# Surface
+proc configure          *(surface :Surface; config :ptr SurfaceConfiguration) :void {.importc: "wgpuSurfaceConfigure".}
+proc unconfigure        *(surface :Surface) :void {.importc: "wgpuSurfaceUnconfigure".}
+proc getCurrentTexture  *(surface :Surface; surfaceTexture :ptr SurfaceTexture) :void {.importc: "wgpuSurfaceGetCurrentTexture".}
+proc present            *(surface :Surface) :void {.importc: "wgpuSurfacePresent".}
+#___________________
+# SurfaceCapabilities
+proc freeMembers *(capabilities :SurfaceCapabilities) :void {.importc: "wgpuSurfaceCapabilitiesFreeMembers".}
+#_______________________________________
+]##
 

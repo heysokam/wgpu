@@ -45,9 +45,6 @@ template Secondary *(_ :typedesc[InstanceBackend]) :auto=  {InstanceBackend.GL, 
 template None      *(_ :typedesc[InstanceBackend]) :auto=  {}
 type InstanceBackendFlags * = set[InstanceBackend]
 
-# TODO: Remove, probably. Not used anywhere, because of Nim's enum sets as flags
-# type Flags * = uint32
-
 type Dx12Compiler *{.pure, size: sizeof(int32).}= enum
   undefined, fxc, dxc
 
@@ -58,7 +55,7 @@ type ChainedStruct * = object
   next   *:ptr ChainedStruct
   sType  *:SType
 type ChainedStructOut * = object
-  next  *:ptr ChainedStructOut
+  next   *:ptr ChainedStructOut
   sType  *:SType
 
 
@@ -120,11 +117,7 @@ type InstanceExtras * = object
   dxcPath             *:cstring
 
 type BackendType *{.pure, size: sizeof(int32).}= enum
-  null, WebGPU, D3D11, D3D12, Metal, Vulkan, OpenGL, OpenGLES
-
-type AdapterExtras * = object
-  chain    *:ChainedStruct
-  backend  *:BackendType
+  undefined, null, WebGPU, D3D11, D3D12, Metal, Vulkan, OpenGL, OpenGLES
 
 type DeviceExtras * = object
   chain      *:ChainedStruct
@@ -230,16 +223,43 @@ type TextureFormat *{.pure, size: sizeof(int32).}= enum
   ASTC10x5Unorm,  ASTC10x5UnormSrgb,  ASTC10x6Unorm,   ASTC10x6UnormSrgb,   ASTC10x8Unorm,  ASTC10x8UnormSrgb, ASTC10x10Unorm, ASTC10x10UnormSrgb,
   ASTC12x10Unorm, ASTC12x10UnormSrgb, ASTC12x12Unorm,  ASTC12x12UnormSrgb,
 
+type TextureUsage *{.pure, size: sizeof(int32).}= enum
+  copySrc, copyDst, textureBinding, storageBinding, renderAttachment
+type TextureUsageFlags * = set[TextureUsage]
+template none *(_ :typedesc[TextureUsage]) :auto=  {}
+
+
 type PresentMode *{.pure, size: sizeof(int32).}= enum
-  immediate, mailbox, fifo
+  fifo, fifoRelaxed, immediate, mailbox
 
 type SurfaceCapabilities * = object
+  nextInChain       *:ptr ChainedStructOut
   formatCount       *:csize_t
   formats           *:ptr TextureFormat
   presentModeCount  *:csize_t
   presentModes      *:ptr PresentMode
   alphaModeCount    *:csize_t
   alphaModes        *:ptr CompositeAlphaMode
+
+type SurfaceConfiguration * = object
+  nextInChain      *:ptr ChainedStruct
+  device           *:Device
+  format           *:TextureFormat
+  usage            *:TextureUsage
+  viewFormatCount  *:csize_t
+  viewFormats      *:ptr TextureFormat
+  alphaMode        *:CompositeAlphaMode
+  width            *:uint32
+  height           *:uint32
+  presentMode      *:PresentMode
+
+type SurfaceGetCurrentTextureStatus *{.pure, size: sizeof(int32).}= enum
+  success, timeout, outdated, lost, outOfMemory, deviceLost,
+
+type SurfaceTexture * = object
+  texture     *:Texture
+  suboptimal  *:bool
+  status      *:SurfaceGetCurrentTextureStatus
 
 type SwapChainDescriptorExtras * = object
   chain            *:ChainedStruct
@@ -349,7 +369,12 @@ type RequestAdapterOptions *{.bycopy.}= object
   nextInChain           *:ptr ChainedStruct
   compatibleSurface     *:Surface
   powerPreference       *:PowerPreference
+  backendType           *:BackendType
   forceFallbackAdapter  *:bool
+
+type EnumerateAdapterOptions *{.bycopy.}= object
+  nextInChain  *:ptr ChainedStruct
+  backends     *:InstanceBackendFlags
 
 type Feature *{.pure, size: sizeof(int32).}= enum
   undefined = 0x00000000
@@ -362,8 +387,9 @@ type Feature *{.pure, size: sizeof(int32).}= enum
   textureCompressionASTC
   indirectFirstInstance
   shaderF16
-  RG11B10UfloatRenderable  ## not available in wgpu-core
-  BGRA8UnormStorage        ## not available in wgpu-core
+  RG11B10UfloatRenderable  # not available in wgpu-core
+  BGRA8UnormStorage        # not available in wgpu-core
+  float32Filterable
   ## wgpu-rs only features
   pushConstants = 0x6000_0001
   textureAdapter_SpecificFormatFeatures
@@ -399,19 +425,23 @@ type QueueDescriptor *{.bycopy.}= object
 type RequestDeviceStatus *{.pure, size: sizeof(int32).}= enum
   success, error, unknown
 
+type DeviceLostReason *{.pure, size: sizeof(int32).}= enum
+  undefined, destroyed
+
+type DeviceLostCallback * = proc (reason :DeviceLostReason; message :cstring; userdata :pointer) :void {.cdecl.}
+
 type DeviceDescriptor *{.bycopy.}= object
   nextInChain            *:ptr ChainedStruct
   label                  *:cstring
-  requiredFeaturesCount  *:uint32
+  requiredFeaturesCount  *:csize_t
   requiredFeatures       *:ptr Feature
   requiredLimits         *:ptr RequiredLimits
   defaultQueue           *:QueueDescriptor
+  deviceLostCallback     *:DeviceLostCallback
+  deviceLostUserdata     *:pointer
 
 type ErrorType *{.pure, size: sizeof(int32).}= enum
   noError, validation, outOfMemory, internal, unknown, deviceLost
-
-type DeviceLostReason *{.pure, size: sizeof(int32).}= enum
-  undefined, destroyed
 
 #___________________
 # Shader Module
@@ -432,7 +462,7 @@ type ShaderModuleCompilationHint *{.bycopy.}= object
 type ShaderModuleDescriptor *{.bycopy.}= object
   nextInChain  *:ptr ChainedStruct
   label        *:cstring
-  hintCount    *:uint32
+  hintCount    *:csize_t
   hints        *:ptr ShaderModuleCompilationHint
 
 #___________________
@@ -470,16 +500,16 @@ type VertexAttribute *{.bycopy.} = object
 type VertexBufferLayout *{.bycopy.}= object
   arrayStride     *:uint64               ## The stride, in bytes, between elements of this buffer.
   stepMode        *:VertexStepMode       ## How often this vertex buffer is “stepped” forward.
-  attributeCount  *:uint32               ## Number of attributes in the list
+  attributeCount  *:csize_t              ## Number of attributes in the list
   attributes      *:ptr VertexAttribute  ## List of attributes that comprise a single vertex
 
 type VertexState *{.bycopy.}= object
   nextInChain    *:ptr ChainedStruct
   module         *:ShaderModule
   entryPoint     *:cstring
-  constantCount  *:uint32
+  constantCount  *:csize_t
   constants      *:ptr ConstantEntry
-  bufferCount    *:uint32
+  bufferCount    *:csize_t
   buffers        *:ptr VertexBufferLayout
 
 type PrimitiveTopology *{.pure, size: sizeof(int32).}= enum
@@ -575,9 +605,9 @@ type FragmentState *{.bycopy.}= object
   nextInChain   *:ptr ChainedStruct
   module        *:ShaderModule
   entryPoint    *:cstring
-  constantCount *:uint32
+  constantCount *:csize_t
   constants     *:ptr ConstantEntry
-  targetCount   *:uint32
+  targetCount   *:csize_t
   targets       *:ptr ColorTargetState
 
 type RenderPipelineDescriptor *{.bycopy.}= object
@@ -599,7 +629,7 @@ type CreatePipelineAsyncStatus *{.pure, size: sizeof(int32).}= enum
 type PipelineLayoutDescriptor *{.bycopy.}= object
   nextInChain          *:ptr ChainedStruct
   label                *:cstring
-  bindGroupLayoutCount *:uint32
+  bindGroupLayoutCount *:csize_t
   bindGroupLayouts     *:ptr BindGroupLayout
 
 type PipelineStatisticName *{.pure, size: sizeof(int32).}= enum
@@ -611,11 +641,6 @@ type PrimitiveDepthClipControl *{.bycopy.}= object
 
 #___________________
 # SwapChain
-type TextureUsage *{.pure, size: sizeof(int32).}= enum
-  copySrc, copyDst, textureBinding, storageBinding, renderAttachment
-type TextureUsageFlags * = set[TextureUsage]
-template none *(_ :typedesc[TextureUsage]) :auto=  {}
-
 type SwapChainDescriptor *{.bycopy.}= object
   nextInChain  *:ptr ChainedStruct
   label        *:cstring
@@ -679,11 +704,11 @@ type RenderPassTimestampWrite *{.bycopy.}= object
 type RenderPassDescriptor *{.bycopy.}= object
   nextInChain             *:ptr ChainedStruct
   label                   *:cstring
-  colorAttachmentCount    *:uint32
+  colorAttachmentCount    *:csize_t
   colorAttachments        *:ptr RenderPassColorAttachment
   depthStencilAttachment  *:ptr RenderPassDepthStencilAttachment
   occlusionQuerySet       *:QuerySet
-  timestampWriteCount     *:uint32
+  timestampWriteCount     *:csize_t
   timestampWrites         *:ptr RenderPassTimestampWrite
 
 type RenderPassDescriptorMaxDrawCount *{.bycopy.}= object
@@ -716,8 +741,9 @@ type BufferDescriptor *{.bycopy.}= object
   mappedAtCreation  *:bool
 
 type BufferMapAsyncStatus *{.pure, size: sizeof(int32).}= enum
-  success, error, unknown, seviceLost,
-  destroyedBeforeCallback, unmappedBeforeCallback,
+  success, validationError, unknown, deviceLost,
+  destroyedBeforeCallback, unmappedBeforeCallback, mappingAlreadyPending,
+  offsetOutOfRange, sizeOutOfRange
 
 type MapMode *{.pure, size: sizeof(int32).}= enum
   read, write
@@ -743,7 +769,7 @@ type BindGroupDescriptor *{.bycopy.}= object
   nextInChain *:ptr ChainedStruct
   label       *:cstring
   layout      *:BindGroupLayout
-  entryCount  *:uint32
+  entryCount  *:csize_t
   entries     *:ptr BindGroupEntry
 
 type BufferBindingType *{.pure, size: sizeof(int32).}= enum
@@ -795,7 +821,7 @@ type BindGroupLayoutEntry *{.bycopy.}= object
 type BindGroupLayoutDescriptor *{.bycopy.}= object
   nextInChain *:ptr ChainedStruct
   label       *:cstring
-  entryCount  *:uint32
+  entryCount  *:csize_t
   entries     *:ptr BindGroupLayoutEntry
 
 # Compute Pass
@@ -810,7 +836,7 @@ type ComputePassTimestampWrite *{.bycopy.}= object
 type ComputePassDescriptor *{.bycopy.}= object
   nextInChain         *:ptr ChainedStruct
   label               *:cstring
-  timestampWriteCount *:uint32
+  timestampWriteCount *:csize_t
   timestampWrites     *:ptr ComputePassTimestampWrite
 
 #____________________________________________________
@@ -834,7 +860,7 @@ type TextureDescriptor *{.bycopy.}= object
   format          *:TextureFormat
   mipLevelCount   *:uint32
   sampleCount     *:uint32
-  viewFormatCount *:uint32
+  viewFormatCount *:csize_t
   viewFormats     *:ptr TextureFormat
 
 type TextureAspect *{.pure, size: sizeof(int32).}= enum
@@ -907,7 +933,7 @@ type QuerySetDescriptor *{.bycopy.}= object
   typ                     *:QueryType
   count                   *:uint32
   pipelineStatistics      *:ptr PipelineStatisticName
-  pipelineStatisticsCount *:uint32
+  pipelineStatisticsCount *:csize_t
 
 #____________________________________________________
 # RenderBundle
@@ -918,7 +944,7 @@ type RenderBundleDescriptor *{.bycopy.}= object
 type RenderBundleEncoderDescriptor *{.bycopy.}= object
   nextInChain        *:ptr ChainedStruct
   label              *:cstring
-  colorFormatsCount  *:uint32
+  colorFormatsCount  *:csize_t
   colorFormats       *:ptr TextureFormat
   depthStencilFormat *:TextureFormat
   sampleCount        *:uint32
@@ -931,10 +957,9 @@ type RenderBundleEncoderDescriptor *{.bycopy.}= object
 type LogCallback            * = proc (level :LogLevel; message :cstring; userdata :pointer) {.cdecl.}
 type BufferMapCallback      * = proc (status :BufferMapAsyncStatus; userdata :pointer) :void {.cdecl.}
 type ErrorCallback          * = proc (typ :ErrorType; message :cstring; userdata :pointer) :void {.cdecl.}
-type DeviceLostCallback     * = proc (reason :DeviceLostReason; message :cstring; userdata :pointer) :void {.cdecl.}
 type RequestAdapterCallback * = proc (status :RequestAdapterStatus; adapter :Adapter; message :cstring; userdata :pointer) :void {.cdecl.}
 type RequestDeviceCallback  * = proc (status :RequestDeviceStatus; device :Device; message :cstring; userdata :pointer) :void {.cdecl.}
-
+type QueueWorkDoneCallback  * = proc (status :QueueWorkDoneStatus; userdata :pointer) :void {.cdecl.}
 
 #____________________________________________________
 # Not Used
@@ -951,7 +976,7 @@ type ProgrammableStageDescriptor *{.bycopy.}= object
   nextInChain   *:ptr ChainedStruct
   module        *:ShaderModule
   entryPoint    *:cstring
-  constantCount *:uint32
+  constantCount *:csize_t
   constants     *:ptr ConstantEntry
 
 type ComputePipelineDescriptor *{.bycopy.}= object
@@ -977,6 +1002,11 @@ type CompilationMessage *{.bycopy.}= object
 
 type CompilationInfo *{.bycopy.}= object
   nextInChain  *:ptr ChainedStruct
-  messageCount *:uint
+  messageCount *:csize_t
   messages     *:ptr CompilationMessage
+
+# Removed in wgpu-native 0.17
+# type AdapterExtras * = object
+#   chain    *:ChainedStruct
+#   backend  *:BackendType
 

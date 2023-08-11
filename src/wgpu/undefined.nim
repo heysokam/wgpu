@@ -2,7 +2,7 @@
 #  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
 #:____________________________________________________
 
-const  # Not Used : Undefined Limits are set with `type.high`
+const  # Not Used, reference only : Undefined Limits are set with `type.high`
   MaxVertexAttributes      * = 16
   UndefinedArrayLayerCount * = 0xffffffff          # define WGPU_ARRAY_LAYER_COUNT_UNDEFINED (0xffffffffUL)
   UndefinedCopyStride      * = 0xffffffff          # define WGPU_COPY_STRIDE_UNDEFINED       (0xffffffffUL)

@@ -11,6 +11,8 @@ import std/os
 from pkg/nglfw as glfw import nil
 # Module dependencies
 import wgpu
+# Example Extensions
+import ./extras  # In a real app, these should be coming from external libraries
 
 
 #________________________________________________
@@ -80,12 +82,12 @@ proc run=
 
   #__________________
   # Set wgpu.Logging
-  wgpu.setLogCallback(logCB, nil)
+  wgpu.set(logCB, nil)
   wgpu.set LogLevel.warn
   #__________________
   # Init wgpu
   # 1. Create the Instance
-  instance    = wgpu.create(wgpu.InstanceDescriptor(nextInChain: nil).vaddr)
+  instance    = wgpu.create(vaddr wgpu.InstanceDescriptor(nextInChain: nil))
   doAssert instance != nil, "Could not initialize wgpu"
   # 2. Create the Surface and Adapter
   var surface = instance.getSurface(window.ct)
@@ -93,9 +95,10 @@ proc run=
     nextInChain           : nil,
     compatibleSurface     : surface,
     powerPreference       : PowerPreference.highPerformance,
+    backendType           : BackendType.undefined,
     forceFallbackAdapter  : false,
     )
-  var adapter :wgpu.Adapter;  instance.requestAdapter(adapterOpts.addr, adapterRequestCB, adapter.addr)
+  var adapter :wgpu.Adapter;  instance.request(adapterOpts.addr, adapterRequestCB, adapter.addr)
   echo ":: Adapter Features supported by this system: "
   for it in adapter.features(): echo ":  ",$it
   echo ":: Capabilities of the Surface supported by this system: "
@@ -116,10 +119,11 @@ proc run=
       nextInChain          : nil,
       label                : "Hello Default Queue"
       ), # << defaultQueue
+    deviceLostCallback     : deviceLostCB,
+    deviceLostUserdata     : nil,
     ) # << deviceDesc
   var device :wgpu.Device; adapter.request(deviceDesc.addr, deviceRequestCB, device.addr)
-  device.setUncapturedErrorCallback(errorCB, nil)
-  device.setDeviceLostCallback(deviceLostCB, nil)
+  device.set(errorCB, nil)
   # 3. Create the SwapChain
   var config = SwapChainDescriptor(
     nextInChain        : cast[ptr ChainedStruct](vaddr SwapChainDescriptorExtras(
@@ -193,7 +197,7 @@ proc run=
     var renderPass = encoder.begin(renderPassDesc.addr)
     # 8. Draw into the texture with the given settings, and finalize the pass.
     renderPass.End()
-    nextTexture.drop()  # Required by wgpu-native. Not standard WebGPU
+    nextTexture.release()  # Required by wgpu-native. Not standard WebGPU
     # 9. Submit the Rendering Queue
     var cmdBufferDesc = CommandBufferDescriptor(
       nextInChain : nil,

@@ -11,6 +11,8 @@ import std/os
 from pkg/nglfw as glfw import nil
 # Module dependencies
 import wgpu
+# Example Extensions
+import ./extras  # In a real app, these should be coming from external libraries
 
 
 #________________________________________________
@@ -93,7 +95,7 @@ proc run=
 
   #__________________
   # Set wgpu.Logging
-  wgpu.setLogCallback(logCB, nil)
+  wgpu.set(logCB, nil)
   wgpu.set LogLevel.warn
   #__________________
   # Init wgpu
@@ -104,9 +106,10 @@ proc run=
     nextInChain           : nil,
     compatibleSurface     : surface,
     powerPreference       : PowerPreference.highPerformance,
+    backendType           : BackendType.undefined,
     forceFallbackAdapter  : false,
     )
-  var adapter :wgpu.Adapter;  instance.requestAdapter(adapterOpts.addr, adapterRequestCB, adapter.addr)
+  var adapter :wgpu.Adapter;  instance.request(adapterOpts.addr, adapterRequestCB, adapter.addr)
   echo ":: Adapter Features supported by this system: "
   for it in adapter.features(): echo ":  ",$it
   echo ":: Capabilities of the Surface supported by this system: "
@@ -127,10 +130,11 @@ proc run=
       nextInChain          : nil,
       label                : "Hello Default Queue"
       ), # << defaultQueue
+    deviceLostCallback     : deviceLostCB,
+    deviceLostUserdata     : nil,
     ) # << deviceDesc
   var device :wgpu.Device; adapter.request(deviceDesc.addr, deviceRequestCB, device.addr)
-  device.setUncapturedErrorCallback(errorCB, nil)
-  device.setDeviceLostCallback(deviceLostCB, nil)
+  device.set(errorCB, nil)
   var shaderDesc      = shaderCode.wgslToDescriptor(label = "TriangleShader")
   let shader          = device.create(shaderDesc.addr)
   let swapchainFormat = surface.getPreferredFormat(adapter)
@@ -250,7 +254,7 @@ proc run=
     renderPass.set(pipeline)
     renderPass.draw(3,1,0,0)  # vertexCount, instanceCount, firstVertex, firstInstance
     renderPass.End()
-    nextTexture.drop()
+    nextTexture.release()
     # Submit the Rendering Queue, and present it to the surface
     var queue     = device.getQueue()
     var cmdBuffer = encoder.finish(vaddr CommandBufferDescriptor(nextInChain: nil, label: nil))

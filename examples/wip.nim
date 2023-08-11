@@ -212,7 +212,7 @@ proc run=
   window.init()
   #__________________
   # Set wgpu.Logging
-  wgpu.setLogCallback(logCB, nil)
+  wgpu.set(logCB, nil)
   wgpu.set LogLevel.warn
   #__________________
   # Init wgpu
@@ -223,9 +223,10 @@ proc run=
     nextInChain           : nil,
     compatibleSurface     : surface,
     powerPreference       : PowerPreference.highPerformance,
+    backendType           : BackendType.undefined,
     forceFallbackAdapter  : false,
     )
-  var adapter :wgpu.Adapter;  instance.requestAdapter(adapterOpts.addr, adapterRequestCB, adapter.addr)
+  var adapter :wgpu.Adapter;  instance.request(adapterOpts.addr, adapterRequestCB, adapter.addr)
   doAssert adapter != nil, "wgpu.Adapter could not be requested."
 
   # Set the limits that we require for this example
@@ -252,11 +253,12 @@ proc run=
       nextInChain            : nil,
       label                  : "Hello Default Queue"
       ), # << defaultQueue
+    deviceLostCallback       : deviceLostCB,
+    deviceLostUserdata       : nil,
     ) # << deviceDesc
   var device :wgpu.Device; adapter.request(deviceDesc.addr, deviceRequestCB, device.addr)
   doAssert device != nil, "wgpu.Device could not be requested."
-  device.setUncapturedErrorCallback(errorCB, nil)
-  device.setDeviceLostCallback(deviceLostCB, nil)
+  device.set(errorCB, nil)
 
   # Read the vertex attributes and buffers limits of the system
   echo ":: Supported limits:   (after setting RequiredLimits)"
@@ -838,9 +840,9 @@ proc run=
 
     # OLD: Finish drawing
     renderPass.End()
-    nextTexture.drop()
-    depthTexture.drop()
-    depthTextureView.drop()
+    nextTexture.release()
+    depthTexture.release()
+    depthTextureView.release()
     # Submit the Rendering Queue, and present it to the surface
     var cmdBuffer = encoder.finish(vaddr CommandBufferDescriptor(
       nextInChain : nil,
