@@ -199,7 +199,7 @@ var window = Window(
   ct: nil, title: "wgpu Tut",
   w:960, h:540,
   )
-type Uniforms = object         # NEW: Our uniform value is now a struct
+type Uniforms = object         # Our uniform value is now a struct
   time  {.align(16).}:float32  # Mark as align(16) in this variable is not needed, since its 0. Just for clarity
   color {.align(16).}:Vec4     # Mark as align(16), so that the time field gets padded.
 var u :Uniforms
@@ -564,9 +564,9 @@ proc run=
     )) # << pipeline
 
   # Create the BindGroup, with both our texture and uniform objects.
-  # The size of the gpu buffer is the size of our Uniforms object
   var bindGroupEntries :seq[BindGroupEntry]
   # Create the Uniforms entry, and add it to the list of entries
+  # The size of the gpu buffer is the size of our Uniforms object
   bindGroupEntries.add BindGroupEntry(
     nextInChain : nil,
     binding     : 0,                          # Shader @binding(0) index
@@ -697,7 +697,7 @@ proc run=
     var encoder = device.create(vaddr CommandEncoderDescriptor(
       nextInChain  : nil,
       label        : "Command Encoder",
-      ))
+      )) # << device.createEncoder( ... )
     var renderPass = encoder.begin(vaddr RenderPassDescriptor(
       nextInChain             : nil,
       label                   : nil,
