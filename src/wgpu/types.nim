@@ -1,5 +1,5 @@
 #:____________________________________________________
-#  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
+#  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  :
 #:____________________________________________________
 # Nim has modules and overloads.               |
 # This means there are no global nameclashes.  |

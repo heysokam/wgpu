@@ -1,5 +1,5 @@
 #:____________________________________________________
-#  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
+#  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  :
 #:____________________________________________________
 
 type  # Not Used : Are these for dynamic linking? :think:

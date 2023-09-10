@@ -1,5 +1,5 @@
 #:____________________________________________________
-#  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
+#  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  :
 #:____________________________________________________
 
 const  # Not Used, reference only : Undefined Limits are set with `type.high`

@@ -1,5 +1,5 @@
 #:____________________________________________________
-#  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
+#  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  :
 #:____________________________________________________
 # Raw wrapper for wgpu, autogen with futhark.  |
 # Note: Names are Verbatim from C.             |
@@ -16,7 +16,7 @@ import pkg/futhark
 include ./compile
 
 # Find the headers, and generate the wrapper
-const wgpuDir = currentSourcePath().parentDir/"C"/"wgpu-native"/"ffi"
+const wgpuDir = currentSourcePath().parentDir()/"C"/"wgpu-native"/"ffi"
 importc:
   path wgpuDir
   "wgpu.h"

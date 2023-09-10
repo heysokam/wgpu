@@ -1,5 +1,5 @@
 #:____________________________________________________
-#  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  |
+#  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  :
 #:____________________________________________________
 # Compilation system for linking to wgpu headers  |
 #_________________________________________________|
