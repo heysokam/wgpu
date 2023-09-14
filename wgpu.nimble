@@ -16,6 +16,7 @@ requires "nim >= 2.0.0"
 #____________________________________________________
 # Internal Management
 #_____________________________
+import std/strformat
 task git, "Internal:  Updates the wgpu-native submodule.":
   withDir "src/wgpu/C/wgpu-native": exec "git pull --recurse-submodules origin trunk"
 template build (name :untyped; descr :static string)=
