@@ -69,13 +69,17 @@ static:
 when defined(debug):  {.passL: &"-L{dbgDir}".}
 else:                 {.passL: &"-L{rlsDir}".}
 
+#_________________________________________________
+# Link to stdc++ for zigcc
+#_____________________________
+when defined(zig):  {.passL: "-lstdc++".}
 
 #_________________________________________________
 # Link to the static library
 #_____________________________
 # Linux+Mac
 when defined(unix):       # Both Linux and Mac
-  when not defined(clang) and not defined(gcc): {.error: "Compilers currently supported are gcc and clang".}
+  when not (defined(clang) or defined(gcc)): {.error: "Compilers currently supported are gcc and clang".}
   when defined(macosx):
     {.passL: "-framework Metal -framework Cocoa -framework CoreVideo -framework IOKit -framework QuartzCore".}
     {.passL: "-lwgpu_native_static".}  # Use the renamed file with mac
@@ -84,7 +88,8 @@ when defined(unix):       # Both Linux and Mac
 #_____________________________
 # Windows
 elif defined(windows):
-  when not defined(gcc):  {.warning: "Mingw is the only compiler currently supported on Windows. clang will break, and vcc is untested".}
+  when not (defined(gcc) or defined(zig)):
+    {.warning: "Mingw/ZigCC are the only compilers currently supported on Windows. clang will most likely break, and vcc is untested".}
   {.link: "user32.lib".}
   {.link: "userenv.lib".}
   {.link: "ws2_32.lib".}
@@ -99,5 +104,5 @@ elif defined(windows):
   {.passL: "-l:wgpu_native.lib".}  # Will break with clang on windows. Unknown with vcc
 #_____________________________
 # Other
-else:  {.error: "Supported platforms are currently Windows and Unix (Linux+Mac are the only ones tested)".}
+else:  {.error: "Supported platforms are currently Windows and Unix".}
 

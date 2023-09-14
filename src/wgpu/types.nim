@@ -7,11 +7,15 @@
 #   from `WGPUSomething` to just `Something`   |
 #______________________________________________|
 
+type CStringImpl {.importc: "const char*".} = cstring
+type CString * = distinct CStringImpl
+  ## True Cstring Implementation. Maps to a `const char*` in codegen
+proc `$` *(s :CString) :string {.borrow.}
 
 #_______________________________________
 # wgpu.h
 #___________________
-type SType *{.pure, size: sizeof(int32).}= enum
+type SType *{.pure, size: sizeof(int32), importc: "WGPUSType".}= enum
   invalid  = 0x00000000
   surfaceDescriptorFromMetalLayer
   surfaceDescriptorFromWindowsHWND
@@ -35,7 +39,7 @@ type SType *{.pure, size: sizeof(int32).}= enum
 template supportedLimitsExtras *(_ :typedesc[SType]) :auto=  SType 0x60000003  # repeat of SType.requiredLimitsExtras
 
 
-type LogLevel *{.pure, size: sizeof(int32).}= enum
+type LogLevel *{.pure, size: sizeof(int32), importc: "WGPULogLevel", header: "wgpu.h".}= enum
   off, error, warn, info, debug, trace
 
 type InstanceBackend *{.pure, size: sizeof(int32).}= enum
@@ -51,63 +55,63 @@ type Dx12Compiler *{.pure, size: sizeof(int32).}= enum
 type CompositeAlphaMode *{.pure, size: sizeof(int32).}= enum
   auto, opaque, preMultiplied, postMultiplied, inherit
 
-type ChainedStruct * = object
-  next   *:ptr ChainedStruct
-  sType  *:SType
-type ChainedStructOut * = object
+type ChainedStruct *{.bycopy, importc: "WGPUChainedStruct", header: "webgpu-headers/webgpu.h".}= object
+  next   *{.importc:"next".}  :ptr ChainedStruct
+  sType  *{.importc:"sType".} :SType
+type ChainedStructOut *{.bycopy, importc: "WGPUChainedStructOut", header: "webgpu-headers/webgpu.h".}= object
   next   *:ptr ChainedStructOut
   sType  *:SType
 
 
 # WebGPU Opaque types
-type AdapterImpl             = ptr object
-type BindGroupImpl           = ptr object
-type BindGroupLayoutImpl     = ptr object
-type BufferImpl              = ptr object
-type CommandBufferImpl       = ptr object
-type CommandEncoderImpl      = ptr object
-type ComputePassEncoderImpl  = ptr object
-type ComputePipelineImpl     = ptr object
-type InstanceImpl            = ptr object
-type DeviceImpl              = ptr object
-type PipelineLayoutImpl      = ptr object
-type QuerySetImpl            = ptr object
-type QueueImpl               = ptr object
-type RenderBundleImpl        = ptr object
-type RenderBundleEncoderImpl = ptr object
-type RenderPassEncoderImpl   = ptr object
-type RenderPipelineImpl      = ptr object
-type SamplerImpl             = ptr object
-type ShaderModuleImpl        = ptr object
-type SurfaceImpl             = ptr object
-type SwapChainImpl           = ptr object
-type TextureImpl             = ptr object
-type TextureViewImpl         = ptr object
+type AdapterImpl             {.importc: "struct WGPUAdapterImpl"             .} = object
+type BindGroupImpl           {.importc: "struct WGPUBindGroupImpl"           .} = object
+type BindGroupLayoutImpl     {.importc: "struct WGPUBindGroupLayoutImpl"     .} = object
+type BufferImpl              {.importc: "struct WGPUBufferImpl"              .} = object
+type CommandBufferImpl       {.importc: "struct WGPUCommandBufferImpl"       .} = object
+type CommandEncoderImpl      {.importc: "struct WGPUCommandEncoderImpl"      .} = object
+type ComputePassEncoderImpl  {.importc: "struct WGPUComputePassEncoderImpl"  .} = object
+type ComputePipelineImpl     {.importc: "struct WGPUComputePipelineImpl"     .} = object
+type InstanceImpl            {.importc: "struct WGPUInstanceImpl"            .} = object
+type DeviceImpl              {.importc: "struct WGPUDeviceImpl"              .} = object
+type PipelineLayoutImpl      {.importc: "struct WGPUPipelineLayoutImpl"      .} = object
+type QuerySetImpl            {.importc: "struct WGPUQuerySetImpl"            .} = object
+type QueueImpl               {.importc: "struct WGPUQueueImpl"               .} = object
+type RenderBundleImpl        {.importc: "struct WGPURenderBundleImpl"        .} = object
+type RenderBundleEncoderImpl {.importc: "struct WGPURenderBundleEncoderImpl" .} = object
+type RenderPassEncoderImpl   {.importc: "struct WGPURenderPassEncoderImpl"   .} = object
+type RenderPipelineImpl      {.importc: "struct WGPURenderPipelineImpl"      .} = object
+type SamplerImpl             {.importc: "struct WGPUSamplerImpl"             .} = object
+type ShaderModuleImpl        {.importc: "struct WGPUShaderModuleImpl"        .} = object
+type SurfaceImpl             {.importc: "struct WGPUSurfaceImpl"             .} = object
+type SwapChainImpl           {.importc: "struct WGPUSwapChainImpl"           .} = object
+type TextureImpl             {.importc: "struct WGPUTextureImpl"             .} = object
+type TextureViewImpl         {.importc: "struct WGPUTextureViewImpl"         .} = object
 
 # WebGPU Types
-type Adapter             * = AdapterImpl
-type BindGroup           * = BindGroupImpl
-type BindGroupLayout     * = BindGroupLayoutImpl
-type Buffer              * = BufferImpl
-type CommandBuffer       * = CommandBufferImpl
-type CommandEncoder      * = CommandEncoderImpl
-type ComputePassEncoder  * = ComputePassEncoderImpl
-type ComputePipeline     * = ComputePipelineImpl
-type Device              * = DeviceImpl
-type Instance            * = InstanceImpl
-type PipelineLayout      * = PipelineLayoutImpl
-type QuerySet            * = QuerySetImpl
-type Queue               * = QueueImpl
-type RenderBundle        * = RenderBundleImpl
-type RenderBundleEncoder * = RenderBundleEncoderImpl
-type RenderPassEncoder   * = RenderPassEncoderImpl
-type RenderPipeline      * = RenderPipelineImpl
-type Sampler             * = SamplerImpl
-type ShaderModule        * = ShaderModuleImpl
-type Surface             * = SurfaceImpl
-type SwapChain           * = SwapChainImpl
-type Texture             * = TextureImpl
-type TextureView         * = TextureViewImpl
+type Adapter             * = ptr AdapterImpl
+type BindGroup           * = ptr BindGroupImpl
+type BindGroupLayout     * = ptr BindGroupLayoutImpl
+type Buffer              * = ptr BufferImpl
+type CommandBuffer       * = ptr CommandBufferImpl
+type CommandEncoder      * = ptr CommandEncoderImpl
+type ComputePassEncoder  * = ptr ComputePassEncoderImpl
+type ComputePipeline     * = ptr ComputePipelineImpl
+type Device              * = ptr DeviceImpl
+type Instance            * = ptr InstanceImpl
+type PipelineLayout      * = ptr PipelineLayoutImpl
+type QuerySet            * = ptr QuerySetImpl
+type Queue               * = ptr QueueImpl
+type RenderBundle        * = ptr RenderBundleImpl
+type RenderBundleEncoder * = ptr RenderBundleEncoderImpl
+type RenderPassEncoder   * = ptr RenderPassEncoderImpl
+type RenderPipeline      * = ptr RenderPipelineImpl
+type Sampler             * = ptr SamplerImpl
+type ShaderModule        * = ptr ShaderModuleImpl
+type Surface             * = ptr SurfaceImpl
+type SwapChain           * = ptr SwapChainImpl
+type Texture             * = ptr TextureImpl
+type TextureView         * = ptr TextureViewImpl
 
 type InstanceExtras * = object
   chain               *:ChainedStruct
@@ -359,10 +363,10 @@ type SurfaceDescriptorFromXcbWindow *{.bycopy.}= object
 
 #___________________
 # Adapter
-type RequestAdapterStatus *{.pure, size: sizeof(int32).}= enum
+type RequestAdapterStatus *{.pure, size: sizeof(int32), importc: "WGPURequestAdapterStatus".}= enum
   success, unavailable, error, unknown
 
-type PowerPreference *{.pure, size: sizeof(int32).}= enum
+type PowerPreference *{.pure, size: sizeof(int32), importc: "WGPUPowerPreference".}= enum
   undefined, lowPower, highPerformance
 
 type RequestAdapterOptions *{.bycopy.}= object
@@ -422,13 +426,13 @@ type QueueDescriptor *{.bycopy.}= object
 
 #___________________
 # Device
-type RequestDeviceStatus *{.pure, size: sizeof(int32).}= enum
+type RequestDeviceStatus *{.pure, size: sizeof(int32), importc: "WGPURequestDeviceStatus".}= enum
   success, error, unknown
 
-type DeviceLostReason *{.pure, size: sizeof(int32).}= enum
+type DeviceLostReason *{.pure, size: sizeof(int32), importc: "WGPUDeviceLostReason".}= enum
   undefined, destroyed
 
-type DeviceLostCallback * = proc (reason :DeviceLostReason; message :cstring; userdata :pointer) :void {.cdecl.}
+type DeviceLostCallback * = proc (reason :DeviceLostReason; message :Cstring; userdata :pointer) :void {.cdecl.}
 
 type DeviceDescriptor *{.bycopy.}= object
   nextInChain            *:ptr ChainedStruct
@@ -440,30 +444,30 @@ type DeviceDescriptor *{.bycopy.}= object
   deviceLostCallback     *:DeviceLostCallback
   deviceLostUserdata     *:pointer
 
-type ErrorType *{.pure, size: sizeof(int32).}= enum
+type ErrorType *{.pure, size: sizeof(int32), importc: "WGPUErrorType".}= enum
   noError, validation, outOfMemory, internal, unknown, deviceLost
 
 #___________________
 # Shader Module
-type ShaderModuleWGSLDescriptor *{.bycopy.}= object
-  chain  *:ChainedStruct
-  code   *:cstring
+type ShaderModuleWGSLDescriptor *{.bycopy, importc:"WGPUShaderModuleWGSLDescriptor".}= object
+  chain  *{.importc:"chain".}:ChainedStruct
+  code   *{.importc:"code" .}:cstring
 
-type ShaderModuleSPIRVDescriptor *{.bycopy.}= object
-  chain     *:ChainedStruct
-  codeSize  *:uint32
-  code      *:ptr uint32
+type ShaderModuleSPIRVDescriptor *{.bycopy, importc:"WGPUShaderModuleSPIRVDescriptor".}= object
+  chain     *{.importc:"chain"   .}:ChainedStruct
+  codeSize  *{.importc:"codeSize".}:uint32
+  code      *{.importc:"code"    .}:ptr uint32
 
-type ShaderModuleCompilationHint *{.bycopy.}= object
-  nextInChain  *:ptr ChainedStruct
-  entryPoint   *:cstring
-  layout       *:PipelineLayout
+type ShaderModuleCompilationHint *{.bycopy, importc: "WGPUShaderModuleCompilationHint".}= object
+  nextInChain  *{.importc:"nextInChain".}:ptr ChainedStruct
+  entryPoint   *{.importc:"entryPoint" .}:cstring
+  layout       *{.importc:"layout"     .}:PipelineLayout
 
-type ShaderModuleDescriptor *{.bycopy.}= object
-  nextInChain  *:ptr ChainedStruct
-  label        *:cstring
-  hintCount    *:csize_t
-  hints        *:ptr ShaderModuleCompilationHint
+type ShaderModuleDescriptor *{.bycopy, importc: "WGPUShaderModuleDescriptor".}= object
+  nextInChain  *{.importc:"nextInChain".}:ptr ChainedStruct
+  label        *{.importc:"label"      .}:cstring
+  hintCount    *{.importc:"hintCount"  .}:csize_t
+  hints        *{.importc:"hints"      .}:ptr ShaderModuleCompilationHint
 
 #___________________
 # Pipeline
@@ -954,11 +958,11 @@ type RenderBundleEncoderDescriptor *{.bycopy.}= object
 #____________________________________________________
 # Callbacks
 #___________________
-type LogCallback            * = proc (level :LogLevel; message :cstring; userdata :pointer) {.cdecl.}
+type LogCallback            * = proc (level :LogLevel; message :Cstring; userdata :pointer) :void {.cdecl.}
 type BufferMapCallback      * = proc (status :BufferMapAsyncStatus; userdata :pointer) :void {.cdecl.}
-type ErrorCallback          * = proc (typ :ErrorType; message :cstring; userdata :pointer) :void {.cdecl.}
-type RequestAdapterCallback * = proc (status :RequestAdapterStatus; adapter :Adapter; message :cstring; userdata :pointer) :void {.cdecl.}
-type RequestDeviceCallback  * = proc (status :RequestDeviceStatus; device :Device; message :cstring; userdata :pointer) :void {.cdecl.}
+type ErrorCallback          * = proc (typ :ErrorType; message :Cstring; userdata :pointer) :void {.cdecl.}
+type RequestAdapterCallback * = proc (status :RequestAdapterStatus; adapter :Adapter; message :Cstring; userdata :pointer) :void {.cdecl.}
+type RequestDeviceCallback  * = proc (status :RequestDeviceStatus; device :Device; message :Cstring; userdata :pointer) :void {.cdecl.}
 type QueueWorkDoneCallback  * = proc (status :QueueWorkDoneStatus; userdata :pointer) :void {.cdecl.}
 
 #____________________________________________________

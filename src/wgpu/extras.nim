@@ -148,7 +148,7 @@ proc wgslToDescriptor *(code, label :string) :ShaderModuleDescriptor=
   descriptor.chain.sType = SType.shaderModuleWGSLDescriptor
   descriptor.code        = code.cstring
   result = ShaderModuleDescriptor(
-    nextInChain : cast[ptr ChainedStruct](descriptor.addr),
+    nextInChain : cast[ptr ChainedStruct](descriptor), # descriptor is a ref, so we cast that pointer into a ChainedStruct
     label       : label.cstring,
     hintCount   : 0,
     hints       : nil,

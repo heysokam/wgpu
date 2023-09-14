@@ -8,7 +8,7 @@ import std/strutils
 #___________________
 # Package
 packageName   = "wgpu"
-version       = "0.17.2.0"  # First three numbers in sync with wgpu-native
+version       = "0.17.2.1"  # First three numbers in sync with wgpu-native
 author        = "sOkam"
 description   = "Native WebGPU for Nim | wgpu-native"
 license       = "MIT"
