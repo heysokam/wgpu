@@ -15,7 +15,7 @@ proc `$` *(s :CString) :string {.borrow.}
 #_______________________________________
 # wgpu.h
 #___________________
-type SType *{.pure, size: sizeof(int32), importc: "WGPUSType".}= enum
+type SType *{.pure, size: sizeof(int32), importc: "WGPUSType", header: "webgpu-headers/webgpu.h".}= enum
   invalid  = 0x00000000
   surfaceDescriptorFromMetalLayer
   surfaceDescriptorFromWindowsHWND
@@ -64,6 +64,7 @@ type ChainedStructOut *{.bycopy, importc: "WGPUChainedStructOut", header: "webgp
 
 
 # WebGPU Opaque types
+{.push header: "webgpu-headers/webgpu.h".}
 type AdapterImpl             {.importc: "struct WGPUAdapterImpl"             .} = object
 type BindGroupImpl           {.importc: "struct WGPUBindGroupImpl"           .} = object
 type BindGroupLayoutImpl     {.importc: "struct WGPUBindGroupLayoutImpl"     .} = object
@@ -87,6 +88,7 @@ type SurfaceImpl             {.importc: "struct WGPUSurfaceImpl"             .} 
 type SwapChainImpl           {.importc: "struct WGPUSwapChainImpl"           .} = object
 type TextureImpl             {.importc: "struct WGPUTextureImpl"             .} = object
 type TextureViewImpl         {.importc: "struct WGPUTextureViewImpl"         .} = object
+{.pop.} # << header: "webgpu-headers/webgpu.h"
 
 # WebGPU Types
 type Adapter             * = ptr AdapterImpl
@@ -319,7 +321,7 @@ type SupportedLimits *{.bycopy.}= object
 
 #___________________
 # Instance
-type InstanceDescriptor *{.bycopy.}= object
+type InstanceDescriptor *{.bycopy, importc: "WGPUInstanceDescriptor", header: "webgpu-headers/webgpu.h".}= object
   nextInChain  *:ptr ChainedStruct
 
 

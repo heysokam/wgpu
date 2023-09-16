@@ -6,6 +6,7 @@
 # std dependencies
 import std/os
 import std/strformat
+import std/compilesettings
 
 
 #_________________________________________________
@@ -32,8 +33,10 @@ const thisDir   = currentSourcePath().parentDir()
 const Cdir      = thisDir/"C"
 const wgpuDir   = Cdir/"wgpu-native"
 const headerDir = wgpuDir/"ffi"
-const rlsDir    * = wgpuDir/"target"/"release"
-const dbgDir    * = wgpuDir/"target"/"debug"
+const cacheDir  = compilesettings.querySetting(nimcacheDir)
+const trgDir    = cacheDir/"wgpu"
+const rlsDir    * = trgDir/"release"
+const dbgDir    * = trgDir/"debug"
 
 
 #_________________________________________________
@@ -48,8 +51,8 @@ const dbgDir    * = wgpuDir/"target"/"debug"
 #_____________________________
 static:
   echo ": Compiling wgpu-native..."
-  when defined(debug):  sh "make lib-native", wgpuDir
-  else:                 sh "make lib-native-release", wgpuDir
+  when defined(debug):  sh &"cargo build --target-dir {trgDir}", wgpuDir
+  else:                 sh &"cargo build --target-dir {trgDir} --release", wgpuDir
   # Fix the static linking mess of clang+mac
   when defined(macosx):
     const file = "libwgpu_native.a"
