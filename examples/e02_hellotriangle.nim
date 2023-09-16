@@ -48,15 +48,15 @@ proc init(win :var Window) :void=
 
 #__________________
 # WGPU callbacks
-proc adapterRequestCB *(status :RequestAdapterStatus; adapter :Adapter; message :cstring; userdata :pointer) :void {.cdecl.}=
+proc adapterRequestCB *(status :RequestAdapterStatus; adapter :Adapter; message :CString; userdata :pointer) :void {.cdecl.}=
   cast[ptr Adapter](userdata)[] = adapter  # *(WGPUAdapter*)userdata = received;
-proc deviceRequestCB  *(status :RequestDeviceStatus; device :Device; message :cstring; userdata :pointer) :void {.cdecl.}=
+proc deviceRequestCB  *(status :RequestDeviceStatus; device :Device; message :CString; userdata :pointer) :void {.cdecl.}=
   cast[ptr Device](userdata)[] = device  # *(WGPUAdapter*)userdata = received;
-proc errorCB *(typ :ErrorType; message :cstring; userdata :pointer) :void {.cdecl.}=
+proc errorCB *(typ :ErrorType; message :CString; userdata :pointer) :void {.cdecl.}=
   echo &"UNCAPTURED ERROR: ({$typ}): {$message}"
-proc deviceLostCB *(reason :DeviceLostReason; message :cstring; userdata :pointer) :void {.cdecl.}=
+proc deviceLostCB *(reason :DeviceLostReason; message :CString; userdata :pointer) :void {.cdecl.}=
   echo &"DEVICE LOST: ({$reason}): {$message}"
-proc logCB *(level :LogLevel; message :cstring; userdata :pointer) :void {.cdecl.}=
+proc logCB *(level :LogLevel; message :CString; userdata :pointer) :void {.cdecl.}=
   echo &"[{$level}] {$message}"
 
 # Triangle shader

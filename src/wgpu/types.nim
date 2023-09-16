@@ -744,7 +744,7 @@ type BufferDescriptor *{.bycopy.}= object
   size              *:uint64
   mappedAtCreation  *:bool
 
-type BufferMapAsyncStatus *{.pure, size: sizeof(int32).}= enum
+type BufferMapAsyncStatus *{.pure, size: sizeof(int32), importc: "WGPUBufferMapAsyncStatus".}= enum
   success, validationError, unknown, deviceLost,
   destroyedBeforeCallback, unmappedBeforeCallback, mappingAlreadyPending,
   offsetOutOfRange, sizeOutOfRange

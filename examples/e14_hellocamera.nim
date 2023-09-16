@@ -88,18 +88,18 @@ proc update (cam :var Camera) :void=
 
 #__________________
 # WGPU callbacks
-proc adapterRequestCB *(status :RequestAdapterStatus; adapter :Adapter; message :cstring; userdata :pointer) :void {.cdecl.}=
+proc adapterRequestCB *(status :RequestAdapterStatus; adapter :Adapter; message :CString; userdata :pointer) :void {.cdecl.}=
   cast[ptr Adapter](userdata)[] = adapter  # *(WGPUAdapter*)userdata = received;
   echo &"wgpu: ADAPTER requested with status: {$status}"
-proc deviceRequestCB  *(status :RequestDeviceStatus; device :Device; message :cstring; userdata :pointer) :void {.cdecl.}=
+proc deviceRequestCB  *(status :RequestDeviceStatus; device :Device; message :CString; userdata :pointer) :void {.cdecl.}=
   cast[ptr Device](userdata)[] = device  # *(WGPUAdapter*)userdata = received;
   echo &"wgpu: DEVICE requested with status: {$status}"
   if status != RequestDeviceStatus.success: echo &"    : {$message}"
-proc errorCB *(typ :ErrorType; message :cstring; userdata :pointer) :void {.cdecl.}=
+proc errorCB *(typ :ErrorType; message :CString; userdata :pointer) :void {.cdecl.}=
   echo &"wgpu: UNCAPTURED ERROR: ({$typ}): {$message}"
-proc deviceLostCB *(reason :DeviceLostReason; message :cstring; userdata :pointer) :void {.cdecl.}=
+proc deviceLostCB *(reason :DeviceLostReason; message :CString; userdata :pointer) :void {.cdecl.}=
   echo &"wgpu: DEVICE LOST: ({$reason}): {$message}"
-proc logCB *(level :LogLevel; message :cstring; userdata :pointer) :void {.cdecl.}=
+proc logCB *(level :LogLevel; message :CString; userdata :pointer) :void {.cdecl.}=
   echo &"[{$level}] {$message}"
 
 # cube shader

@@ -22,7 +22,7 @@ proc sh (cmd :string; dir :string= "") :void=
   else:          command = cmd
   echo gorgeEx(&"sh -c \"{$command}\"").output
 #_____________________________
-proc cp (src, trg :string) :void=
+proc cp *(src, trg :string) :void=
   ## Copies `src` to `trg`, using the shell's `cp` command.
   ## Usable at compile time in static blocks.
   echo &": Copying {src}\n  to {trg}"
@@ -32,8 +32,8 @@ const thisDir   = currentSourcePath().parentDir()
 const Cdir      = thisDir/"C"
 const wgpuDir   = Cdir/"wgpu-native"
 const headerDir = wgpuDir/"ffi"
-const rlsDir    = wgpuDir/"target"/"release"
-const dbgDir    = wgpuDir/"target"/"debug"
+const rlsDir    * = wgpuDir/"target"/"release"
+const dbgDir    * = wgpuDir/"target"/"debug"
 
 
 #_________________________________________________

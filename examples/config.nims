@@ -3,7 +3,6 @@ switch("path", "$projectDir/../src")  # add our dependency without installing it
 #_____________________
 # General options
 --mm:orc
---nimcache:"bin/nimcache"
 --passC:"-m64"
 --passC:"-march=native"
 --d:release   # Default to release when no options, instead of debug
