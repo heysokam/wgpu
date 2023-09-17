@@ -647,7 +647,7 @@ type PrimitiveDepthClipControl *{.bycopy.}= object
 
 #___________________
 # SwapChain
-type SwapChainDescriptor *{.bycopy.}= object
+type SwapChainDescriptor *{.bycopy, importc: "WGPUSwapChainDescriptor", header: "webgpu-headers/webgpu.h".}= object
   nextInChain  *:ptr ChainedStruct
   label        *:cstring
   usage        *:TextureUsageFlags

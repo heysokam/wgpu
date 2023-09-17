@@ -40,25 +40,6 @@ example multimesh, "Example 17:  multi-mesh. cubes + pyramid.",     "e17_multime
 
 
 ##[ TODO ]#____________________________________________________
-#___________________
-keyword "nc", "Builds+Run the current nim project, using confy.", package.name
-keyword "ex", "Builds+Run the example app, using confy.", "wgpu"/"example"
-#___________________
 # Build the demo apps
 task app1, "App 01: Builds the Framebuffer app.": runExample "app_framebuffer"
-#___________________
-# Reference Task
-task lib, "Reference-only: Builds the wgpu-native library in both release and debug modes":
-  # Note: This is automatically done by the buildsystem, without running this task. Only here for reference.
-  exec "nimble git"
-  withDir wgpuDir:
-    exec "make lib-native"
-    exec "make lib-native-release"
-    # Fix the static linking mess of clang+mac
-    when defined(macosx):
-      let rlsDir = "./target/release"
-      let dbgDir = "./target/debug"
-      let file   = "libwgpu_native.a"
-      if fileExists( rlsDir/file ):  cpFile rlsDir/file, rlsDir/"libwgpu_native_static.a"
-      if fileExists( dbgDir/file ):  cpFile dbgDir/file, dbgDir/"libwgpu_native_static.a"
 ]##
