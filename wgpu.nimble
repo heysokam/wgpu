@@ -27,6 +27,7 @@ template build (name :untyped; descr :static string)=
 #_______________________________________
 # Examples
 build wip,       "Example WIP: Builds the current wip example."
+build hello,     "Example 00:  hellowgpu."
 build clear,     "Example 01:  helloclear."
 build triangle,  "Example 02:  hellotriangle."
 build buffer,    "Example 03:  hellobuffer."
