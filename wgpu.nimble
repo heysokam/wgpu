@@ -22,7 +22,7 @@ task git, "Internal:  Updates the wgpu-native submodule.":
 template build (name :untyped; descr :static string)=
   ## Generates a task to build+run the given example
   taskRequires astToStr(name), "https://github.com/heysokam/confy#head"
-  task name, descr: exec &"nim -d:nimble confy.nims {astToStr(name)}"
+  task name, descr: exec &"nim -d:cnimble confy.nims {astToStr(name)}"
 
 #_______________________________________
 # Examples
