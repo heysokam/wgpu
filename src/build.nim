@@ -15,7 +15,8 @@ template example *(name :untyped; descr,file :static string)=
   "https://github.com/heysokam/nglfw", ## For window creation. GLFW bindings, without dynamic libraries required
   "vmath",                             ## Vector math library.
   ] # Examples: Build Requirements
-  example name, descr, file, deps, true, true
+  const args :seq[string]= @[""]
+  example name, descr, file, deps, args, true, true
 
 # Build the examples binaries
 example wip,       "Example WIP: Builds the current wip example.",  "wip"

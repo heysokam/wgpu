@@ -21,8 +21,9 @@ task git, "Internal:  Updates the wgpu-native submodule.":
   withDir "src/wgpu/C/wgpu-native": exec "git pull --recurse-submodules origin trunk"
 template build (name :untyped; descr :static string)=
   ## Generates a task to build+run the given example
-  taskRequires astToStr(name), "https://github.com/heysokam/confy#head"
-  task name, descr: exec &"nim -d:cnimble confy.nims {astToStr(name)}"
+  let sname = astToStr(name)
+  taskRequires sname, "https://github.com/heysokam/confy#head"
+  task name, descr: exec &"nim -d:cnimble confy.nims " & sname
 
 #_______________________________________
 # Examples
