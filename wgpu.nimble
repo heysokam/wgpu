@@ -3,7 +3,7 @@
 #:_______________________________________________________
 # Package
 packageName   = "wgpu"
-version       = "0.17.2.3"  # First three numbers in sync with wgpu-native
+version       = "0.17.2.4"  # First three numbers in sync with wgpu-native
 author        = "sOkam"
 description   = "Native WebGPU for Nim | wgpu-native"
 license       = "MIT"

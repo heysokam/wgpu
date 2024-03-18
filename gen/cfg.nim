@@ -3,6 +3,7 @@
 #:_______________________________________________________
 const stripPrefix * = [
   "wgpu",
+  "WGPU"
   ] # << stripPrefix = [ ... ]
 const stripStart  * = [
   "",
