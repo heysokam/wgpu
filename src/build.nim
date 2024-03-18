@@ -25,6 +25,11 @@ if not fileExists(opir):
   info "Done installing Futhark and Opir."
 
 #_______________________________________
+# Update the Headers to the latest wgpu-trunk commit
+info "Updating the wgpu-native submodule ..."
+withDir cfg.srcDir/"wgpu"/"C"/"wgpu-native": sh "git pull --recurse-submodules origin trunk"
+
+#_______________________________________
 # Build the generator
 info "Generating wgpu-native bindings with Futhark ..."
 cfg.srcDir = genDir
