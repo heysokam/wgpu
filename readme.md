@@ -10,7 +10,7 @@ It's the best newbie-friendly tutorial out there for wgpu, and it doesn't requir
 _As a reference, it is easier to follow than the infamous Learn OpenGL, in my opinion._  
 
 ## Current state and todo
-- [ ] Wrapper for wgpu-native latest
+- [x] Wrapper for wgpu-native latest
 - [ ] Linux suppport
 - [ ] Windows support
 - [ ] Mac support
