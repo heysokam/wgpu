@@ -33,7 +33,9 @@ proc rename (n, k :string; p :string= "") :string=
 
 #_____________________________
 # Find the headers, and generate the wrapper
-const wgpuDir = currentSourcePath().parentDir()/"wgpu"/"C"/"wgpu-native"/"ffi"
+const rootDir = currentSourcePath().parentDir()/".."
+const srcDir  = rootDir/"src"
+const wgpuDir = srcDir/"wgpu"/"C"/"wgpu-native"/"ffi"
 importc:
   renameCallback rename
   outputPath currentSourcePath.parentDir/"result.nim"
