@@ -1,10 +1,11 @@
-#:____________________________________________________
-#  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  MIT  :
-#:____________________________________________________
-
+#:_______________________________________________________
+#  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  LGPLv3  |
+#:_______________________________________________________
+# Automatic Buildsystem
 {.define:wgpu.}
 include ./wgpu/compile
-import ./wgpu/types  as wgpuTypes  ; export wgpuTypes
-import ./wgpu/procs  as wgpuProcs  ; export wgpuProcs
-import ./wgpu/extras as wgpuExtras ; export wgpuExtras
-
+# API
+import ./wgpu/api
+# wgpu-nim extras
+when not defined(NoGLFW):
+  import ./wgpu/extras
