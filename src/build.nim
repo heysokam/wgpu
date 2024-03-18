@@ -1,9 +1,16 @@
+#:_______________________________________________________
+#  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  LGPLv3  |
+#:_______________________________________________________
+# @fileoverview
+#  confy Buildsystem for generating an updated version of the bindings with Futhark.
+#  @note This file is completely unnecessary to use the bindings with your application.
+#_______________________________________________________________________________________|
 # @deps std
 from std/strformat import `&`
 # @deps ndk
 import confy
 
-info "Generating wgpu-native bindings ..."
+info "Generating the wgpu-native bindings ..."
 
 #_______________________________________
 # Configure the Generator Buildsystem
@@ -31,7 +38,7 @@ withDir cfg.srcDir/"wgpu"/"C"/"wgpu-native": sh "git pull --recurse-submodules o
 
 #_______________________________________
 # Build the generator
-info "Generating wgpu-native bindings with Futhark ..."
+info "Generating the wgpu-native bindings with Futhark ..."
 cfg.srcDir = genDir
 build Program.new(
   src  = cfg.srcDir/"generator.nim",
@@ -44,12 +51,12 @@ build Program.new(
     ), # << Dependencies.new( ... )
   args = "--maxLoopIterationsVM:100_000_000 -d:futharkRebuild -d:nodeclguards",
   ) # << Program.new( ... )
-info "Done generating wgpu-native bindings with Futhark."
+info "Done generating the wgpu-native bindings with Futhark."
 
 #_______________________________________
 # Move the generated output
 cfg.srcDir = build.srcDir
 info &"Outputting the resulting bindings into:  {trgFile}"
 cp genFile, trgFile
-info "Done generating wgpu-native bindings."
+info "Done generating the wgpu-native bindings."
 
