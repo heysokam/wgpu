@@ -62,6 +62,27 @@ template iaddr *(num :uint32) :ptr int32=  cast[ptr int32](num.addr)
   ## Useful for C interop. Equivalent to `(int32_t*)&someUint32`
 
 
+#_______________________________________
+# window.nim
+#_____________________________
+proc close  *(win :Window) :bool=  glfw.windowShouldClose(win.ct).bool
+  ## Returns true when the GLFW window has been marked to be closed.
+#__________________
+proc term   *(win :Window) :void=  glfw.destroyWindow(win.ct); glfw.terminate()
+  ## Terminates the GLFW window.
+proc update *(win :Window) :void=  glfw.pollEvents()
+  ## Updates the window. Needs to be called each frame.
+#__________________
+proc init *(win :var Window; key :glfw.KeyFun; resizable :bool= false) :void=
+  ## Initializes the window with GLFW.
+  doAssert glfw.init().bool, "Failed to Initialize GLFW"
+  glfw.windowHint(glfw.CLIENT_API, glfw.NO_API)
+  glfw.windowHint(glfw.Resizable, if resizable: glfw.True else: glfw.False)
+  win.ct = glfw.createWindow(win.w, win.h, win.title, nil, nil)
+  doAssert win.ct != nil, "Failed to create GLFW window"
+  discard glfw.setKeyCallback(win.ct, key)
+
+
 #________________________________________________
 # texture.nim
 #_____________________________
