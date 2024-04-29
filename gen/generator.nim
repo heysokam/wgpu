@@ -13,6 +13,9 @@ from ./cfg import nil
 #_____________________________
 proc rename (n, k :string; p :string= "") :string=
   result = n
+  # General Rename
+  for entry in cfg.replaceList:
+    result = result.replace( entry[0], entry[1] )
   # Start Rename
   for entry in cfg.stripPrefix:
     if result.startsWith( entry ) : result = result[entry.len .. ^1]
@@ -20,9 +23,6 @@ proc rename (n, k :string; p :string= "") :string=
     if result.startsWith( entry[0] ) : result = entry[1] & result[entry[0].len .. ^1]
   for entry in cfg.stripStart:
     if result.startsWith( entry ) : result = result[entry.len .. ^1]
-  # General Rename
-  for entry in cfg.replaceList:
-    result = result.replace( entry[0], entry[1] )
   # End Rename
   for entry in cfg.stripEnd:
     if result.endsWith( entry ) :

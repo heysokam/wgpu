@@ -49,7 +49,7 @@ build Program.new(
     submodule( "macroutils",   "https://github.com/PMunch/macroutils"   ),
     submodule( "nimbleutils",  "https://github.com/PMunch/nimbleutils"  ),
     ), # << Dependencies.new( ... )
-  args = "--maxLoopIterationsVM:100_000_000 -d:futharkRebuild -d:nodeclguards",
+  args = "--maxLoopIterationsVM:1_000_000_000 -d:futharkRebuild -d:nodeclguards -d:UnsafeToplevelName_TODO:on -d:UnsafeProcNames:on",
   ) # << Program.new( ... )
 info "Done generating the wgpu-native bindings with Futhark."
 
