@@ -23,6 +23,10 @@ template vaddr (val :auto) :untyped=
 #___________________
 proc setIndexBuffer *(renderPass :RenderPassEncoder; format :IndexFormat; buffer :Buffer; offset :uint64; size :uint64) :void=
   wgpu.setIndexBuffer(renderPass, buffer, format, offset, size)
+#___________________
+proc `as` *[T1, T2](val :T1; typ :typedesc[T2]) :T2=  cast[T2](val)
+  ## @descr Casts the contents of {@arg val} to the given {@arg typ}
+  ## @reason Syntax ergonomics
 
 
 #_______________________________________
@@ -36,7 +40,7 @@ when defined(linux) and not defined(wayland):
       nextInChain : cast[ptr ChainedStruct](vaddr SurfaceDescriptorFromXlibWindow(
         chain     : ChainedStruct(
           next    : nil,
-          sType   : SType.surfaceDescriptorFromXlibWindow,
+          sType   : SType_surfaceDescriptorFromXlibWindow,
           ), # << chain
         display   : glfw.getX11Display(),
         window    : glfw.getX11Window(win).uint32,
@@ -52,7 +56,7 @@ elif defined(linux) and defined(wayland):
       nextInChain : cast[ptr ChainedStruct](vaddr SurfaceDescriptorFromWaylandSurface(
         chain     : ChainedStruct(
           next    : nil,
-          sType   : SType.surfaceDescriptorFromWaylandSurface,
+          sType   : SType_surfaceDescriptorFromWaylandSurface,
           ), # << chain
         display   : glfw.getWaylandDisplay(),
         surface   : glfw.getWaylandWindow(win),
@@ -71,7 +75,7 @@ elif defined(windows):
       nextInChain : cast[ptr ChainedStruct](vaddr SurfaceDescriptorFromWindowsHWND(
         chain     : ChainedStruct(
           next    : nil,
-          sType   : SType.surfaceDescriptorFromWindowsHWND,
+          sType   : SType_surfaceDescriptorFromWindowsHWND,
           ), # << chain
         hinstance : hinstance,
         hwnd      : hwnd,
@@ -87,7 +91,7 @@ elif defined(macosx):
       nextInChain : cast[ptr ChainedStruct](vaddr SurfaceDescriptorFromMetalLayer(
         chain     : ChainedStruct(
           next    : nil,
-          sType   : SType.surfaceDescriptorFromMetalLayer,
+          sType   : SType_surfaceDescriptorFromMetalLayer,
           ), # << chain
         # Get metal layer with our nglfw/metal_glue.h extension
         layer     : glfw.getMetalLayer(win),
@@ -152,7 +156,7 @@ proc wgslToDescriptor *(code, label :string) :ShaderModuleDescriptor=
   ## Reads the given wgsl shader code, and returns a ShaderModuleDescriptor for it.
   var descriptor         = new ShaderModuleWGSLDescriptor
   descriptor.chain.next  = nil
-  descriptor.chain.sType = SType.shaderModuleWGSLDescriptor
+  descriptor.chain.sType = SType_shaderModuleWGSLDescriptor
   descriptor.code        = code.cstring
   result = ShaderModuleDescriptor(
     nextInChain : cast[ptr ChainedStruct](descriptor), # descriptor is a ref, so we cast that pointer into a ChainedStruct
