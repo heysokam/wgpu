@@ -16,47 +16,24 @@ import ./extras  # In a real app, these should be coming from external libraries
 
 
 #________________________________________________
-# types.nim
-#__________________
-type Window * = object
-  ct     *:glfw.Window
-  w,h    *:int32
-  title  *:string
-
-#________________________________________________
 # window.nim
 #__________________
 proc key (win :glfw.Window; key, code, action, mods :cint) :void {.cdecl.}=
   ## GLFW Keyboard Input Callback
   if (key == glfw.KeyEscape and action == glfw.Press):
     glfw.setWindowShouldClose(win, true)
-#__________________
-proc close  (win :Window) :bool=  glfw.windowShouldClose(win.ct).bool
-  ## Returns true when the GLFW window has been marked to be closed.
-proc term   (win :Window) :void=  glfw.destroyWindow(win.ct); glfw.terminate()
-  ## Terminates the GLFW window.
-proc update (win :Window) :void=  glfw.pollEvents()
-  ## Updates the window. Needs to be called each frame.
-#__________________
-proc init(win :var Window) :void=
-  ## Initializes the window with GLFW.
-  doAssert glfw.init().bool, "Failed to Initialize GLFW"
-  glfw.windowHint(glfw.CLIENT_API, glfw.NO_API)
-  win.ct = glfw.createWindow(win.w, win.h, win.title.cstring, nil, nil)
-  doAssert win.ct != nil, "Failed to create GLFW window"
-  discard glfw.setKeyCallback(win.ct, key)
 
 #__________________
 # WGPU callbacks
-proc adapterRequestCB *(status :RequestAdapterStatus; adapter :Adapter; message :CString; userdata :pointer) :void {.cdecl.}=
+proc adapterRequestCB *(status :RequestAdapterStatus; adapter :Adapter; message :cstring; userdata :pointer) :void {.cdecl.}=
   cast[ptr Adapter](userdata)[] = adapter  # *(WGPUAdapter*)userdata = received;
-proc deviceRequestCB  *(status :RequestDeviceStatus; device :Device; message :CString; userdata :pointer) :void {.cdecl.}=
+proc deviceRequestCB  *(status :RequestDeviceStatus; device :Device; message :cstring; userdata :pointer) :void {.cdecl.}=
   cast[ptr Device](userdata)[] = device  # *(WGPUAdapter*)userdata = received;
-proc errorCB *(typ :ErrorType; message :CString; userdata :pointer) :void {.cdecl.}=
+proc errorCB *(typ :ErrorType; message :cstring; userdata :pointer) :void {.cdecl.}=
   echo &"UNCAPTURED ERROR: ({$typ}): {$message}"
-proc deviceLostCB *(reason :DeviceLostReason; message :CString; userdata :pointer) :void {.cdecl.}=
+proc deviceLostCB *(reason :DeviceLostReason; message :cstring; userdata :pointer) :void {.cdecl.}=
   echo &"DEVICE LOST: ({$reason}): {$message}"
-proc logCB *(level :LogLevel; message :CString; userdata :pointer) :void {.cdecl.}=
+proc logCB *(level :LogLevel; message :cstring; userdata :pointer) :void {.cdecl.}=
   echo &"[{$level}] {$message}"
 
 
@@ -78,27 +55,35 @@ proc run=
   #__________________
   # Init Window
   echo "Hello wgpu"
-  window.init()
+  window.init(key)
 
   #__________________
   # Set wgpu.Logging
   wgpu.set(logCB, nil)
-  wgpu.set LogLevel.warn
+  wgpu.set LogLevel_warn
   #__________________
   # Init wgpu
   # 1. Create the Instance
-  instance    = wgpu.create(vaddr wgpu.InstanceDescriptor(nextInChain: nil))
+  instance = wgpu.create(vaddr wgpu.InstanceDescriptor(nextInChain: nil))
   doAssert instance != nil, "Could not initialize wgpu"
-  # 2. Create the Surface and Adapter
+
+  # 2 Create the Surface
   var surface = instance.getSurface(window.ct)
-  var adapterOpts = RequestAdapterOptions(
-    nextInChain           : nil,
-    compatibleSurface     : surface,
-    powerPreference       : PowerPreference.highPerformance,
-    backendType           : BackendType.undefined,
-    forceFallbackAdapter  : false,
-    )
-  var adapter :wgpu.Adapter;  instance.request(adapterOpts.addr, adapterRequestCB, adapter.addr)
+
+  # 3. Create the Adapter
+  var adapter :wgpu.Adapter; instance.request(vaddr RequestAdapterOptions(
+      nextInChain           : nil,
+      compatibleSurface     : surface,
+      powerPreference       : PowerPreference_highPerformance,
+      backendType           : BackendType_undefined,
+      forceFallbackAdapter  : false,
+      ), # << RequestAdapterOptions( ... )
+    callback = adapterRequestCB,
+    userdata = adapter.addr,
+    ) # << instance.request( ... )
+
+  # 4. Report the Adapter Features + Capabilities
+  #[
   echo ":: Adapter Features supported by this system: "
   for it in adapter.features(): echo ":  ",$it
   echo ":: Capabilities of the Surface supported by this system: "
@@ -109,50 +94,73 @@ proc run=
   for prsnt in presentModes:   echo ":  - ",$prsnt
   echo ":  Alpha Modes:"
   for alpha in presentModes:   echo ":  - ",$alpha
-  var deviceDesc = DeviceDescriptor(
-    nextInChain            : nil,
-    label                  : "Hello Device",
-    requiredFeaturesCount  : 0,
-    requiredFeatures       : nil,
-    requiredLimits         : nil,
-    defaultQueue           : QueueDescriptor(
-      nextInChain          : nil,
-      label                : "Hello Default Queue"
-      ), # << defaultQueue
-    deviceLostCallback     : deviceLostCB,
-    deviceLostUserdata     : nil,
-    ) # << deviceDesc
-  var device :wgpu.Device; adapter.request(deviceDesc.addr, deviceRequestCB, device.addr)
+  ]#
+
+  # 5. Create the Device
+  var device :wgpu.Device; adapter.request(vaddr DeviceDescriptor(
+      nextInChain            : nil,
+      label                  : "Hello Device",
+      requiredFeaturesCount  : 0,
+      requiredFeatures       : nil,
+      requiredLimits         : nil,
+      defaultQueue           : QueueDescriptor(
+        nextInChain          : nil,
+        label                : "Hello Default Queue"
+        ), # << defaultQueue
+      deviceLostCallback     : deviceLostCB,
+      deviceLostUserdata     : nil,
+      ), # << DeviceDescriptor( ... )
+    callback = deviceRequestCB,
+    userdata = device.addr,
+    ) # << adapter.request( ... )
   device.set(errorCB, nil)
-  # 3. Create the SwapChain
+
+  # 6. Get the device queue
+  var queue = device.getQueue()
+
+
+  # 7. Configure the Surface  (replaces SwapChain creation entirely)
+  # 7.1 Get the SurfaceCapabilities
+  var caps :SurfaceCapabilities
+  surface.ct.get(adapter, caps.addr)  # wgpuSurfaceGetCapabilities
+  # 7.2 Get the initial window size
+  var width  :i32= 0
+  var height :i32= 0
+  window.ct.getSize(addr width, addr height)
+
+
+  #[
+  # _. Create the SwapChain
   var config = SwapChainDescriptor(
     nextInChain        : cast[ptr ChainedStruct](vaddr SwapChainDescriptorExtras(
       chain            : ChainedStruct(
         next           : nil,
-        sType          : SType.swapChainDescriptorExtras,
+        sType          : SType_swapChainDescriptorExtras as SType,
         ), # << chain
-      alphaMode        : CompositeAlphaMode.auto,
+      alphaMode        : CompositeAlphaMode_auto,
       viewFormatCount  : 0,
       viewFormats      : nil,
       )), # << nextInChain
     label              : nil,
-    usage              : {TextureUsage.renderAttachment},
+    usage              : TextureUsage_renderAttachment.ord,
     format             : surface.getPreferredFormat(adapter),
     width              : 0,
     height             : 0,
-    presentMode        : PresentMode.fifo,
+    presentMode        : PresentMode_fifo,
     ) # << config (aka SwapChain Descriptor)
   glfw.getWindowSize(window.ct, config.width.iaddr, config.height.iaddr)
   echo &":: Initial window size: {config.width} x {config.height}"
   var swapChain = device.create(surface, config.addr)
-  # 4. Get the device queue
-  var queue  = device.getQueue()
+  ]#
 
   #__________________
   # Update loop
   while not window.close():
     # Input update from glfw
     window.update()
+
+
+
     # 5. Get the swapChain TextureView.
     var nextTexture :TextureView= nil
     for attempt in 0..<2:  # Attempt to get the texture view twice. It is a fallible operation by the spec, so we make 2x checks.
@@ -170,6 +178,8 @@ proc run=
         continue  # Skip to the next step
       break       # Exit attempts. We are either at the second attempt, or the texture already works
     doAssert nextTexture != nil, "ERR:: Cannot acquire next swap chain texture"
+
+
     # 6. Create the Command Encoder
     var encoderDesc = CommandEncoderDescriptor(
       nextInChain  : nil,
@@ -180,8 +190,8 @@ proc run=
     var renderPassAttch = RenderPassColorAttachment(
       view                  : nextTexture,
       resolveTarget         : nil,
-      loadOp                : LoadOp.clear,
-      storeOp               : StoreOp.store,
+      loadOp                : LoadOp_clear,
+      storeOp               : StoreOp_store,
       clearValue            : Color(r:1.0, g:0.0, b:0.0, a:1.0),  # WGPU Color, but similar to chroma/color
       ) # << renderPassAttch
     var renderPassDesc = RenderPassDescriptor(
