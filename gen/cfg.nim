@@ -5,7 +5,7 @@ const stripPrefix * = [
   "WGPU"
   ] # << stripPrefix = [ ... ]
 const stripStart  * = [
-  "",
+  "SType_",
   ] # << stripStart = [ ... ]
 const replaceStart * = [
   ("",""),

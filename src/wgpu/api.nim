@@ -169,16 +169,16 @@ type
     Requestdevicestatusunknown = 2, Requestdevicestatusforce32 = 2147483647
 type
   enumwgpustype* {.size: sizeof(cuint).} = enum
-    Stypeinvalid = 0, Stypesurfacedescriptorfrommetallayer = 1,
-    Stypesurfacedescriptorfromwindowshwnd = 2,
-    Stypesurfacedescriptorfromxlibwindow = 3,
-    Stypesurfacedescriptorfromcanvashtmlselector = 4,
-    Stypeshadermodulespirvdescriptor = 5, Stypeshadermodulewgsldescriptor = 6,
-    Stypeprimitivedepthclipcontrol = 7,
-    Stypesurfacedescriptorfromwaylandsurface = 8,
-    Stypesurfacedescriptorfromandroidnativewindow = 9,
-    Stypesurfacedescriptorfromxcbwindow = 10,
-    Styperenderpassdescriptormaxdrawcount = 15, Stypeforce32 = 2147483647
+    invalid = 0, surfacedescriptorfrommetallayer = 1,
+    surfacedescriptorfromwindowshwnd = 2,
+    surfacedescriptorfromxlibwindow = 3,
+    surfacedescriptorfromcanvashtmlselector = 4,
+    shadermodulespirvdescriptor = 5, shadermodulewgsldescriptor = 6,
+    primitivedepthclipcontrol = 7,
+    surfacedescriptorfromwaylandsurface = 8,
+    surfacedescriptorfromandroidnativewindow = 9,
+    surfacedescriptorfromxcbwindow = 10,
+    renderpassdescriptormaxdrawcount = 15, force32 = 2147483647
 type
   enumwgpusamplerbindingtype* {.size: sizeof(cuint).} = enum
     Samplerbindingtypeundefined = 0, Samplerbindingtypefiltering = 1,
@@ -317,14 +317,14 @@ type
     Textureusagerenderattachment = 16, Textureusageforce32 = 2147483647
 type
   enumwgpunativestype* {.size: sizeof(cuint).} = enum
-    Stypedeviceextras = 1610612737, Stypeadapterextras = 1610612738,
-    Styperequiredlimitsextras = 1610612739,
-    Stypepipelinelayoutextras = 1610612740,
-    Stypeshadermoduleglsldescriptor = 1610612741,
-    Stypeinstanceextras = 1610612742,
-    Stypeswapchaindescriptorextras = 1610612743, Nativestypeforce32 = 2147483647
+    deviceextras = 1610612737, adapterextras = 1610612738,
+    requiredlimitsextras = 1610612739,
+    pipelinelayoutextras = 1610612740,
+    shadermoduleglsldescriptor = 1610612741,
+    instanceextras = 1610612742,
+    swapchaindescriptorextras = 1610612743, Nativestypeforce32 = 2147483647
 const
-  Stypesupportedlimitsextras* = enumwgpunativestype.Styperequiredlimitsextras
+  supportedlimitsextras* = enumwgpunativestype.requiredlimitsextras
 type
   enumwgpunativefeature* {.size: sizeof(cuint).} = enum
     Nativefeaturepushconstants = 1610612737,
