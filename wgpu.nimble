@@ -3,19 +3,14 @@
 #:_______________________________________________________
 # Package
 packageName   = "wgpu"
-version       = "0.19.4.0"  # First three numbers in sync with wgpu-native
+version       = "0.19.4.1"  # First three numbers in sync with wgpu-native
 author        = "sOkam"
 description   = "Native WebGPU for Nim | wgpu-native"
-license       = "MIT"
+license       = "LGPL-3.0-or-later"
 # Project Setup
 srcDir        = "src"
 skipFiles     = @["build.nim"]
+skipDirs      = @["old"]
 # Build requirements
 requires "nim >= 2.0.0"
 
-#____________________________________________________
-# Internal Management
-#_____________________________
-import std/strformat
-task git, "Internal:  Updates the wgpu-native submodule.":
-  withDir "src/wgpu/C/wgpu-native": exec "git pull --recurse-submodules origin trunk"
