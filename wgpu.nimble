@@ -10,7 +10,6 @@ license       = "LGPL-3.0-or-later"
 # Project Setup
 srcDir        = "src"
 skipFiles     = @["build.nim"]
-skipDirs      = @["old"]
 # Build requirements
 requires "nim >= 2.0.0"
 
