@@ -11,7 +11,13 @@ from ./cfg import nil
 
 
 #_____________________________
-proc rename (n, k :string; p :string= "") :string=
+proc rename (
+    n           : string;
+    k           : futhark.SymbolKind;
+    p           : string;
+    overloading : var bool;
+  ) :string=
+  overloading = true
   result = n
   # General Rename
   for entry in cfg.replaceList:

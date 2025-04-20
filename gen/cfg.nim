@@ -269,7 +269,7 @@ const replaceList * = [
   # Surface
   ("wgpuSurfaceGetCapabilities",                         "get"                           ),
   ("wgpuSurfaceCapabilitiesFreeMembers",                 "freeMembers"                   ),
-  (" wgpuSurfaceGetSupportedFormats",                    "getSupportedFormats"           ),
+  ("wgpuSurfaceGetSupportedFormats",                     "getSupportedFormats"           ),
   ("wgpuSurfaceGetSupportedPresentModes",                "getSupportedPresentModes"      ),
   # RenderPass Encoder
   ("wgpuRenderPassEncoderSetPushConstants",              "setPushConstants"              ),
