@@ -1903,7 +1903,7 @@ proc write*(queue: Queue; destination: ptr TexelCopyTextureInfo; data: pointer;
             writeSize: ptr Extent3D): void {.cdecl,
     importc: "wgpuQueueWriteTexture".}
 proc wgpuQueueAddRef*(queue: Queue): void {.cdecl, importc: "wgpuQueueAddRef".}
-proc wgpuQueueRelease*(queue: Queue): void {.cdecl, importc: "wgpuQueueRelease".}
+proc release*(queue: Queue): void {.cdecl, importc: "wgpuQueueRelease".}
 proc setLabel*(renderBundle: RenderBundle; label: StringView): void {.cdecl,
     importc: "wgpuRenderBundleSetLabel".}
 proc wgpuRenderBundleAddRef*(renderBundle: RenderBundle): void {.cdecl,

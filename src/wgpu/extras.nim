@@ -134,7 +134,9 @@ proc features *(adapter :Adapter) :seq[Feature]=
   result = features
 ]#
 #___________________
-proc capabilities *(surface :Surface; adapter :Adapter
+proc capabilities *(
+    surface : Surface;
+    adapter : Adapter
   ) :tuple[textureFormats:seq[TextureFormat], presentModes:seq[PresentMode], alphaModes:seq[CompositeAlphaMode]]=
   ## Returns the capabilities supported by the surface as a tuple of (seq[textureFormats], seq[presentModes], seq[alphaModes])
   {.warning: "Getting capabilities from a surface is currently broken for an unknown reason. Needs fixing.".}

@@ -119,6 +119,8 @@ const replaceList * = [
   ("wgpuQueueWriteTexture",                              "write"                         ),
   ("wgpuQueueOnSubmittedWorkDone",                       "onSubmittedWorkDone"           ),
   ("wgpuQueueSetLabel",                                  "setLabel"                      ),
+  ("wgpuQueueRelease",                                   "release"                       ),
+
 
   # Buffer
   ("wgpuBufferMapAsync",                                 "mapAsync"                      ),
