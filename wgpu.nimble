@@ -4,7 +4,7 @@
 import std/[ os,strformat ]
 # Package
 packageName   = "wgpu"
-version       = "0.19.4.3"  # First three numbers in sync with wgpu-native
+version       = "24.0.3.0"  # First three numbers in sync with wgpu-native
 author        = "sOkam"
 description   = "Native WebGPU for Nim | wgpu-native"
 license       = "LGPL-3.0-or-later"
@@ -13,7 +13,7 @@ srcDir        = "src"
 binDir        = "bin"
 skipFiles     = @["build.nim"]
 # Build requirements
-requires "nim >= 1.9.1"
+requires "nim >= 2.0.0"
 
 
 #_______________________________________
