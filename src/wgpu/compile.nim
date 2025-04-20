@@ -86,8 +86,10 @@ when defined(unix):       # Both Linux and Mac
   when defined(macosx):
     {.passL: "-framework Metal -framework Cocoa -framework CoreVideo -framework IOKit -framework QuartzCore".}
     {.passL: "-lwgpu_native_static".}  # Use the renamed file with mac
+  elif defined(clang) or defined(zig):
+    {.passL: "-lwgpu_native".}         # ZigCC/clang don't understand the `:`
   else:
-    {.passL: "-l:libwgpu_native.a".}   # Use `:` with linux
+    {.passL: "-l:libwgpu_native.a".}   # Use `:` with gcc.linux
 #_____________________________
 # Windows
 elif defined(windows):

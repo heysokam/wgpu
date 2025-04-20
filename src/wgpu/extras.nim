@@ -27,6 +27,8 @@ proc setIndexBuffer *(renderPass :RenderPassEncoder; format :IndexFormat; buffer
 proc `as` *[T1, T2](val :T1; typ :typedesc[T2]) :T2=  cast[T2](val)
   ## @descr Casts the contents of {@arg val} to the given {@arg typ}
   ## @reason Syntax ergonomics
+func toStringView *(val :string) :StringView=  StringView(data: val.cstring, length: val.len.csize_t)
+  ## @descr Turns the given string into a wgpu.StringView
 
 
 #_______________________________________
@@ -36,11 +38,11 @@ proc `as` *[T1, T2](val :T1; typ :typedesc[T2]) :T2=  cast[T2](val)
 when defined(linux) and not defined(wayland):
   proc getSurfaceX11 *(instance :Instance; win :glfw.Window) :Surface=
     result = instance.create(vaddr SurfaceDescriptor(
-      label       : nil,
-      nextInChain : cast[ptr ChainedStruct](vaddr SurfaceDescriptorFromXlibWindow(
+      label       : StringView(),
+      nextInChain : cast[ptr ChainedStruct](vaddr SurfaceSourceXlibWindow(
         chain     : ChainedStruct(
           next    : nil,
-          sType   : SType_surfaceDescriptorFromXlibWindow,
+          sType   : SType_SurfaceSourceXlibWindow,
           ), # << chain
         display   : glfw.getX11Display(),
         window    : glfw.getX11Window(win).uint32,
@@ -53,10 +55,10 @@ elif defined(linux) and defined(wayland):
   proc getSurfaceWayland *(instance :Instance; win :glfw.Window) :Surface=
     result = instance.create(vaddr SurfaceDescriptor(
       label       : nil,
-      nextInChain : cast[ptr ChainedStruct](vaddr SurfaceDescriptorFromWaylandSurface(
+      nextInChain : cast[ptr ChainedStruct](vaddr SurfaceSourceWaylandSurface(
         chain     : ChainedStruct(
           next    : nil,
-          sType   : SType_surfaceDescriptorFromWaylandSurface,
+          sType   : SType_SurfaceSourceWaylandSurface,
           ), # << chain
         display   : glfw.getWaylandDisplay(),
         surface   : glfw.getWaylandWindow(win),
@@ -72,10 +74,10 @@ elif defined(windows):
     let hinstance = getModuleHandle(nil)
     result = instance.create(vaddr SurfaceDescriptor(
       label       : nil,
-      nextInChain : cast[ptr ChainedStruct](vaddr SurfaceDescriptorFromWindowsHWND(
+      nextInChain : cast[ptr ChainedStruct](vaddr SurfaceSourceWindowsHWND(
         chain     : ChainedStruct(
           next    : nil,
-          sType   : SType_surfaceDescriptorFromWindowsHWND,
+          sType   : SType_SurfaceSourceWindowsHWND,
           ), # << chain
         hinstance : hinstance,
         hwnd      : hwnd,
@@ -88,10 +90,10 @@ elif defined(macosx):
   proc getSurfaceMac *(instance :Instance; win :glfw.Window) :Surface=
     result = instance.create(vaddr SurfaceDescriptor(
       label       : nil,
-      nextInChain : cast[ptr ChainedStruct](vaddr SurfaceDescriptorFromMetalLayer(
+      nextInChain : cast[ptr ChainedStruct](vaddr SurfaceSourceMetalLayer(
         chain     : ChainedStruct(
           next    : nil,
-          sType   : SType_surfaceDescriptorFromMetalLayer,
+          sType   : SType_SurfaceSourceMetalLayer,
           ), # << chain
         # Get metal layer with our nglfw/metal_glue.h extension
         layer     : glfw.getMetalLayer(win),
@@ -137,14 +139,14 @@ proc capabilities *(surface :Surface; adapter :Adapter
   ## Returns the capabilities supported by the surface as a tuple of (seq[textureFormats], seq[presentModes], seq[alphaModes])
   {.warning: "Getting capabilities from a surface is currently broken for an unknown reason. Needs fixing.".}
   var caps :SurfaceCapabilities
-  surface.get(adapter, caps.addr)
-  var formats       = newSeqWith[TextureFormat](caps.formatCount.int, TextureFormat 0)
-  var presents      = newSeqWith[PresentMode](caps.presentModeCount.int, PresentMode 0)
-  var alphas        = newSeqWith[CompositeAlphaMode](caps.alphaModeCount.int, CompositeAlphaMode 0)
+  discard surface.get(adapter, caps.addr)
+  var formats       = newSeqWith(caps.formatCount.int, TextureFormat 0)
+  var presents      = newSeqWith(caps.presentModeCount.int, PresentMode 0)
+  var alphas        = newSeqWith(caps.alphaModeCount.int, CompositeAlphaMode 0)
   if formats.len  > 0: caps.formats      = formats[0].addr
   if presents.len > 0: caps.presentModes = presents[0].addr
   if alphas.len   > 0: caps.alphaModes   = alphas[0].addr
-  surface.get(adapter, caps.addr)
+  discard surface.get(adapter, caps.addr)
   result = (formats, presents, alphas)
 
 
@@ -154,15 +156,13 @@ proc capabilities *(surface :Surface; adapter :Adapter
 # ShaderModuleDescriptor wgslCodeToDescriptor(const char* code, const char* label);
 proc wgslToDescriptor *(code, label :string) :ShaderModuleDescriptor=
   ## Reads the given wgsl shader code, and returns a ShaderModuleDescriptor for it.
-  var descriptor         = new ShaderModuleWGSLDescriptor
+  var descriptor         = new ShaderSourceWGSL
   descriptor.chain.next  = nil
-  descriptor.chain.sType = SType_shaderModuleWGSLDescriptor
-  descriptor.code        = code.cstring
+  descriptor.chain.sType = SType_ShaderSourceWGSL
+  descriptor.code        = code.toStringView()
   result = ShaderModuleDescriptor(
     nextInChain : cast[ptr ChainedStruct](descriptor), # descriptor is a ref, so we cast that pointer into a ChainedStruct
-    label       : label.cstring,
-    hintCount   : 0,
-    hints       : nil,
+    label       : label.toStringView(),
     ) # << ShaderModuleDescriptor( ... )
 #___________________
 proc readWgsl *(file :string) :ShaderModuleDescriptor=  file.readFile.wgslToDescriptor(label = file)
