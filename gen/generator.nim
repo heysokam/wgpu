@@ -42,12 +42,14 @@ proc rename (
 const rootDir = currentSourcePath().parentDir()/".."
 const srcDir  = rootDir/"src"
 const wgpuDir = srcDir/"wgpu"/"C"/"wgpu-native"/"ffi"
+const webgpuDir = wgpuDir/"webgpu-headers"
 importc:
   renameCallback rename
   outputPath currentSourcePath.parentDir/"result.nim"
   path wgpuDir
+  path webgpuDir
   "wgpu.h"
-  "webgpu-headers"/"webgpu.h"
+  "webgpu.h"
 
 
 ##[
