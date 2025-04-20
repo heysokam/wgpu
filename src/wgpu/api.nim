@@ -454,201 +454,201 @@ type
 type
   struct_WGPUBindGroupImpl* = object
 type
-  Flags* = uint64            ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:96:18
-  Bool* = uint32             ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:97:18
+  Flags* = uint64            ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:96:18
+  Bool* = uint32             ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:97:18
   struct_WGPUStringView* {.pure, inheritable, bycopy.} = object
-    data*: cstring           ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:120:16
+    data*: cstring           ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:120:16
     length*: csize_t
-  StringView* = struct_WGPUStringView ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:123:3
-  Adapter* = ptr struct_WGPUAdapterImpl ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:145:33
-  BindGroup* = ptr struct_WGPUBindGroupImpl ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:146:35
-  BindGroupLayout* = ptr struct_WGPUBindGroupLayoutImpl ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:147:41
-  Buffer* = ptr struct_WGPUBufferImpl ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:148:32
-  CommandBuffer* = ptr struct_WGPUCommandBufferImpl ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:149:39
-  CommandEncoder* = ptr struct_WGPUCommandEncoderImpl ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:150:40
-  ComputePassEncoder* = ptr struct_WGPUComputePassEncoderImpl ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:151:44
-  ComputePipeline* = ptr struct_WGPUComputePipelineImpl ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:152:41
-  Device* = ptr struct_WGPUDeviceImpl ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:153:32
-  Instance* = ptr struct_WGPUInstanceImpl ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:154:34
-  PipelineLayout* = ptr struct_WGPUPipelineLayoutImpl ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:155:40
-  QuerySet* = ptr struct_WGPUQuerySetImpl ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:156:34
-  Queue* = ptr struct_WGPUQueueImpl ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:157:31
-  RenderBundle* = ptr struct_WGPURenderBundleImpl ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:158:38
-  RenderBundleEncoder* = ptr struct_WGPURenderBundleEncoderImpl ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:159:45
-  RenderPassEncoder* = ptr struct_WGPURenderPassEncoderImpl ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:160:43
-  RenderPipeline* = ptr struct_WGPURenderPipelineImpl ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:161:40
-  Sampler* = ptr struct_WGPUSamplerImpl ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:162:33
-  ShaderModule* = ptr struct_WGPUShaderModuleImpl ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:163:38
-  Surface* = ptr struct_WGPUSurfaceImpl ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:167:33
-  Texture* = ptr struct_WGPUTextureImpl ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:168:33
-  TextureView* = ptr struct_WGPUTextureViewImpl ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:169:37
-  AdapterType* = enum_WGPUAdapterType ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:272:3
-  AddressMode* = enum_WGPUAddressMode ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:284:3
-  BackendType* = enum_WGPUBackendType ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:301:3
-  BlendFactor* = enum_WGPUBlendFactor ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:327:3
-  BlendOperation* = enum_WGPUBlendOperation ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:341:3
-  BufferBindingType* = enum_WGPUBufferBindingType ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:360:3
-  BufferMapState* = enum_WGPUBufferMapState ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:367:3
-  CallbackMode* = enum_WGPUCallbackMode ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:399:3
-  CompareFunction* = enum_WGPUCompareFunction ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:416:3
-  CompilationInfoRequestStatus* = enum_WGPUCompilationInfoRequestStatus ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:424:3
-  CompilationMessageType* = enum_WGPUCompilationMessageType ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:431:3
-  CompositeAlphaMode* = enum_WGPUCompositeAlphaMode ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:463:3
-  CreatePipelineAsyncStatus* = enum_WGPUCreatePipelineAsyncStatus ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:472:3
-  CullMode* = enum_WGPUCullMode ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:484:3
-  DeviceLostReason* = enum_WGPUDeviceLostReason ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:492:3
-  ErrorFilter* = enum_WGPUErrorFilter ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:499:3
-  ErrorType* = enum_WGPUErrorType ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:508:3
-  FeatureLevel* = enum_WGPUFeatureLevel ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:525:3
-  FeatureName* = enum_WGPUFeatureName ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:546:3
-  FilterMode* = enum_WGPUFilterMode ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:557:3
-  FrontFace* = enum_WGPUFrontFace ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:568:3
-  IndexFormat* = enum_WGPUIndexFormat ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:579:3
-  LoadOp* = enum_WGPULoadOp  ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:590:3
-  MapAsyncStatus* = enum_WGPUMapAsyncStatus ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:599:3
-  MipmapFilterMode* = enum_WGPUMipmapFilterMode ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:610:3
-  OptionalBool* = enum_WGPUOptionalBool ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:617:3
-  PopErrorScopeStatus* = enum_WGPUPopErrorScopeStatus ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:632:3
-  PowerPreference* = enum_WGPUPowerPreference ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:643:3
-  PresentMode* = enum_WGPUPresentMode ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:681:3
-  PrimitiveTopology* = enum_WGPUPrimitiveTopology ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:695:3
-  QueryType* = enum_WGPUQueryType ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:701:3
-  QueueWorkDoneStatus* = enum_WGPUQueueWorkDoneStatus ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:709:3
-  RequestAdapterStatus* = enum_WGPURequestAdapterStatus ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:718:3
-  RequestDeviceStatus* = enum_WGPURequestDeviceStatus ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:726:3
-  SType* = enum_WGPUSType    ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:739:3
-  SamplerBindingType* = enum_WGPUSamplerBindingType ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:758:3
-  Status* = enum_WGPUStatus  ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:769:3
-  StencilOperation* = enum_WGPUStencilOperation ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:786:3
-  StorageTextureAccess* = enum_WGPUStorageTextureAccess ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:805:3
-  StoreOp* = enum_WGPUStoreOp ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:816:3
-  SurfaceGetCurrentTextureStatus* = enum_WGPUSurfaceGetCurrentTextureStatus ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:863:3
-  TextureAspect* = enum_WGPUTextureAspect ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:875:3
-  TextureDimension* = enum_WGPUTextureDimension ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:887:3
-  TextureFormat* = enum_WGPUTextureFormat ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:991:3
-  TextureSampleType* = enum_WGPUTextureSampleType ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1012:3
-  TextureViewDimension* = enum_WGPUTextureViewDimension ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1027:3
-  VertexFormat* = enum_WGPUVertexFormat ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1072:3
-  VertexStepMode* = enum_WGPUVertexStepMode ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1089:3
-  WGSLLanguageFeatureName* = enum_WGPUWGSLLanguageFeatureName ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1097:3
-  WaitStatus* = enum_WGPUWaitStatus ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1129:3
-  BufferUsage* = Flags       ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1140:19
-  ColorWriteMask* = Flags    ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1153:19
-  MapMode* = Flags           ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1161:19
-  ShaderStage* = Flags       ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1166:19
-  TextureUsage* = Flags      ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1172:19
-  Proc* = proc (): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1182:16
+  StringView* = struct_WGPUStringView ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:123:3
+  Adapter* = ptr struct_WGPUAdapterImpl ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:145:33
+  BindGroup* = ptr struct_WGPUBindGroupImpl ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:146:35
+  BindGroupLayout* = ptr struct_WGPUBindGroupLayoutImpl ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:147:41
+  Buffer* = ptr struct_WGPUBufferImpl ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:148:32
+  CommandBuffer* = ptr struct_WGPUCommandBufferImpl ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:149:39
+  CommandEncoder* = ptr struct_WGPUCommandEncoderImpl ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:150:40
+  ComputePassEncoder* = ptr struct_WGPUComputePassEncoderImpl ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:151:44
+  ComputePipeline* = ptr struct_WGPUComputePipelineImpl ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:152:41
+  Device* = ptr struct_WGPUDeviceImpl ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:153:32
+  Instance* = ptr struct_WGPUInstanceImpl ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:154:34
+  PipelineLayout* = ptr struct_WGPUPipelineLayoutImpl ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:155:40
+  QuerySet* = ptr struct_WGPUQuerySetImpl ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:156:34
+  Queue* = ptr struct_WGPUQueueImpl ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:157:31
+  RenderBundle* = ptr struct_WGPURenderBundleImpl ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:158:38
+  RenderBundleEncoder* = ptr struct_WGPURenderBundleEncoderImpl ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:159:45
+  RenderPassEncoder* = ptr struct_WGPURenderPassEncoderImpl ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:160:43
+  RenderPipeline* = ptr struct_WGPURenderPipelineImpl ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:161:40
+  Sampler* = ptr struct_WGPUSamplerImpl ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:162:33
+  ShaderModule* = ptr struct_WGPUShaderModuleImpl ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:163:38
+  Surface* = ptr struct_WGPUSurfaceImpl ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:167:33
+  Texture* = ptr struct_WGPUTextureImpl ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:168:33
+  TextureView* = ptr struct_WGPUTextureViewImpl ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:169:37
+  AdapterType* = enum_WGPUAdapterType ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:272:3
+  AddressMode* = enum_WGPUAddressMode ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:284:3
+  BackendType* = enum_WGPUBackendType ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:301:3
+  BlendFactor* = enum_WGPUBlendFactor ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:327:3
+  BlendOperation* = enum_WGPUBlendOperation ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:341:3
+  BufferBindingType* = enum_WGPUBufferBindingType ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:360:3
+  BufferMapState* = enum_WGPUBufferMapState ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:367:3
+  CallbackMode* = enum_WGPUCallbackMode ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:399:3
+  CompareFunction* = enum_WGPUCompareFunction ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:416:3
+  CompilationInfoRequestStatus* = enum_WGPUCompilationInfoRequestStatus ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:424:3
+  CompilationMessageType* = enum_WGPUCompilationMessageType ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:431:3
+  CompositeAlphaMode* = enum_WGPUCompositeAlphaMode ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:463:3
+  CreatePipelineAsyncStatus* = enum_WGPUCreatePipelineAsyncStatus ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:472:3
+  CullMode* = enum_WGPUCullMode ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:484:3
+  DeviceLostReason* = enum_WGPUDeviceLostReason ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:492:3
+  ErrorFilter* = enum_WGPUErrorFilter ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:499:3
+  ErrorType* = enum_WGPUErrorType ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:508:3
+  FeatureLevel* = enum_WGPUFeatureLevel ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:525:3
+  FeatureName* = enum_WGPUFeatureName ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:546:3
+  FilterMode* = enum_WGPUFilterMode ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:557:3
+  FrontFace* = enum_WGPUFrontFace ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:568:3
+  IndexFormat* = enum_WGPUIndexFormat ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:579:3
+  LoadOp* = enum_WGPULoadOp  ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:590:3
+  MapAsyncStatus* = enum_WGPUMapAsyncStatus ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:599:3
+  MipmapFilterMode* = enum_WGPUMipmapFilterMode ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:610:3
+  OptionalBool* = enum_WGPUOptionalBool ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:617:3
+  PopErrorScopeStatus* = enum_WGPUPopErrorScopeStatus ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:632:3
+  PowerPreference* = enum_WGPUPowerPreference ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:643:3
+  PresentMode* = enum_WGPUPresentMode ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:681:3
+  PrimitiveTopology* = enum_WGPUPrimitiveTopology ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:695:3
+  QueryType* = enum_WGPUQueryType ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:701:3
+  QueueWorkDoneStatus* = enum_WGPUQueueWorkDoneStatus ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:709:3
+  RequestAdapterStatus* = enum_WGPURequestAdapterStatus ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:718:3
+  RequestDeviceStatus* = enum_WGPURequestDeviceStatus ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:726:3
+  SType* = enum_WGPUSType    ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:739:3
+  SamplerBindingType* = enum_WGPUSamplerBindingType ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:758:3
+  Status* = enum_WGPUStatus  ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:769:3
+  StencilOperation* = enum_WGPUStencilOperation ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:786:3
+  StorageTextureAccess* = enum_WGPUStorageTextureAccess ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:805:3
+  StoreOp* = enum_WGPUStoreOp ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:816:3
+  SurfaceGetCurrentTextureStatus* = enum_WGPUSurfaceGetCurrentTextureStatus ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:863:3
+  TextureAspect* = enum_WGPUTextureAspect ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:875:3
+  TextureDimension* = enum_WGPUTextureDimension ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:887:3
+  TextureFormat* = enum_WGPUTextureFormat ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:991:3
+  TextureSampleType* = enum_WGPUTextureSampleType ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1012:3
+  TextureViewDimension* = enum_WGPUTextureViewDimension ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1027:3
+  VertexFormat* = enum_WGPUVertexFormat ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1072:3
+  VertexStepMode* = enum_WGPUVertexStepMode ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1089:3
+  WGSLLanguageFeatureName* = enum_WGPUWGSLLanguageFeatureName ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1097:3
+  WaitStatus* = enum_WGPUWaitStatus ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1129:3
+  BufferUsage* = Flags       ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1140:19
+  ColorWriteMask* = Flags    ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1153:19
+  MapMode* = Flags           ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1161:19
+  ShaderStage* = Flags       ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1166:19
+  TextureUsage* = Flags      ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1172:19
+  Proc* = proc (): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1182:16
   BufferMapCallback* = proc (a0: MapAsyncStatus; a1: StringView; a2: pointer;
-                             a3: pointer): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1195:16
+                             a3: pointer): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1195:16
   CompilationInfoCallback* = proc (a0: CompilationInfoRequestStatus;
                                    a1: ptr struct_WGPUCompilationInfo;
-                                   a2: pointer; a3: pointer): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1200:16
+                                   a2: pointer; a3: pointer): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1200:16
   struct_WGPUCompilationInfo* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2005:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2005:16
     messageCount*: csize_t
     messages*: ptr CompilationMessage
   CreateComputePipelineAsyncCallback* = proc (a0: CreatePipelineAsyncStatus;
       a1: ComputePipeline; a2: StringView; a3: pointer; a4: pointer): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1205:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1205:16
   CreateRenderPipelineAsyncCallback* = proc (a0: CreatePipelineAsyncStatus;
       a1: RenderPipeline; a2: StringView; a3: pointer; a4: pointer): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1210:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1210:16
   DeviceLostCallback* = proc (a0: ptr Device; a1: DeviceLostReason;
                               a2: StringView; a3: pointer; a4: pointer): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1219:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1219:16
   PopErrorScopeCallback* = proc (a0: PopErrorScopeStatus; a1: ErrorType;
                                  a2: StringView; a3: pointer; a4: pointer): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1233:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1233:16
   QueueWorkDoneCallback* = proc (a0: QueueWorkDoneStatus; a1: pointer;
-                                 a2: pointer): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1234:16
+                                 a2: pointer): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1234:16
   RequestAdapterCallback* = proc (a0: RequestAdapterStatus; a1: Adapter;
                                   a2: StringView; a3: pointer; a4: pointer): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1242:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1242:16
   RequestDeviceCallback* = proc (a0: RequestDeviceStatus; a1: Device;
                                  a2: StringView; a3: pointer; a4: pointer): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1250:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1250:16
   UncapturedErrorCallback* = proc (a0: ptr Device; a1: ErrorType;
                                    a2: StringView; a3: pointer; a4: pointer): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1258:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1258:16
   struct_WGPUChainedStruct* {.pure, inheritable, bycopy.} = object
-    next*: ptr struct_WGPUChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1268:16
+    next*: ptr struct_WGPUChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1268:16
     sType*: SType
-  ChainedStruct* = struct_WGPUChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1271:3
+  ChainedStruct* = struct_WGPUChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1271:3
   struct_WGPUChainedStructOut* {.pure, inheritable, bycopy.} = object
-    next*: ptr struct_WGPUChainedStructOut ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1273:16
+    next*: ptr struct_WGPUChainedStructOut ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1273:16
     sType*: SType
-  ChainedStructOut* = struct_WGPUChainedStructOut ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1276:3
+  ChainedStructOut* = struct_WGPUChainedStructOut ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1276:3
   struct_WGPUBufferMapCallbackInfo* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1294:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1294:16
     mode*: CallbackMode
     callback*: BufferMapCallback
     userdata1*: pointer
     userdata2*: pointer
-  BufferMapCallbackInfo* = struct_WGPUBufferMapCallbackInfo ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1300:3
+  BufferMapCallbackInfo* = struct_WGPUBufferMapCallbackInfo ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1300:3
   struct_WGPUCompilationInfoCallbackInfo* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1302:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1302:16
     mode*: CallbackMode
     callback*: CompilationInfoCallback
     userdata1*: pointer
     userdata2*: pointer
-  CompilationInfoCallbackInfo* = struct_WGPUCompilationInfoCallbackInfo ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1308:3
+  CompilationInfoCallbackInfo* = struct_WGPUCompilationInfoCallbackInfo ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1308:3
   struct_WGPUCreateComputePipelineAsyncCallbackInfo* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1310:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1310:16
     mode*: CallbackMode
     callback*: CreateComputePipelineAsyncCallback
     userdata1*: pointer
     userdata2*: pointer
-  CreateComputePipelineAsyncCallbackInfo* = struct_WGPUCreateComputePipelineAsyncCallbackInfo ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1316:3
+  CreateComputePipelineAsyncCallbackInfo* = struct_WGPUCreateComputePipelineAsyncCallbackInfo ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1316:3
   struct_WGPUCreateRenderPipelineAsyncCallbackInfo* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1318:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1318:16
     mode*: CallbackMode
     callback*: CreateRenderPipelineAsyncCallback
     userdata1*: pointer
     userdata2*: pointer
-  CreateRenderPipelineAsyncCallbackInfo* = struct_WGPUCreateRenderPipelineAsyncCallbackInfo ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1324:3
+  CreateRenderPipelineAsyncCallbackInfo* = struct_WGPUCreateRenderPipelineAsyncCallbackInfo ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1324:3
   struct_WGPUDeviceLostCallbackInfo* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1326:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1326:16
     mode*: CallbackMode
     callback*: DeviceLostCallback
     userdata1*: pointer
     userdata2*: pointer
-  DeviceLostCallbackInfo* = struct_WGPUDeviceLostCallbackInfo ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1332:3
+  DeviceLostCallbackInfo* = struct_WGPUDeviceLostCallbackInfo ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1332:3
   struct_WGPUPopErrorScopeCallbackInfo* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1334:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1334:16
     mode*: CallbackMode
     callback*: PopErrorScopeCallback
     userdata1*: pointer
     userdata2*: pointer
-  PopErrorScopeCallbackInfo* = struct_WGPUPopErrorScopeCallbackInfo ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1340:3
+  PopErrorScopeCallbackInfo* = struct_WGPUPopErrorScopeCallbackInfo ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1340:3
   struct_WGPUQueueWorkDoneCallbackInfo* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1342:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1342:16
     mode*: CallbackMode
     callback*: QueueWorkDoneCallback
     userdata1*: pointer
     userdata2*: pointer
-  QueueWorkDoneCallbackInfo* = struct_WGPUQueueWorkDoneCallbackInfo ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1348:3
+  QueueWorkDoneCallbackInfo* = struct_WGPUQueueWorkDoneCallbackInfo ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1348:3
   struct_WGPURequestAdapterCallbackInfo* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1350:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1350:16
     mode*: CallbackMode
     callback*: RequestAdapterCallback
     userdata1*: pointer
     userdata2*: pointer
-  RequestAdapterCallbackInfo* = struct_WGPURequestAdapterCallbackInfo ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1356:3
+  RequestAdapterCallbackInfo* = struct_WGPURequestAdapterCallbackInfo ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1356:3
   struct_WGPURequestDeviceCallbackInfo* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1358:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1358:16
     mode*: CallbackMode
     callback*: RequestDeviceCallback
     userdata1*: pointer
     userdata2*: pointer
-  RequestDeviceCallbackInfo* = struct_WGPURequestDeviceCallbackInfo ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1364:3
+  RequestDeviceCallbackInfo* = struct_WGPURequestDeviceCallbackInfo ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1364:3
   struct_WGPUUncapturedErrorCallbackInfo* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1366:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1366:16
     callback*: UncapturedErrorCallback
     userdata1*: pointer
     userdata2*: pointer
-  UncapturedErrorCallbackInfo* = struct_WGPUUncapturedErrorCallbackInfo ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1371:3
+  UncapturedErrorCallbackInfo* = struct_WGPUUncapturedErrorCallbackInfo ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1371:3
   struct_WGPUAdapterInfo* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStructOut ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1375:16
+    nextInChain*: ptr ChainedStructOut ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1375:16
     vendor*: StringView
     architecture*: StringView
     device*: StringView
@@ -657,82 +657,82 @@ type
     adapterType*: AdapterType
     vendorID*: uint32
     deviceID*: uint32
-  AdapterInfo* = struct_WGPUAdapterInfo ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1397:3
+  AdapterInfo* = struct_WGPUAdapterInfo ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1397:3
   struct_WGPUBindGroupEntry* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1399:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1399:16
     binding*: uint32
     buffer*: Buffer
     offset*: uint64
     size*: uint64
     sampler*: Sampler
     textureView*: TextureView
-  BindGroupEntry* = struct_WGPUBindGroupEntry ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1407:3
+  BindGroupEntry* = struct_WGPUBindGroupEntry ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1407:3
   struct_WGPUBlendComponent* {.pure, inheritable, bycopy.} = object
-    operation*: BlendOperation ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1409:16
+    operation*: BlendOperation ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1409:16
     srcFactor*: BlendFactor
     dstFactor*: BlendFactor
-  BlendComponent* = struct_WGPUBlendComponent ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1413:3
+  BlendComponent* = struct_WGPUBlendComponent ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1413:3
   struct_WGPUBufferBindingLayout* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1415:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1415:16
     type_field*: BufferBindingType
     hasDynamicOffset*: Bool
     minBindingSize*: uint64
-  BufferBindingLayout* = struct_WGPUBufferBindingLayout ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1420:3
+  BufferBindingLayout* = struct_WGPUBufferBindingLayout ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1420:3
   struct_WGPUBufferDescriptor* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1422:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1422:16
     label*: StringView
     usage*: BufferUsage
     size*: uint64
     mappedAtCreation*: Bool
-  BufferDescriptor* = struct_WGPUBufferDescriptor ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1431:3
+  BufferDescriptor* = struct_WGPUBufferDescriptor ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1431:3
   struct_WGPUColor* {.pure, inheritable, bycopy.} = object
-    r*: cdouble              ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1433:16
+    r*: cdouble              ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1433:16
     g*: cdouble
     b*: cdouble
     a*: cdouble
-  Color* = struct_WGPUColor  ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1438:3
+  Color* = struct_WGPUColor  ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1438:3
   struct_WGPUCommandBufferDescriptor* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1440:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1440:16
     label*: StringView
-  CommandBufferDescriptor* = struct_WGPUCommandBufferDescriptor ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1446:3
+  CommandBufferDescriptor* = struct_WGPUCommandBufferDescriptor ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1446:3
   struct_WGPUCommandEncoderDescriptor* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1448:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1448:16
     label*: StringView
-  CommandEncoderDescriptor* = struct_WGPUCommandEncoderDescriptor ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1454:3
+  CommandEncoderDescriptor* = struct_WGPUCommandEncoderDescriptor ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1454:3
   struct_WGPUCompilationMessage* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1456:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1456:16
     message*: StringView
     type_field*: CompilationMessageType
     lineNum*: uint64
     linePos*: uint64
     offset*: uint64
     length*: uint64
-  CompilationMessage* = struct_WGPUCompilationMessage ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1484:3
+  CompilationMessage* = struct_WGPUCompilationMessage ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1484:3
   struct_WGPUComputePassTimestampWrites* {.pure, inheritable, bycopy.} = object
-    querySet*: QuerySet      ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1486:16
+    querySet*: QuerySet      ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1486:16
     beginningOfPassWriteIndex*: uint32
     endOfPassWriteIndex*: uint32
-  ComputePassTimestampWrites* = struct_WGPUComputePassTimestampWrites ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1490:3
+  ComputePassTimestampWrites* = struct_WGPUComputePassTimestampWrites ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1490:3
   struct_WGPUConstantEntry* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1492:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1492:16
     key*: StringView
     value*: cdouble
-  ConstantEntry* = struct_WGPUConstantEntry ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1499:3
+  ConstantEntry* = struct_WGPUConstantEntry ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1499:3
   struct_WGPUExtent3D* {.pure, inheritable, bycopy.} = object
-    width*: uint32           ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1501:16
+    width*: uint32           ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1501:16
     height*: uint32
     depthOrArrayLayers*: uint32
-  Extent3D* = struct_WGPUExtent3D ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1505:3
+  Extent3D* = struct_WGPUExtent3D ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1505:3
   struct_WGPUFuture* {.pure, inheritable, bycopy.} = object
-    id*: uint64              ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1510:16
-  Future* = struct_WGPUFuture ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1515:3
+    id*: uint64              ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1510:16
+  Future* = struct_WGPUFuture ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1515:3
   struct_WGPUInstanceCapabilities* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStructOut ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1520:16
+    nextInChain*: ptr ChainedStructOut ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1520:16
     timedWaitAnyEnable*: Bool
     timedWaitAnyMaxCount*: csize_t
-  InstanceCapabilities* = struct_WGPUInstanceCapabilities ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1531:3
+  InstanceCapabilities* = struct_WGPUInstanceCapabilities ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1531:3
   struct_WGPULimits* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStructOut ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1533:16
+    nextInChain*: ptr ChainedStructOut ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1533:16
     maxTextureDimension1D*: uint32
     maxTextureDimension2D*: uint32
     maxTextureDimension3D*: uint32
@@ -764,48 +764,48 @@ type
     maxComputeWorkgroupSizeY*: uint32
     maxComputeWorkgroupSizeZ*: uint32
     maxComputeWorkgroupsPerDimension*: uint32
-  Limits* = struct_WGPULimits ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1567:3
+  Limits* = struct_WGPULimits ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1567:3
   struct_WGPUMultisampleState* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1569:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1569:16
     count*: uint32
     mask*: uint32
     alphaToCoverageEnabled*: Bool
-  MultisampleState* = struct_WGPUMultisampleState ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1574:3
+  MultisampleState* = struct_WGPUMultisampleState ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1574:3
   struct_WGPUOrigin3D* {.pure, inheritable, bycopy.} = object
-    x*: uint32               ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1576:16
+    x*: uint32               ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1576:16
     y*: uint32
     z*: uint32
-  Origin3D* = struct_WGPUOrigin3D ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1580:3
+  Origin3D* = struct_WGPUOrigin3D ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1580:3
   struct_WGPUPipelineLayoutDescriptor* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1582:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1582:16
     label*: StringView
     bindGroupLayoutCount*: csize_t
     bindGroupLayouts*: ptr BindGroupLayout
-  PipelineLayoutDescriptor* = struct_WGPUPipelineLayoutDescriptor ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1590:3
+  PipelineLayoutDescriptor* = struct_WGPUPipelineLayoutDescriptor ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1590:3
   struct_WGPUPrimitiveState* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1592:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1592:16
     topology*: PrimitiveTopology
     stripIndexFormat*: IndexFormat
     frontFace*: FrontFace
     cullMode*: CullMode
     unclippedDepth*: Bool
-  PrimitiveState* = struct_WGPUPrimitiveState ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1599:3
+  PrimitiveState* = struct_WGPUPrimitiveState ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1599:3
   struct_WGPUQuerySetDescriptor* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1601:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1601:16
     label*: StringView
     type_field*: QueryType
     count*: uint32
-  QuerySetDescriptor* = struct_WGPUQuerySetDescriptor ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1609:3
+  QuerySetDescriptor* = struct_WGPUQuerySetDescriptor ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1609:3
   struct_WGPUQueueDescriptor* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1611:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1611:16
     label*: StringView
-  QueueDescriptor* = struct_WGPUQueueDescriptor ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1617:3
+  QueueDescriptor* = struct_WGPUQueueDescriptor ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1617:3
   struct_WGPURenderBundleDescriptor* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1619:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1619:16
     label*: StringView
-  RenderBundleDescriptor* = struct_WGPURenderBundleDescriptor ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1625:3
+  RenderBundleDescriptor* = struct_WGPURenderBundleDescriptor ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1625:3
   struct_WGPURenderBundleEncoderDescriptor* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1627:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1627:16
     label*: StringView
     colorFormatCount*: csize_t
     colorFormats*: ptr TextureFormat
@@ -813,9 +813,9 @@ type
     sampleCount*: uint32
     depthReadOnly*: Bool
     stencilReadOnly*: Bool
-  RenderBundleEncoderDescriptor* = struct_WGPURenderBundleEncoderDescriptor ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1639:3
+  RenderBundleEncoderDescriptor* = struct_WGPURenderBundleEncoderDescriptor ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1639:3
   struct_WGPURenderPassDepthStencilAttachment* {.pure, inheritable, bycopy.} = object
-    view*: TextureView       ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1641:16
+    view*: TextureView       ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1641:16
     depthLoadOp*: LoadOp
     depthStoreOp*: StoreOp
     depthClearValue*: cfloat
@@ -824,30 +824,30 @@ type
     stencilStoreOp*: StoreOp
     stencilClearValue*: uint32
     stencilReadOnly*: Bool
-  RenderPassDepthStencilAttachment* = struct_WGPURenderPassDepthStencilAttachment ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1651:3
+  RenderPassDepthStencilAttachment* = struct_WGPURenderPassDepthStencilAttachment ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1651:3
   struct_WGPURenderPassMaxDrawCount* {.pure, inheritable, bycopy.} = object
-    chain*: ChainedStruct    ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1653:16
+    chain*: ChainedStruct    ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1653:16
     maxDrawCount*: uint64
-  RenderPassMaxDrawCount* = struct_WGPURenderPassMaxDrawCount ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1656:3
+  RenderPassMaxDrawCount* = struct_WGPURenderPassMaxDrawCount ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1656:3
   struct_WGPURenderPassTimestampWrites* {.pure, inheritable, bycopy.} = object
-    querySet*: QuerySet      ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1658:16
+    querySet*: QuerySet      ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1658:16
     beginningOfPassWriteIndex*: uint32
     endOfPassWriteIndex*: uint32
-  RenderPassTimestampWrites* = struct_WGPURenderPassTimestampWrites ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1662:3
+  RenderPassTimestampWrites* = struct_WGPURenderPassTimestampWrites ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1662:3
   struct_WGPURequestAdapterOptions* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1664:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1664:16
     featureLevel*: FeatureLevel
     powerPreference*: PowerPreference
     forceFallbackAdapter*: Bool
     backendType*: BackendType
     compatibleSurface*: Surface
-  RequestAdapterOptions* = struct_WGPURequestAdapterOptions ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1688:3
+  RequestAdapterOptions* = struct_WGPURequestAdapterOptions ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1688:3
   struct_WGPUSamplerBindingLayout* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1690:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1690:16
     type_field*: SamplerBindingType
-  SamplerBindingLayout* = struct_WGPUSamplerBindingLayout ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1693:3
+  SamplerBindingLayout* = struct_WGPUSamplerBindingLayout ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1693:3
   struct_WGPUSamplerDescriptor* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1695:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1695:16
     label*: StringView
     addressModeU*: AddressMode
     addressModeV*: AddressMode
@@ -859,42 +859,42 @@ type
     lodMaxClamp*: cfloat
     compare*: CompareFunction
     maxAnisotropy*: uint16
-  SamplerDescriptor* = struct_WGPUSamplerDescriptor ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1711:3
+  SamplerDescriptor* = struct_WGPUSamplerDescriptor ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1711:3
   struct_WGPUShaderModuleDescriptor* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1713:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1713:16
     label*: StringView
-  ShaderModuleDescriptor* = struct_WGPUShaderModuleDescriptor ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1719:3
+  ShaderModuleDescriptor* = struct_WGPUShaderModuleDescriptor ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1719:3
   struct_WGPUShaderSourceSPIRV* {.pure, inheritable, bycopy.} = object
-    chain*: ChainedStruct    ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1721:16
+    chain*: ChainedStruct    ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1721:16
     codeSize*: uint32
     code*: ptr uint32
-  ShaderSourceSPIRV* = struct_WGPUShaderSourceSPIRV ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1725:3
+  ShaderSourceSPIRV* = struct_WGPUShaderSourceSPIRV ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1725:3
   struct_WGPUShaderSourceWGSL* {.pure, inheritable, bycopy.} = object
-    chain*: ChainedStruct    ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1727:16
+    chain*: ChainedStruct    ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1727:16
     code*: StringView
-  ShaderSourceWGSL* = struct_WGPUShaderSourceWGSL ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1733:3
+  ShaderSourceWGSL* = struct_WGPUShaderSourceWGSL ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1733:3
   struct_WGPUStencilFaceState* {.pure, inheritable, bycopy.} = object
-    compare*: CompareFunction ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1735:16
+    compare*: CompareFunction ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1735:16
     failOp*: StencilOperation
     depthFailOp*: StencilOperation
     passOp*: StencilOperation
-  StencilFaceState* = struct_WGPUStencilFaceState ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1740:3
+  StencilFaceState* = struct_WGPUStencilFaceState ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1740:3
   struct_WGPUStorageTextureBindingLayout* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1742:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1742:16
     access*: StorageTextureAccess
     format*: TextureFormat
     viewDimension*: TextureViewDimension
-  StorageTextureBindingLayout* = struct_WGPUStorageTextureBindingLayout ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1747:3
+  StorageTextureBindingLayout* = struct_WGPUStorageTextureBindingLayout ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1747:3
   struct_WGPUSupportedFeatures* {.pure, inheritable, bycopy.} = object
-    featureCount*: csize_t   ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1749:16
+    featureCount*: csize_t   ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1749:16
     features*: ptr FeatureName
-  SupportedFeatures* = struct_WGPUSupportedFeatures ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1752:3
+  SupportedFeatures* = struct_WGPUSupportedFeatures ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1752:3
   struct_WGPUSupportedWGSLLanguageFeatures* {.pure, inheritable, bycopy.} = object
-    featureCount*: csize_t   ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1754:16
+    featureCount*: csize_t   ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1754:16
     features*: ptr WGSLLanguageFeatureName
-  SupportedWGSLLanguageFeatures* = struct_WGPUSupportedWGSLLanguageFeatures ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1757:3
+  SupportedWGSLLanguageFeatures* = struct_WGPUSupportedWGSLLanguageFeatures ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1757:3
   struct_WGPUSurfaceCapabilities* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStructOut ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1762:16
+    nextInChain*: ptr ChainedStructOut ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1762:16
     usages*: TextureUsage
     formatCount*: csize_t
     formats*: ptr TextureFormat
@@ -902,9 +902,9 @@ type
     presentModes*: ptr PresentMode
     alphaModeCount*: csize_t
     alphaModes*: ptr CompositeAlphaMode
-  SurfaceCapabilities* = struct_WGPUSurfaceCapabilities ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1786:3
+  SurfaceCapabilities* = struct_WGPUSurfaceCapabilities ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1786:3
   struct_WGPUSurfaceConfiguration* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1792:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1792:16
     device*: Device
     format*: TextureFormat
     usage*: TextureUsage
@@ -914,57 +914,57 @@ type
     viewFormats*: ptr TextureFormat
     alphaMode*: CompositeAlphaMode
     presentMode*: PresentMode
-  SurfaceConfiguration* = struct_WGPUSurfaceConfiguration ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1827:3
+  SurfaceConfiguration* = struct_WGPUSurfaceConfiguration ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1827:3
   struct_WGPUSurfaceDescriptor* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1834:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1834:16
     label*: StringView
-  SurfaceDescriptor* = struct_WGPUSurfaceDescriptor ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1842:3
+  SurfaceDescriptor* = struct_WGPUSurfaceDescriptor ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1842:3
   struct_WGPUSurfaceSourceAndroidNativeWindow* {.pure, inheritable, bycopy.} = object
-    chain*: ChainedStruct    ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1847:16
+    chain*: ChainedStruct    ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1847:16
     window*: pointer
-  SurfaceSourceAndroidNativeWindow* = struct_WGPUSurfaceSourceAndroidNativeWindow ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1853:3
+  SurfaceSourceAndroidNativeWindow* = struct_WGPUSurfaceSourceAndroidNativeWindow ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1853:3
   struct_WGPUSurfaceSourceMetalLayer* {.pure, inheritable, bycopy.} = object
-    chain*: ChainedStruct    ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1858:16
+    chain*: ChainedStruct    ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1858:16
     layer*: pointer
-  SurfaceSourceMetalLayer* = struct_WGPUSurfaceSourceMetalLayer ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1864:3
+  SurfaceSourceMetalLayer* = struct_WGPUSurfaceSourceMetalLayer ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1864:3
   struct_WGPUSurfaceSourceWaylandSurface* {.pure, inheritable, bycopy.} = object
-    chain*: ChainedStruct    ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1869:16
+    chain*: ChainedStruct    ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1869:16
     display*: pointer
     surface*: pointer
-  SurfaceSourceWaylandSurface* = struct_WGPUSurfaceSourceWaylandSurface ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1879:3
+  SurfaceSourceWaylandSurface* = struct_WGPUSurfaceSourceWaylandSurface ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1879:3
   struct_WGPUSurfaceSourceWindowsHWND* {.pure, inheritable, bycopy.} = object
-    chain*: ChainedStruct    ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1884:16
+    chain*: ChainedStruct    ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1884:16
     hinstance*: pointer
     hwnd*: pointer
-  SurfaceSourceWindowsHWND* = struct_WGPUSurfaceSourceWindowsHWND ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1895:3
+  SurfaceSourceWindowsHWND* = struct_WGPUSurfaceSourceWindowsHWND ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1895:3
   struct_WGPUSurfaceSourceXCBWindow* {.pure, inheritable, bycopy.} = object
-    chain*: ChainedStruct    ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1900:16
+    chain*: ChainedStruct    ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1900:16
     connection*: pointer
     window*: uint32
-  SurfaceSourceXCBWindow* = struct_WGPUSurfaceSourceXCBWindow ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1910:3
+  SurfaceSourceXCBWindow* = struct_WGPUSurfaceSourceXCBWindow ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1910:3
   struct_WGPUSurfaceSourceXlibWindow* {.pure, inheritable, bycopy.} = object
-    chain*: ChainedStruct    ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1915:16
+    chain*: ChainedStruct    ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1915:16
     display*: pointer
     window*: uint64
-  SurfaceSourceXlibWindow* = struct_WGPUSurfaceSourceXlibWindow ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1925:3
+  SurfaceSourceXlibWindow* = struct_WGPUSurfaceSourceXlibWindow ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1925:3
   struct_WGPUSurfaceTexture* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStructOut ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1931:16
+    nextInChain*: ptr ChainedStructOut ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1931:16
     texture*: Texture
     status*: SurfaceGetCurrentTextureStatus
-  SurfaceTexture* = struct_WGPUSurfaceTexture ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1942:3
+  SurfaceTexture* = struct_WGPUSurfaceTexture ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1942:3
   struct_WGPUTexelCopyBufferLayout* {.pure, inheritable, bycopy.} = object
-    offset*: uint64          ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1944:16
+    offset*: uint64          ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1944:16
     bytesPerRow*: uint32
     rowsPerImage*: uint32
-  TexelCopyBufferLayout* = struct_WGPUTexelCopyBufferLayout ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1948:3
+  TexelCopyBufferLayout* = struct_WGPUTexelCopyBufferLayout ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1948:3
   struct_WGPUTextureBindingLayout* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1950:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1950:16
     sampleType*: TextureSampleType
     viewDimension*: TextureViewDimension
     multisampled*: Bool
-  TextureBindingLayout* = struct_WGPUTextureBindingLayout ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1955:3
+  TextureBindingLayout* = struct_WGPUTextureBindingLayout ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1955:3
   struct_WGPUTextureViewDescriptor* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1957:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1957:16
     label*: StringView
     format*: TextureFormat
     dimension*: TextureViewDimension
@@ -974,40 +974,40 @@ type
     arrayLayerCount*: uint32
     aspect*: TextureAspect
     usage*: TextureUsage
-  TextureViewDescriptor* = struct_WGPUTextureViewDescriptor ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1971:3
+  TextureViewDescriptor* = struct_WGPUTextureViewDescriptor ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1971:3
   struct_WGPUVertexAttribute* {.pure, inheritable, bycopy.} = object
-    format*: VertexFormat    ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1973:16
+    format*: VertexFormat    ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1973:16
     offset*: uint64
     shaderLocation*: uint32
-  VertexAttribute* = struct_WGPUVertexAttribute ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1977:3
+  VertexAttribute* = struct_WGPUVertexAttribute ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1977:3
   struct_WGPUBindGroupDescriptor* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1979:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1979:16
     label*: StringView
     layout*: BindGroupLayout
     entryCount*: csize_t
     entries*: ptr BindGroupEntry
-  BindGroupDescriptor* = struct_WGPUBindGroupDescriptor ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1988:3
+  BindGroupDescriptor* = struct_WGPUBindGroupDescriptor ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1988:3
   struct_WGPUBindGroupLayoutEntry* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1990:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1990:16
     binding*: uint32
     visibility*: ShaderStage
     buffer*: BufferBindingLayout
     sampler*: SamplerBindingLayout
     texture*: TextureBindingLayout
     storageTexture*: StorageTextureBindingLayout
-  BindGroupLayoutEntry* = struct_WGPUBindGroupLayoutEntry ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1998:3
+  BindGroupLayoutEntry* = struct_WGPUBindGroupLayoutEntry ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:1998:3
   struct_WGPUBlendState* {.pure, inheritable, bycopy.} = object
-    color*: BlendComponent   ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2000:16
+    color*: BlendComponent   ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2000:16
     alpha*: BlendComponent
-  BlendState* = struct_WGPUBlendState ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2003:3
-  CompilationInfo* = struct_WGPUCompilationInfo ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2009:3
+  BlendState* = struct_WGPUBlendState ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2003:3
+  CompilationInfo* = struct_WGPUCompilationInfo ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2009:3
   struct_WGPUComputePassDescriptor* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2011:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2011:16
     label*: StringView
     timestampWrites*: ptr ComputePassTimestampWrites
-  ComputePassDescriptor* = struct_WGPUComputePassDescriptor ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2018:3
+  ComputePassDescriptor* = struct_WGPUComputePassDescriptor ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2018:3
   struct_WGPUDepthStencilState* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2020:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2020:16
     format*: TextureFormat
     depthWriteEnabled*: OptionalBool
     depthCompare*: CompareFunction
@@ -1018,9 +1018,9 @@ type
     depthBias*: int32
     depthBiasSlopeScale*: cfloat
     depthBiasClamp*: cfloat
-  DepthStencilState* = struct_WGPUDepthStencilState ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2032:3
+  DepthStencilState* = struct_WGPUDepthStencilState ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2032:3
   struct_WGPUDeviceDescriptor* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2034:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2034:16
     label*: StringView
     requiredFeatureCount*: csize_t
     requiredFeatures*: ptr FeatureName
@@ -1028,43 +1028,43 @@ type
     defaultQueue*: QueueDescriptor
     deviceLostCallbackInfo*: DeviceLostCallbackInfo
     uncapturedErrorCallbackInfo*: UncapturedErrorCallbackInfo
-  DeviceDescriptor* = struct_WGPUDeviceDescriptor ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2046:3
+  DeviceDescriptor* = struct_WGPUDeviceDescriptor ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2046:3
   struct_WGPUFutureWaitInfo* {.pure, inheritable, bycopy.} = object
-    future*: Future          ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2051:16
+    future*: Future          ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2051:16
     completed*: Bool
-  FutureWaitInfo* = struct_WGPUFutureWaitInfo ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2060:3
+  FutureWaitInfo* = struct_WGPUFutureWaitInfo ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2060:3
   struct_WGPUInstanceDescriptor* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2062:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2062:16
     features*: InstanceCapabilities
-  InstanceDescriptor* = struct_WGPUInstanceDescriptor ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2068:3
+  InstanceDescriptor* = struct_WGPUInstanceDescriptor ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2068:3
   struct_WGPUProgrammableStageDescriptor* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2070:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2070:16
     module*: ShaderModule
     entryPoint*: StringView
     constantCount*: csize_t
     constants*: ptr ConstantEntry
-  ProgrammableStageDescriptor* = struct_WGPUProgrammableStageDescriptor ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2079:3
+  ProgrammableStageDescriptor* = struct_WGPUProgrammableStageDescriptor ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2079:3
   struct_WGPURenderPassColorAttachment* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2081:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2081:16
     view*: TextureView
     depthSlice*: uint32
     resolveTarget*: TextureView
     loadOp*: LoadOp
     storeOp*: StoreOp
     clearValue*: Color
-  RenderPassColorAttachment* = struct_WGPURenderPassColorAttachment ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2089:3
+  RenderPassColorAttachment* = struct_WGPURenderPassColorAttachment ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2089:3
   struct_WGPUTexelCopyBufferInfo* {.pure, inheritable, bycopy.} = object
-    layout*: TexelCopyBufferLayout ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2091:16
+    layout*: TexelCopyBufferLayout ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2091:16
     buffer*: Buffer
-  TexelCopyBufferInfo* = struct_WGPUTexelCopyBufferInfo ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2094:3
+  TexelCopyBufferInfo* = struct_WGPUTexelCopyBufferInfo ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2094:3
   struct_WGPUTexelCopyTextureInfo* {.pure, inheritable, bycopy.} = object
-    texture*: Texture        ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2096:16
+    texture*: Texture        ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2096:16
     mipLevel*: uint32
     origin*: Origin3D
     aspect*: TextureAspect
-  TexelCopyTextureInfo* = struct_WGPUTexelCopyTextureInfo ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2101:3
+  TexelCopyTextureInfo* = struct_WGPUTexelCopyTextureInfo ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2101:3
   struct_WGPUTextureDescriptor* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2103:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2103:16
     label*: StringView
     usage*: TextureUsage
     dimension*: TextureDimension
@@ -1074,60 +1074,60 @@ type
     sampleCount*: uint32
     viewFormatCount*: csize_t
     viewFormats*: ptr TextureFormat
-  TextureDescriptor* = struct_WGPUTextureDescriptor ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2117:3
+  TextureDescriptor* = struct_WGPUTextureDescriptor ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2117:3
   struct_WGPUVertexBufferLayout* {.pure, inheritable, bycopy.} = object
-    stepMode*: VertexStepMode ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2119:16
+    stepMode*: VertexStepMode ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2119:16
     arrayStride*: uint64
     attributeCount*: csize_t
     attributes*: ptr VertexAttribute
-  VertexBufferLayout* = struct_WGPUVertexBufferLayout ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2129:3
+  VertexBufferLayout* = struct_WGPUVertexBufferLayout ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2129:3
   struct_WGPUBindGroupLayoutDescriptor* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2131:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2131:16
     label*: StringView
     entryCount*: csize_t
     entries*: ptr BindGroupLayoutEntry
-  BindGroupLayoutDescriptor* = struct_WGPUBindGroupLayoutDescriptor ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2139:3
+  BindGroupLayoutDescriptor* = struct_WGPUBindGroupLayoutDescriptor ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2139:3
   struct_WGPUColorTargetState* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2141:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2141:16
     format*: TextureFormat
     blend*: ptr BlendState
     writeMask*: ColorWriteMask
-  ColorTargetState* = struct_WGPUColorTargetState ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2151:3
+  ColorTargetState* = struct_WGPUColorTargetState ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2151:3
   struct_WGPUComputePipelineDescriptor* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2153:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2153:16
     label*: StringView
     layout*: PipelineLayout
     compute*: ProgrammableStageDescriptor
-  ComputePipelineDescriptor* = struct_WGPUComputePipelineDescriptor ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2161:3
+  ComputePipelineDescriptor* = struct_WGPUComputePipelineDescriptor ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2161:3
   struct_WGPURenderPassDescriptor* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2163:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2163:16
     label*: StringView
     colorAttachmentCount*: csize_t
     colorAttachments*: ptr RenderPassColorAttachment
     depthStencilAttachment*: ptr RenderPassDepthStencilAttachment
     occlusionQuerySet*: QuerySet
     timestampWrites*: ptr RenderPassTimestampWrites
-  RenderPassDescriptor* = struct_WGPURenderPassDescriptor ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2174:3
+  RenderPassDescriptor* = struct_WGPURenderPassDescriptor ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2174:3
   struct_WGPUVertexState* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2176:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2176:16
     module*: ShaderModule
     entryPoint*: StringView
     constantCount*: csize_t
     constants*: ptr ConstantEntry
     bufferCount*: csize_t
     buffers*: ptr VertexBufferLayout
-  VertexState* = struct_WGPUVertexState ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2187:3
+  VertexState* = struct_WGPUVertexState ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2187:3
   struct_WGPUFragmentState* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2189:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2189:16
     module*: ShaderModule
     entryPoint*: StringView
     constantCount*: csize_t
     constants*: ptr ConstantEntry
     targetCount*: csize_t
     targets*: ptr ColorTargetState
-  FragmentState* = struct_WGPUFragmentState ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2200:3
+  FragmentState* = struct_WGPUFragmentState ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2200:3
   struct_WGPURenderPipelineDescriptor* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2202:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2202:16
     label*: StringView
     layout*: PipelineLayout
     vertex*: VertexState
@@ -1135,376 +1135,376 @@ type
     depthStencil*: ptr DepthStencilState
     multisample*: MultisampleState
     fragment*: ptr FragmentState
-  RenderPipelineDescriptor* = struct_WGPURenderPipelineDescriptor ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2214:3
-  ProcCreateInstance* = proc (a0: ptr InstanceDescriptor): Instance {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2228:24
+  RenderPipelineDescriptor* = struct_WGPURenderPipelineDescriptor ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2214:3
+  ProcCreateInstance* = proc (a0: ptr InstanceDescriptor): Instance {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2228:24
   ProcGetInstanceCapabilities* = proc (a0: ptr InstanceCapabilities): Status {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2233:22
-  ProcGetProcAddress* = proc (a0: StringView): Proc {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2238:20
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2233:22
+  ProcGetProcAddress* = proc (a0: StringView): Proc {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2238:20
   ProcAdapterGetFeatures* = proc (a0: Adapter; a1: ptr SupportedFeatures): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2245:16
-  ProcAdapterGetInfo* = proc (a0: Adapter; a1: ptr AdapterInfo): Status {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2250:22
-  ProcAdapterGetLimits* = proc (a0: Adapter; a1: ptr Limits): Status {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2255:22
-  ProcAdapterHasFeature* = proc (a0: Adapter; a1: FeatureName): Bool {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2260:20
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2245:16
+  ProcAdapterGetInfo* = proc (a0: Adapter; a1: ptr AdapterInfo): Status {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2250:22
+  ProcAdapterGetLimits* = proc (a0: Adapter; a1: ptr Limits): Status {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2255:22
+  ProcAdapterHasFeature* = proc (a0: Adapter; a1: FeatureName): Bool {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2260:20
   ProcAdapterRequestDevice* = proc (a0: Adapter; a1: ptr DeviceDescriptor;
                                     a2: RequestDeviceCallbackInfo): Future {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2265:22
-  ProcAdapterAddRef* = proc (a0: Adapter): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2270:16
-  ProcAdapterRelease* = proc (a0: Adapter): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2275:16
-  ProcAdapterInfoFreeMembers* = proc (a0: AdapterInfo): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2282:16
-  ProcBindGroupSetLabel* = proc (a0: BindGroup; a1: StringView): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2289:16
-  ProcBindGroupAddRef* = proc (a0: BindGroup): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2294:16
-  ProcBindGroupRelease* = proc (a0: BindGroup): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2299:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2265:22
+  ProcAdapterAddRef* = proc (a0: Adapter): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2270:16
+  ProcAdapterRelease* = proc (a0: Adapter): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2275:16
+  ProcAdapterInfoFreeMembers* = proc (a0: AdapterInfo): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2282:16
+  ProcBindGroupSetLabel* = proc (a0: BindGroup; a1: StringView): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2289:16
+  ProcBindGroupAddRef* = proc (a0: BindGroup): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2294:16
+  ProcBindGroupRelease* = proc (a0: BindGroup): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2299:16
   ProcBindGroupLayoutSetLabel* = proc (a0: BindGroupLayout; a1: StringView): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2306:16
-  ProcBindGroupLayoutAddRef* = proc (a0: BindGroupLayout): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2311:16
-  ProcBindGroupLayoutRelease* = proc (a0: BindGroupLayout): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2316:16
-  ProcBufferDestroy* = proc (a0: Buffer): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2323:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2306:16
+  ProcBindGroupLayoutAddRef* = proc (a0: BindGroupLayout): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2311:16
+  ProcBindGroupLayoutRelease* = proc (a0: BindGroupLayout): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2316:16
+  ProcBufferDestroy* = proc (a0: Buffer): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2323:16
   ProcBufferGetConstMappedRange* = proc (a0: Buffer; a1: csize_t; a2: csize_t): pointer {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2328:24
-  ProcBufferGetMapState* = proc (a0: Buffer): BufferMapState {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2333:30
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2328:24
+  ProcBufferGetMapState* = proc (a0: Buffer): BufferMapState {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2333:30
   ProcBufferGetMappedRange* = proc (a0: Buffer; a1: csize_t; a2: csize_t): pointer {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2338:18
-  ProcBufferGetSize* = proc (a0: Buffer): uint64 {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2343:20
-  ProcBufferGetUsage* = proc (a0: Buffer): BufferUsage {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2348:27
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2338:18
+  ProcBufferGetSize* = proc (a0: Buffer): uint64 {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2343:20
+  ProcBufferGetUsage* = proc (a0: Buffer): BufferUsage {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2348:27
   ProcBufferMapAsync* = proc (a0: Buffer; a1: MapMode; a2: csize_t; a3: csize_t;
-                              a4: BufferMapCallbackInfo): Future {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2353:22
-  ProcBufferSetLabel* = proc (a0: Buffer; a1: StringView): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2358:16
-  ProcBufferUnmap* = proc (a0: Buffer): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2363:16
-  ProcBufferAddRef* = proc (a0: Buffer): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2368:16
-  ProcBufferRelease* = proc (a0: Buffer): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2373:16
+                              a4: BufferMapCallbackInfo): Future {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2353:22
+  ProcBufferSetLabel* = proc (a0: Buffer; a1: StringView): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2358:16
+  ProcBufferUnmap* = proc (a0: Buffer): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2363:16
+  ProcBufferAddRef* = proc (a0: Buffer): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2368:16
+  ProcBufferRelease* = proc (a0: Buffer): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2373:16
   ProcCommandBufferSetLabel* = proc (a0: CommandBuffer; a1: StringView): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2380:16
-  ProcCommandBufferAddRef* = proc (a0: CommandBuffer): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2385:16
-  ProcCommandBufferRelease* = proc (a0: CommandBuffer): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2390:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2380:16
+  ProcCommandBufferAddRef* = proc (a0: CommandBuffer): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2385:16
+  ProcCommandBufferRelease* = proc (a0: CommandBuffer): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2390:16
   ProcCommandEncoderBeginComputePass* = proc (a0: CommandEncoder;
-      a1: ptr ComputePassDescriptor): ComputePassEncoder {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2397:34
+      a1: ptr ComputePassDescriptor): ComputePassEncoder {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2397:34
   ProcCommandEncoderBeginRenderPass* = proc (a0: CommandEncoder;
-      a1: ptr RenderPassDescriptor): RenderPassEncoder {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2402:33
+      a1: ptr RenderPassDescriptor): RenderPassEncoder {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2402:33
   ProcCommandEncoderClearBuffer* = proc (a0: CommandEncoder; a1: Buffer;
-      a2: uint64; a3: uint64): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2407:16
+      a2: uint64; a3: uint64): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2407:16
   ProcCommandEncoderCopyBufferToBuffer* = proc (a0: CommandEncoder; a1: Buffer;
-      a2: uint64; a3: Buffer; a4: uint64; a5: uint64): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2412:16
+      a2: uint64; a3: Buffer; a4: uint64; a5: uint64): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2412:16
   ProcCommandEncoderCopyBufferToTexture* = proc (a0: CommandEncoder;
       a1: ptr TexelCopyBufferInfo; a2: ptr TexelCopyTextureInfo;
-      a3: ptr Extent3D): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2417:16
+      a3: ptr Extent3D): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2417:16
   ProcCommandEncoderCopyTextureToBuffer* = proc (a0: CommandEncoder;
       a1: ptr TexelCopyTextureInfo; a2: ptr TexelCopyBufferInfo;
-      a3: ptr Extent3D): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2422:16
+      a3: ptr Extent3D): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2422:16
   ProcCommandEncoderCopyTextureToTexture* = proc (a0: CommandEncoder;
       a1: ptr TexelCopyTextureInfo; a2: ptr TexelCopyTextureInfo;
-      a3: ptr Extent3D): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2427:16
+      a3: ptr Extent3D): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2427:16
   ProcCommandEncoderFinish* = proc (a0: CommandEncoder;
                                     a1: ptr CommandBufferDescriptor): CommandBuffer {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2432:29
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2432:29
   ProcCommandEncoderInsertDebugMarker* = proc (a0: CommandEncoder;
-      a1: StringView): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2437:16
-  ProcCommandEncoderPopDebugGroup* = proc (a0: CommandEncoder): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2442:16
+      a1: StringView): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2437:16
+  ProcCommandEncoderPopDebugGroup* = proc (a0: CommandEncoder): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2442:16
   ProcCommandEncoderPushDebugGroup* = proc (a0: CommandEncoder; a1: StringView): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2447:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2447:16
   ProcCommandEncoderResolveQuerySet* = proc (a0: CommandEncoder; a1: QuerySet;
-      a2: uint32; a3: uint32; a4: Buffer; a5: uint64): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2452:16
+      a2: uint32; a3: uint32; a4: Buffer; a5: uint64): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2452:16
   ProcCommandEncoderSetLabel* = proc (a0: CommandEncoder; a1: StringView): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2457:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2457:16
   ProcCommandEncoderWriteTimestamp* = proc (a0: CommandEncoder; a1: QuerySet;
-      a2: uint32): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2462:16
-  ProcCommandEncoderAddRef* = proc (a0: CommandEncoder): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2467:16
-  ProcCommandEncoderRelease* = proc (a0: CommandEncoder): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2472:16
+      a2: uint32): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2462:16
+  ProcCommandEncoderAddRef* = proc (a0: CommandEncoder): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2467:16
+  ProcCommandEncoderRelease* = proc (a0: CommandEncoder): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2472:16
   ProcComputePassEncoderDispatchWorkgroups* = proc (a0: ComputePassEncoder;
-      a1: uint32; a2: uint32; a3: uint32): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2479:16
+      a1: uint32; a2: uint32; a3: uint32): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2479:16
   ProcComputePassEncoderDispatchWorkgroupsIndirect* = proc (
-      a0: ComputePassEncoder; a1: Buffer; a2: uint64): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2484:16
-  ProcComputePassEncoderEnd* = proc (a0: ComputePassEncoder): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2489:16
+      a0: ComputePassEncoder; a1: Buffer; a2: uint64): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2484:16
+  ProcComputePassEncoderEnd* = proc (a0: ComputePassEncoder): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2489:16
   ProcComputePassEncoderInsertDebugMarker* = proc (a0: ComputePassEncoder;
-      a1: StringView): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2494:16
+      a1: StringView): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2494:16
   ProcComputePassEncoderPopDebugGroup* = proc (a0: ComputePassEncoder): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2499:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2499:16
   ProcComputePassEncoderPushDebugGroup* = proc (a0: ComputePassEncoder;
-      a1: StringView): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2504:16
+      a1: StringView): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2504:16
   ProcComputePassEncoderSetBindGroup* = proc (a0: ComputePassEncoder;
-      a1: uint32; a2: BindGroup; a3: csize_t; a4: ptr uint32): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2509:16
+      a1: uint32; a2: BindGroup; a3: csize_t; a4: ptr uint32): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2509:16
   ProcComputePassEncoderSetLabel* = proc (a0: ComputePassEncoder; a1: StringView): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2514:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2514:16
   ProcComputePassEncoderSetPipeline* = proc (a0: ComputePassEncoder;
-      a1: ComputePipeline): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2519:16
-  ProcComputePassEncoderAddRef* = proc (a0: ComputePassEncoder): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2524:16
-  ProcComputePassEncoderRelease* = proc (a0: ComputePassEncoder): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2529:16
+      a1: ComputePipeline): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2519:16
+  ProcComputePassEncoderAddRef* = proc (a0: ComputePassEncoder): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2524:16
+  ProcComputePassEncoderRelease* = proc (a0: ComputePassEncoder): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2529:16
   ProcComputePipelineGetBindGroupLayout* = proc (a0: ComputePipeline; a1: uint32): BindGroupLayout {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2536:31
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2536:31
   ProcComputePipelineSetLabel* = proc (a0: ComputePipeline; a1: StringView): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2541:16
-  ProcComputePipelineAddRef* = proc (a0: ComputePipeline): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2546:16
-  ProcComputePipelineRelease* = proc (a0: ComputePipeline): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2551:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2541:16
+  ProcComputePipelineAddRef* = proc (a0: ComputePipeline): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2546:16
+  ProcComputePipelineRelease* = proc (a0: ComputePipeline): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2551:16
   ProcDeviceCreateBindGroup* = proc (a0: Device; a1: ptr BindGroupDescriptor): BindGroup {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2558:25
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2558:25
   ProcDeviceCreateBindGroupLayout* = proc (a0: Device;
-      a1: ptr BindGroupLayoutDescriptor): BindGroupLayout {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2563:31
+      a1: ptr BindGroupLayoutDescriptor): BindGroupLayout {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2563:31
   ProcDeviceCreateBuffer* = proc (a0: Device; a1: ptr BufferDescriptor): Buffer {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2568:22
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2568:22
   ProcDeviceCreateCommandEncoder* = proc (a0: Device;
-      a1: ptr CommandEncoderDescriptor): CommandEncoder {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2573:30
+      a1: ptr CommandEncoderDescriptor): CommandEncoder {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2573:30
   ProcDeviceCreateComputePipeline* = proc (a0: Device;
-      a1: ptr ComputePipelineDescriptor): ComputePipeline {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2578:31
+      a1: ptr ComputePipelineDescriptor): ComputePipeline {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2578:31
   ProcDeviceCreateComputePipelineAsync* = proc (a0: Device;
       a1: ptr ComputePipelineDescriptor;
-      a2: CreateComputePipelineAsyncCallbackInfo): Future {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2583:22
+      a2: CreateComputePipelineAsyncCallbackInfo): Future {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2583:22
   ProcDeviceCreatePipelineLayout* = proc (a0: Device;
-      a1: ptr PipelineLayoutDescriptor): PipelineLayout {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2588:30
+      a1: ptr PipelineLayoutDescriptor): PipelineLayout {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2588:30
   ProcDeviceCreateQuerySet* = proc (a0: Device; a1: ptr QuerySetDescriptor): QuerySet {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2593:24
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2593:24
   ProcDeviceCreateRenderBundleEncoder* = proc (a0: Device;
-      a1: ptr RenderBundleEncoderDescriptor): RenderBundleEncoder {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2598:35
+      a1: ptr RenderBundleEncoderDescriptor): RenderBundleEncoder {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2598:35
   ProcDeviceCreateRenderPipeline* = proc (a0: Device;
-      a1: ptr RenderPipelineDescriptor): RenderPipeline {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2603:30
+      a1: ptr RenderPipelineDescriptor): RenderPipeline {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2603:30
   ProcDeviceCreateRenderPipelineAsync* = proc (a0: Device;
       a1: ptr RenderPipelineDescriptor;
-      a2: CreateRenderPipelineAsyncCallbackInfo): Future {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2608:22
+      a2: CreateRenderPipelineAsyncCallbackInfo): Future {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2608:22
   ProcDeviceCreateSampler* = proc (a0: Device; a1: ptr SamplerDescriptor): Sampler {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2613:23
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2613:23
   ProcDeviceCreateShaderModule* = proc (a0: Device;
                                         a1: ptr ShaderModuleDescriptor): ShaderModule {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2618:28
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2618:28
   ProcDeviceCreateTexture* = proc (a0: Device; a1: ptr TextureDescriptor): Texture {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2623:23
-  ProcDeviceDestroy* = proc (a0: Device): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2628:16
-  ProcDeviceGetAdapterInfo* = proc (a0: Device): AdapterInfo {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2633:27
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2623:23
+  ProcDeviceDestroy* = proc (a0: Device): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2628:16
+  ProcDeviceGetAdapterInfo* = proc (a0: Device): AdapterInfo {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2633:27
   ProcDeviceGetFeatures* = proc (a0: Device; a1: ptr SupportedFeatures): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2638:16
-  ProcDeviceGetLimits* = proc (a0: Device; a1: ptr Limits): Status {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2643:22
-  ProcDeviceGetLostFuture* = proc (a0: Device): Future {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2648:22
-  ProcDeviceGetQueue* = proc (a0: Device): Queue {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2653:21
-  ProcDeviceHasFeature* = proc (a0: Device; a1: FeatureName): Bool {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2658:20
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2638:16
+  ProcDeviceGetLimits* = proc (a0: Device; a1: ptr Limits): Status {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2643:22
+  ProcDeviceGetLostFuture* = proc (a0: Device): Future {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2648:22
+  ProcDeviceGetQueue* = proc (a0: Device): Queue {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2653:21
+  ProcDeviceHasFeature* = proc (a0: Device; a1: FeatureName): Bool {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2658:20
   ProcDevicePopErrorScope* = proc (a0: Device; a1: PopErrorScopeCallbackInfo): Future {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2663:22
-  ProcDevicePushErrorScope* = proc (a0: Device; a1: ErrorFilter): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2668:16
-  ProcDeviceSetLabel* = proc (a0: Device; a1: StringView): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2673:16
-  ProcDeviceAddRef* = proc (a0: Device): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2678:16
-  ProcDeviceRelease* = proc (a0: Device): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2683:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2663:22
+  ProcDevicePushErrorScope* = proc (a0: Device; a1: ErrorFilter): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2668:16
+  ProcDeviceSetLabel* = proc (a0: Device; a1: StringView): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2673:16
+  ProcDeviceAddRef* = proc (a0: Device): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2678:16
+  ProcDeviceRelease* = proc (a0: Device): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2683:16
   ProcInstanceCreateSurface* = proc (a0: Instance; a1: ptr SurfaceDescriptor): Surface {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2690:23
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2690:23
   ProcInstanceGetWGSLLanguageFeatures* = proc (a0: Instance;
-      a1: ptr SupportedWGSLLanguageFeatures): Status {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2695:22
+      a1: ptr SupportedWGSLLanguageFeatures): Status {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2695:22
   ProcInstanceHasWGSLLanguageFeature* = proc (a0: Instance;
-      a1: WGSLLanguageFeatureName): Bool {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2700:20
-  ProcInstanceProcessEvents* = proc (a0: Instance): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2705:16
+      a1: WGSLLanguageFeatureName): Bool {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2700:20
+  ProcInstanceProcessEvents* = proc (a0: Instance): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2705:16
   ProcInstanceRequestAdapter* = proc (a0: Instance;
                                       a1: ptr RequestAdapterOptions;
                                       a2: RequestAdapterCallbackInfo): Future {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2710:22
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2710:22
   ProcInstanceWaitAny* = proc (a0: Instance; a1: csize_t;
                                a2: ptr FutureWaitInfo; a3: uint64): WaitStatus {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2715:26
-  ProcInstanceAddRef* = proc (a0: Instance): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2720:16
-  ProcInstanceRelease* = proc (a0: Instance): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2725:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2715:26
+  ProcInstanceAddRef* = proc (a0: Instance): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2720:16
+  ProcInstanceRelease* = proc (a0: Instance): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2725:16
   ProcPipelineLayoutSetLabel* = proc (a0: PipelineLayout; a1: StringView): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2732:16
-  ProcPipelineLayoutAddRef* = proc (a0: PipelineLayout): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2737:16
-  ProcPipelineLayoutRelease* = proc (a0: PipelineLayout): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2742:16
-  ProcQuerySetDestroy* = proc (a0: QuerySet): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2749:16
-  ProcQuerySetGetCount* = proc (a0: QuerySet): uint32 {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2754:20
-  ProcQuerySetGetType* = proc (a0: QuerySet): QueryType {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2759:25
-  ProcQuerySetSetLabel* = proc (a0: QuerySet; a1: StringView): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2764:16
-  ProcQuerySetAddRef* = proc (a0: QuerySet): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2769:16
-  ProcQuerySetRelease* = proc (a0: QuerySet): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2774:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2732:16
+  ProcPipelineLayoutAddRef* = proc (a0: PipelineLayout): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2737:16
+  ProcPipelineLayoutRelease* = proc (a0: PipelineLayout): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2742:16
+  ProcQuerySetDestroy* = proc (a0: QuerySet): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2749:16
+  ProcQuerySetGetCount* = proc (a0: QuerySet): uint32 {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2754:20
+  ProcQuerySetGetType* = proc (a0: QuerySet): QueryType {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2759:25
+  ProcQuerySetSetLabel* = proc (a0: QuerySet; a1: StringView): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2764:16
+  ProcQuerySetAddRef* = proc (a0: QuerySet): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2769:16
+  ProcQuerySetRelease* = proc (a0: QuerySet): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2774:16
   ProcQueueOnSubmittedWorkDone* = proc (a0: Queue; a1: QueueWorkDoneCallbackInfo): Future {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2781:22
-  ProcQueueSetLabel* = proc (a0: Queue; a1: StringView): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2786:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2781:22
+  ProcQueueSetLabel* = proc (a0: Queue; a1: StringView): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2786:16
   ProcQueueSubmit* = proc (a0: Queue; a1: csize_t; a2: ptr CommandBuffer): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2791:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2791:16
   ProcQueueWriteBuffer* = proc (a0: Queue; a1: Buffer; a2: uint64; a3: pointer;
-                                a4: csize_t): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2796:16
+                                a4: csize_t): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2796:16
   ProcQueueWriteTexture* = proc (a0: Queue; a1: ptr TexelCopyTextureInfo;
                                  a2: pointer; a3: csize_t;
                                  a4: ptr TexelCopyBufferLayout; a5: ptr Extent3D): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2801:16
-  ProcQueueAddRef* = proc (a0: Queue): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2806:16
-  ProcQueueRelease* = proc (a0: Queue): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2811:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2801:16
+  ProcQueueAddRef* = proc (a0: Queue): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2806:16
+  ProcQueueRelease* = proc (a0: Queue): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2811:16
   ProcRenderBundleSetLabel* = proc (a0: RenderBundle; a1: StringView): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2818:16
-  ProcRenderBundleAddRef* = proc (a0: RenderBundle): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2823:16
-  ProcRenderBundleRelease* = proc (a0: RenderBundle): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2828:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2818:16
+  ProcRenderBundleAddRef* = proc (a0: RenderBundle): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2823:16
+  ProcRenderBundleRelease* = proc (a0: RenderBundle): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2828:16
   ProcRenderBundleEncoderDraw* = proc (a0: RenderBundleEncoder; a1: uint32;
                                        a2: uint32; a3: uint32; a4: uint32): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2835:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2835:16
   ProcRenderBundleEncoderDrawIndexed* = proc (a0: RenderBundleEncoder;
-      a1: uint32; a2: uint32; a3: uint32; a4: int32; a5: uint32): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2840:16
+      a1: uint32; a2: uint32; a3: uint32; a4: int32; a5: uint32): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2840:16
   ProcRenderBundleEncoderDrawIndexedIndirect* = proc (a0: RenderBundleEncoder;
-      a1: Buffer; a2: uint64): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2845:16
+      a1: Buffer; a2: uint64): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2845:16
   ProcRenderBundleEncoderDrawIndirect* = proc (a0: RenderBundleEncoder;
-      a1: Buffer; a2: uint64): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2850:16
+      a1: Buffer; a2: uint64): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2850:16
   ProcRenderBundleEncoderFinish* = proc (a0: RenderBundleEncoder;
-      a1: ptr RenderBundleDescriptor): RenderBundle {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2855:28
+      a1: ptr RenderBundleDescriptor): RenderBundle {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2855:28
   ProcRenderBundleEncoderInsertDebugMarker* = proc (a0: RenderBundleEncoder;
-      a1: StringView): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2860:16
+      a1: StringView): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2860:16
   ProcRenderBundleEncoderPopDebugGroup* = proc (a0: RenderBundleEncoder): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2865:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2865:16
   ProcRenderBundleEncoderPushDebugGroup* = proc (a0: RenderBundleEncoder;
-      a1: StringView): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2870:16
+      a1: StringView): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2870:16
   ProcRenderBundleEncoderSetBindGroup* = proc (a0: RenderBundleEncoder;
-      a1: uint32; a2: BindGroup; a3: csize_t; a4: ptr uint32): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2875:16
+      a1: uint32; a2: BindGroup; a3: csize_t; a4: ptr uint32): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2875:16
   ProcRenderBundleEncoderSetIndexBuffer* = proc (a0: RenderBundleEncoder;
-      a1: Buffer; a2: IndexFormat; a3: uint64; a4: uint64): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2880:16
+      a1: Buffer; a2: IndexFormat; a3: uint64; a4: uint64): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2880:16
   ProcRenderBundleEncoderSetLabel* = proc (a0: RenderBundleEncoder;
-      a1: StringView): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2885:16
+      a1: StringView): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2885:16
   ProcRenderBundleEncoderSetPipeline* = proc (a0: RenderBundleEncoder;
-      a1: RenderPipeline): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2890:16
+      a1: RenderPipeline): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2890:16
   ProcRenderBundleEncoderSetVertexBuffer* = proc (a0: RenderBundleEncoder;
-      a1: uint32; a2: Buffer; a3: uint64; a4: uint64): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2895:16
-  ProcRenderBundleEncoderAddRef* = proc (a0: RenderBundleEncoder): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2900:16
-  ProcRenderBundleEncoderRelease* = proc (a0: RenderBundleEncoder): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2905:16
+      a1: uint32; a2: Buffer; a3: uint64; a4: uint64): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2895:16
+  ProcRenderBundleEncoderAddRef* = proc (a0: RenderBundleEncoder): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2900:16
+  ProcRenderBundleEncoderRelease* = proc (a0: RenderBundleEncoder): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2905:16
   ProcRenderPassEncoderBeginOcclusionQuery* = proc (a0: RenderPassEncoder;
-      a1: uint32): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2912:16
+      a1: uint32): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2912:16
   ProcRenderPassEncoderDraw* = proc (a0: RenderPassEncoder; a1: uint32;
                                      a2: uint32; a3: uint32; a4: uint32): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2917:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2917:16
   ProcRenderPassEncoderDrawIndexed* = proc (a0: RenderPassEncoder; a1: uint32;
-      a2: uint32; a3: uint32; a4: int32; a5: uint32): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2922:16
+      a2: uint32; a3: uint32; a4: int32; a5: uint32): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2922:16
   ProcRenderPassEncoderDrawIndexedIndirect* = proc (a0: RenderPassEncoder;
-      a1: Buffer; a2: uint64): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2927:16
+      a1: Buffer; a2: uint64): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2927:16
   ProcRenderPassEncoderDrawIndirect* = proc (a0: RenderPassEncoder; a1: Buffer;
-      a2: uint64): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2932:16
-  ProcRenderPassEncoderEnd* = proc (a0: RenderPassEncoder): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2937:16
+      a2: uint64): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2932:16
+  ProcRenderPassEncoderEnd* = proc (a0: RenderPassEncoder): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2937:16
   ProcRenderPassEncoderEndOcclusionQuery* = proc (a0: RenderPassEncoder): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2942:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2942:16
   ProcRenderPassEncoderExecuteBundles* = proc (a0: RenderPassEncoder;
-      a1: csize_t; a2: ptr RenderBundle): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2947:16
+      a1: csize_t; a2: ptr RenderBundle): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2947:16
   ProcRenderPassEncoderInsertDebugMarker* = proc (a0: RenderPassEncoder;
-      a1: StringView): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2952:16
+      a1: StringView): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2952:16
   ProcRenderPassEncoderPopDebugGroup* = proc (a0: RenderPassEncoder): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2957:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2957:16
   ProcRenderPassEncoderPushDebugGroup* = proc (a0: RenderPassEncoder;
-      a1: StringView): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2962:16
+      a1: StringView): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2962:16
   ProcRenderPassEncoderSetBindGroup* = proc (a0: RenderPassEncoder; a1: uint32;
-      a2: BindGroup; a3: csize_t; a4: ptr uint32): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2967:16
+      a2: BindGroup; a3: csize_t; a4: ptr uint32): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2967:16
   ProcRenderPassEncoderSetBlendConstant* = proc (a0: RenderPassEncoder;
-      a1: ptr Color): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2972:16
+      a1: ptr Color): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2972:16
   ProcRenderPassEncoderSetIndexBuffer* = proc (a0: RenderPassEncoder;
-      a1: Buffer; a2: IndexFormat; a3: uint64; a4: uint64): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2977:16
+      a1: Buffer; a2: IndexFormat; a3: uint64; a4: uint64): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2977:16
   ProcRenderPassEncoderSetLabel* = proc (a0: RenderPassEncoder; a1: StringView): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2982:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2982:16
   ProcRenderPassEncoderSetPipeline* = proc (a0: RenderPassEncoder;
-      a1: RenderPipeline): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2987:16
+      a1: RenderPipeline): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2987:16
   ProcRenderPassEncoderSetScissorRect* = proc (a0: RenderPassEncoder;
-      a1: uint32; a2: uint32; a3: uint32; a4: uint32): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2992:16
+      a1: uint32; a2: uint32; a3: uint32; a4: uint32): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2992:16
   ProcRenderPassEncoderSetStencilReference* = proc (a0: RenderPassEncoder;
-      a1: uint32): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2997:16
+      a1: uint32): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:2997:16
   ProcRenderPassEncoderSetVertexBuffer* = proc (a0: RenderPassEncoder;
-      a1: uint32; a2: Buffer; a3: uint64; a4: uint64): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3002:16
+      a1: uint32; a2: Buffer; a3: uint64; a4: uint64): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3002:16
   ProcRenderPassEncoderSetViewport* = proc (a0: RenderPassEncoder; a1: cfloat;
-      a2: cfloat; a3: cfloat; a4: cfloat; a5: cfloat; a6: cfloat): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3007:16
-  ProcRenderPassEncoderAddRef* = proc (a0: RenderPassEncoder): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3012:16
-  ProcRenderPassEncoderRelease* = proc (a0: RenderPassEncoder): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3017:16
+      a2: cfloat; a3: cfloat; a4: cfloat; a5: cfloat; a6: cfloat): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3007:16
+  ProcRenderPassEncoderAddRef* = proc (a0: RenderPassEncoder): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3012:16
+  ProcRenderPassEncoderRelease* = proc (a0: RenderPassEncoder): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3017:16
   ProcRenderPipelineGetBindGroupLayout* = proc (a0: RenderPipeline; a1: uint32): BindGroupLayout {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3024:31
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3024:31
   ProcRenderPipelineSetLabel* = proc (a0: RenderPipeline; a1: StringView): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3029:16
-  ProcRenderPipelineAddRef* = proc (a0: RenderPipeline): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3034:16
-  ProcRenderPipelineRelease* = proc (a0: RenderPipeline): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3039:16
-  ProcSamplerSetLabel* = proc (a0: Sampler; a1: StringView): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3046:16
-  ProcSamplerAddRef* = proc (a0: Sampler): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3051:16
-  ProcSamplerRelease* = proc (a0: Sampler): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3056:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3029:16
+  ProcRenderPipelineAddRef* = proc (a0: RenderPipeline): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3034:16
+  ProcRenderPipelineRelease* = proc (a0: RenderPipeline): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3039:16
+  ProcSamplerSetLabel* = proc (a0: Sampler; a1: StringView): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3046:16
+  ProcSamplerAddRef* = proc (a0: Sampler): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3051:16
+  ProcSamplerRelease* = proc (a0: Sampler): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3056:16
   ProcShaderModuleGetCompilationInfo* = proc (a0: ShaderModule;
-      a1: CompilationInfoCallbackInfo): Future {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3063:22
+      a1: CompilationInfoCallbackInfo): Future {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3063:22
   ProcShaderModuleSetLabel* = proc (a0: ShaderModule; a1: StringView): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3068:16
-  ProcShaderModuleAddRef* = proc (a0: ShaderModule): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3073:16
-  ProcShaderModuleRelease* = proc (a0: ShaderModule): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3078:16
-  ProcSupportedFeaturesFreeMembers* = proc (a0: SupportedFeatures): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3085:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3068:16
+  ProcShaderModuleAddRef* = proc (a0: ShaderModule): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3073:16
+  ProcShaderModuleRelease* = proc (a0: ShaderModule): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3078:16
+  ProcSupportedFeaturesFreeMembers* = proc (a0: SupportedFeatures): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3085:16
   ProcSupportedWGSLLanguageFeaturesFreeMembers* = proc (
-      a0: SupportedWGSLLanguageFeatures): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3092:16
+      a0: SupportedWGSLLanguageFeatures): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3092:16
   ProcSurfaceConfigure* = proc (a0: Surface; a1: ptr SurfaceConfiguration): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3099:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3099:16
   ProcSurfaceGetCapabilities* = proc (a0: Surface; a1: Adapter;
                                       a2: ptr SurfaceCapabilities): Status {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3104:22
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3104:22
   ProcSurfaceGetCurrentTexture* = proc (a0: Surface; a1: ptr SurfaceTexture): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3109:16
-  ProcSurfacePresent* = proc (a0: Surface): Status {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3114:22
-  ProcSurfaceSetLabel* = proc (a0: Surface; a1: StringView): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3119:16
-  ProcSurfaceUnconfigure* = proc (a0: Surface): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3124:16
-  ProcSurfaceAddRef* = proc (a0: Surface): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3129:16
-  ProcSurfaceRelease* = proc (a0: Surface): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3134:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3109:16
+  ProcSurfacePresent* = proc (a0: Surface): Status {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3114:22
+  ProcSurfaceSetLabel* = proc (a0: Surface; a1: StringView): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3119:16
+  ProcSurfaceUnconfigure* = proc (a0: Surface): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3124:16
+  ProcSurfaceAddRef* = proc (a0: Surface): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3129:16
+  ProcSurfaceRelease* = proc (a0: Surface): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3134:16
   ProcSurfaceCapabilitiesFreeMembers* = proc (a0: SurfaceCapabilities): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3141:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3141:16
   ProcTextureCreateView* = proc (a0: Texture; a1: ptr TextureViewDescriptor): TextureView {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3148:27
-  ProcTextureDestroy* = proc (a0: Texture): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3153:16
-  ProcTextureGetDepthOrArrayLayers* = proc (a0: Texture): uint32 {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3158:20
-  ProcTextureGetDimension* = proc (a0: Texture): TextureDimension {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3163:32
-  ProcTextureGetFormat* = proc (a0: Texture): TextureFormat {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3168:29
-  ProcTextureGetHeight* = proc (a0: Texture): uint32 {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3173:20
-  ProcTextureGetMipLevelCount* = proc (a0: Texture): uint32 {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3178:20
-  ProcTextureGetSampleCount* = proc (a0: Texture): uint32 {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3183:20
-  ProcTextureGetUsage* = proc (a0: Texture): TextureUsage {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3188:28
-  ProcTextureGetWidth* = proc (a0: Texture): uint32 {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3193:20
-  ProcTextureSetLabel* = proc (a0: Texture; a1: StringView): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3198:16
-  ProcTextureAddRef* = proc (a0: Texture): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3203:16
-  ProcTextureRelease* = proc (a0: Texture): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3208:16
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3148:27
+  ProcTextureDestroy* = proc (a0: Texture): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3153:16
+  ProcTextureGetDepthOrArrayLayers* = proc (a0: Texture): uint32 {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3158:20
+  ProcTextureGetDimension* = proc (a0: Texture): TextureDimension {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3163:32
+  ProcTextureGetFormat* = proc (a0: Texture): TextureFormat {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3168:29
+  ProcTextureGetHeight* = proc (a0: Texture): uint32 {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3173:20
+  ProcTextureGetMipLevelCount* = proc (a0: Texture): uint32 {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3178:20
+  ProcTextureGetSampleCount* = proc (a0: Texture): uint32 {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3183:20
+  ProcTextureGetUsage* = proc (a0: Texture): TextureUsage {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3188:28
+  ProcTextureGetWidth* = proc (a0: Texture): uint32 {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3193:20
+  ProcTextureSetLabel* = proc (a0: Texture; a1: StringView): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3198:16
+  ProcTextureAddRef* = proc (a0: Texture): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3203:16
+  ProcTextureRelease* = proc (a0: Texture): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3208:16
   ProcTextureViewSetLabel* = proc (a0: TextureView; a1: StringView): void {.
-      cdecl.}                ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3215:16
-  ProcTextureViewAddRef* = proc (a0: TextureView): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3220:16
-  ProcTextureViewRelease* = proc (a0: TextureView): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3225:16
-  NativeSType* = enum_WGPUNativeSType ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:18:3
-  NativeFeature* = enum_WGPUNativeFeature ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:59:3
-  LogLevel* = enum_WGPULogLevel ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:69:3
-  InstanceBackend* = Flags   ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:71:19
-  InstanceFlag* = Flags      ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:85:19
-  Dx12Compiler* = enum_WGPUDx12Compiler ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:97:3
-  Gles3MinorVersion* = enum_WGPUGles3MinorVersion ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:105:3
-  PipelineStatisticName* = enum_WGPUPipelineStatisticName ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:114:3
-  NativeQueryType* = enum_WGPUNativeQueryType ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:119:3
+      cdecl.}                ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3215:16
+  ProcTextureViewAddRef* = proc (a0: TextureView): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3220:16
+  ProcTextureViewRelease* = proc (a0: TextureView): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:3225:16
+  NativeSType* = enum_WGPUNativeSType ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:18:3
+  NativeFeature* = enum_WGPUNativeFeature ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:59:3
+  LogLevel* = enum_WGPULogLevel ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:69:3
+  InstanceBackend* = Flags   ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:71:19
+  InstanceFlag* = Flags      ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:85:19
+  Dx12Compiler* = enum_WGPUDx12Compiler ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:97:3
+  Gles3MinorVersion* = enum_WGPUGles3MinorVersion ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:105:3
+  PipelineStatisticName* = enum_WGPUPipelineStatisticName ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:114:3
+  NativeQueryType* = enum_WGPUNativeQueryType ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:119:3
   struct_WGPUInstanceExtras* {.pure, inheritable, bycopy.} = object
-    chain*: ChainedStruct    ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:121:16
+    chain*: ChainedStruct    ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:121:16
     backends*: InstanceBackend
     flags*: InstanceFlag
     dx12ShaderCompiler*: Dx12Compiler
     gles3MinorVersion*: Gles3MinorVersion
     dxilPath*: StringView
     dxcPath*: StringView
-  InstanceExtras* = struct_WGPUInstanceExtras ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:129:3
+  InstanceExtras* = struct_WGPUInstanceExtras ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:129:3
   struct_WGPUDeviceExtras* {.pure, inheritable, bycopy.} = object
-    chain*: ChainedStruct    ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:131:16
+    chain*: ChainedStruct    ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:131:16
     tracePath*: StringView
-  DeviceExtras* = struct_WGPUDeviceExtras ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:134:3
+  DeviceExtras* = struct_WGPUDeviceExtras ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:134:3
   struct_WGPUNativeLimits* {.pure, inheritable, bycopy.} = object
-    chain*: ChainedStructOut ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:136:16
+    chain*: ChainedStructOut ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:136:16
     maxPushConstantSize*: uint32
     maxNonSamplerBindings*: uint32
-  NativeLimits* = struct_WGPUNativeLimits ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:141:3
+  NativeLimits* = struct_WGPUNativeLimits ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:141:3
   struct_WGPUPushConstantRange* {.pure, inheritable, bycopy.} = object
-    stages*: ShaderStage     ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:143:16
+    stages*: ShaderStage     ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:143:16
     start*: uint32
     end_field*: uint32
-  PushConstantRange* = struct_WGPUPushConstantRange ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:147:3
+  PushConstantRange* = struct_WGPUPushConstantRange ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:147:3
   struct_WGPUPipelineLayoutExtras* {.pure, inheritable, bycopy.} = object
-    chain*: ChainedStruct    ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:149:16
+    chain*: ChainedStruct    ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:149:16
     pushConstantRangeCount*: csize_t
     pushConstantRanges*: ptr PushConstantRange
-  PipelineLayoutExtras* = struct_WGPUPipelineLayoutExtras ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:153:3
-  SubmissionIndex* = uint64  ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:155:18
+  PipelineLayoutExtras* = struct_WGPUPipelineLayoutExtras ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:153:3
+  SubmissionIndex* = uint64  ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:155:18
   struct_WGPUShaderDefine* {.pure, inheritable, bycopy.} = object
-    name*: StringView        ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:157:16
+    name*: StringView        ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:157:16
     value*: StringView
-  ShaderDefine* = struct_WGPUShaderDefine ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:160:3
+  ShaderDefine* = struct_WGPUShaderDefine ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:160:3
   struct_WGPUShaderModuleGLSLDescriptor* {.pure, inheritable, bycopy.} = object
-    chain*: ChainedStruct    ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:162:16
+    chain*: ChainedStruct    ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:162:16
     stage*: ShaderStage
     code*: StringView
     defineCount*: uint32
     defines*: ptr ShaderDefine
-  ShaderModuleGLSLDescriptor* = struct_WGPUShaderModuleGLSLDescriptor ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:168:3
+  ShaderModuleGLSLDescriptor* = struct_WGPUShaderModuleGLSLDescriptor ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:168:3
   struct_WGPUShaderModuleDescriptorSpirV* {.pure, inheritable, bycopy.} = object
-    label*: StringView       ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:170:16
+    label*: StringView       ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:170:16
     sourceSize*: uint32
     source*: ptr uint32
-  ShaderModuleDescriptorSpirV* = struct_WGPUShaderModuleDescriptorSpirV ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:174:3
+  ShaderModuleDescriptorSpirV* = struct_WGPUShaderModuleDescriptorSpirV ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:174:3
   struct_WGPURegistryReport* {.pure, inheritable, bycopy.} = object
-    numAllocated*: csize_t   ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:176:16
+    numAllocated*: csize_t   ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:176:16
     numKeptFromUser*: csize_t
     numReleasedFromUser*: csize_t
     elementSize*: csize_t
-  RegistryReport* = struct_WGPURegistryReport ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:181:3
+  RegistryReport* = struct_WGPURegistryReport ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:181:3
   struct_WGPUHubReport* {.pure, inheritable, bycopy.} = object
-    adapters*: RegistryReport ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:183:16
+    adapters*: RegistryReport ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:183:16
     devices*: RegistryReport
     queues*: RegistryReport
     pipelineLayouts*: RegistryReport
@@ -1521,39 +1521,39 @@ type
     textures*: RegistryReport
     textureViews*: RegistryReport
     samplers*: RegistryReport
-  HubReport* = struct_WGPUHubReport ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:201:3
+  HubReport* = struct_WGPUHubReport ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:201:3
   struct_WGPUGlobalReport* {.pure, inheritable, bycopy.} = object
-    surfaces*: RegistryReport ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:203:16
+    surfaces*: RegistryReport ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:203:16
     hub*: HubReport
-  GlobalReport* = struct_WGPUGlobalReport ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:206:3
+  GlobalReport* = struct_WGPUGlobalReport ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:206:3
   struct_WGPUInstanceEnumerateAdapterOptions* {.pure, inheritable, bycopy.} = object
-    nextInChain*: ptr ChainedStruct ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:208:16
+    nextInChain*: ptr ChainedStruct ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:208:16
     backends*: InstanceBackend
-  InstanceEnumerateAdapterOptions* = struct_WGPUInstanceEnumerateAdapterOptions ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:211:3
+  InstanceEnumerateAdapterOptions* = struct_WGPUInstanceEnumerateAdapterOptions ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:211:3
   struct_WGPUBindGroupEntryExtras* {.pure, inheritable, bycopy.} = object
-    chain*: ChainedStruct    ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:213:16
+    chain*: ChainedStruct    ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:213:16
     buffers*: ptr Buffer
     bufferCount*: csize_t
     samplers*: ptr Sampler
     samplerCount*: csize_t
     textureViews*: ptr TextureView
     textureViewCount*: csize_t
-  BindGroupEntryExtras* = struct_WGPUBindGroupEntryExtras ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:221:3
+  BindGroupEntryExtras* = struct_WGPUBindGroupEntryExtras ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:221:3
   struct_WGPUBindGroupLayoutEntryExtras* {.pure, inheritable, bycopy.} = object
-    chain*: ChainedStruct    ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:223:16
+    chain*: ChainedStruct    ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:223:16
     count*: uint32
-  BindGroupLayoutEntryExtras* = struct_WGPUBindGroupLayoutEntryExtras ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:226:3
+  BindGroupLayoutEntryExtras* = struct_WGPUBindGroupLayoutEntryExtras ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:226:3
   struct_WGPUQuerySetDescriptorExtras* {.pure, inheritable, bycopy.} = object
-    chain*: ChainedStruct    ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:228:16
+    chain*: ChainedStruct    ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:228:16
     pipelineStatistics*: ptr PipelineStatisticName
     pipelineStatisticCount*: csize_t
-  QuerySetDescriptorExtras* = struct_WGPUQuerySetDescriptorExtras ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:232:3
+  QuerySetDescriptorExtras* = struct_WGPUQuerySetDescriptorExtras ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:232:3
   struct_WGPUSurfaceConfigurationExtras* {.pure, inheritable, bycopy.} = object
-    chain*: ChainedStruct    ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:234:16
+    chain*: ChainedStruct    ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:234:16
     desiredMaximumFrameLatency*: uint32
-  SurfaceConfigurationExtras* = struct_WGPUSurfaceConfigurationExtras ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:237:3
-  LogCallback* = proc (a0: LogLevel; a1: StringView; a2: pointer): void {.cdecl.} ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:239:16
-  NativeTextureFormat* = enum_WGPUNativeTextureFormat ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/wgpu.h:251:3
+  SurfaceConfigurationExtras* = struct_WGPUSurfaceConfigurationExtras ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:237:3
+  LogCallback* = proc (a0: LogLevel; a1: StringView; a2: pointer): void {.cdecl.} ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:239:16
+  NativeTextureFormat* = enum_WGPUNativeTextureFormat ## Generated based on ./src/wgpu/C/wgpu-native/ffi/wgpu.h:251:3
 when cast[cuint](4294967295'i64) is static:
   const
     UINT32_MAX* = cast[cuint](4294967295'i64) ## Generated based on /usr/include/stdint.h:118:10
@@ -1561,58 +1561,58 @@ else:
   let UINT32_MAX* = cast[cuint](4294967295'i64) ## Generated based on /usr/include/stdint.h:118:10
 when UINT32_MAX is typedesc:
   type
-    internal_COPY_STRIDE_UNDEFINED* = UINT32_MAX ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:79:9
+    internal_COPY_STRIDE_UNDEFINED* = UINT32_MAX ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:79:9
 else:
   when UINT32_MAX is static:
     const
-      internal_COPY_STRIDE_UNDEFINED* = UINT32_MAX ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:79:9
+      internal_COPY_STRIDE_UNDEFINED* = UINT32_MAX ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:79:9
   else:
-    let internal_COPY_STRIDE_UNDEFINED* = UINT32_MAX ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:79:9
+    let internal_COPY_STRIDE_UNDEFINED* = UINT32_MAX ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:79:9
 when UINT32_MAX is typedesc:
   type
-    internal_DEPTH_SLICE_UNDEFINED* = UINT32_MAX ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:80:9
+    internal_DEPTH_SLICE_UNDEFINED* = UINT32_MAX ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:80:9
 else:
   when UINT32_MAX is static:
     const
-      internal_DEPTH_SLICE_UNDEFINED* = UINT32_MAX ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:80:9
+      internal_DEPTH_SLICE_UNDEFINED* = UINT32_MAX ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:80:9
   else:
-    let internal_DEPTH_SLICE_UNDEFINED* = UINT32_MAX ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:80:9
+    let internal_DEPTH_SLICE_UNDEFINED* = UINT32_MAX ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:80:9
 when UINT32_MAX is typedesc:
   type
-    internal_LIMIT_U32_UNDEFINED* = UINT32_MAX ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:81:9
+    internal_LIMIT_U32_UNDEFINED* = UINT32_MAX ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:81:9
 else:
   when UINT32_MAX is static:
     const
-      internal_LIMIT_U32_UNDEFINED* = UINT32_MAX ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:81:9
+      internal_LIMIT_U32_UNDEFINED* = UINT32_MAX ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:81:9
   else:
-    let internal_LIMIT_U32_UNDEFINED* = UINT32_MAX ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:81:9
+    let internal_LIMIT_U32_UNDEFINED* = UINT32_MAX ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:81:9
 when UINT64_MAX is typedesc:
   type
-    internal_LIMIT_U64_UNDEFINED* = UINT64_MAX ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:82:9
+    internal_LIMIT_U64_UNDEFINED* = UINT64_MAX ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:82:9
 else:
   when UINT64_MAX is static:
     const
-      internal_LIMIT_U64_UNDEFINED* = UINT64_MAX ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:82:9
+      internal_LIMIT_U64_UNDEFINED* = UINT64_MAX ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:82:9
   else:
-    let internal_LIMIT_U64_UNDEFINED* = UINT64_MAX ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:82:9
+    let internal_LIMIT_U64_UNDEFINED* = UINT64_MAX ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:82:9
 when UINT32_MAX is typedesc:
   type
-    internal_MIP_LEVEL_COUNT_UNDEFINED* = UINT32_MAX ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:83:9
+    internal_MIP_LEVEL_COUNT_UNDEFINED* = UINT32_MAX ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:83:9
 else:
   when UINT32_MAX is static:
     const
-      internal_MIP_LEVEL_COUNT_UNDEFINED* = UINT32_MAX ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:83:9
+      internal_MIP_LEVEL_COUNT_UNDEFINED* = UINT32_MAX ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:83:9
   else:
-    let internal_MIP_LEVEL_COUNT_UNDEFINED* = UINT32_MAX ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:83:9
+    let internal_MIP_LEVEL_COUNT_UNDEFINED* = UINT32_MAX ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:83:9
 when UINT32_MAX is typedesc:
   type
-    internal_QUERY_SET_INDEX_UNDEFINED* = UINT32_MAX ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:84:9
+    internal_QUERY_SET_INDEX_UNDEFINED* = UINT32_MAX ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:84:9
 else:
   when UINT32_MAX is static:
     const
-      internal_QUERY_SET_INDEX_UNDEFINED* = UINT32_MAX ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:84:9
+      internal_QUERY_SET_INDEX_UNDEFINED* = UINT32_MAX ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:84:9
   else:
-    let internal_QUERY_SET_INDEX_UNDEFINED* = UINT32_MAX ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:84:9
+    let internal_QUERY_SET_INDEX_UNDEFINED* = UINT32_MAX ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:84:9
 when cast[culong](18446744073709551615'u) is static:
   const
     SIZE_MAX* = cast[culong](18446744073709551615'u) ## Generated based on /usr/include/stdint.h:216:11
@@ -1620,22 +1620,22 @@ else:
   let SIZE_MAX* = cast[culong](18446744073709551615'u) ## Generated based on /usr/include/stdint.h:216:11
 when UINT64_MAX is typedesc:
   type
-    internal_WHOLE_SIZE* = UINT64_MAX ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:86:9
+    internal_WHOLE_SIZE* = UINT64_MAX ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:86:9
 else:
   when UINT64_MAX is static:
     const
-      internal_WHOLE_SIZE* = UINT64_MAX ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:86:9
+      internal_WHOLE_SIZE* = UINT64_MAX ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:86:9
   else:
-    let internal_WHOLE_SIZE* = UINT64_MAX ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:86:9
+    let internal_WHOLE_SIZE* = UINT64_MAX ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:86:9
 when SIZE_MAX is typedesc:
   type
-    internal_STRLEN* = SIZE_MAX ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:129:9
+    internal_STRLEN* = SIZE_MAX ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:129:9
 else:
   when SIZE_MAX is static:
     const
-      internal_STRLEN* = SIZE_MAX ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:129:9
+      internal_STRLEN* = SIZE_MAX ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:129:9
   else:
-    let internal_STRLEN* = SIZE_MAX ## Generated based on /ssd/dev/gd/tools/nim/ndk/wgpu/src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:129:9
+    let internal_STRLEN* = SIZE_MAX ## Generated based on ./src/wgpu/C/wgpu-native/ffi/webgpu-headers/webgpu.h:129:9
 var BufferUsage_None*: BufferUsage
 var BufferUsage_MapRead*: BufferUsage
 var BufferUsage_MapWrite*: BufferUsage
