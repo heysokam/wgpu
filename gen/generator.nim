@@ -8,6 +8,7 @@ from std/os import parentDir, `/`
 import futhark
 # @deps generator
 from ./cfg import nil
+from ./base import nil
 
 
 #_____________________________
@@ -39,15 +40,11 @@ proc rename (
 
 #_____________________________
 # Find the headers, and generate the wrapper
-const rootDir = currentSourcePath().parentDir()/".."
-const srcDir  = rootDir/"src"
-const wgpuDir = srcDir/"wgpu"/"C"/"wgpu-native"/"ffi"
-const webgpuDir = wgpuDir/"webgpu-headers"
 importc:
   renameCallback rename
   outputPath currentSourcePath.parentDir/"result.nim"
-  path wgpuDir
-  path webgpuDir
+  path base.wgpuDir
+  path base.webgpuDir
   "wgpu.h"
   "webgpu.h"
 
