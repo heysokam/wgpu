@@ -54,7 +54,7 @@ when defined(linux) and not defined(wayland):
 elif defined(linux) and defined(wayland):
   proc getSurfaceWayland *(instance :Instance; win :glfw.Window) :Surface=
     result = instance.create(vaddr SurfaceDescriptor(
-      label       : nil,
+      label       : StringView(),
       nextInChain : cast[ptr ChainedStruct](vaddr SurfaceSourceWaylandSurface(
         chain     : ChainedStruct(
           next    : nil,
@@ -73,7 +73,7 @@ elif defined(windows):
     let hwnd      = glfw.getWin32Window(win)
     let hinstance = getModuleHandle(nil)
     result = instance.create(vaddr SurfaceDescriptor(
-      label       : nil,
+      label       : StringView(),
       nextInChain : cast[ptr ChainedStruct](vaddr SurfaceSourceWindowsHWND(
         chain     : ChainedStruct(
           next    : nil,
@@ -89,7 +89,7 @@ elif defined(windows):
 elif defined(macosx):
   proc getSurfaceMac *(instance :Instance; win :glfw.Window) :Surface=
     result = instance.create(vaddr SurfaceDescriptor(
-      label       : nil,
+      label       : StringView(),
       nextInChain : cast[ptr ChainedStruct](vaddr SurfaceSourceMetalLayer(
         chain     : ChainedStruct(
           next    : nil,
