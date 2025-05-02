@@ -28,7 +28,7 @@ template example (name :untyped; descr,file :static string)=
   taskRequires sname, "https://github.com/heysokam/nglfw#head"
   taskRequires sname, "https://github.com/treeform/vmath#head"
   task name, descr:
-    exec nimcr & " --path:"&srcDir & " " & examplesDir/file # & " " & args # &"{nimcr} {examplesDir/file} {args}"
+    exec nimcr & " -d:wgpu --path:"&srcDir & " " & examplesDir/file # & " " & args # &"{nimcr} {examplesDir/file} {args}"
 
 #_______________________________________
 # @section Examples
