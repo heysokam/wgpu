@@ -1,186 +1,134 @@
 
 type
   enum_WGPUAdapterType* {.size: sizeof(cuint).} = enum
-    AdapterType_DiscreteGPU = 1, AdapterType_IntegratedGPU = 2,
-    AdapterType_CPU = 3, AdapterType_Unknown = 4,
-    AdapterType_Force32 = 2147483647
+    DiscreteGPU = 1, IntegratedGPU = 2, CPU = 3, Unknown = 4,
+    Force32 = 2147483647
 type
   enum_WGPUAddressMode* {.size: sizeof(cuint).} = enum
-    AddressMode_Undefined = 0, AddressMode_ClampToEdge = 1,
-    AddressMode_Repeat = 2, AddressMode_MirrorRepeat = 3,
-    AddressMode_Force32 = 2147483647
+    Undefined = 0, ClampToEdge = 1, Repeat = 2, MirrorRepeat = 3,
+    Force32 = 2147483647
 type
   enum_WGPUBackendType* {.size: sizeof(cuint).} = enum
-    BackendType_Undefined = 0, BackendType_Null = 1, BackendType_WebGPU = 2,
-    BackendType_D3D11 = 3, BackendType_D3D12 = 4, BackendType_Metal = 5,
-    BackendType_Vulkan = 6, BackendType_OpenGL = 7, BackendType_OpenGLES = 8,
-    BackendType_Force32 = 2147483647
+    Undefined = 0, Null = 1, WebGPU = 2, D3D11 = 3, D3D12 = 4, Metal = 5,
+    Vulkan = 6, OpenGL = 7, OpenGLES = 8, Force32 = 2147483647
 type
   enum_WGPUBlendFactor* {.size: sizeof(cuint).} = enum
-    BlendFactor_Undefined = 0, BlendFactor_Zero = 1, BlendFactor_One = 2,
-    BlendFactor_Src = 3, BlendFactor_OneMinusSrc = 4, BlendFactor_SrcAlpha = 5,
-    BlendFactor_OneMinusSrcAlpha = 6, BlendFactor_Dst = 7,
-    BlendFactor_OneMinusDst = 8, BlendFactor_DstAlpha = 9,
-    BlendFactor_OneMinusDstAlpha = 10, BlendFactor_SrcAlphaSaturated = 11,
-    BlendFactor_Constant = 12, BlendFactor_OneMinusConstant = 13,
-    BlendFactor_Src1 = 14, BlendFactor_OneMinusSrc1 = 15,
-    BlendFactor_Src1Alpha = 16, BlendFactor_OneMinusSrc1Alpha = 17,
-    BlendFactor_Force32 = 2147483647
+    Undefined = 0, Zero = 1, One = 2, Src = 3, OneMinusSrc = 4, SrcAlpha = 5,
+    OneMinusSrcAlpha = 6, Dst = 7, OneMinusDst = 8, DstAlpha = 9,
+    OneMinusDstAlpha = 10, SrcAlphaSaturated = 11, Constant = 12,
+    OneMinusConstant = 13, Src1 = 14, OneMinusSrc1 = 15, Src1Alpha = 16,
+    OneMinusSrc1Alpha = 17, Force32 = 2147483647
 type
   enum_WGPUBlendOperation* {.size: sizeof(cuint).} = enum
-    BlendOperation_Undefined = 0, BlendOperation_Add = 1,
-    BlendOperation_Subtract = 2, BlendOperation_ReverseSubtract = 3,
-    BlendOperation_Min = 4, BlendOperation_Max = 5,
-    BlendOperation_Force32 = 2147483647
+    Undefined = 0, Add = 1, Subtract = 2, ReverseSubtract = 3, Min = 4, Max = 5,
+    Force32 = 2147483647
 type
   enum_WGPUBufferBindingType* {.size: sizeof(cuint).} = enum
-    BufferBindingType_BindingNotUsed = 0, BufferBindingType_Undefined = 1,
-    BufferBindingType_Uniform = 2, BufferBindingType_Storage = 3,
-    BufferBindingType_ReadOnlyStorage = 4,
-    BufferBindingType_Force32 = 2147483647
+    BindingNotUsed = 0, Undefined = 1, Uniform = 2, Storage = 3,
+    ReadOnlyStorage = 4, Force32 = 2147483647
 type
   enum_WGPUBufferMapState* {.size: sizeof(cuint).} = enum
-    BufferMapState_Unmapped = 1, BufferMapState_Pending = 2,
-    BufferMapState_Mapped = 3, BufferMapState_Force32 = 2147483647
+    Unmapped = 1, Pending = 2, Mapped = 3, Force32 = 2147483647
 type
   enum_WGPUCallbackMode* {.size: sizeof(cuint).} = enum
-    CallbackMode_WaitAnyOnly = 1, CallbackMode_AllowProcessEvents = 2,
-    CallbackMode_AllowSpontaneous = 3, CallbackMode_Force32 = 2147483647
+    WaitAnyOnly = 1, AllowProcessEvents = 2, AllowSpontaneous = 3,
+    Force32 = 2147483647
 type
   enum_WGPUCompareFunction* {.size: sizeof(cuint).} = enum
-    CompareFunction_Undefined = 0, CompareFunction_Never = 1,
-    CompareFunction_Less = 2, CompareFunction_Equal = 3,
-    CompareFunction_LessEqual = 4, CompareFunction_Greater = 5,
-    CompareFunction_NotEqual = 6, CompareFunction_GreaterEqual = 7,
-    CompareFunction_Always = 8, CompareFunction_Force32 = 2147483647
+    Undefined = 0, Never = 1, Less = 2, Equal = 3, LessEqual = 4, Greater = 5,
+    NotEqual = 6, GreaterEqual = 7, Always = 8, Force32 = 2147483647
 type
   enum_WGPUCompilationInfoRequestStatus* {.size: sizeof(cuint).} = enum
-    CompilationInfoRequestStatus_Success = 1,
-    CompilationInfoRequestStatus_InstanceDropped = 2,
-    CompilationInfoRequestStatus_Error = 3,
-    CompilationInfoRequestStatus_Unknown = 4,
-    CompilationInfoRequestStatus_Force32 = 2147483647
+    Success = 1, InstanceDropped = 2, Error = 3, Unknown = 4,
+    Force32 = 2147483647
 type
   enum_WGPUCompilationMessageType* {.size: sizeof(cuint).} = enum
-    CompilationMessageType_Error = 1, CompilationMessageType_Warning = 2,
-    CompilationMessageType_Info = 3, CompilationMessageType_Force32 = 2147483647
+    Error = 1, Warning = 2, Info = 3, Force32 = 2147483647
 type
   enum_WGPUCompositeAlphaMode* {.size: sizeof(cuint).} = enum
-    CompositeAlphaMode_Auto = 0, CompositeAlphaMode_Opaque = 1,
-    CompositeAlphaMode_Premultiplied = 2,
-    CompositeAlphaMode_Unpremultiplied = 3, CompositeAlphaMode_Inherit = 4,
-    CompositeAlphaMode_Force32 = 2147483647
+    Auto = 0, Opaque = 1, Premultiplied = 2, Unpremultiplied = 3, Inherit = 4,
+    Force32 = 2147483647
 type
   enum_WGPUCreatePipelineAsyncStatus* {.size: sizeof(cuint).} = enum
-    CreatePipelineAsyncStatus_Success = 1,
-    CreatePipelineAsyncStatus_InstanceDropped = 2,
-    CreatePipelineAsyncStatus_ValidationError = 3,
-    CreatePipelineAsyncStatus_InternalError = 4,
-    CreatePipelineAsyncStatus_Unknown = 5,
-    CreatePipelineAsyncStatus_Force32 = 2147483647
+    Success = 1, InstanceDropped = 2, ValidationError = 3, InternalError = 4,
+    Unknown = 5, Force32 = 2147483647
 type
   enum_WGPUCullMode* {.size: sizeof(cuint).} = enum
-    CullMode_Undefined = 0, CullMode_None = 1, CullMode_Front = 2,
-    CullMode_Back = 3, CullMode_Force32 = 2147483647
+    Undefined = 0, None = 1, Front = 2, Back = 3, Force32 = 2147483647
 type
   enum_WGPUDeviceLostReason* {.size: sizeof(cuint).} = enum
-    DeviceLostReason_Unknown = 1, DeviceLostReason_Destroyed = 2,
-    DeviceLostReason_InstanceDropped = 3, DeviceLostReason_FailedCreation = 4,
-    DeviceLostReason_Force32 = 2147483647
+    Unknown = 1, Destroyed = 2, InstanceDropped = 3, FailedCreation = 4,
+    Force32 = 2147483647
 type
   enum_WGPUErrorFilter* {.size: sizeof(cuint).} = enum
-    ErrorFilter_Validation = 1, ErrorFilter_OutOfMemory = 2,
-    ErrorFilter_Internal = 3, ErrorFilter_Force32 = 2147483647
+    Validation = 1, OutOfMemory = 2, Internal = 3, Force32 = 2147483647
 type
   enum_WGPUErrorType* {.size: sizeof(cuint).} = enum
-    ErrorType_NoError = 1, ErrorType_Validation = 2, ErrorType_OutOfMemory = 3,
-    ErrorType_Internal = 4, ErrorType_Unknown = 5,
-    ErrorType_Force32 = 2147483647
+    NoError = 1, Validation = 2, OutOfMemory = 3, Internal = 4, Unknown = 5,
+    Force32 = 2147483647
 type
   enum_WGPUFeatureLevel* {.size: sizeof(cuint).} = enum
-    FeatureLevel_Compatibility = 1, FeatureLevel_Core = 2,
-    FeatureLevel_Force32 = 2147483647
+    Compatibility = 1, Core = 2, Force32 = 2147483647
 type
   enum_WGPUFeatureName* {.size: sizeof(cuint).} = enum
-    FeatureName_Undefined = 0, FeatureName_DepthClipControl = 1,
-    FeatureName_Depth32FloatStencil8 = 2, FeatureName_TimestampQuery = 3,
-    FeatureName_TextureCompressionBC = 4,
-    FeatureName_TextureCompressionBCSliced3D = 5,
-    FeatureName_TextureCompressionETC2 = 6,
-    FeatureName_TextureCompressionASTC = 7,
-    FeatureName_TextureCompressionASTCSliced3D = 8,
-    FeatureName_IndirectFirstInstance = 9, FeatureName_ShaderF16 = 10,
-    FeatureName_RG11B10UfloatRenderable = 11,
-    FeatureName_BGRA8UnormStorage = 12, FeatureName_Float32Filterable = 13,
-    FeatureName_Float32Blendable = 14, FeatureName_ClipDistances = 15,
-    FeatureName_DualSourceBlending = 16, FeatureName_Force32 = 2147483647
+    Undefined = 0, DepthClipControl = 1, Depth32FloatStencil8 = 2,
+    TimestampQuery = 3, TextureCompressionBC = 4,
+    TextureCompressionBCSliced3D = 5, TextureCompressionETC2 = 6,
+    TextureCompressionASTC = 7, TextureCompressionASTCSliced3D = 8,
+    IndirectFirstInstance = 9, ShaderF16 = 10, RG11B10UfloatRenderable = 11,
+    BGRA8UnormStorage = 12, Float32Filterable = 13, Float32Blendable = 14,
+    ClipDistances = 15, DualSourceBlending = 16, Force32 = 2147483647
 type
   enum_WGPUFilterMode* {.size: sizeof(cuint).} = enum
-    FilterMode_Undefined = 0, FilterMode_Nearest = 1, FilterMode_Linear = 2,
-    FilterMode_Force32 = 2147483647
+    Undefined = 0, Nearest = 1, Linear = 2, Force32 = 2147483647
 type
   enum_WGPUFrontFace* {.size: sizeof(cuint).} = enum
-    FrontFace_Undefined = 0, FrontFace_CCW = 1, FrontFace_CW = 2,
-    FrontFace_Force32 = 2147483647
+    Undefined = 0, CCW = 1, CW = 2, Force32 = 2147483647
 type
   enum_WGPUIndexFormat* {.size: sizeof(cuint).} = enum
-    IndexFormat_Undefined = 0, IndexFormat_Uint16 = 1, IndexFormat_Uint32 = 2,
-    IndexFormat_Force32 = 2147483647
+    Undefined = 0, Uint16 = 1, Uint32 = 2, Force32 = 2147483647
 type
   enum_WGPULoadOp* {.size: sizeof(cuint).} = enum
-    LoadOp_Undefined = 0, LoadOp_Load = 1, LoadOp_Clear = 2,
-    LoadOp_Force32 = 2147483647
+    Undefined = 0, Load = 1, Clear = 2, Force32 = 2147483647
 type
   enum_WGPUMapAsyncStatus* {.size: sizeof(cuint).} = enum
-    MapAsyncStatus_Success = 1, MapAsyncStatus_InstanceDropped = 2,
-    MapAsyncStatus_Error = 3, MapAsyncStatus_Aborted = 4,
-    MapAsyncStatus_Unknown = 5, MapAsyncStatus_Force32 = 2147483647
+    Success = 1, InstanceDropped = 2, Error = 3, Aborted = 4, Unknown = 5,
+    Force32 = 2147483647
 type
   enum_WGPUMipmapFilterMode* {.size: sizeof(cuint).} = enum
-    MipmapFilterMode_Undefined = 0, MipmapFilterMode_Nearest = 1,
-    MipmapFilterMode_Linear = 2, MipmapFilterMode_Force32 = 2147483647
+    Undefined = 0, Nearest = 1, Linear = 2, Force32 = 2147483647
 type
   enum_WGPUOptionalBool* {.size: sizeof(cuint).} = enum
-    OptionalBool_False = 0, OptionalBool_True = 1, OptionalBool_Undefined = 2,
-    OptionalBool_Force32 = 2147483647
+    False = 0, True = 1, Undefined = 2, Force32 = 2147483647
 type
   enum_WGPUPopErrorScopeStatus* {.size: sizeof(cuint).} = enum
-    PopErrorScopeStatus_Success = 1, PopErrorScopeStatus_InstanceDropped = 2,
-    PopErrorScopeStatus_EmptyStack = 3, PopErrorScopeStatus_Force32 = 2147483647
+    Success = 1, InstanceDropped = 2, EmptyStack = 3, Force32 = 2147483647
 type
   enum_WGPUPowerPreference* {.size: sizeof(cuint).} = enum
-    PowerPreference_Undefined = 0, PowerPreference_LowPower = 1,
-    PowerPreference_HighPerformance = 2, PowerPreference_Force32 = 2147483647
+    Undefined = 0, LowPower = 1, HighPerformance = 2, Force32 = 2147483647
 type
   enum_WGPUPresentMode* {.size: sizeof(cuint).} = enum
-    PresentMode_Undefined = 0, PresentMode_Fifo = 1,
-    PresentMode_FifoRelaxed = 2, PresentMode_Immediate = 3,
-    PresentMode_Mailbox = 4, PresentMode_Force32 = 2147483647
+    Undefined = 0, Fifo = 1, FifoRelaxed = 2, Immediate = 3, Mailbox = 4,
+    Force32 = 2147483647
 type
   enum_WGPUPrimitiveTopology* {.size: sizeof(cuint).} = enum
-    PrimitiveTopology_Undefined = 0, PrimitiveTopology_PointList = 1,
-    PrimitiveTopology_LineList = 2, PrimitiveTopology_LineStrip = 3,
-    PrimitiveTopology_TriangleList = 4, PrimitiveTopology_TriangleStrip = 5,
-    PrimitiveTopology_Force32 = 2147483647
+    Undefined = 0, PointList = 1, LineList = 2, LineStrip = 3, TriangleList = 4,
+    TriangleStrip = 5, Force32 = 2147483647
 type
   enum_WGPUQueryType* {.size: sizeof(cuint).} = enum
-    QueryType_Occlusion = 1, QueryType_Timestamp = 2,
-    QueryType_Force32 = 2147483647
+    Occlusion = 1, Timestamp = 2, Force32 = 2147483647
 type
   enum_WGPUQueueWorkDoneStatus* {.size: sizeof(cuint).} = enum
-    QueueWorkDoneStatus_Success = 1, QueueWorkDoneStatus_InstanceDropped = 2,
-    QueueWorkDoneStatus_Error = 3, QueueWorkDoneStatus_Unknown = 4,
-    QueueWorkDoneStatus_Force32 = 2147483647
+    Success = 1, InstanceDropped = 2, Error = 3, Unknown = 4,
+    Force32 = 2147483647
 type
   enum_WGPURequestAdapterStatus* {.size: sizeof(cuint).} = enum
-    RequestAdapterStatus_Success = 1, RequestAdapterStatus_InstanceDropped = 2,
-    RequestAdapterStatus_Unavailable = 3, RequestAdapterStatus_Error = 4,
-    RequestAdapterStatus_Unknown = 5, RequestAdapterStatus_Force32 = 2147483647
+    Success = 1, InstanceDropped = 2, Unavailable = 3, Error = 4, Unknown = 5,
+    Force32 = 2147483647
 type
   enum_WGPURequestDeviceStatus* {.size: sizeof(cuint).} = enum
-    RequestDeviceStatus_Success = 1, RequestDeviceStatus_InstanceDropped = 2,
-    RequestDeviceStatus_Error = 3, RequestDeviceStatus_Unknown = 4,
-    RequestDeviceStatus_Force32 = 2147483647
+    Success = 1, InstanceDropped = 2, Error = 3, Unknown = 4,
+    Force32 = 2147483647
 type
   enum_WGPUSType* {.size: sizeof(cuint).} = enum
     SType_ShaderSourceSPIRV = 1, SType_ShaderSourceWGSL = 2,
@@ -191,45 +139,30 @@ type
     SType_SurfaceSourceXCBWindow = 9, SType_Force32 = 2147483647
 type
   enum_WGPUSamplerBindingType* {.size: sizeof(cuint).} = enum
-    SamplerBindingType_BindingNotUsed = 0, SamplerBindingType_Undefined = 1,
-    SamplerBindingType_Filtering = 2, SamplerBindingType_NonFiltering = 3,
-    SamplerBindingType_Comparison = 4, SamplerBindingType_Force32 = 2147483647
+    BindingNotUsed = 0, Undefined = 1, Filtering = 2, NonFiltering = 3,
+    Comparison = 4, Force32 = 2147483647
 type
   enum_WGPUStatus* {.size: sizeof(cuint).} = enum
-    Status_Success = 1, Status_Error = 2, Status_Force32 = 2147483647
+    Success = 1, Error = 2, Force32 = 2147483647
 type
   enum_WGPUStencilOperation* {.size: sizeof(cuint).} = enum
-    StencilOperation_Undefined = 0, StencilOperation_Keep = 1,
-    StencilOperation_Zero = 2, StencilOperation_Replace = 3,
-    StencilOperation_Invert = 4, StencilOperation_IncrementClamp = 5,
-    StencilOperation_DecrementClamp = 6, StencilOperation_IncrementWrap = 7,
-    StencilOperation_DecrementWrap = 8, StencilOperation_Force32 = 2147483647
+    Undefined = 0, Keep = 1, Zero = 2, Replace = 3, Invert = 4,
+    IncrementClamp = 5, DecrementClamp = 6, IncrementWrap = 7,
+    DecrementWrap = 8, Force32 = 2147483647
 type
   enum_WGPUStorageTextureAccess* {.size: sizeof(cuint).} = enum
-    StorageTextureAccess_BindingNotUsed = 0, StorageTextureAccess_Undefined = 1,
-    StorageTextureAccess_WriteOnly = 2, StorageTextureAccess_ReadOnly = 3,
-    StorageTextureAccess_ReadWrite = 4,
-    StorageTextureAccess_Force32 = 2147483647
+    BindingNotUsed = 0, Undefined = 1, WriteOnly = 2, ReadOnly = 3,
+    ReadWrite = 4, Force32 = 2147483647
 type
   enum_WGPUStoreOp* {.size: sizeof(cuint).} = enum
-    StoreOp_Undefined = 0, StoreOp_Store = 1, StoreOp_Discard = 2,
-    StoreOp_Force32 = 2147483647
+    Undefined = 0, Store = 1, Discard = 2, Force32 = 2147483647
 type
   enum_WGPUSurfaceGetCurrentTextureStatus* {.size: sizeof(cuint).} = enum
-    SurfaceGetCurrentTextureStatus_SuccessOptimal = 1,
-    SurfaceGetCurrentTextureStatus_SuccessSuboptimal = 2,
-    SurfaceGetCurrentTextureStatus_Timeout = 3,
-    SurfaceGetCurrentTextureStatus_Outdated = 4,
-    SurfaceGetCurrentTextureStatus_Lost = 5,
-    SurfaceGetCurrentTextureStatus_OutOfMemory = 6,
-    SurfaceGetCurrentTextureStatus_DeviceLost = 7,
-    SurfaceGetCurrentTextureStatus_Error = 8,
-    SurfaceGetCurrentTextureStatus_Force32 = 2147483647
+    SuccessOptimal = 1, SuccessSuboptimal = 2, Timeout = 3, Outdated = 4,
+    Lost = 5, OutOfMemory = 6, DeviceLost = 7, Error = 8, Force32 = 2147483647
 type
   enum_WGPUTextureAspect* {.size: sizeof(cuint).} = enum
-    TextureAspect_Undefined = 0, TextureAspect_All = 1,
-    TextureAspect_StencilOnly = 2, TextureAspect_DepthOnly = 3,
-    TextureAspect_Force32 = 2147483647
+    Undefined = 0, All = 1, StencilOnly = 2, DepthOnly = 3, Force32 = 2147483647
 type
   enum_WGPUTextureDimension* {.size: sizeof(cuint).} = enum
     TextureDimension_Undefined = 0, TextureDimension_1D = 1,
@@ -237,89 +170,53 @@ type
     TextureDimension_Force32 = 2147483647
 type
   enum_WGPUTextureFormat* {.size: sizeof(cuint).} = enum
-    TextureFormat_Undefined = 0, TextureFormat_R8Unorm = 1,
-    TextureFormat_R8Snorm = 2, TextureFormat_R8Uint = 3,
-    TextureFormat_R8Sint = 4, TextureFormat_R16Uint = 5,
-    TextureFormat_R16Sint = 6, TextureFormat_R16Float = 7,
-    TextureFormat_RG8Unorm = 8, TextureFormat_RG8Snorm = 9,
-    TextureFormat_RG8Uint = 10, TextureFormat_RG8Sint = 11,
-    TextureFormat_R32Float = 12, TextureFormat_R32Uint = 13,
-    TextureFormat_R32Sint = 14, TextureFormat_RG16Uint = 15,
-    TextureFormat_RG16Sint = 16, TextureFormat_RG16Float = 17,
-    TextureFormat_RGBA8Unorm = 18, TextureFormat_RGBA8UnormSrgb = 19,
-    TextureFormat_RGBA8Snorm = 20, TextureFormat_RGBA8Uint = 21,
-    TextureFormat_RGBA8Sint = 22, TextureFormat_BGRA8Unorm = 23,
-    TextureFormat_BGRA8UnormSrgb = 24, TextureFormat_RGB10A2Uint = 25,
-    TextureFormat_RGB10A2Unorm = 26, TextureFormat_RG11B10Ufloat = 27,
-    TextureFormat_RGB9E5Ufloat = 28, TextureFormat_RG32Float = 29,
-    TextureFormat_RG32Uint = 30, TextureFormat_RG32Sint = 31,
-    TextureFormat_RGBA16Uint = 32, TextureFormat_RGBA16Sint = 33,
-    TextureFormat_RGBA16Float = 34, TextureFormat_RGBA32Float = 35,
-    TextureFormat_RGBA32Uint = 36, TextureFormat_RGBA32Sint = 37,
-    TextureFormat_Stencil8 = 38, TextureFormat_Depth16Unorm = 39,
-    TextureFormat_Depth24Plus = 40, TextureFormat_Depth24PlusStencil8 = 41,
-    TextureFormat_Depth32Float = 42, TextureFormat_Depth32FloatStencil8 = 43,
-    TextureFormat_BC1RGBAUnorm = 44, TextureFormat_BC1RGBAUnormSrgb = 45,
-    TextureFormat_BC2RGBAUnorm = 46, TextureFormat_BC2RGBAUnormSrgb = 47,
-    TextureFormat_BC3RGBAUnorm = 48, TextureFormat_BC3RGBAUnormSrgb = 49,
-    TextureFormat_BC4RUnorm = 50, TextureFormat_BC4RSnorm = 51,
-    TextureFormat_BC5RGUnorm = 52, TextureFormat_BC5RGSnorm = 53,
-    TextureFormat_BC6HRGBUfloat = 54, TextureFormat_BC6HRGBFloat = 55,
-    TextureFormat_BC7RGBAUnorm = 56, TextureFormat_BC7RGBAUnormSrgb = 57,
-    TextureFormat_ETC2RGB8Unorm = 58, TextureFormat_ETC2RGB8UnormSrgb = 59,
-    TextureFormat_ETC2RGB8A1Unorm = 60, TextureFormat_ETC2RGB8A1UnormSrgb = 61,
-    TextureFormat_ETC2RGBA8Unorm = 62, TextureFormat_ETC2RGBA8UnormSrgb = 63,
-    TextureFormat_EACR11Unorm = 64, TextureFormat_EACR11Snorm = 65,
-    TextureFormat_EACRG11Unorm = 66, TextureFormat_EACRG11Snorm = 67,
-    TextureFormat_ASTC4x4Unorm = 68, TextureFormat_ASTC4x4UnormSrgb = 69,
-    TextureFormat_ASTC5x4Unorm = 70, TextureFormat_ASTC5x4UnormSrgb = 71,
-    TextureFormat_ASTC5x5Unorm = 72, TextureFormat_ASTC5x5UnormSrgb = 73,
-    TextureFormat_ASTC6x5Unorm = 74, TextureFormat_ASTC6x5UnormSrgb = 75,
-    TextureFormat_ASTC6x6Unorm = 76, TextureFormat_ASTC6x6UnormSrgb = 77,
-    TextureFormat_ASTC8x5Unorm = 78, TextureFormat_ASTC8x5UnormSrgb = 79,
-    TextureFormat_ASTC8x6Unorm = 80, TextureFormat_ASTC8x6UnormSrgb = 81,
-    TextureFormat_ASTC8x8Unorm = 82, TextureFormat_ASTC8x8UnormSrgb = 83,
-    TextureFormat_ASTC10x5Unorm = 84, TextureFormat_ASTC10x5UnormSrgb = 85,
-    TextureFormat_ASTC10x6Unorm = 86, TextureFormat_ASTC10x6UnormSrgb = 87,
-    TextureFormat_ASTC10x8Unorm = 88, TextureFormat_ASTC10x8UnormSrgb = 89,
-    TextureFormat_ASTC10x10Unorm = 90, TextureFormat_ASTC10x10UnormSrgb = 91,
-    TextureFormat_ASTC12x10Unorm = 92, TextureFormat_ASTC12x10UnormSrgb = 93,
-    TextureFormat_ASTC12x12Unorm = 94, TextureFormat_ASTC12x12UnormSrgb = 95,
-    TextureFormat_Force32 = 2147483647
+    Undefined = 0, R8Unorm = 1, R8Snorm = 2, R8Uint = 3, R8Sint = 4,
+    R16Uint = 5, R16Sint = 6, R16Float = 7, RG8Unorm = 8, RG8Snorm = 9,
+    RG8Uint = 10, RG8Sint = 11, R32Float = 12, R32Uint = 13, R32Sint = 14,
+    RG16Uint = 15, RG16Sint = 16, RG16Float = 17, RGBA8Unorm = 18,
+    RGBA8UnormSrgb = 19, RGBA8Snorm = 20, RGBA8Uint = 21, RGBA8Sint = 22,
+    BGRA8Unorm = 23, BGRA8UnormSrgb = 24, RGB10A2Uint = 25, RGB10A2Unorm = 26,
+    RG11B10Ufloat = 27, RGB9E5Ufloat = 28, RG32Float = 29, RG32Uint = 30,
+    RG32Sint = 31, RGBA16Uint = 32, RGBA16Sint = 33, RGBA16Float = 34,
+    RGBA32Float = 35, RGBA32Uint = 36, RGBA32Sint = 37, Stencil8 = 38,
+    Depth16Unorm = 39, Depth24Plus = 40, Depth24PlusStencil8 = 41,
+    Depth32Float = 42, Depth32FloatStencil8 = 43, BC1RGBAUnorm = 44,
+    BC1RGBAUnormSrgb = 45, BC2RGBAUnorm = 46, BC2RGBAUnormSrgb = 47,
+    BC3RGBAUnorm = 48, BC3RGBAUnormSrgb = 49, BC4RUnorm = 50, BC4RSnorm = 51,
+    BC5RGUnorm = 52, BC5RGSnorm = 53, BC6HRGBUfloat = 54, BC6HRGBFloat = 55,
+    BC7RGBAUnorm = 56, BC7RGBAUnormSrgb = 57, ETC2RGB8Unorm = 58,
+    ETC2RGB8UnormSrgb = 59, ETC2RGB8A1Unorm = 60, ETC2RGB8A1UnormSrgb = 61,
+    ETC2RGBA8Unorm = 62, ETC2RGBA8UnormSrgb = 63, EACR11Unorm = 64,
+    EACR11Snorm = 65, EACRG11Unorm = 66, EACRG11Snorm = 67, ASTC4x4Unorm = 68,
+    ASTC4x4UnormSrgb = 69, ASTC5x4Unorm = 70, ASTC5x4UnormSrgb = 71,
+    ASTC5x5Unorm = 72, ASTC5x5UnormSrgb = 73, ASTC6x5Unorm = 74,
+    ASTC6x5UnormSrgb = 75, ASTC6x6Unorm = 76, ASTC6x6UnormSrgb = 77,
+    ASTC8x5Unorm = 78, ASTC8x5UnormSrgb = 79, ASTC8x6Unorm = 80,
+    ASTC8x6UnormSrgb = 81, ASTC8x8Unorm = 82, ASTC8x8UnormSrgb = 83,
+    ASTC10x5Unorm = 84, ASTC10x5UnormSrgb = 85, ASTC10x6Unorm = 86,
+    ASTC10x6UnormSrgb = 87, ASTC10x8Unorm = 88, ASTC10x8UnormSrgb = 89,
+    ASTC10x10Unorm = 90, ASTC10x10UnormSrgb = 91, ASTC12x10Unorm = 92,
+    ASTC12x10UnormSrgb = 93, ASTC12x12Unorm = 94, ASTC12x12UnormSrgb = 95,
+    Force32 = 2147483647
 type
   enum_WGPUTextureSampleType* {.size: sizeof(cuint).} = enum
-    TextureSampleType_BindingNotUsed = 0, TextureSampleType_Undefined = 1,
-    TextureSampleType_Float = 2, TextureSampleType_UnfilterableFloat = 3,
-    TextureSampleType_Depth = 4, TextureSampleType_Sint = 5,
-    TextureSampleType_Uint = 6, TextureSampleType_Force32 = 2147483647
+    BindingNotUsed = 0, Undefined = 1, Float = 2, UnfilterableFloat = 3,
+    Depth = 4, Sint = 5, Uint = 6, Force32 = 2147483647
 type
   enum_WGPUTextureViewDimension* {.size: sizeof(cuint).} = enum
-    TextureViewDimension_Undefined = 0, TextureViewDimension_1D = 1,
-    TextureViewDimension_2D = 2, TextureViewDimension_2DArray = 3,
-    TextureViewDimension_Cube = 4, TextureViewDimension_CubeArray = 5,
-    TextureViewDimension_3D = 6, TextureViewDimension_Force32 = 2147483647
+    Undefined = 0, 1D = 1, 2D = 2, 2DArray = 3, Cube = 4, CubeArray = 5, 3D = 6,
+    Force32 = 2147483647
 type
   enum_WGPUVertexFormat* {.size: sizeof(cuint).} = enum
-    VertexFormat_Uint8 = 1, VertexFormat_Uint8x2 = 2, VertexFormat_Uint8x4 = 3,
-    VertexFormat_Sint8 = 4, VertexFormat_Sint8x2 = 5, VertexFormat_Sint8x4 = 6,
-    VertexFormat_Unorm8 = 7, VertexFormat_Unorm8x2 = 8,
-    VertexFormat_Unorm8x4 = 9, VertexFormat_Snorm8 = 10,
-    VertexFormat_Snorm8x2 = 11, VertexFormat_Snorm8x4 = 12,
-    VertexFormat_Uint16 = 13, VertexFormat_Uint16x2 = 14,
-    VertexFormat_Uint16x4 = 15, VertexFormat_Sint16 = 16,
-    VertexFormat_Sint16x2 = 17, VertexFormat_Sint16x4 = 18,
-    VertexFormat_Unorm16 = 19, VertexFormat_Unorm16x2 = 20,
-    VertexFormat_Unorm16x4 = 21, VertexFormat_Snorm16 = 22,
-    VertexFormat_Snorm16x2 = 23, VertexFormat_Snorm16x4 = 24,
-    VertexFormat_Float16 = 25, VertexFormat_Float16x2 = 26,
-    VertexFormat_Float16x4 = 27, VertexFormat_Float32 = 28,
-    VertexFormat_Float32x2 = 29, VertexFormat_Float32x3 = 30,
-    VertexFormat_Float32x4 = 31, VertexFormat_Uint32 = 32,
-    VertexFormat_Uint32x2 = 33, VertexFormat_Uint32x3 = 34,
-    VertexFormat_Uint32x4 = 35, VertexFormat_Sint32 = 36,
-    VertexFormat_Sint32x2 = 37, VertexFormat_Sint32x3 = 38,
-    VertexFormat_Sint32x4 = 39, VertexFormat_Unorm10_10_10_2 = 40,
-    VertexFormat_Unorm8x4BGRA = 41, VertexFormat_Force32 = 2147483647
+    Uint8 = 1, Uint8x2 = 2, Uint8x4 = 3, Sint8 = 4, Sint8x2 = 5, Sint8x4 = 6,
+    Unorm8 = 7, Unorm8x2 = 8, Unorm8x4 = 9, Snorm8 = 10, Snorm8x2 = 11,
+    Snorm8x4 = 12, Uint16 = 13, Uint16x2 = 14, Uint16x4 = 15, Sint16 = 16,
+    Sint16x2 = 17, Sint16x4 = 18, Unorm16 = 19, Unorm16x2 = 20, Unorm16x4 = 21,
+    Snorm16 = 22, Snorm16x2 = 23, Snorm16x4 = 24, Float16 = 25, Float16x2 = 26,
+    Float16x4 = 27, Float32 = 28, Float32x2 = 29, Float32x3 = 30,
+    Float32x4 = 31, Uint32 = 32, Uint32x2 = 33, Uint32x3 = 34, Uint32x4 = 35,
+    Sint32 = 36, Sint32x2 = 37, Sint32x3 = 38, Sint32x4 = 39,
+    Unorm10_10_10_2 = 40, Unorm8x4BGRA = 41, Force32 = 2147483647
 type
   enum_WGPUVertexStepMode* {.size: sizeof(cuint).} = enum
     VertexStepMode_VertexBufferNotUsed = 0, VertexStepMode_Undefined = 1,
@@ -327,16 +224,13 @@ type
     VertexStepMode_Force32 = 2147483647
 type
   enum_WGPUWGSLLanguageFeatureName* {.size: sizeof(cuint).} = enum
-    WGSLLanguageFeatureName_ReadonlyAndReadwriteStorageTextures = 1,
-    WGSLLanguageFeatureName_Packed4x8IntegerDotProduct = 2,
-    WGSLLanguageFeatureName_UnrestrictedPointerParameters = 3,
-    WGSLLanguageFeatureName_PointerCompositeAccess = 4,
-    WGSLLanguageFeatureName_Force32 = 2147483647
+    ReadonlyAndReadwriteStorageTextures = 1, Packed4x8IntegerDotProduct = 2,
+    UnrestrictedPointerParameters = 3, PointerCompositeAccess = 4,
+    Force32 = 2147483647
 type
   enum_WGPUWaitStatus* {.size: sizeof(cuint).} = enum
-    WaitStatus_Success = 1, WaitStatus_TimedOut = 2,
-    WaitStatus_UnsupportedTimeout = 3, WaitStatus_UnsupportedCount = 4,
-    WaitStatus_UnsupportedMixedSources = 5, WaitStatus_Force32 = 2147483647
+    Success = 1, TimedOut = 2, UnsupportedTimeout = 3, UnsupportedCount = 4,
+    UnsupportedMixedSources = 5, Force32 = 2147483647
 type
   enum_WGPUNativeSType* {.size: sizeof(cuint).} = enum
     SType_DeviceExtras = 196609, SType_NativeLimits = 196610,
@@ -348,65 +242,46 @@ type
     SType_SurfaceConfigurationExtras = 196618, NativeSType_Force32 = 2147483647
 type
   enum_WGPUNativeFeature* {.size: sizeof(cuint).} = enum
-    NativeFeature_PushConstants = 196609,
-    NativeFeature_TextureAdapterSpecificFormatFeatures = 196610,
-    NativeFeature_MultiDrawIndirect = 196611,
-    NativeFeature_MultiDrawIndirectCount = 196612,
-    NativeFeature_VertexWritableStorage = 196613,
-    NativeFeature_TextureBindingArray = 196614, NativeFeature_SampledTextureAndStorageBufferArrayNonUniformIndexing = 196615,
-    NativeFeature_PipelineStatisticsQuery = 196616,
-    NativeFeature_StorageResourceBindingArray = 196617,
-    NativeFeature_PartiallyBoundBindingArray = 196618,
-    NativeFeature_TextureFormat16bitNorm = 196619,
-    NativeFeature_TextureCompressionAstcHdr = 196620,
-    NativeFeature_MappablePrimaryBuffers = 196622,
-    NativeFeature_BufferBindingArray = 196623, NativeFeature_UniformBufferAndStorageTextureArrayNonUniformIndexing = 196624,
-    NativeFeature_SpirvShaderPassthrough = 196631,
-    NativeFeature_VertexAttribute64bit = 196633,
-    NativeFeature_TextureFormatNv12 = 196634,
-    NativeFeature_RayTracingAccelerationStructure = 196635,
-    NativeFeature_RayQuery = 196636, NativeFeature_ShaderF64 = 196637,
-    NativeFeature_ShaderI16 = 196638,
-    NativeFeature_ShaderPrimitiveIndex = 196639,
-    NativeFeature_ShaderEarlyDepthTest = 196640,
-    NativeFeature_Subgroup = 196641, NativeFeature_SubgroupVertex = 196642,
-    NativeFeature_SubgroupBarrier = 196643,
-    NativeFeature_TimestampQueryInsideEncoders = 196644,
-    NativeFeature_TimestampQueryInsidePasses = 196645,
-    NativeFeature_Force32 = 2147483647
+    PushConstants = 196609, TextureAdapterSpecificFormatFeatures = 196610,
+    MultiDrawIndirect = 196611, MultiDrawIndirectCount = 196612,
+    VertexWritableStorage = 196613, TextureBindingArray = 196614,
+    SampledTextureAndStorageBufferArrayNonUniformIndexing = 196615,
+    PipelineStatisticsQuery = 196616, StorageResourceBindingArray = 196617,
+    PartiallyBoundBindingArray = 196618, TextureFormat16bitNorm = 196619,
+    TextureCompressionAstcHdr = 196620, MappablePrimaryBuffers = 196622,
+    BufferBindingArray = 196623,
+    UniformBufferAndStorageTextureArrayNonUniformIndexing = 196624,
+    SpirvShaderPassthrough = 196631, VertexAttribute64bit = 196633,
+    TextureFormatNv12 = 196634, RayTracingAccelerationStructure = 196635,
+    RayQuery = 196636, ShaderF64 = 196637, ShaderI16 = 196638,
+    ShaderPrimitiveIndex = 196639, ShaderEarlyDepthTest = 196640,
+    Subgroup = 196641, SubgroupVertex = 196642, SubgroupBarrier = 196643,
+    TimestampQueryInsideEncoders = 196644, TimestampQueryInsidePasses = 196645,
+    Force32 = 2147483647
 type
   enum_WGPULogLevel* {.size: sizeof(cuint).} = enum
-    LogLevel_Off = 0, LogLevel_Error = 1, LogLevel_Warn = 2, LogLevel_Info = 3,
-    LogLevel_Debug = 4, LogLevel_Trace = 5, LogLevel_Force32 = 2147483647
+    Off = 0, Error = 1, Warn = 2, Info = 3, Debug = 4, Trace = 5,
+    Force32 = 2147483647
 type
   enum_WGPUDx12Compiler* {.size: sizeof(cuint).} = enum
-    Dx12Compiler_Undefined = 0, Dx12Compiler_Fxc = 1, Dx12Compiler_Dxc = 2,
-    Dx12Compiler_Force32 = 2147483647
+    Undefined = 0, Fxc = 1, Dxc = 2, Force32 = 2147483647
 type
   enum_WGPUGles3MinorVersion* {.size: sizeof(cuint).} = enum
-    Gles3MinorVersion_Automatic = 0, Gles3MinorVersion_Version0 = 1,
-    Gles3MinorVersion_Version1 = 2, Gles3MinorVersion_Version2 = 3,
-    Gles3MinorVersion_Force32 = 2147483647
+    Automatic = 0, Version0 = 1, Version1 = 2, Version2 = 3,
+    Force32 = 2147483647
 type
   enum_WGPUPipelineStatisticName* {.size: sizeof(cuint).} = enum
-    PipelineStatisticName_VertexShaderInvocations = 0,
-    PipelineStatisticName_ClipperInvocations = 1,
-    PipelineStatisticName_ClipperPrimitivesOut = 2,
-    PipelineStatisticName_FragmentShaderInvocations = 3,
-    PipelineStatisticName_ComputeShaderInvocations = 4,
-    PipelineStatisticName_Force32 = 2147483647
+    VertexShaderInvocations = 0, ClipperInvocations = 1,
+    ClipperPrimitivesOut = 2, FragmentShaderInvocations = 3,
+    ComputeShaderInvocations = 4, Force32 = 2147483647
 type
   enum_WGPUNativeQueryType* {.size: sizeof(cuint).} = enum
-    NativeQueryType_PipelineStatistics = 196608,
-    NativeQueryType_Force32 = 2147483647
+    PipelineStatistics = 196608, Force32 = 2147483647
 type
   enum_WGPUNativeTextureFormat* {.size: sizeof(cuint).} = enum
-    NativeTextureFormat_R16Unorm = 196609,
-    NativeTextureFormat_R16Snorm = 196610,
-    NativeTextureFormat_Rg16Unorm = 196611,
-    NativeTextureFormat_Rg16Snorm = 196612,
-    NativeTextureFormat_Rgba16Unorm = 196613,
-    NativeTextureFormat_Rgba16Snorm = 196614, NativeTextureFormat_NV12 = 196615
+    R16Unorm = 196609, R16Snorm = 196610, Rg16Unorm = 196611,
+    Rg16Snorm = 196612, Rgba16Unorm = 196613, Rgba16Snorm = 196614,
+    NV12 = 196615
 type
   struct_WGPUQuerySetImpl* = object
 type

@@ -2,13 +2,77 @@
 #  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  LGPLv3  |
 #:_______________________________________________________
 const stripPrefix * = [
-  "WGPU"
+  "WGPU",
   ] # << stripPrefix = [ ... ]
 const stripStart  * = [
-  "",
+  # Enum Values Prefixes
+  "AdapterType_",
+  "AddressMode_",
+  "BackendType_",
+  "BlendFactor_",
+  "BlendOperation_",
+  "BufferBindingType_",
+  "BufferMapState_",
+  "CallbackMode_",
+  "CompareFunction_",
+  "CompilationInfoRequestStatus_",
+  "CompilationMessageType_",
+  "CompositeAlphaMode_",
+  "CreatePipelineAsyncStatus_",
+  "CullMode_",
+  "DeviceLostReason_",
+  "ErrorFilter_",
+  "ErrorType_",
+  "FeatureLevel_",
+  "FeatureName_",
+  "FilterMode_",
+  "FrontFace_",
+  "IndexFormat_",
+  "LoadOp_",
+  "MapAsyncStatus_",
+  "MipmapFilterMode_",
+  "OptionalBool_",
+  "PopErrorScopeStatus_",
+  "PowerPreference_",
+  "PresentMode_",
+  "PrimitiveTopology_",
+  "QueryType_",
+  "QueueWorkDoneStatus_",
+  "RequestAdapterStatus_",
+  "RequestDeviceStatus_",
+  "SamplerBindingType_",
+  "Status_",
+  "StencilOperation_",
+  "StencilOperation_",
+  "StorageTextureAccess_",
+  "StoreOp_",
+  "SurfaceGetCurrentTextureStatus_",
+  "TextureAspect_",
+  "TextureFormat_",
+  "TextureSampleType_",
+  "TextureViewDimension_",
+  "VertexFormat_",
+  # "VertexStepMode_",  # FIX: Creates a duplicate of Instance because enums are not marked .pure. in futhark. Uncomment when solved
+  "WGSLLanguageFeatureName_",
+  "WaitStatus_",
+  # FIX: Creates a duplicate of RenderPassMaxDrawCount because enums are not marked .pure. in futhark. Uncomment when solved
+  # "SType_",
+  # "NativeSType_",
+  "NativeFeature_",
+  "LogLevel_",
+  "Dx12Compiler_",
+  "Gles3MinorVersion_",
+  "PipelineStatisticName_",
+  "NativeQueryType_",
+  "NativeTextureFormat_",
+  # FIX: Creates a duplicate of All because enums are not marked .pure. in futhark. Uncomment when solved
+  # "InstanceBackend_",
+  # "WGPUInstanceBackend_",
+
   ] # << stripStart = [ ... ]
 const replaceStart * = [
-  ("",""),
+  ("2D", "d2D"),
+  ("3D", "d3D"),
   ] # << replaceStart = [ ... ]
 const replaceEnd * = [
   ("",""),
