@@ -31,10 +31,12 @@ const replaceList * = [
 
   # Adapter
   ("wgpuAdapterRequestDevice",                           "request"                       ),
-  ("wgpuAdapterGetFeatures",                             "get"                           ),
   ("wgpuAdapterGetLimits",                               "get"                           ),
   ("wgpuAdapterGetProperties",                           "get"                           ),
+  # Adapter Features
+  ("wgpuAdapterGetFeatures",                             "get"                           ),
   ("wgpuAdapterHasFeature",                              "has"                           ),
+  ("wgpuSupportedFeaturesFreeMembers",                   "freeMembers"                   ),
 
   # Device
   ("wgpuDeviceSetUncapturedErrorCallback",               "set"                           ),

@@ -2035,8 +2035,8 @@ proc wgpuShaderModuleAddRef*(shaderModule: ShaderModule): void {.cdecl,
     importc: "wgpuShaderModuleAddRef".}
 proc release*(shaderModule: ShaderModule): void {.cdecl,
     importc: "wgpuShaderModuleRelease".}
-proc wgpuSupportedFeaturesFreeMembers*(supportedFeatures: SupportedFeatures): void {.
-    cdecl, importc: "wgpuSupportedFeaturesFreeMembers".}
+proc freeMembers*(supportedFeatures: SupportedFeatures): void {.cdecl,
+    importc: "wgpuSupportedFeaturesFreeMembers".}
 proc wgpuSupportedWGSLLanguageFeaturesFreeMembers*(
     supportedWGSLLanguageFeatures: SupportedWGSLLanguageFeatures): void {.cdecl,
     importc: "wgpuSupportedWGSLLanguageFeaturesFreeMembers".}

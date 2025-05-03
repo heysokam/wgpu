@@ -131,6 +131,7 @@ proc features *(adapter :Adapter) :seq[FeatureName]=
   result = newSeqWith(data.featureCount.int, FeatureName 0)
   for id in 0..<data.featureCount:
     result[id] = cast[ptr UncheckedArray[FeatureName]](data.features)[id]
+  data.freeMembers()
 #___________________
 proc capabilities *(
     surface : Surface;
