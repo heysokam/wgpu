@@ -26,10 +26,10 @@ proc rename (
   # Start Rename
   for entry in cfg.stripPrefix:
     if result.startsWith( entry ) : result = result[entry.len .. ^1]
-  for entry in cfg.replaceStart:
-    if result.startsWith( entry[0] ) : result = entry[1] & result[entry[0].len .. ^1]
   for entry in cfg.stripStart:
     if result.startsWith( entry ) : result = result[entry.len .. ^1]
+  for entry in cfg.replaceStart:
+    if result.startsWith( entry[0] ) : result = entry[1] & result[entry[0].len .. ^1]
   # End Rename
   for entry in cfg.stripEnd:
     if result.endsWith( entry ) :

@@ -204,8 +204,8 @@ type
     Depth = 4, Sint = 5, Uint = 6, Force32 = 2147483647
 type
   enum_WGPUTextureViewDimension* {.size: sizeof(cuint).} = enum
-    Undefined = 0, 1D = 1, 2D = 2, 2DArray = 3, Cube = 4, CubeArray = 5, 3D = 6,
-    Force32 = 2147483647
+    Undefined = 0, D1D = 1, D2D = 2, D2DArray = 3, Cube = 4, CubeArray = 5,
+    D3D = 6, Force32 = 2147483647
 type
   enum_WGPUVertexFormat* {.size: sizeof(cuint).} = enum
     Uint8 = 1, Uint8x2 = 2, Uint8x4 = 3, Sint8 = 4, Sint8x2 = 5, Sint8x4 = 6,

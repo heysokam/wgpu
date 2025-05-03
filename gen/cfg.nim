@@ -71,8 +71,9 @@ const stripStart  * = [
 
   ] # << stripStart = [ ... ]
 const replaceStart * = [
-  ("2D", "d2D"),
-  ("3D", "d3D"),
+  ("1D", "D1D"),
+  ("2D", "D2D"),
+  ("3D", "D3D"),
   ] # << replaceStart = [ ... ]
 const replaceEnd * = [
   ("",""),
