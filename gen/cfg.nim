@@ -30,8 +30,8 @@ const replaceList * = [
   ("wgpuInstanceProcessEvents",                          "processEvents"                 ),
 
   # Adapter
-  ("wgpuAdapterEnumerateFeatures",                       "enumerate"                     ),
   ("wgpuAdapterRequestDevice",                           "request"                       ),
+  ("wgpuAdapterGetFeatures",                             "get"                           ),
   ("wgpuAdapterGetLimits",                               "get"                           ),
   ("wgpuAdapterGetProperties",                           "get"                           ),
   ("wgpuAdapterHasFeature",                              "has"                           ),

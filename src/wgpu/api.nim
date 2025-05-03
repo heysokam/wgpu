@@ -1672,8 +1672,8 @@ proc wgpuGetInstanceCapabilities*(capabilities: ptr InstanceCapabilities): Statu
     cdecl, importc: "wgpuGetInstanceCapabilities".}
 proc getProcAddress*(procName: StringView): Proc {.cdecl,
     importc: "wgpuGetProcAddress".}
-proc wgpuAdapterGetFeatures*(adapter: Adapter; features: ptr SupportedFeatures): void {.
-    cdecl, importc: "wgpuAdapterGetFeatures".}
+proc get*(adapter: Adapter; features: ptr SupportedFeatures): void {.cdecl,
+    importc: "wgpuAdapterGetFeatures".}
 proc wgpuAdapterGetInfo*(adapter: Adapter; info: ptr AdapterInfo): Status {.
     cdecl, importc: "wgpuAdapterGetInfo".}
 proc get*(adapter: Adapter; limits: ptr Limits): Status {.cdecl,

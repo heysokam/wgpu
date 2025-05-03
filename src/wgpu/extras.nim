@@ -124,15 +124,13 @@ proc getSurface *(instance :Instance; win :glfw.Window) :Surface=
 #_______________________________________
 # @section Hardware Information
 #_____________________________
-#[
-proc features *(adapter :Adapter) :seq[Feature]=
-  ## Returns the features supported by the adapter as a seq[Feature]
-  ## Note: id is represented as a hex number in the wgpu headers
-  let count    = adapter.enumerate(nil).int
-  var features = newSeqWith[Feature](count, Feature 0)
-  discard adapter.enumerate(features[0].addr)
-  result = features
-]#
+proc features *(adapter :Adapter) :seq[FeatureName]=
+  ## Returns the features supported by the adapter as a seq[FeatureName]
+  var data = SupportedFeatures()
+  adapter.get(data.addr)
+  result = newSeqWith(data.featureCount.int, FeatureName 0)
+  for id in 0..<data.featureCount:
+    result[id] = cast[ptr UncheckedArray[FeatureName]](data.features)[id]
 #___________________
 proc capabilities *(
     surface : Surface;
