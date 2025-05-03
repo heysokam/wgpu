@@ -124,8 +124,16 @@ proc getSurface *(instance :Instance; win :glfw.Window) :Surface=
 #_______________________________________
 # @section Hardware Information
 #_____________________________
+func `$` *(feature :FeatureName) :string=
+  ## @descr
+  ##  Returns the string representation of the given FeatureName
+  ##  Converts the value to WGPUNativeFeature before conversion where needed
+  let isWgpuNative = feature.ord > 0x00030000
+  if  isWgpuNative : result = $NativeFeature(feature)
+  else             : result = system.`$`(feature)
+#___________________
 proc features *(adapter :Adapter) :seq[FeatureName]=
-  ## Returns the features supported by the adapter as a seq[FeatureName]
+  ## @descr Returns the features supported by the adapter as a seq[FeatureName]
   var data = SupportedFeatures()
   adapter.get(data.addr)
   result = newSeqWith(data.featureCount.int, FeatureName 0)
@@ -137,7 +145,7 @@ proc capabilities *(
     surface : Surface;
     adapter : Adapter
   ) :tuple[textureFormats:seq[TextureFormat], presentModes:seq[PresentMode], alphaModes:seq[CompositeAlphaMode]]=
-  ## Returns the capabilities supported by the surface as a tuple of (seq[textureFormats], seq[presentModes], seq[alphaModes])
+  ## @descr Returns the capabilities supported by the surface as a tuple of (seq[textureFormats], seq[presentModes], seq[alphaModes])
   {.warning: "Getting capabilities from a surface is currently broken for an unknown reason. Needs fixing.".}
   var caps :SurfaceCapabilities
   discard surface.get(adapter, caps.addr)
