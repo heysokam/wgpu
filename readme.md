@@ -11,11 +11,9 @@ _As a reference, it is easier to follow than the infamous Learn OpenGL, in my op
 
 ## Current state and todo
 - [x] Wrapper for wgpu-native latest
-- [ ] Rename system
+- [x] Rename system
   - [x] Raw api access  _(for those who don't like the renames)_
   - [x] Shortened `camelCase` for Function names
-  - [x] Redundant type prefixes in function names
-  - [ ] Complete implementation
 - [x] Linux suppport
 - [x] Mac support
 - [ ] Windows support
