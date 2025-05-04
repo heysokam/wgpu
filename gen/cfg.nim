@@ -147,7 +147,6 @@ const replaceList * = [
   ("wgpuDeviceGetLostFuture",                            "getLostFuture"                 ),
 
   # Surface
-  ("wgpuSurfaceGetPreferredFormat",                      "getPreferredFormat"            ),
   ("wgpuSurfaceConfigure",                               "configure"                     ),
   ("wgpuSurfaceUnconfigure",                             "unconfigure"                   ),
   ("wgpuSurfaceGetCurrentTexture",                       "getCurrentTexture"             ),
@@ -157,10 +156,6 @@ const replaceList * = [
   ("wgpuSurfaceCapabilitiesFreeMembers",                 "freeMembers"                   ),
   ("wgpuSurfaceGetSupportedFormats",                     "getSupportedFormats"           ),
   ("wgpuSurfaceGetSupportedPresentModes",                "getSupportedPresentModes"      ),
-
-  # SwapChain
-  ("wgpuSwapChainGetCurrentTextureView",                 "getCurrentTextureView"         ),
-  ("wgpuSwapChainPresent",                               "present"                       ),
 
   # RenderPass Encoder
   ("wgpuRenderPassEncoderSetVertexBuffer",               "setVertexBuffer"               ),
