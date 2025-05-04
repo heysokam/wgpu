@@ -1549,8 +1549,8 @@ proc getProcAddress*(procName: StringView): Proc {.cdecl,
     importc: "wgpuGetProcAddress".}
 proc get*(adapter: Adapter; features: ptr SupportedFeatures): void {.cdecl,
     importc: "wgpuAdapterGetFeatures".}
-proc wgpuAdapterGetInfo*(adapter: Adapter; info: ptr AdapterInfo): Status {.
-    cdecl, importc: "wgpuAdapterGetInfo".}
+proc get*(adapter: Adapter; info: ptr AdapterInfo): Status {.cdecl,
+    importc: "wgpuAdapterGetInfo".}
 proc get*(adapter: Adapter; limits: ptr Limits): Status {.cdecl,
     importc: "wgpuAdapterGetLimits".}
 proc has*(adapter: Adapter; feature: FeatureName): Bool {.cdecl,
@@ -1561,7 +1561,7 @@ proc request*(adapter: Adapter; descriptor: ptr DeviceDescriptor;
 proc wgpuAdapterAddRef*(adapter: Adapter): void {.cdecl,
     importc: "wgpuAdapterAddRef".}
 proc release*(adapter: Adapter): void {.cdecl, importc: "wgpuAdapterRelease".}
-proc wgpuAdapterInfoFreeMembers*(adapterInfo: AdapterInfo): void {.cdecl,
+proc freeMembers*(adapterInfo: AdapterInfo): void {.cdecl,
     importc: "wgpuAdapterInfoFreeMembers".}
 proc setLabel*(bindGroup: BindGroup; label: StringView): void {.cdecl,
     importc: "wgpuBindGroupSetLabel".}

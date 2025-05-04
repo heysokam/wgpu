@@ -127,9 +127,11 @@ proc run=
       userdata2             : nil,
       ), #:: RequestAdapterCallbackInfo
     ) #:: instance.request
+  echo ":: Adapter Information for this system: "
+  echo ":  ",$adapter.info()
   echo ":: Adapter Features supported by this system: "
   for it in adapter.features(): echo ":  ",$it
-  echo ":: Capabilities of the Surface supported by this system: "
+  echo ":: Surface Capabilities supported by this system: "
   let (textureFormats, presentModes, alphaModes) = surface.capabilities(adapter)
   echo ":  Texture Formats:"
   for formt in textureFormats: echo ":  - ",$formt

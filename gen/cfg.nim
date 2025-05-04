@@ -97,7 +97,8 @@ const replaceList * = [
   # Adapter
   ("wgpuAdapterRequestDevice",                           "request"                       ),
   ("wgpuAdapterGetLimits",                               "get"                           ),
-  ("wgpuAdapterGetProperties",                           "get"                           ),
+  ("wgpuAdapterGetInfo",                                 "get"                           ),
+  ("wgpuAdapterInfoFreeMembers",                         "freeMembers"                   ),
   # Adapter Features
   ("wgpuAdapterGetFeatures",                             "get"                           ),
   ("wgpuAdapterHasFeature",                              "has"                           ),

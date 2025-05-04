@@ -32,7 +32,13 @@ proc setIndexBuffer *(
   ## @descr Overload for wgpu.setIndexBuffer
 #___________________
 func toStringView *(val :string) :StringView=  StringView(data: val.cstring, length: val.len.csize_t)
-  ## @descr Turns the given string into a wgpu.StringView
+  ## @descr Converts the given Nim.string into a wgpu.StringView
+#___________________
+func `$` *(val :StringView) :string=
+  ## @descr Converts the given wgpu.StringView into a Nim.string
+  if val.data == nil: return ""
+  if val.length == 0: return ""
+  val.data.toOpenArray(0, val.length.int-1).substr()
 
 
 #_______________________________________
@@ -178,6 +184,31 @@ proc capabilities *(
   if status != Success: raise newException(CapabilitiesError, "Failed to get the capabilities of the surface: " & $status)
   result = (caps.formats(), caps.presentModes(), caps.alphaModes())
   caps.freeMembers()
+#___________________
+type AdapterInfo * = object
+  ## @descr Information about an adapter
+  vendor       *:string
+  architecture *:string
+  device       *:string
+  description  *:string
+  backendType  *:BackendType
+  adapterType  *:AdapterType
+  vendorID     *:uint32
+  deviceID     *:uint32
+#___________________
+proc info *(adapter :Adapter) :extras.AdapterInfo=
+  ## @descr Returns the information about the adapter as an extras.AdapterInfo object
+  var data :wgpu.AdapterInfo
+  let status = adapter.get(data.addr)
+  result.vendor       = $data.vendor
+  result.architecture = $data.architecture
+  result.device       = $data.device
+  result.description  = $data.description
+  result.backendType  = data.backendType
+  result.adapterType  = data.adapterType
+  result.vendorID     = data.vendorID
+  result.deviceID     = data.deviceID
+  data.freeMembers()
 
 
 #_______________________________________
