@@ -173,8 +173,6 @@ proc run=
     # Input update from glfw
     window.update()
 
-
-
     # 5. Get the swapChain TextureView.
     var surfaceTexture :SurfaceTexture
     surface.getCurrentTexture(surfaceTexture.addr)
@@ -197,11 +195,8 @@ proc run=
       echo $surfaceTexture.status, ": surface.getCurrentTexture() failed"
       system.quit(surfaceTexture.status.ord)
     doAssert surfaceTexture != SurfaceTexture(), "ERR:: Cannot acquire next swap chain texture"
-
-
     let nextTexture :TextureView= surfaceTexture.texture.create(nil)
 
- 
     # 6. Create the Command Encoder
     var encoderDesc = CommandEncoderDescriptor(
       nextInChain  : nil,
