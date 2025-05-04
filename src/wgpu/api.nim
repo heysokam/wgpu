@@ -1543,8 +1543,8 @@ var TextureUsage_StorageBinding*: TextureUsage
 var TextureUsage_RenderAttachment*: TextureUsage
 proc create*(descriptor: ptr InstanceDescriptor): Instance {.cdecl,
     importc: "wgpuCreateInstance".}
-proc wgpuGetInstanceCapabilities*(capabilities: ptr InstanceCapabilities): Status {.
-    cdecl, importc: "wgpuGetInstanceCapabilities".}
+proc get*(capabilities: ptr InstanceCapabilities): Status {.cdecl,
+    importc: "wgpuGetInstanceCapabilities".}
 proc getProcAddress*(procName: StringView): Proc {.cdecl,
     importc: "wgpuGetProcAddress".}
 proc get*(adapter: Adapter; features: ptr SupportedFeatures): void {.cdecl,
@@ -1558,27 +1558,25 @@ proc has*(adapter: Adapter; feature: FeatureName): Bool {.cdecl,
 proc request*(adapter: Adapter; descriptor: ptr DeviceDescriptor;
               callbackInfo: RequestDeviceCallbackInfo): Future {.cdecl,
     importc: "wgpuAdapterRequestDevice".}
-proc wgpuAdapterAddRef*(adapter: Adapter): void {.cdecl,
-    importc: "wgpuAdapterAddRef".}
+proc addRef*(adapter: Adapter): void {.cdecl, importc: "wgpuAdapterAddRef".}
 proc release*(adapter: Adapter): void {.cdecl, importc: "wgpuAdapterRelease".}
 proc freeMembers*(adapterInfo: AdapterInfo): void {.cdecl,
     importc: "wgpuAdapterInfoFreeMembers".}
 proc setLabel*(bindGroup: BindGroup; label: StringView): void {.cdecl,
     importc: "wgpuBindGroupSetLabel".}
-proc wgpuBindGroupAddRef*(bindGroup: BindGroup): void {.cdecl,
-    importc: "wgpuBindGroupAddRef".}
+proc addRef*(bindGroup: BindGroup): void {.cdecl, importc: "wgpuBindGroupAddRef".}
 proc release*(bindGroup: BindGroup): void {.cdecl,
     importc: "wgpuBindGroupRelease".}
 proc layoutSetLabel*(bindGroupLayout: BindGroupLayout; label: StringView): void {.
     cdecl, importc: "wgpuBindGroupLayoutSetLabel".}
-proc wgpuBindGroupLayoutAddRef*(bindGroupLayout: BindGroupLayout): void {.cdecl,
+proc addRef*(bindGroupLayout: BindGroupLayout): void {.cdecl,
     importc: "wgpuBindGroupLayoutAddRef".}
 proc release*(bindGroupLayout: BindGroupLayout): void {.cdecl,
     importc: "wgpuBindGroupLayoutRelease".}
 proc destroy*(buffer: Buffer): void {.cdecl, importc: "wgpuBufferDestroy".}
 proc getConstMappedRange*(buffer: Buffer; offset: csize_t; size: csize_t): pointer {.
     cdecl, importc: "wgpuBufferGetConstMappedRange".}
-proc wgpuBufferGetMapState*(buffer: Buffer): BufferMapState {.cdecl,
+proc getMapState*(buffer: Buffer): BufferMapState {.cdecl,
     importc: "wgpuBufferGetMapState".}
 proc getMappedRange*(buffer: Buffer; offset: csize_t; size: csize_t): pointer {.
     cdecl, importc: "wgpuBufferGetMappedRange".}
@@ -1591,12 +1589,11 @@ proc mapAsync*(buffer: Buffer; mode: MapMode; offset: csize_t; size: csize_t;
 proc setLabel*(buffer: Buffer; label: StringView): void {.cdecl,
     importc: "wgpuBufferSetLabel".}
 proc unmap*(buffer: Buffer): void {.cdecl, importc: "wgpuBufferUnmap".}
-proc wgpuBufferAddRef*(buffer: Buffer): void {.cdecl,
-    importc: "wgpuBufferAddRef".}
+proc addRef*(buffer: Buffer): void {.cdecl, importc: "wgpuBufferAddRef".}
 proc release*(buffer: Buffer): void {.cdecl, importc: "wgpuBufferRelease".}
 proc setLabel*(commandBuffer: CommandBuffer; label: StringView): void {.cdecl,
     importc: "wgpuCommandBufferSetLabel".}
-proc wgpuCommandBufferAddRef*(commandBuffer: CommandBuffer): void {.cdecl,
+proc addRef*(commandBuffer: CommandBuffer): void {.cdecl,
     importc: "wgpuCommandBufferAddRef".}
 proc release*(commandBuffer: CommandBuffer): void {.cdecl,
     importc: "wgpuCommandBufferRelease".}
@@ -1638,7 +1635,7 @@ proc setLabel*(commandEncoder: CommandEncoder; label: StringView): void {.cdecl,
 proc writeTimestamp*(commandEncoder: CommandEncoder; querySet: QuerySet;
                      queryIndex: uint32): void {.cdecl,
     importc: "wgpuCommandEncoderWriteTimestamp".}
-proc wgpuCommandEncoderAddRef*(commandEncoder: CommandEncoder): void {.cdecl,
+proc addRef*(commandEncoder: CommandEncoder): void {.cdecl,
     importc: "wgpuCommandEncoderAddRef".}
 proc release*(commandEncoder: CommandEncoder): void {.cdecl,
     importc: "wgpuCommandEncoderRelease".}
@@ -1667,15 +1664,15 @@ proc setLabel*(computePassEncoder: ComputePassEncoder; label: StringView): void 
     cdecl, importc: "wgpuComputePassEncoderSetLabel".}
 proc set*(computePassEncoder: ComputePassEncoder; pipeline: ComputePipeline): void {.
     cdecl, importc: "wgpuComputePassEncoderSetPipeline".}
-proc wgpuComputePassEncoderAddRef*(computePassEncoder: ComputePassEncoder): void {.
-    cdecl, importc: "wgpuComputePassEncoderAddRef".}
+proc addRef*(computePassEncoder: ComputePassEncoder): void {.cdecl,
+    importc: "wgpuComputePassEncoderAddRef".}
 proc release*(computePassEncoder: ComputePassEncoder): void {.cdecl,
     importc: "wgpuComputePassEncoderRelease".}
 proc getBindGroupLayout*(computePipeline: ComputePipeline; groupIndex: uint32): BindGroupLayout {.
     cdecl, importc: "wgpuComputePipelineGetBindGroupLayout".}
 proc setLabel*(computePipeline: ComputePipeline; label: StringView): void {.
     cdecl, importc: "wgpuComputePipelineSetLabel".}
-proc wgpuComputePipelineAddRef*(computePipeline: ComputePipeline): void {.cdecl,
+proc addRef*(computePipeline: ComputePipeline): void {.cdecl,
     importc: "wgpuComputePipelineAddRef".}
 proc release*(computePipeline: ComputePipeline): void {.cdecl,
     importc: "wgpuComputePipelineRelease".}
@@ -1710,13 +1707,13 @@ proc create*(device: Device; descriptor: ptr ShaderModuleDescriptor): ShaderModu
 proc create*(device: Device; descriptor: ptr TextureDescriptor): Texture {.
     cdecl, importc: "wgpuDeviceCreateTexture".}
 proc destroy*(device: Device): void {.cdecl, importc: "wgpuDeviceDestroy".}
-proc wgpuDeviceGetAdapterInfo*(device: Device): AdapterInfo {.cdecl,
+proc getAdapterInfo*(device: Device): AdapterInfo {.cdecl,
     importc: "wgpuDeviceGetAdapterInfo".}
-proc wgpuDeviceGetFeatures*(device: Device; features: ptr SupportedFeatures): void {.
-    cdecl, importc: "wgpuDeviceGetFeatures".}
+proc get*(device: Device; features: ptr SupportedFeatures): void {.cdecl,
+    importc: "wgpuDeviceGetFeatures".}
 proc get*(device: Device; limits: ptr Limits): Status {.cdecl,
     importc: "wgpuDeviceGetLimits".}
-proc wgpuDeviceGetLostFuture*(device: Device): Future {.cdecl,
+proc getLostFuture*(device: Device): Future {.cdecl,
     importc: "wgpuDeviceGetLostFuture".}
 proc getQueue*(device: Device): Queue {.cdecl, importc: "wgpuDeviceGetQueue".}
 proc has*(device: Device; feature: FeatureName): Bool {.cdecl,
@@ -1727,31 +1724,27 @@ proc pushErrorScope*(device: Device; filter: ErrorFilter): void {.cdecl,
     importc: "wgpuDevicePushErrorScope".}
 proc setLabel*(device: Device; label: StringView): void {.cdecl,
     importc: "wgpuDeviceSetLabel".}
-proc wgpuDeviceAddRef*(device: Device): void {.cdecl,
-    importc: "wgpuDeviceAddRef".}
+proc addRef*(device: Device): void {.cdecl, importc: "wgpuDeviceAddRef".}
 proc release*(device: Device): void {.cdecl, importc: "wgpuDeviceRelease".}
 proc create*(instance: Instance; descriptor: ptr SurfaceDescriptor): Surface {.
     cdecl, importc: "wgpuInstanceCreateSurface".}
-proc wgpuInstanceGetWGSLLanguageFeatures*(instance: Instance;
-    features: ptr SupportedWGSLLanguageFeatures): Status {.cdecl,
-    importc: "wgpuInstanceGetWGSLLanguageFeatures".}
-proc wgpuInstanceHasWGSLLanguageFeature*(instance: Instance;
-    feature: WGSLLanguageFeatureName): Bool {.cdecl,
+proc get*(instance: Instance; features: ptr SupportedWGSLLanguageFeatures): Status {.
+    cdecl, importc: "wgpuInstanceGetWGSLLanguageFeatures".}
+proc has*(instance: Instance; feature: WGSLLanguageFeatureName): Bool {.cdecl,
     importc: "wgpuInstanceHasWGSLLanguageFeature".}
 proc processEvents*(instance: Instance): void {.cdecl,
     importc: "wgpuInstanceProcessEvents".}
 proc request*(instance: Instance; options: ptr RequestAdapterOptions;
               callbackInfo: RequestAdapterCallbackInfo): Future {.cdecl,
     importc: "wgpuInstanceRequestAdapter".}
-proc wgpuInstanceWaitAny*(instance: Instance; futureCount: csize_t;
-                          futures: ptr FutureWaitInfo; timeoutNS: uint64): WaitStatus {.
-    cdecl, importc: "wgpuInstanceWaitAny".}
-proc wgpuInstanceAddRef*(instance: Instance): void {.cdecl,
-    importc: "wgpuInstanceAddRef".}
+proc wait*(instance: Instance; futureCount: csize_t;
+           futures: ptr FutureWaitInfo; timeoutNS: uint64): WaitStatus {.cdecl,
+    importc: "wgpuInstanceWaitAny".}
+proc addRef*(instance: Instance): void {.cdecl, importc: "wgpuInstanceAddRef".}
 proc release*(instance: Instance): void {.cdecl, importc: "wgpuInstanceRelease".}
 proc setLabel*(pipelineLayout: PipelineLayout; label: StringView): void {.cdecl,
     importc: "wgpuPipelineLayoutSetLabel".}
-proc wgpuPipelineLayoutAddRef*(pipelineLayout: PipelineLayout): void {.cdecl,
+proc addRef*(pipelineLayout: PipelineLayout): void {.cdecl,
     importc: "wgpuPipelineLayoutAddRef".}
 proc release*(pipelineLayout: PipelineLayout): void {.cdecl,
     importc: "wgpuPipelineLayoutRelease".}
@@ -1762,8 +1755,7 @@ proc getType*(querySet: QuerySet): QueryType {.cdecl,
     importc: "wgpuQuerySetGetType".}
 proc setLabel*(querySet: QuerySet; label: StringView): void {.cdecl,
     importc: "wgpuQuerySetSetLabel".}
-proc wgpuQuerySetAddRef*(querySet: QuerySet): void {.cdecl,
-    importc: "wgpuQuerySetAddRef".}
+proc addRef*(querySet: QuerySet): void {.cdecl, importc: "wgpuQuerySetAddRef".}
 proc release*(querySet: QuerySet): void {.cdecl, importc: "wgpuQuerySetRelease".}
 proc onSubmittedWorkDone*(queue: Queue; callbackInfo: QueueWorkDoneCallbackInfo): Future {.
     cdecl, importc: "wgpuQueueOnSubmittedWorkDone".}
@@ -1777,11 +1769,11 @@ proc write*(queue: Queue; destination: ptr TexelCopyTextureInfo; data: pointer;
             dataSize: csize_t; dataLayout: ptr TexelCopyBufferLayout;
             writeSize: ptr Extent3D): void {.cdecl,
     importc: "wgpuQueueWriteTexture".}
-proc wgpuQueueAddRef*(queue: Queue): void {.cdecl, importc: "wgpuQueueAddRef".}
+proc addRef*(queue: Queue): void {.cdecl, importc: "wgpuQueueAddRef".}
 proc release*(queue: Queue): void {.cdecl, importc: "wgpuQueueRelease".}
 proc setLabel*(renderBundle: RenderBundle; label: StringView): void {.cdecl,
     importc: "wgpuRenderBundleSetLabel".}
-proc wgpuRenderBundleAddRef*(renderBundle: RenderBundle): void {.cdecl,
+proc addRef*(renderBundle: RenderBundle): void {.cdecl,
     importc: "wgpuRenderBundleAddRef".}
 proc release*(renderBundle: RenderBundle): void {.cdecl,
     importc: "wgpuRenderBundleRelease".}
@@ -1823,8 +1815,8 @@ proc set*(renderBundleEncoder: RenderBundleEncoder; pipeline: RenderPipeline): v
 proc setVertexBuffer*(renderBundleEncoder: RenderBundleEncoder; slot: uint32;
                       buffer: Buffer; offset: uint64; size: uint64): void {.
     cdecl, importc: "wgpuRenderBundleEncoderSetVertexBuffer".}
-proc wgpuRenderBundleEncoderAddRef*(renderBundleEncoder: RenderBundleEncoder): void {.
-    cdecl, importc: "wgpuRenderBundleEncoderAddRef".}
+proc addRef*(renderBundleEncoder: RenderBundleEncoder): void {.cdecl,
+    importc: "wgpuRenderBundleEncoderAddRef".}
 proc release*(renderBundleEncoder: RenderBundleEncoder): void {.cdecl,
     importc: "wgpuRenderBundleEncoderRelease".}
 proc beginOcclusionQuery*(renderPassEncoder: RenderPassEncoder;
@@ -1884,37 +1876,35 @@ proc setViewport*(renderPassEncoder: RenderPassEncoder; x: cfloat; y: cfloat;
                   width: cfloat; height: cfloat; minDepth: cfloat;
                   maxDepth: cfloat): void {.cdecl,
     importc: "wgpuRenderPassEncoderSetViewport".}
-proc wgpuRenderPassEncoderAddRef*(renderPassEncoder: RenderPassEncoder): void {.
-    cdecl, importc: "wgpuRenderPassEncoderAddRef".}
+proc addRef*(renderPassEncoder: RenderPassEncoder): void {.cdecl,
+    importc: "wgpuRenderPassEncoderAddRef".}
 proc release*(renderPassEncoder: RenderPassEncoder): void {.cdecl,
     importc: "wgpuRenderPassEncoderRelease".}
 proc getBindGroupLayout*(renderPipeline: RenderPipeline; groupIndex: uint32): BindGroupLayout {.
     cdecl, importc: "wgpuRenderPipelineGetBindGroupLayout".}
 proc setLabel*(renderPipeline: RenderPipeline; label: StringView): void {.cdecl,
     importc: "wgpuRenderPipelineSetLabel".}
-proc wgpuRenderPipelineAddRef*(renderPipeline: RenderPipeline): void {.cdecl,
+proc addRef*(renderPipeline: RenderPipeline): void {.cdecl,
     importc: "wgpuRenderPipelineAddRef".}
 proc release*(renderPipeline: RenderPipeline): void {.cdecl,
     importc: "wgpuRenderPipelineRelease".}
 proc setLabel*(sampler: Sampler; label: StringView): void {.cdecl,
     importc: "wgpuSamplerSetLabel".}
-proc wgpuSamplerAddRef*(sampler: Sampler): void {.cdecl,
-    importc: "wgpuSamplerAddRef".}
+proc addRef*(sampler: Sampler): void {.cdecl, importc: "wgpuSamplerAddRef".}
 proc release*(sampler: Sampler): void {.cdecl, importc: "wgpuSamplerRelease".}
 proc getCompilationInfo*(shaderModule: ShaderModule;
                          callbackInfo: CompilationInfoCallbackInfo): Future {.
     cdecl, importc: "wgpuShaderModuleGetCompilationInfo".}
 proc setLabel*(shaderModule: ShaderModule; label: StringView): void {.cdecl,
     importc: "wgpuShaderModuleSetLabel".}
-proc wgpuShaderModuleAddRef*(shaderModule: ShaderModule): void {.cdecl,
+proc addRef*(shaderModule: ShaderModule): void {.cdecl,
     importc: "wgpuShaderModuleAddRef".}
 proc release*(shaderModule: ShaderModule): void {.cdecl,
     importc: "wgpuShaderModuleRelease".}
 proc freeMembers*(supportedFeatures: SupportedFeatures): void {.cdecl,
     importc: "wgpuSupportedFeaturesFreeMembers".}
-proc wgpuSupportedWGSLLanguageFeaturesFreeMembers*(
-    supportedWGSLLanguageFeatures: SupportedWGSLLanguageFeatures): void {.cdecl,
-    importc: "wgpuSupportedWGSLLanguageFeaturesFreeMembers".}
+proc freeMembers*(supportedWGSLLanguageFeatures: SupportedWGSLLanguageFeatures): void {.
+    cdecl, importc: "wgpuSupportedWGSLLanguageFeaturesFreeMembers".}
 proc configure*(surface: Surface; config: ptr SurfaceConfiguration): void {.
     cdecl, importc: "wgpuSurfaceConfigure".}
 proc get*(surface: Surface; adapter: Adapter;
@@ -1923,12 +1913,11 @@ proc get*(surface: Surface; adapter: Adapter;
 proc getCurrentTexture*(surface: Surface; surfaceTexture: ptr SurfaceTexture): void {.
     cdecl, importc: "wgpuSurfaceGetCurrentTexture".}
 proc present*(surface: Surface): Status {.cdecl, importc: "wgpuSurfacePresent".}
-proc wgpuSurfaceSetLabel*(surface: Surface; label: StringView): void {.cdecl,
+proc setLabel*(surface: Surface; label: StringView): void {.cdecl,
     importc: "wgpuSurfaceSetLabel".}
 proc unconfigure*(surface: Surface): void {.cdecl,
     importc: "wgpuSurfaceUnconfigure".}
-proc wgpuSurfaceAddRef*(surface: Surface): void {.cdecl,
-    importc: "wgpuSurfaceAddRef".}
+proc addRef*(surface: Surface): void {.cdecl, importc: "wgpuSurfaceAddRef".}
 proc release*(surface: Surface): void {.cdecl, importc: "wgpuSurfaceRelease".}
 proc freeMembers*(surfaceCapabilities: SurfaceCapabilities): void {.cdecl,
     importc: "wgpuSurfaceCapabilitiesFreeMembers".}
@@ -1952,12 +1941,11 @@ proc getUsage*(texture: Texture): TextureUsage {.cdecl,
 proc getWidth*(texture: Texture): uint32 {.cdecl, importc: "wgpuTextureGetWidth".}
 proc setLabel*(texture: Texture; label: StringView): void {.cdecl,
     importc: "wgpuTextureSetLabel".}
-proc wgpuTextureAddRef*(texture: Texture): void {.cdecl,
-    importc: "wgpuTextureAddRef".}
+proc addRef*(texture: Texture): void {.cdecl, importc: "wgpuTextureAddRef".}
 proc release*(texture: Texture): void {.cdecl, importc: "wgpuTextureRelease".}
 proc setLabel*(textureView: TextureView; label: StringView): void {.cdecl,
     importc: "wgpuTextureViewSetLabel".}
-proc wgpuTextureViewAddRef*(textureView: TextureView): void {.cdecl,
+proc addRef*(textureView: TextureView): void {.cdecl,
     importc: "wgpuTextureViewAddRef".}
 proc release*(textureView: TextureView): void {.cdecl,
     importc: "wgpuTextureViewRelease".}
@@ -1997,11 +1985,11 @@ proc getVersion*(): uint32 {.cdecl, importc: "wgpuGetVersion".}
 proc setPushConstants*(encoder: RenderPassEncoder; stages: ShaderStage;
                        offset: uint32; sizeBytes: uint32; data: pointer): void {.
     cdecl, importc: "wgpuRenderPassEncoderSetPushConstants".}
-proc wgpuComputePassEncoderSetPushConstants*(encoder: ComputePassEncoder;
-    offset: uint32; sizeBytes: uint32; data: pointer): void {.cdecl,
+proc setPushConstants*(encoder: ComputePassEncoder; offset: uint32;
+                       sizeBytes: uint32; data: pointer): void {.cdecl,
     importc: "wgpuComputePassEncoderSetPushConstants".}
-proc wgpuRenderBundleEncoderSetPushConstants*(encoder: RenderBundleEncoder;
-    stages: ShaderStage; offset: uint32; sizeBytes: uint32; data: pointer): void {.
+proc setPushConstants*(encoder: RenderBundleEncoder; stages: ShaderStage;
+                       offset: uint32; sizeBytes: uint32; data: pointer): void {.
     cdecl, importc: "wgpuRenderBundleEncoderSetPushConstants".}
 proc multiDrawIndirect*(encoder: RenderPassEncoder; buffer: Buffer;
                         offset: uint64; count: uint32): void {.cdecl,
@@ -2028,10 +2016,9 @@ proc beginPipelineStatisticsQuery*(renderPassEncoder: RenderPassEncoder;
     cdecl, importc: "wgpuRenderPassEncoderBeginPipelineStatisticsQuery".}
 proc EndPipelineStatisticsQuery*(renderPassEncoder: RenderPassEncoder): void {.
     cdecl, importc: "wgpuRenderPassEncoderEndPipelineStatisticsQuery".}
-proc wgpuComputePassEncoderWriteTimestamp*(
-    computePassEncoder: ComputePassEncoder; querySet: QuerySet;
-    queryIndex: uint32): void {.cdecl,
-                                importc: "wgpuComputePassEncoderWriteTimestamp".}
-proc wgpuRenderPassEncoderWriteTimestamp*(renderPassEncoder: RenderPassEncoder;
-    querySet: QuerySet; queryIndex: uint32): void {.cdecl,
+proc writeTimestamp*(computePassEncoder: ComputePassEncoder; querySet: QuerySet;
+                     queryIndex: uint32): void {.cdecl,
+    importc: "wgpuComputePassEncoderWriteTimestamp".}
+proc writeTimestamp*(renderPassEncoder: RenderPassEncoder; querySet: QuerySet;
+                     queryIndex: uint32): void {.cdecl,
     importc: "wgpuRenderPassEncoderWriteTimestamp".}

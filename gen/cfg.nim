@@ -84,15 +84,26 @@ const stripEnd * = [
 const addT *:seq[string]= @[]
 
 const replaceList * = [
-  #_______________________________________
-  # webgpu.h
-  #___________________
+  # General
+  ("wgpuGetVersion",                                     "getVersion"                    ),
+  ("wgpuFree",                                           "free"                          ),
+  # Logging
+  ("wgpuSetLogCallback",                                 "set"                           ),
+  ("wgpuSetLogLevel",                                    "set"                           ),
+
   # Instance
   ("wgpuCreateInstance",                                 "create"                        ),
   ("wgpuInstanceCreateSurface",                          "create"                        ),
   ("wgpuInstanceRequestAdapter",                         "request"                       ),
   ("wgpuInstanceEnumerateAdapters",                      "enumerate"                     ),
   ("wgpuInstanceProcessEvents",                          "processEvents"                 ),
+  ("wgpuGetInstanceCapabilities",                        "get"                           ),
+  ("wgpuInstanceWaitAny",                                "wait"                          ),
+  ("wgpuGenerateReport",                                 "generate"                      ),
+  # Instance: WGSL Features
+  ("wgpuInstanceGetWGSLLanguageFeatures",                "get"                           ),
+  ("wgpuInstanceHasWGSLLanguageFeature",                 "has"                           ),
+  ("wgpuSupportedWGSLLanguageFeaturesFreeMembers",       "freeMembers"                   ),
 
   # Adapter
   ("wgpuAdapterRequestDevice",                           "request"                       ),
@@ -130,6 +141,10 @@ const replaceList * = [
   ("wgpuDeviceSetLabel",                                 "setLabel"                      ),
   ("wgpuDeviceCreateComputePipelineAsync",               "createComputePipelineAsync"    ),
   ("wgpuDeviceCreateRenderPipelineAsync",                "createRenderPipelineAsync"     ),
+  ("wgpuDeviceGetAdapterInfo",                           "getAdapterInfo"                ),
+  ("wgpuDeviceGetFeatures",                              "get"                           ),
+  ("wgpuDevicePoll",                                     "poll"                          ), ## Returns true if the queue is empty, or false if there are more queue submissions still in flight.
+  ("wgpuDeviceGetLostFuture",                            "getLostFuture"                 ),
 
   # Surface
   ("wgpuSurfaceGetPreferredFormat",                      "getPreferredFormat"            ),
@@ -137,6 +152,11 @@ const replaceList * = [
   ("wgpuSurfaceUnconfigure",                             "unconfigure"                   ),
   ("wgpuSurfaceGetCurrentTexture",                       "getCurrentTexture"             ),
   ("wgpuSurfacePresent",                                 "present"                       ),
+  ("wgpuSurfaceSetLabel",                                "setLabel"                      ),
+  ("wgpuSurfaceGetCapabilities",                         "get"                           ),
+  ("wgpuSurfaceCapabilitiesFreeMembers",                 "freeMembers"                   ),
+  ("wgpuSurfaceGetSupportedFormats",                     "getSupportedFormats"           ),
+  ("wgpuSurfaceGetSupportedPresentModes",                "getSupportedPresentModes"      ),
 
   # SwapChain
   ("wgpuSwapChainGetCurrentTextureView",                 "getCurrentTextureView"         ),
@@ -165,6 +185,12 @@ const replaceList * = [
   ("wgpuRenderPassEncoderBeginOcclusionQuery",           "beginOcclusionQuery"           ),
   ("wgpuRenderPassEncoderEndOcclusionQuery",             "endOcclusionQuery"             ),
   ("wgpuRenderPassEncoderSetLabel",                      "setLabel"                      ),
+  ("wgpuRenderPassEncoderSetPushConstants",              "setPushConstants"              ),
+  ("wgpuRenderPassEncoderMultiDrawIndirect",             "multiDrawIndirect"             ),
+  ("wgpuRenderPassEncoderMultiDrawIndirectCount",        "multiDrawIndirectCount"        ),
+  ("wgpuRenderPassEncoderMultiDrawIndexedIndirect",      "multiDrawIndexedIndirect"      ),
+  ("wgpuRenderPassEncoderMultiDrawIndexedIndirectCount", "multiDrawIndexedIndirectCount" ),
+  ("wgpuRenderPassEncoderWriteTimestamp",                "writeTimestamp"                ),
 
   # Command Encoder
   ("wgpuCommandEncoderBeginRenderPass",                  "begin"                         ),
@@ -188,7 +214,7 @@ const replaceList * = [
   ("wgpuQueueOnSubmittedWorkDone",                       "onSubmittedWorkDone"           ),
   ("wgpuQueueSetLabel",                                  "setLabel"                      ),
   ("wgpuQueueRelease",                                   "release"                       ),
-
+  ("wgpuQueueSubmitForIndex",                            "submitForIndex"                ),
 
   # Buffer
   ("wgpuBufferMapAsync",                                 "mapAsync"                      ),
@@ -199,6 +225,7 @@ const replaceList * = [
   ("wgpuBufferUnmap",                                    "unmap"                         ),
   ("wgpuBufferDestroy",                                  "destroy"                       ),
   ("wgpuBufferSetLabel",                                 "setLabel"                      ),
+  ("wgpuBufferGetMapState",                              "getMapState"                   ),
 
   # Pipeline
   ("wgpuPipelineLayoutSetLabel",                         "setLabel"                      ),
@@ -223,6 +250,8 @@ const replaceList * = [
   ("wgpuComputePassEncoderInsertDebugMarker",            "insertDebugMarker"             ),
   ("wgpuComputePassEncoderPopDebugGroup",                "popDebugGroup"                 ),
   ("wgpuComputePassEncoderPushDebugGroup",               "pushDebugGroup"                ),
+  ("wgpuComputePassEncoderSetPushConstants",             "setPushConstants"              ),
+  ("wgpuComputePassEncoderWriteTimestamp",               "writeTimestamp"                ),
 
   # Texture
   ("wgpuTextureCreateView",                              "create"                        ),
@@ -256,6 +285,7 @@ const replaceList * = [
   ("wgpuRenderBundleEncoderPushDebugGroup",              "pushDebugGroup"                ),
   ("wgpuRenderBundleSetLabel",                           "setLabel"                      ),
   ("wgpuRenderBundleEncoderSetLabel",                    "setLabel"                      ),
+  ("wgpuRenderBundleEncoderSetPushConstants",            "setPushConstants"              ),
 
   # QuerySet
   ("wgpuQuerySetDestroy",                                "destroy"                       ),
@@ -263,29 +293,42 @@ const replaceList * = [
   ("wgpuQuerySetGetType",                                "getType"                       ),
   ("wgpuQuerySetSetLabel",                               "setLabel"                      ),
 
+  # BindGroup
+  ("wgpuBindGroupSetLabel",                              "setLabel"                      ),
+  ("wgpuBindGroupLayoutSetLabel",                        "layoutSetLabel"                ),
+
+  # CommandBuffer
+  ("wgpuCommandBufferSetLabel",                          "setLabel"                      ),
+  ("wgpuCommandEncoderSetLabel",                         "setLabel"                      ),
+
+  # ShaderModule
+  ("wgpuShaderModuleGetCompilationInfo",                 "getCompilationInfo"            ),
+  ("wgpuShaderModuleSetLabel",                           "setLabel"                      ),
+
   # Resources: Reference Counting
-  ("wgpuDeviceReference",                                "reference"                     ),
-  ("wgpuInstanceReference",                              "reference"                     ),
-  ("wgpuAdapterReference",                               "reference"                     ),
-  ("wgpuBindGroupReference",                             "reference"                     ),
-  ("wgpuBindGroupLayoutReference",                       "reference"                     ),
-  ("wgpuBufferReference",                                "reference"                     ),
-  ("wgpuCommandBufferReference",                         "reference"                     ),
-  ("wgpuCommandEncoderReference",                        "reference"                     ),
-  ("wgpuRenderPassEncoderReference",                     "reference"                     ),
-  ("wgpuComputePassEncoderReference",                    "reference"                     ),
-  ("wgpuRenderBundleEncoderReference",                   "reference"                     ),
-  ("wgpuComputePipelineReference",                       "reference"                     ),
-  ("wgpuPipelineLayoutReference",                        "reference"                     ),
-  ("wgpuQuerySetReference",                              "reference"                     ),
-  ("wgpuRenderBundleReference",                          "reference"                     ),
-  ("wgpuRenderPipelineReference",                        "reference"                     ),
-  ("wgpuSamplerReference",                               "reference"                     ),
-  ("wgpuShaderModuleReference",                          "reference"                     ),
-  ("wgpuSurfaceReference",                               "reference"                     ),
-  ("wgpuSwapChainReference",                             "reference"                     ),
-  ("wgpuTextureReference",                               "reference"                     ),
-  ("wgpuTextureViewReference",                           "reference"                     ),
+  ("wgpuDeviceAddRef",                                   "addRef"                        ),
+  ("wgpuInstanceAddRef",                                 "addRef"                        ),
+  ("wgpuAdapterAddRef",                                  "addRef"                        ),
+  ("wgpuBindGroupAddRef",                                "addRef"                        ),
+  ("wgpuBindGroupLayoutAddRef",                          "addRef"                        ),
+  ("wgpuBufferAddRef",                                   "addRef"                        ),
+  ("wgpuCommandBufferAddRef",                            "addRef"                        ),
+  ("wgpuCommandEncoderAddRef",                           "addRef"                        ),
+  ("wgpuRenderPassEncoderAddRef",                        "addRef"                        ),
+  ("wgpuComputePassEncoderAddRef",                       "addRef"                        ),
+  ("wgpuRenderBundleEncoderAddRef",                      "addRef"                        ),
+  ("wgpuComputePipelineAddRef",                          "addRef"                        ),
+  ("wgpuPipelineLayoutAddRef",                           "addRef"                        ),
+  ("wgpuQueueAddRef",                                    "addRef"                        ),
+  ("wgpuQuerySetAddRef",                                 "addRef"                        ),
+  ("wgpuRenderBundleAddRef",                             "addRef"                        ),
+  ("wgpuRenderPipelineAddRef",                           "addRef"                        ),
+  ("wgpuSamplerAddRef",                                  "addRef"                        ),
+  ("wgpuShaderModuleAddRef",                             "addRef"                        ),
+  ("wgpuSurfaceAddRef",                                  "addRef"                        ),
+  ("wgpuSwapChainAddRef",                                "addRef"                        ),
+  ("wgpuTextureAddRef",                                  "addRef"                        ),
+  ("wgpuTextureViewAddRef",                              "addRef"                        ),
   ("wgpuDeviceRelease",                                  "release"                       ),
   ("wgpuInstanceRelease",                                "release"                       ),
   ("wgpuAdapterRelease",                                 "release"                       ),
@@ -308,44 +351,5 @@ const replaceList * = [
   ("wgpuSwapChainRelease",                               "release"                       ),
   ("wgpuTextureRelease",                                 "release"                       ),
   ("wgpuTextureViewRelease",                             "release"                       ),
-
-  # BindGroup
-  ("wgpuBindGroupSetLabel",                              "setLabel"                      ),
-  ("wgpuBindGroupLayoutSetLabel",                        "layoutSetLabel"                ),
-
-  # CommandBuffer
-  ("wgpuCommandBufferSetLabel",                          "setLabel"                      ),
-  ("wgpuCommandEncoderSetLabel",                         "setLabel"                      ),
-
-  # ShaderModule
-  ("wgpuShaderModuleGetCompilationInfo",                 "getCompilationInfo"            ),
-  ("wgpuShaderModuleSetLabel",                           "setLabel"                      ),
-
-  #_______________________________________
-  # wgpu.h
-  #___________________
-  # General
-  ("wgpuGetVersion",                                     "getVersion"                    ),
-  ("wgpuFree",                                           "free"                          ),
-  # Instance
-  ("wgpuGenerateReport",                                 "generate"                      ),
-  # Queue
-  ("wgpuQueueSubmitForIndex",                            "submitForIndex"                ),
-  # Device
-  ("wgpuDevicePoll",                                     "poll"                          ), ## Returns true if the queue is empty, or false if there are more queue submissions still in flight.
-  # Logging
-  ("wgpuSetLogCallback",                                 "set"                           ),
-  ("wgpuSetLogLevel",                                    "set"                           ),
-  # Surface
-  ("wgpuSurfaceGetCapabilities",                         "get"                           ),
-  ("wgpuSurfaceCapabilitiesFreeMembers",                 "freeMembers"                   ),
-  ("wgpuSurfaceGetSupportedFormats",                     "getSupportedFormats"           ),
-  ("wgpuSurfaceGetSupportedPresentModes",                "getSupportedPresentModes"      ),
-  # RenderPass Encoder
-  ("wgpuRenderPassEncoderSetPushConstants",              "setPushConstants"              ),
-  ("wgpuRenderPassEncoderMultiDrawIndirect",             "multiDrawIndirect"             ),
-  ("wgpuRenderPassEncoderMultiDrawIndirectCount",        "multiDrawIndirectCount"        ),
-  ("wgpuRenderPassEncoderMultiDrawIndexedIndirect",      "multiDrawIndexedIndirect"      ),
-  ("wgpuRenderPassEncoderMultiDrawIndexedIndirectCount", "multiDrawIndexedIndirectCount" ),
   ] # << replaceEnd = [ ... ]
 
