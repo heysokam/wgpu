@@ -36,7 +36,7 @@ template example (name :untyped; descr,file :static string)=
 example wip,       "Example WIP: Builds the current wip example.",  "wip"
 example hello,     "Example 00:  hellowgpu.",                       "e00_hellowgpu"
 example clear,     "Example 01:  helloclear.",                      "e01_helloclear"
-# example triangle,  "Example 02:  hellotriangle.",                   "e02_hellotriangle"
+example triangle,  "Example 02:  hellotriangle.",                   "e02_hellotriangle"
 # example buffer,    "Example 03:  hellobuffer.",                     "e03_hellobuffer"
 # example compute,   "Example 04:  hellocompute.",                    "e04_hellocompute"
 # example triangle2, "Example 05:  simple buffered triangle.",        "e05_trianglebuffered1"
