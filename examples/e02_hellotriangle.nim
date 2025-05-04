@@ -4,14 +4,14 @@
 # Hello Triangle from wgpu-native/examples          |
 # No buffers. Vertices are harcoded in the shader.  |
 #___________________________________________________|
-# std dependencies
+# @deps std
 import std/strformat
 import std/os
-# External dependencies
-from pkg/nglfw as glfw import nil
-# Module dependencies
+# @deps wgpu
 import wgpu
-# Example Extensions
+# @deps external
+from pkg/nglfw as glfw import nil
+# @deps Example Extensions
 import ./extras  # In a real app, these should be coming from external libraries
 
 
