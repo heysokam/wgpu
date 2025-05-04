@@ -14,6 +14,59 @@ import ./api as wgpu
 
 
 #_______________________________________
+# @section Missing Data
+#_____________________________
+# FIX: WGPU uses consts for flag sets, but Futhark has a bug that does not generate them
+# https://github.com/PMunch/futhark/issues/144
+#_____________________________
+# Buffer Flags
+type BufferUsage *{.pure, size:sizeof(cuint).}= enum MapRead, MapWrite, CopySrc, CopyDst, Index, Vertex, Uniform, Storage, Indirect, QueryResolve
+type BufferUsageFlags * = set[extras.BufferUsage]
+template None *(_:typedesc[extras.BufferUsage] | typedesc[wgpu.BufferUsage]) :BufferUsageFlags= {}
+converter toWGPU *(val :BufferUsageFlags) :wgpu.BufferUsage= cast[wgpu.BufferUsage](val)
+converter toWGPU *(val :extras.BufferUsage) :wgpu.BufferUsage= cast[wgpu.BufferUsage]({val})
+converter toExtras *(val :extras.BufferUsage) :BufferUsageFlags= {val}
+converter toBufferUsage *(val :wgpu.BufferUsage) :BufferUsageFlags= cast[BufferUsageFlags](val)
+#___________________
+# Color Flags
+type ColorWrite *{.pure, size:sizeof(cuint).}= enum Red, Green, Blue, Alpha
+type ColorWriteFlags * = set[extras.ColorWrite]
+template None *(_:typedesc[extras.ColorWrite] | typedesc[wgpu.ColorWriteMask]) :ColorWriteFlags= {}
+template All  *(_:typedesc[extras.ColorWrite] | typedesc[wgpu.ColorWriteMask]) :ColorWriteFlags= {Red, Green, Blue, Alpha}
+converter toWGPU *(val :ColorWriteFlags) :wgpu.ColorWriteMask= cast[wgpu.ColorWriteMask](val)
+converter toWGPU *(val :extras.ColorWrite) :wgpu.ColorWriteMask= cast[wgpu.ColorWriteMask]({val})
+converter toExtras *(val :extras.ColorWrite) :ColorWriteFlags= {val}
+converter toColorWrite *(val :wgpu.ColorWriteMask) :ColorWriteFlags= cast[ColorWriteFlags](val)
+#___________________
+# MapMode Flags
+type MapMode *{.pure, size:sizeof(cuint).}= enum Read, Write
+type MapModeFlags * = set[extras.MapMode]
+template None *(_:typedesc[extras.MapMode] | typedesc[wgpu.MapMode]) :MapModeFlags= {}
+converter toWGPU *(val :MapModeFlags) :wgpu.MapMode= cast[wgpu.MapMode](val)
+converter toWGPU *(val :extras.MapMode) :wgpu.MapMode= cast[wgpu.MapMode]({val})
+converter toExtras *(val :extras.MapMode) :MapModeFlags= {val}
+converter toMapMode *(val :wgpu.MapMode) :MapModeFlags= cast[MapModeFlags](val)
+#___________________
+# Shader Stage Flags
+type ShaderStage *{.pure, size:sizeof(cuint).}= enum Vertex, Fragment, Compute
+type ShaderStageFlags * = set[extras.ShaderStage]
+template None *(_:typedesc[extras.ShaderStage] | typedesc[wgpu.ShaderStage]) :ShaderStageFlags= {}
+converter toWGPU *(val :ShaderStageFlags) :wgpu.ShaderStage= cast[wgpu.ShaderStage](val)
+converter toWGPU *(val :extras.ShaderStage) :wgpu.ShaderStage= cast[wgpu.ShaderStage]({val})
+converter toExtras *(val :extras.ShaderStage) :ShaderStageFlags= {val}
+converter toShaderStage *(val :wgpu.ShaderStage) :ShaderStageFlags= cast[ShaderStageFlags](val)
+#___________________
+# Texture Flags
+type TextureUsage *{.pure, size:sizeof(cuint).}= enum CopySrc, CopyDst, TextureBinding, StorageBinding, RenderAttachment
+type TextureUsageFlags * = set[extras.TextureUsage]
+template None *(_:typedesc[extras.TextureUsage] | typedesc[wgpu.TextureUsage]) :TextureUsageFlags= {}
+converter toWGPU *(val :TextureUsageFlags) :wgpu.TextureUsage= cast[wgpu.TextureUsage](val)
+converter toWGPU *(val :extras.TextureUsage) :wgpu.TextureUsage= cast[wgpu.TextureUsage]({val})
+converter toExtras *(val :extras.TextureUsage) :TextureUsageFlags= {val}
+converter toTextureUsage *(val :wgpu.TextureUsage) :TextureUsageFlags= cast[TextureUsageFlags](val)
+
+
+#_______________________________________
 # @section Helpers
 #_____________________________
 template vaddr (val :auto) :untyped=
@@ -39,6 +92,14 @@ func `$` *(val :StringView) :string=
   if val.data == nil: return ""
   if val.length == 0: return ""
   val.data.toOpenArray(0, val.length.int-1).substr()
+#___________________
+func `$` *(feature :FeatureName) :string=
+  ## @descr
+  ##  Returns the string representation of the given FeatureName
+  ##  Converts the value to WGPUNativeFeature before conversion where needed
+  let isWgpuNative = feature.ord > 0x00030000
+  if  isWgpuNative : result = $NativeFeature(feature)
+  else             : result = system.`$`(feature)
 
 
 #_______________________________________
@@ -53,11 +114,11 @@ when defined(linux) and not defined(wayland):
         chain     : ChainedStruct(
           next    : nil,
           sType   : SType_SurfaceSourceXlibWindow,
-          ), # << chain
+          ), #:: chain
         display   : glfw.getX11Display(),
         window    : glfw.getX11Window(win).uint32,
-        )), # << nextInChain
-      )) # << instance.createSurface()
+        )), #:: nextInChain
+      )) #:: instance.createSurface()
 
 #___________________
 # Wayland context creation
@@ -69,11 +130,11 @@ elif defined(linux) and defined(wayland):
         chain     : ChainedStruct(
           next    : nil,
           sType   : SType_SurfaceSourceWaylandSurface,
-          ), # << chain
+          ), #:: chain
         display   : glfw.getWaylandDisplay(),
         surface   : glfw.getWaylandWindow(win),
-        )), # << nextInChain
-      )) # << instance.createSurface()
+        )), #:: nextInChain
+      )) #:: instance.createSurface()
 
 #___________________
 # Windows context creation
@@ -88,11 +149,11 @@ elif defined(windows):
         chain     : ChainedStruct(
           next    : nil,
           sType   : SType_SurfaceSourceWindowsHWND,
-          ), # << chain
+          ), #:: chain
         hinstance : hinstance,
         hwnd      : hwnd,
-        )) # << nextInChain
-      )) # << instance.createSurface()
+        )) #:: nextInChain
+      )) #:: instance.createSurface()
 
 #___________________
 # Mac context creation
@@ -110,11 +171,11 @@ elif defined(macosx):
         chain     : ChainedStruct(
           next    : nil,
           sType   : SType_SurfaceSourceMetalLayer,
-          ), # << chain
+          ), #:: chain
         # Get metal layer with our nglfw/metal_glue.h extension
         layer     : glfw.getMetalLayer(win),
-        )), # << nextInChain
-      )) # << instance.createSurface()
+        )), #:: nextInChain
+      )) #:: instance.createSurface()
 
 
 #_______________________________________
@@ -138,15 +199,8 @@ proc getSurface *(instance :Instance; win :glfw.Window) :Surface=
 
 
 #_______________________________________
-# @section Hardware Information
+# @section Information: Adapter
 #_____________________________
-func `$` *(feature :FeatureName) :string=
-  ## @descr
-  ##  Returns the string representation of the given FeatureName
-  ##  Converts the value to WGPUNativeFeature before conversion where needed
-  let isWgpuNative = feature.ord > 0x00030000
-  if  isWgpuNative : result = $NativeFeature(feature)
-  else             : result = system.`$`(feature)
 #___________________
 proc features *(adapter :Adapter) :seq[FeatureName]=
   ## @descr Returns the features supported by the adapter as a seq[FeatureName]
@@ -156,34 +210,6 @@ proc features *(adapter :Adapter) :seq[FeatureName]=
   for id in 0..<data.featureCount:
     result[id] = cast[ptr UncheckedArray[FeatureName]](data.features)[id]
   data.freeMembers()
-#___________________
-proc formats *(caps :SurfaceCapabilities) :seq[TextureFormat]=
-  ## @descr Returns a seq of the formats supported by the surface described by {@arg caps}
-  result = newSeqWith(caps.formatCount.int, TextureFormat 0)
-  for id in 0..<caps.formatCount: result[id] = cast[ptr UncheckedArray[TextureFormat]](caps.formats)[id]
-#___________________
-proc presentModes *(caps :SurfaceCapabilities) :seq[PresentMode]=
-  ## @descr Returns a seq of the present modes supported by the surface described by {@arg caps}
-  result = newSeqWith(caps.presentModeCount.int, PresentMode 0)
-  for id in 0..<caps.presentModeCount: result[id] = cast[ptr UncheckedArray[PresentMode]](caps.presentModes)[id]
-#___________________
-proc alphaModes *(caps :SurfaceCapabilities) :seq[CompositeAlphaMode]=
-  ## @descr Returns a seq of the composite alpha modes supported by the surface described by {@arg caps}
-  result = newSeqWith(caps.alphaModeCount.int, CompositeAlphaMode 0)
-  for id in 0..<caps.alphaModeCount: result[id] = cast[ptr UncheckedArray[CompositeAlphaMode]](caps.alphaModes)[id]
-#___________________
-type CapabilitiesError * = object of CatchableError
-#___________________
-proc capabilities *(
-    surface : Surface;
-    adapter : Adapter;
-  ) :tuple[textureFormats:seq[TextureFormat], presentModes:seq[PresentMode], alphaModes:seq[CompositeAlphaMode]]=
-  ## @descr Returns the capabilities supported by the surface as a tuple of (seq[textureFormats], seq[presentModes], seq[alphaModes])
-  var caps :SurfaceCapabilities
-  let status = surface.get(adapter, caps.addr)
-  if status != Success: raise newException(CapabilitiesError, "Failed to get the capabilities of the surface: " & $status)
-  result = (caps.formats(), caps.presentModes(), caps.alphaModes())
-  caps.freeMembers()
 #___________________
 type AdapterInfo * = object
   ## @descr Information about an adapter
@@ -212,9 +238,70 @@ proc info *(adapter :Adapter) :extras.AdapterInfo=
 
 
 #_______________________________________
+# @section Information: Surface
+#_____________________________
+type SurfaceError * = object of CatchableError
+#___________________
+proc formats *(caps :SurfaceCapabilities) :seq[TextureFormat]=
+  ## @descr Returns a seq of the formats supported by the surface described by {@arg caps}
+  result = newSeqWith(caps.formatCount.int, TextureFormat 0)
+  for id in 0..<caps.formatCount: result[id] = cast[ptr UncheckedArray[TextureFormat]](caps.formats)[id]
+#___________________
+proc presentModes *(caps :SurfaceCapabilities) :seq[PresentMode]=
+  ## @descr Returns a seq of the present modes supported by the surface described by {@arg caps}
+  result = newSeqWith(caps.presentModeCount.int, PresentMode 0)
+  for id in 0..<caps.presentModeCount: result[id] = cast[ptr UncheckedArray[PresentMode]](caps.presentModes)[id]
+#___________________
+proc alphaModes *(caps :SurfaceCapabilities) :seq[CompositeAlphaMode]=
+  ## @descr Returns a seq of the composite alpha modes supported by the surface described by {@arg caps}
+  result = newSeqWith(caps.alphaModeCount.int, CompositeAlphaMode 0)
+  for id in 0..<caps.alphaModeCount: result[id] = cast[ptr UncheckedArray[CompositeAlphaMode]](caps.alphaModes)[id]
+#___________________
+type SurfaceCapabilities * = object
+  ## @descr Information about the capabilities of a surface
+  usages        *:TextureUsageFlags
+  formats       *:seq[wgpu.TextureFormat]
+  presentModes  *:seq[wgpu.PresentMode]
+  alphaModes    *:seq[wgpu.CompositeAlphaMode]
+#___________________
+proc capabilities *(
+    surface : Surface;
+    adapter : Adapter;
+  ) :extras.SurfaceCapabilities=
+  ## @descr Returns the capabilities supported by the surface as a tuple of (seq[textureFormats], seq[presentModes], seq[alphaModes])
+  var caps :wgpu.SurfaceCapabilities
+  let status = surface.get(adapter, caps.addr)
+  if status != Success: raise newException(SurfaceError, "Failed to get the capabilities of the surface: " & $status)
+  result.usages       = caps.usages.toTextureUsage()
+  result.formats      = caps.formats()
+  result.presentModes = caps.presentModes()
+  result.alphaModes   = caps.alphaModes()
+  caps.freeMembers()
+
+
+#_______________________________________
+# @section Information: Device
+#_____________________________
+type DeviceError * = object of CatchableError
+#___________________
+proc features *(device : Device) :seq[FeatureName]=
+  ## @descr Returns the features supported by the device as a wgpu.SupportedFeatures object
+  var data = SupportedFeatures()
+  device.get(features= data.addr)
+  result = newSeqWith(data.featureCount.int, FeatureName 0)
+  for id in 0..<data.featureCount:
+    result[id] = cast[ptr UncheckedArray[FeatureName]](data.features)[id]
+  data.freeMembers()
+#___________________
+proc limits *(device : Device) :Limits=
+  ## @descr Returns the limits supported by the device as a wgpu.Limits object
+  let status = device.get(limits= result.addr)
+  if status != Success: raise newException(DeviceError, "Failed to get the limits of the device: " & $status)
+
+
+#_______________________________________
 # @section Shader loading
 #_____________________________
-# ShaderModuleDescriptor wgslCodeToDescriptor(const char* code, const char* label);
 proc wgslToDescriptor *(code, label :string) :ShaderModuleDescriptor=
   ## Reads the given wgsl shader code, and returns a ShaderModuleDescriptor for it.
   var descriptor         = new ShaderSourceWGSL
@@ -224,7 +311,7 @@ proc wgslToDescriptor *(code, label :string) :ShaderModuleDescriptor=
   result = ShaderModuleDescriptor(
     nextInChain : cast[ptr ChainedStruct](descriptor), # descriptor is a ref, so we cast that pointer into a ChainedStruct
     label       : label.toStringView(),
-    ) # << ShaderModuleDescriptor( ... )
+    ) #:: ShaderModuleDescriptor( ... )
 #___________________
 proc readWgsl *(file :string) :ShaderModuleDescriptor=  file.readFile.wgslToDescriptor(label = file)
   ## Reads the given `.wgsl` shader file, and returns a ShaderModuleDescriptor for it.
@@ -313,7 +400,6 @@ proc new *(_:typedesc[Limits];
 #___________________
 # Default Limits
 proc default *(_ :typedesc[Limits]) :Limits=
-  # TODO: Switch to default values when 2.0devel becomes stable
   # https://docs.rs/wgpu-types/0.16.0/src/wgpuTypes/lib.rs.html#912
   result.maxTextureDimension1D                     = 8192
   result.maxTextureDimension2D                     = 8192
@@ -346,7 +432,7 @@ proc default *(_ :typedesc[Limits]) :Limits=
   # result.maxPushConstantSize                       = 0
 #___________________
 proc downlevel_defaults *(_ :typedesc[Limits]) :Limits=
-  ## These default limits are guaranteed to be compatible with GLES-3.1, and D3D11
+  ## Default limits guaranteed to be compatible with GLES-3.1, and D3D11
   result.maxTextureDimension1D                     = 2048
   result.maxTextureDimension2D                     = 2048
   result.maxTextureDimension3D                     = 256
@@ -378,7 +464,7 @@ proc downlevel_defaults *(_ :typedesc[Limits]) :Limits=
   # result.maxPushConstantSize                       = 1 shl 28
 #___________________
 proc downlevel_webgl2_defaults *(_ :typedesc[Limits]) :Limits=
-  ## These default limits are guaranteed to be compatible with GLES-3.0, and D3D11, and WebGL2
+  ## Default limits guaranteed to be compatible with GLES-3.0, and D3D11, and WebGL2
   result = Limits.downlevelDefaults()  # Most of the values should be the same as the downlevel defaults
   result.maxUniformBuffersPerShaderStage           = 11
   result.maxStorageBuffersPerShaderStage           = 0

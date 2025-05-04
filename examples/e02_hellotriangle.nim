@@ -138,13 +138,13 @@ proc run=
   echo ":: Adapter Features supported by this system: "
   for it in adapter.features(): echo ":  ",$it
   echo ":: Surface Capabilities supported by this system: "
-  let (textureFormats, presentModes, alphaModes) = surface.capabilities(adapter)
+  let caps = surface.capabilities(adapter)
   echo ":  Texture Formats:"
-  for formt in textureFormats: echo ":  - ",$formt
+  for formt in caps.formats:      echo ":  - ",$formt
   echo ":  Present Modes:"
-  for prsnt in presentModes:   echo ":  - ",$prsnt
+  for prsnt in caps.presentModes: echo ":  - ",$prsnt
   echo ":  Alpha Modes:"
-  for alpha in presentModes:   echo ":  - ",$alpha
+  for alpha in caps.alphaModes:   echo ":  - ",$alpha
 
   var device :wgpu.Device; discard adapter.request(
     descriptor                    = vaddr DeviceDescriptor(
@@ -178,11 +178,16 @@ proc run=
       userdata2                   : nil,
       ) #:: callbackInfo
     ) #:: adapter.request( device )
+  echo ":: Device Limits for this system: "
+  let limits = device.limits()
+  echo ":  ", $limits.repr
+  echo ":: Device Features for this system: "
+  for it in device.features(): echo ":  ",$it
 
   var shaderDesc    = shaderCode.wgslToDescriptor(label = "TriangleShader")
   let shader        = device.create(shaderDesc.addr)
-  let surfaceFormat = textureFormats[0]
-  let surfaceAlpha  = alphaModes[0]
+  let surfaceFormat = caps.formats[0]
+  let surfaceAlpha  = caps.alphaModes[0]
   let pipeline      = device.create(vaddr RenderPipelineDescriptor(
     nextInChain               : nil,
     label                     : "Render pipeline".toStringView(),
@@ -231,7 +236,7 @@ proc run=
             dstFactor         : BlendFactor.Zero,
             ), #:: color
           ), #:: blend
-        writeMask             : ColorWriteMask(0x000000000000000F), # ColorWriteMask.All
+        writeMask             : ColorWrite.All,
         ), #:: targets
       ), #:: fragment
     )) #:: pipeline
@@ -241,7 +246,7 @@ proc run=
     nextInChain     : nil,
     device          : device,
     format          : surfaceFormat,
-    usage           : TextureUsage 0x0000000000000010, # TextureUsage_RenderAttachment,  # TODO: Futhark does not give these variable a value
+    usage           : wgpu.extras.TextureUsage.RenderAttachment,
     width           : 0,
     height          : 0,
     viewFormatCount : 0,
