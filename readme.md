@@ -11,12 +11,14 @@ _As a reference, it is easier to follow than the infamous Learn OpenGL, in my op
 
 ## Current state and todo
 - [x] Wrapper for wgpu-native latest
-- [ ] Better rename system
-  - [ ] `camelCase` for Function names
-  - [ ] Redundant type prefixes in function names
-- [ ] Linux suppport
+- [ ] Rename system
+  - [x] Raw api access  _(for those who don't like the renames)_
+  - [x] Shortened `camelCase` for Function names
+  - [x] Redundant type prefixes in function names
+  - [ ] Complete implementation
+- [x] Linux suppport
+- [x] Mac support
 - [ ] Windows support
-- [ ] Mac support
 - [ ] Web support (wasm with emscripten)  
       _(note: not planned. send a PR if you figure it out)_
 
@@ -30,7 +32,8 @@ nglfw # For using the `wgpu/extras` features provided by the lib
 
 ### Static Linking
 This library is compiled automatically and linked statically when importing.  
-> _Dynamic linking will not be implemented._  
+> _Dynamic linking is not supported in the automated builder (and not planned),_  
+> _but will work if you provide support for it in your buildsystem._  
 
 
 ## Disclaimers and Other Info
@@ -38,6 +41,8 @@ This library is compiled automatically and linked statically when importing.
 This wrapper is auto-generated with Futhark.  
 Most names are renamed with a Callback function for ergonomics.  
 See the @[gen/cfg](./gen/cfg.nim) file for a detailed list for renaming rules.
+Use the raw api @[wgpu/raw](./src/wgpu/raw.nim) for access to the verbatim C names.
+Use the api @[wgpu](./src/wgpu.nim) for access to the standard Nim-mified names and extras.
 
 ### About the buildsystem
 The buildsystem of this lib depends on cargo and git.  
