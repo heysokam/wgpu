@@ -128,7 +128,13 @@ proc run=
       ), #:: RequestAdapterCallbackInfo
     ) #:: instance.request
   echo ":: Adapter Information for this system: "
-  echo ":  ",$adapter.info()
+  let info = adapter.info()
+  echo ":  Vendor       : ",info.vendor
+  echo ":  Architecture : ",info.architecture
+  echo ":  Device       : ",info.device
+  echo ":  Description  : ",info.description
+  echo ":  Backend      : ",$info.backendType
+  echo ":  Adapter Type : ",$info.adapterType
   echo ":: Adapter Features supported by this system: "
   for it in adapter.features(): echo ":  ",$it
   echo ":: Surface Capabilities supported by this system: "

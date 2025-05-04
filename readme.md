@@ -40,9 +40,10 @@ This library is compiled automatically and linked statically when importing.
 ### About bindings generation
 This wrapper is auto-generated with Futhark.  
 Most names are renamed with a Callback function for ergonomics.  
-See the @[gen/cfg](./gen/cfg.nim) file for a detailed list for renaming rules.
-Use the raw api @[wgpu/raw](./src/wgpu/raw.nim) for access to the verbatim C names.
-Use the api @[wgpu](./src/wgpu.nim) for access to the standard Nim-mified names and extras.
+
+See the @[gen/cfg](./gen/cfg.nim) file for a detailed list for renaming rules.  
+Use the raw api @[wgpu/raw](./src/wgpu/raw.nim) for access to the verbatim C names.  
+Use the api @[wgpu](./src/wgpu.nim) for access to the standard Nim-mified names and extras.  
 
 ### About the buildsystem
 The buildsystem of this lib depends on cargo and git.  
