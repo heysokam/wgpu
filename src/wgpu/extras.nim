@@ -316,14 +316,11 @@ proc wgslToDescriptor *(code, label :string) :ShaderModuleDescriptor=
 proc wgslRead *(file :string) :ShaderModuleDescriptor=  file.readFile.wgslToDescriptor(label = file)
   ## Reads the given `.wgsl` shader file, and returns a wgpu.ShaderModuleDescriptor for it.
 
-# ShaderModule wgslFileToShader(WGPUDevice* device, const char* src);
-# ShaderModule wgslCodeToShader(WGPUDevice* device, const char* code, const char* label);
-
 
 #_______________________________________
 # @section Default Limits
 #_____________________________
-# TODO: Switch to default values when 2.0devel becomes stable
+# NOTE: Should be default values, but automated wrapping does not allow it
 proc new *(_:typedesc[Limits];
     maxTextureDimension1D                      =  uint32.high;
     maxTextureDimension2D                      =  uint32.high;
