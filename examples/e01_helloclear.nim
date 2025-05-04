@@ -65,7 +65,7 @@ proc run=
   #__________________
   # Set wgpu.Logging
   wgpu.set(logCB, nil)
-  wgpu.set LogLevel_warn
+  wgpu.set Warn
   #__________________
   # Init wgpu
   # 1. Create the Instance
@@ -79,25 +79,25 @@ proc run=
   var adapter :wgpu.Adapter; discard instance.request(
     options                 = vaddr RequestAdapterOptions(
       nextInChain           : nil,
-      featureLevel          : FeatureLevel_Core,
-      powerPreference       : PowerPreference_highPerformance,
+      featureLevel          : Core,
+      powerPreference       : HighPerformance,
       forceFallbackAdapter  : false.uint32,
-      backendType           : BackendType_undefined,
+      backendType           : Undefined,
       compatibleSurface     : surface,
       ), #:: RequestAdapterOptions
-    callbackInfo   = RequestAdapterCallbackInfo(
-      nextInChain  : nil,
-      mode         : CallbackMode_AllowSpontaneous,
-      callback     : adapterRequestCB,
-      userdata1    : adapter.addr,
-      userdata2    : nil,
+    callbackInfo            = RequestAdapterCallbackInfo(
+      nextInChain           : nil,
+      mode                  : AllowSpontaneous,
+      callback              : adapterRequestCB,
+      userdata1             : adapter.addr,
+      userdata2             : nil,
       ), #:: RequestAdapterCallbackInfo
     ) #:: instance.request
 
-  # 4. Report the Adapter Features + Capabilities
-  #[
+  # 4. Report the Adapter Features + Capabilities supported
   echo ":: Adapter Features supported by this system: "
-  for it in adapter.features(): echo ":  ",$it
+  for it in adapter.features():
+    echo $it.ord&":  ",$it
   echo ":: Capabilities of the Surface supported by this system: "
   let (textureFormats, presentModes, alphaModes) = surface.capabilities(adapter)
   echo ":  Texture Formats:"
@@ -106,7 +106,6 @@ proc run=
   for prsnt in presentModes:   echo ":  - ",$prsnt
   echo ":  Alpha Modes:"
   for alpha in presentModes:   echo ":  - ",$alpha
-  ]#
 
   # 5. Create the Device
   var device :wgpu.Device; discard adapter.request(
@@ -135,7 +134,7 @@ proc run=
       ), #:: DeviceDescriptor( ... )
     callbackInfo = RequestDeviceCallbackInfo(
       nextInChain          : nil,
-      mode                 : CallbackMode_AllowSpontaneous,
+      mode                 : AllowSpontaneous,
       callback             : deviceRequestCB,
       userdata1            : device.addr,
       userdata2            : nil,
@@ -161,7 +160,7 @@ proc run=
     viewFormatCount : 0,
     viewFormats     : nil,
     alphaMode       : caps.alphaModes[0],
-    presentMode     : PresentMode_Fifo,
+    presentMode     : Fifo,
     ) #:: SurfaceConfiguration
   # 7.3 Get the initial window size
   glfw.getWindowSize(window.ct, config.width.iaddr, config.height.iaddr)
@@ -181,13 +180,10 @@ proc run=
     surface.getCurrentTexture(surfaceTexture)
     # Attempt to get the SurfaceTexture. It's a fallible operation by spec, so need to check for errors.
     case surfaceTexture.status
-    of SurfaceGetCurrentTextureStatus_SuccessOptimal,
-       SurfaceGetCurrentTextureStatus_SuccessSuboptimal:
+    of SuccessOptimal, SuccessSuboptimal:
       # All good, could handle suboptimal this frame
       discard
-    of SurfaceGetCurrentTextureStatus_Timeout,
-       SurfaceGetCurrentTextureStatus_Outdated,
-       SurfaceGetCurrentTextureStatus_Lost:
+    of Timeout, Outdated, Lost:
       # 5.1 Re-configure the surface
       if surfaceTexture.texture != nil: surfaceTexture.texture.release()
       var prevWidth  = config.width
@@ -197,10 +193,7 @@ proc run=
         surface.configure(config.addr)
       # Skip this frame
       continue
-    of SurfaceGetCurrentTextureStatus_OutOfMemory,
-       SurfaceGetCurrentTextureStatus_DeviceLost,
-       SurfaceGetCurrentTextureStatus_Error,
-       SurfaceGetCurrentTextureStatus_Force32:
+    of OutOfMemory, DeviceLost, Error, Force32:
       echo $surfaceTexture.status, ": surface.getCurrentTexture() failed"
       system.quit(surfaceTexture.status.ord)
     doAssert surfaceTexture != nil, "ERR:: Cannot acquire next swap chain texture"
@@ -223,8 +216,8 @@ proc run=
       colorAttachments        : vaddr RenderPassColorAttachment(
         view                  : nextTexture,
         resolveTarget         : nil,
-        loadOp                : LoadOp_clear,
-        storeOp               : StoreOp_store,
+        loadOp                : Clear,
+        storeOp               : Store,
         clearValue            : Color(r:1.0, g:0.0, b:0.0, a:1.0),  # WGPU Color, but similar to chroma/color
         ), #:: colorAttachments
       depthStencilAttachment  : nil,

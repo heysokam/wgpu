@@ -145,22 +145,33 @@ proc features *(adapter :Adapter) :seq[FeatureName]=
     result[id] = cast[ptr UncheckedArray[FeatureName]](data.features)[id]
   data.freeMembers()
 #___________________
+proc formats *(caps :SurfaceCapabilities) :seq[TextureFormat]=
+  ## @descr Returns a seq of the formats supported by the surface described by {@arg caps}
+  result = newSeqWith(caps.formatCount.int, TextureFormat 0)
+  for id in 0..<caps.formatCount: result[id] = cast[ptr UncheckedArray[TextureFormat]](caps.formats)[id]
+#___________________
+proc presentModes *(caps :SurfaceCapabilities) :seq[PresentMode]=
+  ## @descr Returns a seq of the present modes supported by the surface described by {@arg caps}
+  result = newSeqWith(caps.presentModeCount.int, PresentMode 0)
+  for id in 0..<caps.presentModeCount: result[id] = cast[ptr UncheckedArray[PresentMode]](caps.presentModes)[id]
+#___________________
+proc alphaModes *(caps :SurfaceCapabilities) :seq[CompositeAlphaMode]=
+  ## @descr Returns a seq of the composite alpha modes supported by the surface described by {@arg caps}
+  result = newSeqWith(caps.alphaModeCount.int, CompositeAlphaMode 0)
+  for id in 0..<caps.alphaModeCount: result[id] = cast[ptr UncheckedArray[CompositeAlphaMode]](caps.alphaModes)[id]
+#___________________
+type CapabilitiesError * = object of CatchableError
+#___________________
 proc capabilities *(
     surface : Surface;
-    adapter : Adapter
+    adapter : Adapter;
   ) :tuple[textureFormats:seq[TextureFormat], presentModes:seq[PresentMode], alphaModes:seq[CompositeAlphaMode]]=
   ## @descr Returns the capabilities supported by the surface as a tuple of (seq[textureFormats], seq[presentModes], seq[alphaModes])
-  {.warning: "Getting capabilities from a surface is currently broken for an unknown reason. Needs fixing.".}
   var caps :SurfaceCapabilities
-  discard surface.get(adapter, caps.addr)
-  var formats       = newSeqWith(caps.formatCount.int, TextureFormat 0)
-  var presents      = newSeqWith(caps.presentModeCount.int, PresentMode 0)
-  var alphas        = newSeqWith(caps.alphaModeCount.int, CompositeAlphaMode 0)
-  if formats.len  > 0: caps.formats      = formats[0].addr
-  if presents.len > 0: caps.presentModes = presents[0].addr
-  if alphas.len   > 0: caps.alphaModes   = alphas[0].addr
-  discard surface.get(adapter, caps.addr)
-  result = (formats, presents, alphas)
+  let status = surface.get(adapter, caps.addr)
+  if status != Success: raise newException(CapabilitiesError, "Failed to get the capabilities of the surface: " & $status)
+  result = (caps.formats(), caps.presentModes(), caps.alphaModes())
+  caps.freeMembers()
 
 
 #_______________________________________
