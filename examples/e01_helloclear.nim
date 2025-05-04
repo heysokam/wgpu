@@ -176,8 +176,8 @@ proc run=
 
 
     # 5. Get the swapChain TextureView.
-    var surfaceTexture :ptr SurfaceTexture= nil
-    surface.getCurrentTexture(surfaceTexture)
+    var surfaceTexture :SurfaceTexture
+    surface.getCurrentTexture(surfaceTexture.addr)
     # Attempt to get the SurfaceTexture. It's a fallible operation by spec, so need to check for errors.
     case surfaceTexture.status
     of SuccessOptimal, SuccessSuboptimal:
@@ -196,7 +196,7 @@ proc run=
     of OutOfMemory, DeviceLost, Error, Force32:
       echo $surfaceTexture.status, ": surface.getCurrentTexture() failed"
       system.quit(surfaceTexture.status.ord)
-    doAssert surfaceTexture != nil, "ERR:: Cannot acquire next swap chain texture"
+    doAssert surfaceTexture != SurfaceTexture(), "ERR:: Cannot acquire next swap chain texture"
 
 
     let nextTexture :TextureView= surfaceTexture.texture.create(nil)
