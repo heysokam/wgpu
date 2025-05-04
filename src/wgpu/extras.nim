@@ -313,8 +313,8 @@ proc wgslToDescriptor *(code, label :string) :ShaderModuleDescriptor=
     label       : label.toStringView(),
     ) #:: ShaderModuleDescriptor( ... )
 #___________________
-proc readWgsl *(file :string) :ShaderModuleDescriptor=  file.readFile.wgslToDescriptor(label = file)
-  ## Reads the given `.wgsl` shader file, and returns a ShaderModuleDescriptor for it.
+proc wgslRead *(file :string) :ShaderModuleDescriptor=  file.readFile.wgslToDescriptor(label = file)
+  ## Reads the given `.wgsl` shader file, and returns a wgpu.ShaderModuleDescriptor for it.
 
 # ShaderModule wgslFileToShader(WGPUDevice* device, const char* src);
 # ShaderModule wgslCodeToShader(WGPUDevice* device, const char* code, const char* label);
