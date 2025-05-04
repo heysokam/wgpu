@@ -92,10 +92,10 @@ elif defined(windows):
 # Mac context creation
 elif defined(macosx):
   proc getSurfaceMac *(instance :Instance; win :glfw.Window) :Surface=
-    when not declared(getMetalLayer): {.error: """
+    when not declared(glfw.getMetalLayer): {.error: """
 
       getMetalLayer must be defined to use the wgpu.getSurfaceMac() helper functions.
-      Add -d:wgpu and nglfw to your project, or write your own getMetalLayer function.
+      -d:wgpu and nglfw must be added to your project to use it.
       You might just be missing -d:wgpu in your compile options (define pragmas are buggy on macosx)
       """.}
     result = instance.create(vaddr SurfaceDescriptor(
