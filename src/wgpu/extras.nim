@@ -17,16 +17,20 @@ import ./api as wgpu
 # @section Helpers
 #_____________________________
 template vaddr (val :auto) :untyped=
-  ## Returns the `addr` of anything, through a temp val.
-  ## Useful when the objects have not been created yet.
+  ## @descr
+  ##  Returns the `addr` of anything, through a temp val.
+  ##  Useful when the objects have not been created yet.
   let temp = val; temp.unsafeAddr
 #___________________
-proc setIndexBuffer *(renderPass :RenderPassEncoder; format :IndexFormat; buffer :Buffer; offset :uint64; size :uint64) :void=
-  wgpu.setIndexBuffer(renderPass, buffer, format, offset, size)
+proc setIndexBuffer *(
+    renderPass : RenderPassEncoder;
+    format     : IndexFormat;
+    buffer     : Buffer;
+    offset     : uint64;
+    size       : uint64
+  ) :void= wgpu.setIndexBuffer(renderPass, buffer, format, offset, size)
+  ## @descr Overload for wgpu.setIndexBuffer
 #___________________
-proc `as` *[T1, T2](val :T1; typ :typedesc[T2]) :T2=  cast[T2](val)
-  ## @descr Casts the contents of {@arg val} to the given {@arg typ}
-  ## @reason Syntax ergonomics
 func toStringView *(val :string) :StringView=  StringView(data: val.cstring, length: val.len.csize_t)
   ## @descr Turns the given string into a wgpu.StringView
 
