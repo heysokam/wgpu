@@ -343,7 +343,6 @@ proc new *(_:typedesc[Limits];
     maxBufferSize                              =  uint64.high;
     maxVertexAttributes                        =  uint32.high;
     maxVertexBufferArrayStride                 =  uint32.high;
-    maxInterStageShaderComponents              =  uint32.high;
     maxInterStageShaderVariables               =  uint32.high;
     maxColorAttachments                        =  uint32.high;
     maxColorAttachmentBytesPerSample           =  uint32.high;
@@ -378,7 +377,6 @@ proc new *(_:typedesc[Limits];
   if maxBufferSize                             != uint64.high:  result.maxBufferSize                             = maxBufferSize
   if maxVertexAttributes                       != uint32.high:  result.maxVertexAttributes                       = maxVertexAttributes
   if maxVertexBufferArrayStride                != uint32.high:  result.maxVertexBufferArrayStride                = maxVertexBufferArrayStride
-  if maxInterStageShaderComponents             != uint32.high:  result.maxInterStageShaderComponents             = maxInterStageShaderComponents
   if maxInterStageShaderVariables              != uint32.high:  result.maxInterStageShaderVariables              = maxInterStageShaderVariables
   if maxColorAttachments                       != uint32.high:  result.maxColorAttachments                       = maxColorAttachments
   if maxColorAttachmentBytesPerSample          != uint32.high:  result.maxColorAttachmentBytesPerSample          = maxColorAttachmentBytesPerSample
@@ -451,7 +449,6 @@ proc downlevel_defaults *(_ :typedesc[Limits]) :Limits=
   result.maxVertexBufferArrayStride                = 0
   result.minUniformBufferOffsetAlignment           = 256
   result.minStorageBufferOffsetAlignment           = 256
-  result.maxInterStageShaderComponents             = 60
   result.maxComputeWorkgroupStorageSize            = 16352
   result.maxComputeInvocationsPerWorkgroup         = 256
   result.maxComputeWorkgroupSizeX                  = 256
