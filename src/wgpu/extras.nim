@@ -417,7 +417,6 @@ proc default *(_ :typedesc[Limits]) :Limits=
   result.maxVertexBufferArrayStride                = 2048
   result.minUniformBufferOffsetAlignment           = 256
   result.minStorageBufferOffsetAlignment           = 256
-  result.maxInterStageShaderComponents             = 60
   result.maxComputeWorkgroupStorageSize            = 16384
   result.maxComputeInvocationsPerWorkgroup         = 256
   result.maxComputeWorkgroupSizeX                  = 256
