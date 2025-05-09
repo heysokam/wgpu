@@ -4,7 +4,7 @@
 import std/[ os,strformat ]
 # Package
 packageName   = "wgpu"
-version       = "24.0.3.7"  # First three numbers in sync with wgpu-native
+version       = "24.0.3.8"  # First three numbers in sync with wgpu-native
 author        = "sOkam"
 description   = "Native WebGPU for Nim | wgpu-native"
 license       = "LGPL-3.0-or-later"

@@ -304,7 +304,7 @@ proc limits *(device : Device) :Limits=
 #_____________________________
 type ShaderModuleDescriptor * = object of wgpu.ShaderModuleDescriptor
   ## @descr Alias for wgpu.ShaderModuleDescriptor for calling unref inside its `=destroy` hook
-proc `=destroy`*(desc :extras.ShaderModuleDescriptor) :void=  GC_unref(desc)
+proc `=destroy`*(desc :extras.ShaderModuleDescriptor) :void=  GC_unref(cast[ref ShaderSourceWGSL](desc.nextInChain))
 #___________________
 proc wgslToDescriptor *(code, label :string) :extras.ShaderModuleDescriptor=
   ## @descr Reads the given wgsl shader code, and returns a ShaderModuleDescriptor for it.
