@@ -302,12 +302,17 @@ proc limits *(device : Device) :Limits=
 #_______________________________________
 # @section Shader loading
 #_____________________________
-proc wgslToDescriptor *(code, label :string) :ShaderModuleDescriptor=
-  ## Reads the given wgsl shader code, and returns a ShaderModuleDescriptor for it.
+type ShaderModuleDescriptor * = object of wgpu.ShaderModuleDescriptor
+  ## @descr Alias for wgpu.ShaderModuleDescriptor for calling unref inside its `=destroy` hook
+proc `=destroy`*(desc :extras.ShaderModuleDescriptor) :void=  GC_unref(desc)
+#___________________
+proc wgslToDescriptor *(code, label :string) :extras.ShaderModuleDescriptor=
+  ## @descr Reads the given wgsl shader code, and returns a ShaderModuleDescriptor for it.
   var descriptor         = new ShaderSourceWGSL
   descriptor.chain.next  = nil
   descriptor.chain.sType = SType_ShaderSourceWGSL
   descriptor.code        = code.toStringView()
+  GC_ref(descriptor)
   result = ShaderModuleDescriptor(
     nextInChain : cast[ptr ChainedStruct](descriptor), # descriptor is a ref, so we cast that pointer into a ChainedStruct
     label       : label.toStringView(),
