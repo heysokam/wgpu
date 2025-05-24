@@ -1,24 +1,27 @@
 #:_______________________________________________________
 #  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  LGPLv3  |
 #:_______________________________________________________
-# @import implementation for wgpu shaders  |
-#__________________________________________|
-# Imports resolver for wgsl files for wgpu-native.
-#   - Resolution is recursive, nested imports just work.
-#   - Each file is imported only once.
-#   - Circular imports are just ignored.
-#
-# On a .wgsl file:
-#   Just use '@import path/to/your/library_code', without the wgsl extension.
-#   It will import 'path/to/your/library_code.wgsl'.
-#
-# Resolve imports on your nim code with:
-#   'let (resolvedCode, lineAnnotations) = resolveImoports(path/to/your/shader.wgsl)'
-#
-# When compilation fails the error message can be remapped to proper file names and lines using:
-#   'let remappedError = remapErrors(errorMessage, lineAnnotations)'
+## @fileoverview
+## `@include` resolver implementation for wgsl shaders.
+##  - Resolution is recursive, nested includes will work.
+##  - Each file is imported only once.
+##  - Circular includes are ignored.
+##
+## On a .wgsl file:
+##   Use '@include path/to/your/library_code', without the wgsl extension.
+##   The preprocessor will pull 'path/to/your/library_code.wgsl', and all its contents/dependencies, into your shader.
+##
+## Resolve imports on your nim code with:
+## ```nim
+## let (resolvedCode, lineAnnotations) = wgsl.resolveIncludes("path/to/your/shader.wgsl")
+## ```
+##
+## When compilation fails, the error message can be remapped to proper file names and lines using:
+## ```nim
+## let remappedError = wgsl.remapErrors(errorMessage, lineAnnotations)
+## ```
 
-#std dependencies
+# @deps std
 import std/strformat
 import std/strutils
 import std/re
