@@ -31,6 +31,12 @@ template example (name :untyped; descr,file :static string)=
     exec nimcr & " -d:wgpu --path:"&srcDir & " " & examplesDir/file # & " " & args # &"{nimcr} {examplesDir/file} {args}"
 
 #_______________________________________
+# @section Tests
+#_____________________________
+task test, "Run all tests":
+  exec "nim c -r --verbosity:2 --hints:off tests/tests.nim"
+
+#_______________________________________
 # @section Examples
 #_____________________________
 example wip,       "Example WIP: Builds the current wip example.",  "wip"
