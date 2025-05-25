@@ -1,7 +1,7 @@
 #:_______________________________________________________
 #  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  LGPLv3  |
 #:_______________________________________________________
-import std/[ os,strformat ]
+import std/[ os, strformat, strutils, sequtils, algorithm ]
 # Package
 packageName   = "wgpu"
 version       = "24.0.3.8"  # First three numbers in sync with wgpu-native
@@ -20,7 +20,8 @@ requires "nim >= 2.0.0"
 # @section Task Helpers
 #_____________________________
 let examplesDir = "examples"
-let nimcr       = &"nim c -r --outDir:{binDir}"
+proc nimcr (args :varargs[string, `$`]) :void=
+  selfExec &"c -r -d:wgpu --verbosity:2 --hints:off --path:{srcDir} --outDir:{binDir} " & args.join(" ")
 #___________________
 template example (name :untyped; descr,file :static string)=
   ## @descr Generates a task to build+run the given example
@@ -28,13 +29,7 @@ template example (name :untyped; descr,file :static string)=
   taskRequires sname, "https://github.com/heysokam/nglfw#head"
   taskRequires sname, "https://github.com/treeform/vmath#head"
   task name, descr:
-    exec nimcr & " -d:wgpu --path:"&srcDir & " " & examplesDir/file # & " " & args # &"{nimcr} {examplesDir/file} {args}"
-
-#_______________________________________
-# @section Tests
-#_____________________________
-task test, "Run all tests":
-  exec "nim c -r --verbosity:2 --hints:off tests/tests.nim"
+    nimcr examplesDir/file
 
 #_______________________________________
 # @section Examples
@@ -62,6 +57,15 @@ example triangle,  "Example 02:  hellotriangle.",                   "e02_hellotr
 #_______________________________________
 # @section Internal Management
 #_____________________________
+# Git
 task git, "Internal:  Updates the wgpu-native submodule.":
   withDir "src/wgpu/C/wgpu-native": exec "git pull --recurse-submodules origin trunk"
+#_____________________________
+# Unit Tests
+taskRequires "tests", "https://github.com/heysokam/minitest#head"
+task tests, "Runs all tests":
+  for file in "./tests".walkDirRec.toSeq.reversed:
+    if not file.fileExists(): continue
+    if not file.splitFile.name.startsWith("t"): continue
+    nimcr "--outDir:\"./bin/.tests/\"", file
 
