@@ -22,10 +22,11 @@
 ## ```
 #______________________________________________________________________|
 # @deps std
+import std/os
 import std/strformat
 import std/strutils
-import std/re
 import std/sets
+import std/re  # FIX: Remove this PCRE dependency completely
 
 
 #_______________________________________
@@ -42,6 +43,7 @@ type LineAnnotation * = object
 proc resolve_recursive (
     filename : string,
     included : var HashSet[string];
+    dirname  : string = filename.splitFile.dir;
   ) :(string, seq[LineAnnotation])=
   if filename in included: return ("", @[])
 
@@ -59,7 +61,8 @@ proc resolve_recursive (
       resolvedCode &= line & "\n"
     else:
       let toInclude = strippedLine.split(" ")[1].strip()
-      let (includedCode, includedAnnotations) = resolve_recursive(toInclude & ".wgsl", included)
+      let relativeDir = dirname/toInclude.splitFile.dir
+      let (includedCode, includedAnnotations) = resolve_recursive(relativeDir/toInclude.addFileExt("wgsl"), included, relativeDir)
       resolvedCode &= includedCode
       annotations.add(includedAnnotations)
 
