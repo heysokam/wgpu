@@ -1,6 +1,7 @@
 #:_______________________________________________________
 #  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  LGPLv3  |
 #:_______________________________________________________
+when not defined(nimscript):  import system/nimscript  # Silence nimsuggest errors
 import std/[ os, strformat, strutils, sequtils, algorithm ]
 # Package
 packageName   = "wgpu"
