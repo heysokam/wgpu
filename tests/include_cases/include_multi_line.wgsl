@@ -1,3 +1,0 @@
-before
-@include tests/include_cases/multi_line_inclusion
-after

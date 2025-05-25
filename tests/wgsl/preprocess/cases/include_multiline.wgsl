@@ -1,0 +1,3 @@
+before
+@include ./multiline
+after

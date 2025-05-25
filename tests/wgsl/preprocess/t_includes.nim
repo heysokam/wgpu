@@ -1,11 +1,20 @@
-import unittest
-import strutils
-import ../../../../../../src/wgpu/extras/shaders/wgsl/preprocess/includes
+#:_______________________________________________________
+#  wgpu  |  Copyright (C) Ivan Mar (sOkam!)  |  LGPLv3  |
+#:_______________________________________________________
+# @deps std
+import std/strutils
+import std/os
+# @deps wgpu
+import wgpu/extras/shaders/wgsl/preprocess/includes
+# @deps tests
+import minitest
 
-suite "Includes should":
-  test "add the contents of the file in the @include directive":
-    let includerFilename = "tests/include_cases/include_once.wgsl"
-    let includedFilename = "tests/include_cases/single_line_inclusion.wgsl"
+const casesDir = currentSourcePath().parentDir()/"cases"
+
+describe "Includes should":
+  it "must add the contents of the file in the @include directive":
+    let includerFilename = casesDir/"include_once.wgsl"
+    let includedFilename = casesDir/"singleline.wgsl"
 
     let expectedCode = """
     before
@@ -24,9 +33,9 @@ suite "Includes should":
     check resolvedCode == expectedCode
     check annotations == expectedAnnotations
 
-  test "@include the same file only once":
-    let includerFilename = "tests/include_cases/include_twice.wgsl"
-    let includedFilename = "tests/include_cases/single_line_inclusion.wgsl"
+  it "must @include the same file only once":
+    let includerFilename = casesDir/"include_twice.wgsl"
+    let includedFilename = casesDir/"singleline.wgsl"
 
     let expectedCode = """
     before
@@ -42,12 +51,12 @@ suite "Includes should":
 
     let (resolvedCode, annotations) = resolve(includerFilename)
 
-    check resolvedCode == expectedCode
-    check annotations == expectedAnnotations
+    expect resolvedCode == expectedCode
+    expect annotations == expectedAnnotations
 
-  test "properly annotate line numbers":
-    let includerFilename = "tests/include_cases/include_multi_line.wgsl"
-    let includedFilename = "tests/include_cases/multi_line_inclusion.wgsl"
+  it "must properly annotate line numbers":
+    let includerFilename = casesDir/"include_multiline.wgsl"
+    let includedFilename = casesDir/"multiline.wgsl"
 
     let expectedCode = """
     before
@@ -67,13 +76,13 @@ suite "Includes should":
 
     let (resolvedCode, annotations) = resolve(includerFilename)
 
-    check resolvedCode == expectedCode
-    check annotations == expectedAnnotations
+    expect resolvedCode == expectedCode
+    expect annotations == expectedAnnotations
 
-  test "resolve circular inclusions ignoring already included files":
-    let circularInclusionFilename1 = "tests/include_cases/circular_inclusion_1.wgsl"
-    let circularInclusionFilename2 = "tests/include_cases/circular_inclusion_2.wgsl"
-    let circularInclusionFilename3 = "tests/include_cases/circular_inclusion_3.wgsl"
+  it "must ignore circular inclusions for already included files":
+    let circularInclusionFilename1 = casesDir/"include_circular1.wgsl"
+    let circularInclusionFilename2 = casesDir/"include_circular2.wgsl"
+    let circularInclusionFilename3 = casesDir/"include_circular3.wgsl"
 
     let expectedCode = """
     begin circular inclusion 1
@@ -95,11 +104,12 @@ suite "Includes should":
 
     let (resolvedCode, annotations) = resolve(circularInclusionFilename1)
 
-    check resolvedCode == expectedCode
-    check annotations == expectedAnnotations
+    expect resolvedCode == expectedCode
+    expect annotations == expectedAnnotations
 
-  test "fail to include non-existing files":
+  it "must fail to include non-existing files":
     let nonExistingFile = "non-existing.wgsl"
+    expect nonExistingFile.fileExists() == false
 
     try:
       let _ = resolve(nonExistingFile)
@@ -110,5 +120,5 @@ suite "Includes should":
     except Exception:
       fail()
 
-  test "end":
-    echo ""
+  it "end": echo ""
+

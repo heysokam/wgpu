@@ -1,3 +1,0 @@
-before
-@include tests/include_cases/single_line_inclusion
-after
