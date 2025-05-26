@@ -17,7 +17,7 @@ proc toDescriptor *(code, label :string) :extras.ShaderModuleDescriptor=
   descriptor.chain.sType = wgpu.SType_ShaderSourceWGSL
   descriptor.code        = code.toStringView()
   GC_ref(descriptor)
-  result = wgpu.ShaderModuleDescriptor(
+  result = extras.ShaderModuleDescriptor(
     nextInChain : cast[ptr wgpu.ChainedStruct](descriptor), # descriptor is a ref, so we cast that pointer into a ChainedStruct
     label       : label.toStringView(),
     ) #:: ShaderModuleDescriptor( ... )
