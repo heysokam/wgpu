@@ -139,7 +139,7 @@ proc capabilities *(
   ## @descr Returns the capabilities supported by the surface as a tuple of (seq[textureFormats], seq[presentModes], seq[alphaModes])
   var caps :wgpu.SurfaceCapabilities
   let status = surface.get(adapter, caps.addr)
-  if status != Success: raise newException(SurfaceError, "Failed to get the capabilities of the surface: " & $status)
+  if status != Success: raise newException(extras.SurfaceError, "Failed to get the capabilities of the surface: " & $status)
   result.usages       = caps.usages.toTextureUsage()
   result.formats      = caps.formats()
   result.presentModes = caps.presentModes()
