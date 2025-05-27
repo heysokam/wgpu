@@ -3,10 +3,14 @@
 #:_______________________________________________________
 ## @fileoverview Native Surface: Creation
 #_________________________________________|
+# @deps std
+import std/sequtils
 # @deps external
 from pkg/nglfw as glfw import nil
 # @deps wgpu
 import ../api as wgpu
+# @deps wgpu.extras
+from ./types as extras import nil
 import ./helpers
 
 
@@ -127,13 +131,6 @@ proc alphaModes *(caps :SurfaceCapabilities) :seq[CompositeAlphaMode]=
   ## @descr Returns a seq of the composite alpha modes supported by the surface described by {@arg caps}
   result = newSeqWith(caps.alphaModeCount.int, CompositeAlphaMode 0)
   for id in 0..<caps.alphaModeCount: result[id] = cast[ptr UncheckedArray[CompositeAlphaMode]](caps.alphaModes)[id]
-#___________________
-type SurfaceCapabilities * = object
-  ## @descr Information about the capabilities of a surface
-  usages        *:TextureUsageFlags
-  formats       *:seq[wgpu.TextureFormat]
-  presentModes  *:seq[wgpu.PresentMode]
-  alphaModes    *:seq[wgpu.CompositeAlphaMode]
 #___________________
 proc capabilities *(
     surface : Surface;

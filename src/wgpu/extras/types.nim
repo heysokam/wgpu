@@ -6,44 +6,6 @@ from ../api as wgpu import nil
 
 
 #_______________________________________
-# @section Shader Modules
-#_____________________________
-type ShaderModuleDescriptor * = object of wgpu.ShaderModuleDescriptor
-  ## @descr Alias for wgpu.ShaderModuleDescriptor for calling unref inside its `=destroy` hook
-proc `=destroy`*(desc :types.ShaderModuleDescriptor) :void=
-  GC_unref(cast[ref wgpu.ShaderSourceWGSL](desc.nextInChain))
-
-
-#_______________________________________
-# @section Adapter
-#_____________________________
-type AdapterError * = object of CatchableError
-#___________________
-type AdapterInfo * = object
-  ## @descr Information about an adapter
-  vendor       *:string
-  architecture *:string
-  device       *:string
-  description  *:string
-  backendType  *:wgpu.BackendType
-  adapterType  *:wgpu.AdapterType
-  vendorID     *:uint32
-  deviceID     *:uint32
-
-
-#_______________________________________
-# @section Surface
-#_____________________________
-type SurfaceError * = object of CatchableError
-
-
-#_______________________________________
-# @section Device
-#_____________________________
-type DeviceError * = object of CatchableError
-
-
-#_______________________________________
 # @section Missing Data
 #_____________________________
 # FIX: WGPU uses consts for flag sets, but Futhark has a bug that does not generate them
@@ -95,4 +57,48 @@ converter toWGPU *(val :types.TextureUsage) :wgpu.TextureUsage= cast[wgpu.Textur
 converter toExtras *(val :types.TextureUsage) :TextureUsageFlags= {val}
 converter toTextureUsage *(val :wgpu.TextureUsage) :TextureUsageFlags= cast[TextureUsageFlags](val)
 
+
+#_______________________________________
+# @section Shader Modules
+#_____________________________
+type ShaderModuleDescriptor * = object of wgpu.ShaderModuleDescriptor
+  ## @descr Alias for wgpu.ShaderModuleDescriptor for calling unref inside its `=destroy` hook
+proc `=destroy`*(desc :types.ShaderModuleDescriptor) :void=
+  GC_unref(cast[ref wgpu.ShaderSourceWGSL](desc.nextInChain))
+
+
+#_______________________________________
+# @section Adapter
+#_____________________________
+type AdapterError * = object of CatchableError
+#___________________
+type AdapterInfo * = object
+  ## @descr Information about an adapter
+  vendor       *:string
+  architecture *:string
+  device       *:string
+  description  *:string
+  backendType  *:wgpu.BackendType
+  adapterType  *:wgpu.AdapterType
+  vendorID     *:uint32
+  deviceID     *:uint32
+
+
+#_______________________________________
+# @section Surface
+#_____________________________
+type SurfaceError * = object of CatchableError
+#___________________
+type SurfaceCapabilities * = object
+  ## @descr Information about the capabilities of a surface
+  usages        *:TextureUsageFlags
+  formats       *:seq[wgpu.TextureFormat]
+  presentModes  *:seq[wgpu.PresentMode]
+  alphaModes    *:seq[wgpu.CompositeAlphaMode]
+
+
+#_______________________________________
+# @section Device
+#_____________________________
+type DeviceError * = object of CatchableError
 
