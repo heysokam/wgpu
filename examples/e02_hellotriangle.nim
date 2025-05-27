@@ -184,7 +184,7 @@ proc run=
   echo ":: Device Features for this system: "
   for it in device.features(): echo ":  ",$it
 
-  var shaderDesc    = wgsl.ToDescriptor(shaderCode, label= "TriangleShader")
+  var shaderDesc    = wgsl.toDescriptor(shaderCode, label= "TriangleShader")
   let shader        = device.create(shaderDesc.addr)
   let surfaceFormat = caps.formats[0]
   let surfaceAlpha  = caps.alphaModes[0]
