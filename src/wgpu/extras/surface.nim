@@ -140,7 +140,7 @@ proc capabilities *(
   var caps :wgpu.SurfaceCapabilities
   let status = surface.get(adapter, caps.addr)
   if status != Success: raise newException(extras.SurfaceError, "Failed to get the capabilities of the surface: " & $status)
-  result.usages       = caps.usages.toTextureUsage()
+  result.usages       = extras.toTextureUsage(caps.usages)
   result.formats      = caps.formats()
   result.presentModes = caps.presentModes()
   result.alphaModes   = caps.alphaModes()
