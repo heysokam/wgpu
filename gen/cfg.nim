@@ -3,7 +3,7 @@
 #:_______________________________________________________
 const stripPrefix * = [
   "WGPU",
-  ] # << stripPrefix = [ ... ]
+  ] #:: stripPrefix = [ ... ]
 const stripStart  * = [
   # Enum Values Prefixes
   "AdapterType_",
@@ -69,15 +69,15 @@ const stripStart  * = [
   # "InstanceBackend_",
   # "WGPUInstanceBackend_",
 
-  ] # << stripStart = [ ... ]
+  ] #:: stripStart = [ ... ]
 const replaceStart * = [
   ("1D", "D1D"),
   ("2D", "D2D"),
   ("3D", "D3D"),
-  ] # << replaceStart = [ ... ]
+  ] #:: replaceStart = [ ... ]
 const replaceEnd * = [
   ("",""),
-  ] # << replaceEnd = [ ... ]
+  ] #:: replaceEnd = [ ... ]
 const stripEnd * = [
   "",
   ]
@@ -346,5 +346,5 @@ const replaceList * = [
   ("wgpuSwapChainRelease",                               "release"                       ),
   ("wgpuTextureRelease",                                 "release"                       ),
   ("wgpuTextureViewRelease",                             "release"                       ),
-  ] # << replaceEnd = [ ... ]
+  ] #:: replaceEnd = [ ... ]
 

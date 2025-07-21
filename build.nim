@@ -59,8 +59,8 @@ cfg.dirs.src = genDir
 var gen = Program.new(
   entry = "generator.nim",
   deps  = deps_futhark,
-  args = @["--maxLoopIterationsVM:1_000_000_000", "-d:futharkRebuild", "-d:nodeclguards"],
-  cfg  = cfg,
+  args  = @["--maxLoopIterationsVM:1_000_000_000", "-d:futharkRebuild", "-d:nodeclguards"],
+  cfg   = cfg,
   ) #:: Program.new( ... )
 confy.build gen
 #___________________
