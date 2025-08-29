@@ -1,3 +1,9 @@
+> **Warning**:  
+> _This repository is **Permanently Archived** and won't receive any updates._  
+>
+> _At the time of archiving, the library was well maintained and worked correctly._  
+> _Please fork away and maintain your own fixes/changes._  
+
 ![wgpu](./doc/res/gh_banner.png)
 # wgpu bindings for Nim
 ## How to
